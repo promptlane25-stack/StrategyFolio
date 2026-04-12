@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Software vs Service — What Actually Grows Your Garage</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,500&family=JetBrains+Mono:wght@400;600&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f1410;
+    --paper: #f6f2e8;
+    --paper-2: #efe9d8;
+    --rust: #c2431a;
+    --rust-dark: #8f2d0c;
+    --oil: #1a1f1a;
+    --chrome: #2a2f2a;
+    --line: #d9d1bb;
+    --green: #2d5d3a;
+    --amber: #c8831c;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter Tight', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.55;
+    background-image:
+      radial-gradient(circle at 10% 20%, rgba(194,67,26,0.04) 0%, transparent 40%),
+      radial-gradient(circle at 90% 80%, rgba(45,93,58,0.04) 0%, transparent 40%);
+  }
+  .page {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 48px 32px 80px;
+  }
+
+  /* Header */
+  .header {
+    border-bottom: 3px double var(--ink);
+    padding-bottom: 28px;
+    margin-bottom: 48px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 24px;
+    align-items: end;
+  }
+  .brand-mark {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rust);
+    font-weight: 600;
+  }
+  .brand-mark::before {
+    content: "◆";
+    margin-right: 6px;
+  }
+  .doc-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 58px;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-top: 8px;
+  }
+  .doc-title em {
+    font-style: italic;
+    color: var(--rust);
+    font-weight: 500;
+  }
+  .doc-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-align: right;
+    line-height: 1.8;
+    color: var(--chrome);
+  }
+  .doc-meta strong { color: var(--ink); }
+
+  /* Intro */
+  .intro {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    line-height: 1.45;
+    font-weight: 300;
+    margin-bottom: 56px;
+    max-width: 720px;
+  }
+  .intro span {
+    background: linear-gradient(180deg, transparent 60%, rgba(194,67,26,0.2) 60%);
+    padding: 0 2px;
+  }
+
+  /* Section heads */
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--rust);
+    font-weight: 600;
+  }
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  /* The big split */
+  .split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin-bottom: 64px;
+    border: 2px solid var(--ink);
+    position: relative;
+  }
+  .split::before {
+    content: "VS";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 900;
+    font-size: 18px;
+    z-index: 2;
+  }
+  .split-col {
+    padding: 32px 28px;
+  }
+  .split-col.left {
+    border-right: 2px solid var(--ink);
+    background: var(--paper-2);
+  }
+  .split-col.right {
+    background: var(--oil);
+    color: var(--paper);
+  }
+  .split-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-bottom: 8px;
+  }
+  .split-name {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 20px;
+  }
+  .split-col.right .split-name { color: #f4b88a; }
+  .split-list {
+    list-style: none;
+  }
+  .split-list li {
+    padding: 10px 0;
+    border-bottom: 1px dashed rgba(0,0,0,0.15);
+    font-size: 14px;
+    display: flex;
+    gap: 10px;
+  }
+  .split-col.right .split-list li {
+    border-bottom: 1px dashed rgba(255,255,255,0.2);
+  }
+  .split-list li:last-child { border-bottom: none; }
+  .split-list li::before {
+    content: "→";
+    color: var(--rust);
+    flex-shrink: 0;
+  }
+  .split-col.right .split-list li::before {
+    color: #f4b88a;
+  }
+  .split-price {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(0,0,0,0.15);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+  }
+  .split-col.right .split-price {
+    border-top: 1px solid rgba(255,255,255,0.2);
+  }
+  .split-price strong {
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    display: block;
+    margin-top: 4px;
+  }
+
+  /* Matrix table */
+  .matrix-wrap {
+    margin-bottom: 64px;
+    overflow-x: auto;
+  }
+  .matrix {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .matrix thead th {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 14px 12px;
+    text-align: left;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .matrix thead th:nth-child(2) {
+    background: var(--rust);
+  }
+  .matrix tbody td {
+    padding: 12px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  .matrix tbody tr:hover {
+    background: rgba(194,67,26,0.04);
+  }
+  .matrix td:first-child {
+    font-weight: 600;
+    width: 28%;
+  }
+  .matrix td:nth-child(2) {
+    background: rgba(194,67,26,0.06);
+    border-left: 3px solid var(--rust);
+  }
+  .yes { color: var(--green); font-weight: 700; }
+  .no { color: #999; }
+  .partial { color: var(--amber); font-weight: 600; }
+
+  /* The maths */
+  .maths {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 40px;
+    margin-bottom: 64px;
+    position: relative;
+    overflow: hidden;
+  }
+  .maths::before {
+    content: "";
+    position: absolute;
+    top: -60px;
+    right: -60px;
+    width: 200px;
+    height: 200px;
+    border: 40px solid rgba(194,67,26,0.15);
+    border-radius: 50%;
+  }
+  .maths h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    margin-bottom: 8px;
+    position: relative;
+  }
+  .maths .sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    opacity: 0.6;
+    margin-bottom: 28px;
+    position: relative;
+  }
+  .maths-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    position: relative;
+  }
+  .maths-col h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #f4b88a;
+    margin-bottom: 16px;
+  }
+  .maths-line {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px dashed rgba(255,255,255,0.15);
+    font-size: 14px;
+  }
+  .maths-line.total {
+    border-bottom: none;
+    border-top: 2px solid #f4b88a;
+    margin-top: 8px;
+    padding-top: 14px;
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #f4b88a;
+  }
+
+  /* Positioning scenarios */
+  .scenarios {
+    margin-bottom: 64px;
+  }
+  .scenario {
+    background: var(--paper-2);
+    border-left: 4px solid var(--rust);
+    padding: 24px 28px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .scenario-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: var(--rust);
+    color: var(--paper);
+    padding: 4px 10px;
+    margin-bottom: 12px;
+  }
+  .scenario h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .scenario p {
+    font-size: 14px;
+    line-height: 1.65;
+    margin-bottom: 8px;
+  }
+  .scenario .quote {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 16px;
+    border-left: 2px solid var(--rust);
+    padding-left: 14px;
+    margin-top: 12px;
+    color: var(--chrome);
+  }
+
+  /* CTA footer */
+  .cta {
+    text-align: center;
+    padding: 48px 32px;
+    border: 3px double var(--ink);
+    background: var(--paper-2);
+    position: relative;
+  }
+  .cta-kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 12px;
+  }
+  .cta h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 36px;
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .cta h3 em {
+    font-style: italic;
+    color: var(--rust);
+    font-weight: 500;
+  }
+  .cta p {
+    font-size: 15px;
+    max-width: 540px;
+    margin: 0 auto 24px;
+    color: var(--chrome);
+  }
+  .cta-details {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 14px 24px;
+    letter-spacing: 0.05em;
+  }
+
+  @media (max-width: 720px) {
+    .doc-title { font-size: 40px; }
+    .header { grid-template-columns: 1fr; }
+    .doc-meta { text-align: left; }
+    .split { grid-template-columns: 1fr; }
+    .split-col.left { border-right: none; border-bottom: 2px solid var(--ink); }
+    .split::before { display: none; }
+    .maths-grid { grid-template-columns: 1fr; }
+    .intro { font-size: 18px; }
+    .cta h3 { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div>
+      <div class="brand-mark">For Independent Garages</div>
+      <h1 class="doc-title">Software<br>won't bring you<br><em>new customers.</em></h1>
+    </div>
+    <div></div>
+    <div class="doc-meta">
+      <strong>DOCUMENT</strong><br>
+      Comparison Brief<br><br>
+      <strong>FROM</strong><br>
+      Salman · AI Consultant<br>
+      Ipswich &amp; Suffolk<br><br>
+      <strong>READ TIME</strong><br>
+      4 minutes
+    </div>
+  </header>
+
+  <!-- INTRO -->
+  <p class="intro">
+    Most garages in Ipswich are being sold the same thing: <span>management software</span>. A diary, job cards, MOT reminders. Useful tools — but they sit there waiting for <em>you</em> to log in and use them. None of them put a new customer on your ramp. That's a different job entirely, and it's the one I do.
+  </p>
+
+  <!-- THE SPLIT -->
+  <div class="section-head">
+    <div class="section-num">01 / THE DIFFERENCE</div>
+    <h2 class="section-title">Two different jobs. Both needed.</h2>
+  </div>
+
+  <div class="split">
+    <div class="split-col left">
+      <div class="split-label">What the software does</div>
+      <div class="split-name">Garage Management Software</div>
+      <ul class="split-list">
+        <li>Runs your workshop diary</li>
+        <li>Creates job cards &amp; invoices</li>
+        <li>Sends MOT text reminders</li>
+        <li>Tracks parts &amp; technician hours</li>
+        <li>Connects to DVLA for vehicle data</li>
+        <li><strong>You log in. You do the work.</strong></li>
+      </ul>
+      <div class="split-price">
+        Typical cost
+        <strong>£29 – £150 / month</strong>
+      </div>
+    </div>
+    <div class="split-col right">
+      <div class="split-label">What I do</div>
+      <div class="split-name">Done-for-you growth</div>
+      <ul class="split-list">
+        <li>Build &amp; run your website</li>
+        <li>Get you ranking on Google locally</li>
+        <li>Write blog &amp; social content monthly</li>
+        <li>Reactivate lapsed customers automatically</li>
+        <li>Capture bookings 24/7 without a phone call</li>
+        <li><strong>I do the work. You fix cars.</strong></li>
+      </ul>
+      <div class="split-price">
+        From
+        <strong>£299 / month</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- MATRIX -->
+  <div class="section-head">
+    <div class="section-num">02 / FEATURE MATRIX</div>
+    <h2 class="section-title">Line by line, what's included.</h2>
+  </div>
+
+  <div class="matrix-wrap">
+    <table class="matrix">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Salman's Service</th>
+          <th>My Garage CRM</th>
+          <th>MOT Manager</th>
+          <th>Motasoft VGM</th>
+          <th>WorkshopEase</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Professional website built &amp; maintained</td>
+          <td class="yes">✓ Included</td>
+          <td class="no">✗</td>
+          <td class="no">✗</td>
+          <td class="partial">Add-on (£££)</td>
+          <td class="no">✗</td>
+        </tr>
+        <tr>
+          <td>Google Business Profile management</td>
+          <td class="yes">✓ Weekly posts</td>
+          <td class="no">✗</td>
+          <td class="no">✗</td>
+          <td class="no">✗</td>
+          <td class="no">✗</td>
+        </tr>
+        <tr>
+          <td>Local SEO to rank for "garage near me"</td>
+          <td class="yes">✓ Ongoing</td>
+          <td class="no">✗</td>
+          <td class="no">✗</td>
+          <td class="no">✗</td>
+          <td class="no">✗</td>
+        </tr>
+        <tr>
+          <td>Monthly blog content written for you</td>
+          <td class="yes">✓ Growth+</td>
+          <td class="no">✗</td>
+          <td class="no">✗</td>
+          <td class="no">✗</td>
+          <td class="no">✗</td>
+        </tr>
+        <tr>
+          <td>Social media posts written &amp; scheduled</td>
+          <td class="yes">✓ Growth+</td>
+          <td class="no">✗</td>
+          <td class="no">✗</td>
+          <td class="no">✗</td>
+          <td class="no">✗</td>
+        </tr>
+        <tr>
+          <td>Lapsed customer reactivation campaigns</td>
+          <td class="yes">✓ Done for you</td>
+          <td class="partial">DIY SMS blast</td>
+          <td class="partial">DIY SMS blast</td>
+          <td class="partial">DIY SMS blast</td>
+          <td class="no">✗</td>
+        </tr>
+        <tr>
+          <td>Online booking system</td>
+          <td class="yes">✓ Calendly</td>
+          <td class="yes">✓ Built-in</td>
+          <td class="yes">✓ Built-in</td>
+          <td class="yes">✓ Built-in</td>
+          <td class="yes">✓ Built-in</td>
+        </tr>
+        <tr>
+          <td>Automated MOT reminders</td>
+          <td class="yes">✓ Via Make</td>
+          <td class="yes">✓ Built-in</td>
+          <td class="yes">✓ Built-in</td>
+          <td class="yes">✓ Built-in</td>
+          <td class="yes">✓ Built-in</td>
+        </tr>
+        <tr>
+          <td>Review generation automation</td>
+          <td class="yes">✓ All plans</td>
+          <td class="partial">Manual</td>
+          <td class="no">✗</td>
+          <td class="no">✗</td>
+          <td class="no">✗</td>
+        </tr>
+        <tr>
+          <td>Job cards, invoicing, parts stock</td>
+          <td class="no">Not my job</td>
+          <td class="yes">✓ Core</td>
+          <td class="yes">✓ Core</td>
+          <td class="yes">✓ Core</td>
+          <td class="yes">✓ Core</td>
+        </tr>
+        <tr>
+          <td>You have to log in &amp; run it</td>
+          <td class="yes">No — I do</td>
+          <td class="partial">Yes, daily</td>
+          <td class="partial">Yes, daily</td>
+          <td class="partial">Yes, daily</td>
+          <td class="partial">Yes, daily</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- THE MATHS -->
+  <div class="section-head">
+    <div class="section-num">03 / THE MATHS</div>
+    <h2 class="section-title">What each approach actually costs.</h2>
+  </div>
+
+  <div class="maths">
+    <h3>The real comparison isn't price. It's what gets done.</h3>
+    <div class="sub">// Based on a typical Ipswich independent garage</div>
+    <div class="maths-grid">
+      <div class="maths-col">
+        <h4>Software Only — ~£139/mo</h4>
+        <div class="maths-line"><span>Software subscription</span><span>£139</span></div>
+        <div class="maths-line"><span>Your time logging in &amp; running it</span><span>~6 hrs/wk</span></div>
+        <div class="maths-line"><span>Marketing done</span><span>£0</span></div>
+        <div class="maths-line"><span>New customers generated</span><span>0</span></div>
+        <div class="maths-line"><span>Website built for you</span><span>None</span></div>
+        <div class="maths-line total"><span>True cost*</span><span>£139 + ~24 hrs</span></div>
+      </div>
+      <div class="maths-col">
+        <h4>Salman's Growth Plan — £549/mo</h4>
+        <div class="maths-line"><span>Retainer</span><span>£549</span></div>
+        <div class="maths-line"><span>Your time involved</span><span>~30 min/mo</span></div>
+        <div class="maths-line"><span>Marketing done</span><span>Full stack</span></div>
+        <div class="maths-line"><span>Target extra bookings/mo</span><span>8 – 15</span></div>
+        <div class="maths-line"><span>Website built for you</span><span>Included</span></div>
+        <div class="maths-line total"><span>True cost</span><span>£549 flat</span></div>
+      </div>
+    </div>
+    <p style="margin-top: 24px; font-size: 12px; opacity: 0.6; font-family: 'JetBrains Mono', monospace; position: relative;">* At £40/hr shop rate, 24 hours of admin a month is £960 of your time you could spend on cars instead.</p>
+  </div>
+
+  <!-- SCENARIOS -->
+  <div class="section-head">
+    <div class="section-num">04 / WHICH ONE ARE YOU?</div>
+    <h2 class="section-title">Honest positioning. Read the one that fits.</h2>
+  </div>
+
+  <div class="scenarios">
+
+    <div class="scenario">
+      <span class="scenario-tag">Scenario A</span>
+      <h4>You don't use any software yet.</h4>
+      <p>You're running the diary on paper or a spreadsheet. MOT reminders are a phone call or nothing at all. Your website (if you have one) hasn't been touched in years.</p>
+      <p><strong>What you need:</strong> A front door. Something that catches customers before they go to Kwik Fit, books them in without a phone call, and keeps them coming back. You don't need workshop software yet — you need <em>customers</em>. That's what I build.</p>
+      <p class="quote">"Start with the Starter plan at £299/mo. Website, booking, review automation, Google Business. Add workshop software later if you need it — mine plays nicely alongside anything."</p>
+    </div>
+
+    <div class="scenario">
+      <span class="scenario-tag">Scenario B</span>
+      <h4>You already use MOT Manager, My Garage CRM, or similar.</h4>
+      <p>Good. That's the engine room of your business — it runs your diary, sends your reminders, handles your invoicing. Keep it. I'm not here to replace it.</p>
+      <p><strong>What you're missing:</strong> Those tools send reminders to customers you <em>already have</em>. They don't bring new ones in. They don't write your blog. They don't post to Google. They don't show up when someone in Martlesham types "MOT near me" into their phone. That's the gap I fill.</p>
+      <p class="quote">"Think of it this way — your garage software is the cash register. I'm the shop window. You need both, and they don't compete."</p>
+    </div>
+
+  </div>
+
+  <!-- CTA -->
+  <div class="cta">
+    <div class="cta-kicker">Next Step</div>
+    <h3>Let's talk for <em>20 minutes</em> about your garage.</h3>
+    <p>I'll show you exactly where your current setup is leaking customers, and whether my service actually makes sense for you. No pitch, no pressure — if it's not a fit, I'll tell you.</p>
+    <div class="cta-details">
+      SALMAN · AI CONSULTANT · IPSWICH
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
