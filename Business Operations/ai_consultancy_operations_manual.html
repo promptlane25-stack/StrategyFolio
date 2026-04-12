@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Consultancy — Service Operations Manual</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:#0D0D0D; --paper:#F5F0E8; --card:#FFFFFF; --border:#E0D8CC;
+    --gold:#C9A84C; --muted:#7A7267; --accent:#E84545;
+    --green:#2D6A4F; --green-bg:#D5F5E3; --green-fg:#1E8449;
+    --amber:#D4840A; --amber-bg:#FEF9E7; --amber-fg:#9A7D0A;
+    --red:#C0392B; --red-bg:#FDEDEC; --red-fg:#C0392B;
+    --blue-bg:#D6EAF8; --blue-fg:#1A5276;
+    --purple:#6C3483; --purple-bg:#EDE7F6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);}
+
+  /* HEADER */
+  header{background:var(--ink);padding:52px 48px 40px;position:relative;overflow:hidden;}
+  header::before{content:'';position:absolute;top:-80px;right:-80px;width:320px;height:320px;border-radius:50%;border:1px solid rgba(201,168,76,0.12);}
+  .h-label{font-family:'Syne',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+  header h1{font-family:'Syne',sans-serif;font-size:clamp(28px,5vw,48px);font-weight:800;color:#F5F0E8;line-height:1.05;margin-bottom:14px;}
+  header h1 span{color:var(--accent);}
+  header p{font-size:15px;color:rgba(245,240,232,0.55);max-width:580px;line-height:1.6;margin-bottom:28px;}
+  .h-stats{display:flex;gap:36px;flex-wrap:wrap;}
+  .h-stat .hs-val{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#F5F0E8;}
+  .h-stat .hs-val span{color:var(--gold);}
+  .h-stat .hs-label{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(245,240,232,0.4);margin-top:2px;}
+
+  /* FILTER BAR */
+  .filter-bar{background:var(--ink);padding:16px 48px;border-top:1px solid rgba(255,255,255,0.07);display:flex;gap:8px;flex-wrap:wrap;}
+  .filter-btn{background:transparent;border:1px solid rgba(245,240,232,0.2);color:rgba(245,240,232,0.55);padding:6px 16px;border-radius:100px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all 0.2s;}
+  .filter-btn:hover,.filter-btn.active{background:var(--accent);border-color:var(--accent);color:white;}
+
+  /* MAIN */
+  main{max-width:1200px;margin:0 auto;padding:48px;}
+
+  /* AUTOMATION LEGEND */
+  .legend{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:40px;padding:20px 24px;background:var(--card);border:1px solid var(--border);border-radius:10px;}
+  .legend-item{display:flex;align-items:center;gap:8px;font-size:13px;}
+  .legend-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
+  .ld-full{background:#1E8449;}
+  .ld-high{background:#F39C12;}
+  .ld-manual{background:#C0392B;}
+
+  /* SECTION */
+  .section-eyebrow{font-family:'Syne',sans-serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:20px;display:flex;align-items:center;gap:12px;}
+  .section-eyebrow::after{content:'';flex:1;height:1px;background:var(--border);}
+
+  /* SERVICE CARDS */
+  .services-list{display:flex;flex-direction:column;gap:16px;margin-bottom:48px;}
+
+  .service-card{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:box-shadow 0.2s;}
+  .service-card:hover{box-shadow:0 6px 24px rgba(0,0,0,0.07);}
+  .service-card.hidden{display:none;}
+
+  .sc-header{padding:20px 24px;display:flex;align-items:center;gap:16px;cursor:pointer;user-select:none;}
+  .sc-auto-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0;}
+  .sc-icon{font-size:22px;flex-shrink:0;width:36px;text-align:center;}
+  .sc-main{flex:1;}
+  .sc-name{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:2px;}
+  .sc-tagline{font-size:13px;color:var(--muted);}
+  .sc-meta{display:flex;gap:12px;align-items:center;flex-shrink:0;flex-wrap:wrap;}
+  .sc-badge{padding:3px 10px;border-radius:100px;font-size:11px;font-weight:700;}
+  .sc-time{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;}
+  .sc-time.zero{color:var(--green);}
+  .sc-time.low{color:var(--amber);}
+  .sc-time.med{color:var(--red);}
+  .sc-toggle{font-size:18px;color:var(--muted);transition:transform 0.25s;flex-shrink:0;}
+  .service-card.open .sc-toggle{transform:rotate(180deg);}
+
+  /* PLAN PILLS */
+  .plan-pills{display:flex;gap:6px;margin-top:6px;}
+  .pp{padding:2px 8px;border-radius:100px;font-size:10px;font-weight:700;letter-spacing:0.5px;}
+  .pp-s{background:#D5EDD9;color:#1A3A2A;}
+  .pp-g{background:#FEF3CD;color:#7A4A00;}
+  .pp-c{background:#FFE8E8;color:#6B1A1A;}
+
+  /* BODY */
+  .sc-body{display:none;border-top:1px solid var(--border);}
+  .service-card.open .sc-body{display:block;}
+
+  /* TABS */
+  .sc-tabs{display:flex;border-bottom:1px solid var(--border);padding:0 24px;overflow-x:auto;}
+  .sc-tab{padding:12px 18px;font-size:13px;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;color:var(--muted);background:none;border-top:none;border-left:none;border-right:none;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:all 0.2s;}
+  .sc-tab.active{color:var(--ink);border-bottom-color:var(--accent);}
+  .sc-tab-panel{display:none;padding:24px;}
+  .sc-tab-panel.active{display:block;}
+
+  /* STEPS */
+  .steps-list{display:flex;flex-direction:column;gap:0;}
+  .step{display:grid;grid-template-columns:40px 1fr auto;gap:0 16px;padding:16px 0;border-bottom:1px solid var(--border);align-items:start;}
+  .step:last-child{border-bottom:none;}
+  .step-circle{width:32px;height:32px;border-radius:50%;background:var(--ink);color:white;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;flex-shrink:0;margin-top:2px;}
+  .step-content{}
+  .step-title{font-weight:700;font-size:14px;margin-bottom:4px;}
+  .step-desc{font-size:13px;color:#444;line-height:1.6;margin-bottom:8px;}
+  .step-url{font-size:12px;color:var(--blue-fg);margin-bottom:6px;}
+  .step-url a{color:var(--blue-fg);text-decoration:none;}
+  .step-url a:hover{text-decoration:underline;}
+  .tools-row{display:flex;flex-wrap:wrap;gap:5px;}
+  .tool-chip{background:var(--paper);border:1px solid var(--border);padding:2px 9px;border-radius:100px;font-size:11px;font-weight:600;color:var(--muted);}
+  .tool-chip.free{border-color:#BBE0CC;color:var(--green-fg);background:#F0FAF4;}
+  .tool-chip.paid{border-color:#F5D88A;color:var(--amber-fg);background:#FFFBEF;}
+  .step-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;min-width:80px;}
+  .step-time-badge{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;color:var(--muted);white-space:nowrap;}
+  .step-type-chip{padding:2px 8px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;}
+  .stc-once{background:#FDEDEC;color:#C0392B;}
+  .stc-monthly{background:#D6EAF8;color:#1A5276;}
+  .stc-auto{background:#D5F5E3;color:#1E8449;}
+  .stc-quarterly{background:#EDE7F6;color:#6C3483;}
+
+  /* COSTS TABLE */
+  .costs-table{width:100%;border-collapse:collapse;font-size:13px;}
+  .costs-table th{background:var(--ink);color:white;padding:10px 16px;text-align:left;font-family:'Syne',sans-serif;font-size:10px;letter-spacing:1.5px;}
+  .costs-table td{padding:10px 16px;border-bottom:1px solid var(--border);}
+  .costs-table tr:last-child td{border-bottom:none;}
+  .costs-table tr:nth-child(even) td{background:#FAFAF8;}
+  .cost-free{color:var(--green-fg);font-weight:700;}
+  .cost-low{color:var(--amber-fg);font-weight:700;}
+  .cost-med{color:var(--red-fg);font-weight:700;}
+  .cost-total{font-family:'Syne',sans-serif;font-weight:800;font-size:15px;}
+
+  /* MONTHLY TABLE */
+  .monthly-table{width:100%;border-collapse:collapse;font-size:13px;}
+  .monthly-table th{background:var(--ink);color:white;padding:10px 16px;text-align:left;font-family:'Syne',sans-serif;font-size:10px;letter-spacing:1.5px;}
+  .monthly-table td{padding:10px 16px;border-bottom:1px solid var(--border);vertical-align:top;}
+  .monthly-table tr:last-child td{border-bottom:none;}
+  .monthly-table tr:nth-child(even) td{background:#FAFAF8;}
+  .auto-row td{background:#F0FAF4 !important;}
+  .auto-badge{display:inline-block;background:#D5F5E3;color:#1E8449;padding:2px 8px;border-radius:100px;font-size:10px;font-weight:700;}
+  .manual-badge{display:inline-block;background:#FEF9E7;color:#9A7D0A;padding:2px 8px;border-radius:100px;font-size:10px;font-weight:700;}
+  .mt-time{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;}
+  .mt-time.zero{color:var(--green);}
+  .mt-time.low{color:var(--amber);}
+  .mt-time.med{color:var(--red);}
+  .total-row td{background:var(--ink)!important;color:white;font-weight:700;}
+  .total-row .mt-time{color:var(--gold);}
+
+  /* AUTOMATION TIPS */
+  .auto-tip{background:#EDE7F6;border-radius:8px;padding:14px 18px;font-size:13px;color:#4A235A;margin-top:16px;line-height:1.6;}
+  .auto-tip strong{display:block;font-family:'Syne',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#6C3483;margin-bottom:5px;}
+
+  /* SUMMARY FOOTER */
+  .summary-footer{background:var(--ink);border-radius:12px;padding:36px 40px;margin-top:48px;}
+  .sf-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:#F5F0E8;margin-bottom:24px;}
+  .sf-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;}
+  .sf-item{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:20px;}
+  .sf-item .si-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(245,240,232,0.4);margin-bottom:6px;}
+  .sf-item .si-val{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:#F5F0E8;}
+  .sf-item .si-val span{color:var(--gold);}
+  .sf-item .si-sub{font-size:12px;color:rgba(245,240,232,0.4);margin-top:3px;}
+
+  @media(max-width:700px){
+    header,main,.filter-bar{padding-left:24px;padding-right:24px;}
+    .step{grid-template-columns:36px 1fr;gap:0 12px;}
+    .step-right{grid-column:2;flex-direction:row;align-items:center;margin-top:8px;}
+    .sc-meta{gap:8px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="h-label">AI Consultancy · Operations Manual · Every Service Broken Down</div>
+  <h1>How to Deliver<br>Every <span>Service</span></h1>
+  <p>Step-by-step instructions for every service you offer — what it costs you, how long to set up, exactly what you do each month, and what runs automatically so you don't have to touch it.</p>
+  <div class="h-stats">
+    <div class="h-stat"><div class="hs-val">17</div><div class="hs-label">Services Covered</div></div>
+    <div class="h-stat"><div class="hs-val"><span>~</span>£65</div><div class="hs-label">Monthly Tool Cost (All Clients)</div></div>
+    <div class="h-stat"><div class="hs-val"><span>80%</span></div><div class="hs-label">Tasks Fully Automated</div></div>
+  </div>
+</header>
+
+<div class="filter-bar">
+  <button class="filter-btn active" onclick="filterAll(this)">All Services</button>
+  <button class="filter-btn" onclick="filterPlan('starter',this)">📗 Starter</button>
+  <button class="filter-btn" onclick="filterPlan('growth',this)">📘 Growth</button>
+  <button class="filter-btn" onclick="filterPlan('complete',this)">📕 Complete</button>
+  <button class="filter-btn" onclick="filterAuto('full',this)">🟢 Fully Automated</button>
+  <button class="filter-btn" onclick="filterAuto('partial',this)">🟡 Partially Automated</button>
+  <button class="filter-btn" onclick="filterAuto('manual',this)">🔴 Manual</button>
+</div>
+
+<main>
+
+  <div class="legend">
+    <div style="font-family:'Syne',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-right:8px;">Automation Level:</div>
+    <div class="legend-item"><div class="legend-dot ld-full"></div>Fully Automated — runs itself, you just check</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--amber);"></div>Partially Automated — mostly automatic, small monthly task</div>
+    <div class="legend-item"><div class="legend-dot ld-manual"></div>Manual — you do this work each month</div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 1 — DIGITAL PRESENCE
+  ══════════════════════════════════════════════ -->
+  <div class="section-eyebrow">Digital Presence · Starter + above</div>
+  <div class="services-list">
+
+    <!-- 1. WEBSITE -->
+    <div class="service-card" data-plans="starter growth complete" data-auto="partial" id="svc-website">
+      <div class="sc-header" onclick="toggleSvc('svc-website')">
+        <div class="sc-auto-dot" style="background:var(--amber);"></div>
+        <div class="sc-icon">🌐</div>
+        <div class="sc-main">
+          <div class="sc-name">Professional Website</div>
+          <div class="sc-tagline">Built, hosted and maintained by you. Client never touches it.</div>
+          <div class="plan-pills"><span class="pp pp-s">Starter</span><span class="pp pp-g">Growth</span><span class="pp pp-c">Complete</span></div>
+        </div>
+        <div class="sc-meta">
+          <div>
+            <div style="font-size:10px;color:var(--muted);text-align:right;">Setup</div>
+            <div class="sc-time low">3–5 hrs</div>
+          </div>
+          <div>
+            <div style="font-size:10px;color:var(--muted);text-align:right;">Monthly</div>
+            <div class="sc-time zero">~15 min</div>
+          </div>
+        </div>
+        <div class="sc-toggle">▼</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-tabs">
+          <button class="sc-tab active" onclick="switchSvcTab(event,'svc-website','steps')">🔧 Setup Steps</button>
+          <button class="sc-tab" onclick="switchSvcTab(event,'svc-website','costs')">💰 Costs</button>
+          <button class="sc-tab" onclick="switchSvcTab(event,'svc-website','monthly')">📅 Monthly</button>
+        </div>
+        <div class="sc-tab-panel active" data-panel="svc-website-steps">
+          <div class="steps-list">
+            <div class="step">
+              <div class="step-circle">1</div>
+              <div class="step-content">
+                <div class="step-title">Set up Hostinger hosting account</div>
+                <div class="step-desc">Go to hostinger.co.uk. Buy the Premium Shared Hosting plan (~£3/mo). This gives you enough space to host multiple clients on one account — spread the cost. Get the server IP address from the dashboard (you'll need this for DNS).</div>
+                <div class="step-url"><a href="https://hostinger.co.uk" target="_blank">hostinger.co.uk</a></div>
+                <div class="tools-row"><span class="tool-chip paid">Hostinger £3/mo</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">15 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">2</div>
+              <div class="step-content">
+                <div class="step-title">Get domain access and change DNS</div>
+                <div class="step-desc">Ask client for their domain registrar login (123-reg, GoDaddy, Namecheap etc). Find with whois.domaintools.com. Go into DNS settings, find the A Record, change the IP to your Hostinger server IP. Save. Takes 2–48hrs to propagate — use dnschecker.org to monitor.</div>
+                <div class="step-url"><a href="https://whois.domaintools.com" target="_blank">whois.domaintools.com</a> · <a href="https://dnschecker.org" target="_blank">dnschecker.org</a></div>
+                <div class="tools-row"><span class="tool-chip free">Domain registrar (client's)</span><span class="tool-chip free">dnschecker.org</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">20 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">3</div>
+              <div class="step-content">
+                <div class="step-title">Install free SSL certificate</div>
+                <div class="step-desc">In Hostinger control panel (hPanel) go to SSL → Install SSL → select domain → click Install. Uses Let's Encrypt — completely free. Site is now HTTPS. Confirm by visiting the site and checking the padlock in browser.</div>
+                <div class="tools-row"><span class="tool-chip free">Hostinger hPanel (included)</span><span class="tool-chip free">Let's Encrypt SSL (free)</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">5 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">4</div>
+              <div class="step-content">
+                <div class="step-title">Customise the HTML template for this client</div>
+                <div class="step-desc">Open the base HTML template in a text editor (Notepad++ or VS Code). Find and replace: business name, phone number, email, address, services, prices, opening hours. Replace placeholder images with client's actual photos. Update the meta description and page title with local keywords.</div>
+                <div class="tools-row"><span class="tool-chip free">VS Code (free)</span><span class="tool-chip free">Notepad++ (free)</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">1–2 hrs</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">5</div>
+              <div class="step-content">
+                <div class="step-title">Upload website files via FTP</div>
+                <div class="step-desc">Download FileZilla (free FTP client). Connect using Hostinger FTP credentials (found in hPanel → FTP Accounts). Navigate to public_html folder. Upload the HTML file, images folder and any other assets. Visit the domain to confirm it's live. Test on phone.</div>
+                <div class="step-url"><a href="https://filezilla-project.org" target="_blank">filezilla-project.org</a></div>
+                <div class="tools-row"><span class="tool-chip free">FileZilla (free)</span><span class="tool-chip free">Hostinger FTP</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">20 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">6</div>
+              <div class="step-content">
+                <div class="step-title">Generate and upload XML sitemap</div>
+                <div class="step-desc">Go to xml-sitemaps.com. Enter the domain. Download the sitemap.xml file generated. Upload it to the root folder of the site via FTP (same level as index.html). Submit it in Google Search Console (covered in Analytics setup). This tells Google every page on the site.</div>
+                <div class="step-url"><a href="https://xml-sitemaps.com" target="_blank">xml-sitemaps.com</a></div>
+                <div class="tools-row"><span class="tool-chip free">xml-sitemaps.com (free)</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">10 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+          </div>
+          <div class="auto-tip"><strong>⚡ Automation Note</strong>Once live, the website runs 100% automatically on Hostinger's servers. You never touch it unless a client requests a change. Hostinger uptime is 99.9% — no manual monitoring needed. The only recurring task is updating prices or content when the client asks (~15 min when needed).</div>
+        </div>
+        <div class="sc-tab-panel" data-panel="svc-website-costs">
+          <table class="costs-table">
+            <tr><th>Item</th><th>What it is</th><th>Your Cost</th><th>When</th></tr>
+            <tr><td>Hostinger Premium Hosting</td><td>Server space — can host 100+ sites on one account</td><td class="cost-free">£3/mo (share across all clients)</td><td>Monthly</td></tr>
+            <tr><td>SSL Certificate</td><td>HTTPS padlock and security</td><td class="cost-free">FREE (Let's Encrypt via Hostinger)</td><td>Annual auto-renew</td></tr>
+            <tr><td>FileZilla FTP client</td><td>Tool to upload files to server</td><td class="cost-free">FREE</td><td>One-off download</td></tr>
+            <tr><td>VS Code / text editor</td><td>For editing the HTML file</td><td class="cost-free">FREE</td><td>One-off download</td></tr>
+            <tr><td>xml-sitemaps.com</td><td>Generate sitemap for SEO</td><td class="cost-free">FREE</td><td>One-off per client</td></tr>
+            <tr><td><strong>TOTAL per client per month</strong></td><td colspan="2"><strong class="cost-free">~£0.50–£1/mo</strong> (Hostinger spread across clients)</td><td></td></tr>
+          </table>
+        </div>
+        <div class="sc-tab-panel" data-panel="svc-website-monthly">
+          <table class="monthly-table">
+            <tr><th>Task</th><th>Type</th><th>What You Do</th><th>Time</th></tr>
+            <tr class="auto-row">
+              <td>Website stays live and secure</td>
+              <td><span class="auto-badge">Automated</span></td>
+              <td>Hostinger keeps it running 24/7. SSL auto-renews. Nothing to do.</td>
+              <td><div class="mt-time zero">0 min</div></td>
+            </tr>
+            <tr>
+              <td>Content/price updates (when requested)</td>
+              <td><span class="manual-badge">As needed</span></td>
+              <td>Client emails you a change. Open file in editor, make change, save, re-upload via FTP. Done.</td>
+              <td><div class="mt-time low">10–15 min</div></td>
+            </tr>
+            <tr class="total-row">
+              <td colspan="3"><strong>Typical monthly total</strong></td>
+              <td><div class="mt-time">~0 hrs</div></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. CALENDLY BOOKING -->
+    <div class="service-card" data-plans="starter growth complete" data-auto="full" id="svc-calendly">
+      <div class="sc-header" onclick="toggleSvc('svc-calendly')">
+        <div class="sc-auto-dot" style="background:var(--green-fg);"></div>
+        <div class="sc-icon">📅</div>
+        <div class="sc-main">
+          <div class="sc-name">Online Booking — Calendly</div>
+          <div class="sc-tagline">Customers book 24/7. Instant confirmation. Syncs to client's diary automatically.</div>
+          <div class="plan-pills"><span class="pp pp-s">Starter</span><span class="pp pp-g">Growth</span><span class="pp pp-c">Complete</span></div>
+        </div>
+        <div class="sc-meta">
+          <div><div style="font-size:10px;color:var(--muted);text-align:right;">Setup</div><div class="sc-time low">30–45 min</div></div>
+          <div><div style="font-size:10px;color:var(--muted);text-align:right;">Monthly</div><div class="sc-time zero">0 min</div></div>
+        </div>
+        <div class="sc-toggle">▼</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-tabs">
+          <button class="sc-tab active" onclick="switchSvcTab(event,'svc-calendly','steps')">🔧 Setup Steps</button>
+          <button class="sc-tab" onclick="switchSvcTab(event,'svc-calendly','costs')">💰 Costs</button>
+          <button class="sc-tab" onclick="switchSvcTab(event,'svc-calendly','monthly')">📅 Monthly</button>
+        </div>
+        <div class="sc-tab-panel active" data-panel="svc-calendly-steps">
+          <div class="steps-list">
+            <div class="step">
+              <div class="step-circle">1</div>
+              <div class="step-content">
+                <div class="step-title">Create Calendly account</div>
+                <div class="step-desc">Go to calendly.com. Sign up using the client's business email address (not yours — this is their account). Choose Free plan to start. You can upgrade to Standard (£8/mo) later if they want SMS reminders.</div>
+                <div class="step-url"><a href="https://calendly.com" target="_blank">calendly.com</a></div>
+                <div class="tools-row"><span class="tool-chip free">Calendly Free</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">5 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">2</div>
+              <div class="step-content">
+                <div class="step-title">Connect to Google Calendar</div>
+                <div class="step-desc">In Calendly → Calendar Connections → Connect Google Calendar. Sign in with client's Google account. Enable "Check for conflicts" on their main calendar. Enable "Add events to" the same calendar — so bookings automatically appear there. Test by making a dummy booking.</div>
+                <div class="tools-row"><span class="tool-chip free">Google Calendar (free)</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">5 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">3</div>
+              <div class="step-content">
+                <div class="step-title">Create event types for each service</div>
+                <div class="step-desc">Click "Create Event Type". Make one for each service: MOT Test (60 min), Interim Service (90 min), Full Service (180 min), Air Con Re-gas (60 min), Repairs/Diagnostics (60 min). Set location as the garage address. Add a custom question: "Vehicle registration number" (required). Set colour to red (#C8281E) to match website.</div>
+                <div class="tools-row"><span class="tool-chip free">Calendly</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">15 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">4</div>
+              <div class="step-content">
+                <div class="step-title">Set availability and max bookings per slot</div>
+                <div class="step-desc">Go to Availability → Set hours Mon–Fri 8am–5:30pm. If the client has multiple bays: create a separate Google Calendar for each bay (Bay 1, Bay 2 etc), connect all to Calendly under "check for conflicts" — Calendly will only block a slot when all bays are busy. Or use Max Bookings Per Slot (set to number of bays).</div>
+                <div class="tools-row"><span class="tool-chip free">Calendly</span><span class="tool-chip free">Google Calendar</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">10 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">5</div>
+              <div class="step-content">
+                <div class="step-title">Add "Can't find a slot?" message</div>
+                <div class="step-desc">In each event type → Edit → Additional Information field. Type: "Can't find a slot that works? Call us on [phone number] Mon–Fri 8am–5:30pm and we'll get you booked in." This appears below the calendar on every booking page.</div>
+                <div class="tools-row"><span class="tool-chip free">Calendly</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">2 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">6</div>
+              <div class="step-content">
+                <div class="step-title">Embed Calendly into website + add to Google Business</div>
+                <div class="step-desc">In Calendly → Share → Inline Embed → copy the script code. Paste into the booking section of the HTML file. Re-upload to Hostinger. Then in Google Business Profile → Edit Profile → Booking → add your Calendly page URL. This adds a "Book" button directly on Google Search results.</div>
+                <div class="tools-row"><span class="tool-chip free">Calendly embed code</span><span class="tool-chip free">Google Business</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">10 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+          </div>
+          <div class="auto-tip"><strong>🟢 Fully Automated After Setup</strong>Every booking triggers: instant confirmation email to customer (automatic), notification email to garage (automatic), calendar event created in Google Calendar (automatic), 24hr reminder to customer (automatic on paid plan). You do absolutely nothing per booking. Zero. The only recurring task: if client has a holiday, they mark it in Google Calendar and Calendly blocks it instantly.</div>
+        </div>
+        <div class="sc-tab-panel" data-panel="svc-calendly-costs">
+          <table class="costs-table">
+            <tr><th>Item</th><th>What it is</th><th>Your Cost</th><th>When</th></tr>
+            <tr><td>Calendly Free</td><td>Basic booking — unlimited bookings, 1 event type (workaround: use a service selector page)</td><td class="cost-free">£0/mo</td><td>Always</td></tr>
+            <tr><td>Calendly Standard</td><td>Multiple event types, SMS reminders, custom branding, team pages</td><td class="cost-low">£8/mo per account</td><td>Pass to client or bundle in</td></tr>
+            <tr><td>Google Calendar</td><td>Calendar sync — bookings appear automatically</td><td class="cost-free">FREE</td><td>Always</td></tr>
+            <tr><td><strong>Recommendation</strong></td><td colspan="2">Start on Free, upgrade to Standard after month 1 if client wants SMS reminders. Pass the £8 to the client or include in retainer.</td><td></td></tr>
+          </table>
+        </div>
+        <div class="sc-tab-panel" data-panel="svc-calendly-monthly">
+          <table class="monthly-table">
+            <tr><th>Task</th><th>Type</th><th>What You Do</th><th>Time</th></tr>
+            <tr class="auto-row">
+              <td>Customer books a slot</td>
+              <td><span class="auto-badge">Automated</span></td>
+              <td>Confirmation email fires, calendar event created, reminder sent. You do nothing.</td>
+              <td><div class="mt-time zero">0 min</div></td>
+            </tr>
+            <tr class="auto-row">
+              <td>Holiday / closure blocking</td>
+              <td><span class="auto-badge">By client</span></td>
+              <td>Client adds event to Google Calendar → Calendly auto-blocks. Train them to do this themselves on day 1.</td>
+              <td><div class="mt-time zero">0 min</div></td>
+            </tr>
+            <tr>
+              <td>Monthly health check</td>
+              <td><span class="manual-badge">Monthly</span></td>
+              <td>Log into Calendly, check bookings received, confirm all going to correct calendar. 5 min.</td>
+              <td><div class="mt-time zero">5 min</div></td>
+            </tr>
+            <tr class="total-row">
+              <td colspan="3"><strong>Monthly total</strong></td>
+              <td><div class="mt-time">5 min</div></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. GOOGLE BUSINESS PROFILE -->
+    <div class="service-card" data-plans="starter growth complete" data-auto="partial" id="svc-gbp">
+      <div class="sc-header" onclick="toggleSvc('svc-gbp')">
+        <div class="sc-auto-dot" style="background:var(--amber);"></div>
+        <div class="sc-icon">📍</div>
+        <div class="sc-main">
+          <div class="sc-name">Google Business Profile</div>
+          <div class="sc-tagline">Optimised profile + weekly posts. Makes them visible in Google Maps and local search.</div>
+          <div class="plan-pills"><span class="pp pp-s">Starter</span><span class="pp pp-g">Growth</span><span class="pp pp-c">Complete</span></div>
+        </div>
+        <div class="sc-meta">
+          <div><div style="font-size:10px;color:var(--muted);text-align:right;">Setup</div><div class="sc-time low">45–60 min</div></div>
+          <div><div style="font-size:10px;color:var(--muted);text-align:right;">Monthly</div><div class="sc-time zero">30 min</div></div>
+        </div>
+        <div class="sc-toggle">▼</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-tabs">
+          <button class="sc-tab active" onclick="switchSvcTab(event,'svc-gbp','steps')">🔧 Setup Steps</button>
+          <button class="sc-tab" onclick="switchSvcTab(event,'svc-gbp','costs')">💰 Costs</button>
+          <button class="sc-tab" onclick="switchSvcTab(event,'svc-gbp','monthly')">📅 Monthly</button>
+        </div>
+        <div class="sc-tab-panel active" data-panel="svc-gbp-steps">
+          <div class="steps-list">
+            <div class="step">
+              <div class="step-circle">1</div>
+              <div class="step-content">
+                <div class="step-title">Claim the Google Business Profile</div>
+                <div class="step-desc">Go to business.google.com. Sign in with client's Google account. Search for their business. If unclaimed, click "Claim this business". Verification options: phone call (instant), postcard (5–7 days), video call. Phone call verification is fastest — select it.</div>
+                <div class="step-url"><a href="https://business.google.com" target="_blank">business.google.com</a></div>
+                <div class="tools-row"><span class="tool-chip free">Google Business (free)</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">10 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">2</div>
+              <div class="step-content">
+                <div class="step-title">Complete every profile field</div>
+                <div class="step-desc">Business name, address, phone, website URL, category (e.g. "Auto repair shop", "MOT test centre"), hours, description (750 chars — use local keywords), services list with prices, attributes (wheelchair accessible, card payments etc). Leave nothing blank. Google rewards complete profiles.</div>
+                <div class="tools-row"><span class="tool-chip free">Google Business</span><span class="tool-chip free">Claude (description writing)</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">20 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">3</div>
+              <div class="step-content">
+                <div class="step-title">Upload 10+ photos</div>
+                <div class="step-desc">Ask client for their best photos: exterior, interior, team, work in progress, signage. Upload to GBP under Photos. Write alt-text/captions with location keywords where possible. Google profiles with 10+ photos get significantly more views. Cover photo and logo matter most — choose carefully.</div>
+                <div class="tools-row"><span class="tool-chip free">Client photos</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">10 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">4</div>
+              <div class="step-content">
+                <div class="step-title">Add Calendly booking link</div>
+                <div class="step-desc">In GBP → Edit Profile → Booking → Add booking link → paste your Calendly page URL. This adds a prominent "Book" button to their Google search result. Test it by searching the business name on Google and clicking Book.</div>
+                <div class="tools-row"><span class="tool-chip free">Google Business</span><span class="tool-chip free">Calendly URL</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">3 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">5</div>
+              <div class="step-content">
+                <div class="step-title">Write and post first batch of 4 posts</div>
+                <div class="step-desc">In Claude, prompt: "Write 4 short Google Business posts (150 words each) for a [business type] in [location]. Topics: (1) welcome/introduce the business, (2) promote online booking, (3) highlight a service, (4) ask for Google reviews." Copy each into GBP → Add Update. Post one now, note dates for the other 3.</div>
+                <div class="tools-row"><span class="tool-chip free">Claude</span><span class="tool-chip free">Google Business Posts</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">20 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+          </div>
+          <div class="auto-tip"><strong>⚡ Automation Tip — Batch Write Monthly Posts</strong>On the 1st of each month, open Claude and prompt: "Write 4 Google Business posts for [business] in [location] for [month]. Include: a seasonal angle, a service spotlight, a customer review prompt, and a booking CTA." Copy all 4. Post one per week manually (5 min each). Or use a scheduling tool like Buffer to schedule all 4 at once in 10 minutes total.</div>
+        </div>
+        <div class="sc-tab-panel" data-panel="svc-gbp-costs">
+          <table class="costs-table">
+            <tr><th>Item</th><th>Cost</th><th>Notes</th></tr>
+            <tr><td>Google Business Profile</td><td class="cost-free">FREE</td><td>Completely free — Google's own platform</td></tr>
+            <tr><td>Claude (for post writing)</td><td class="cost-free">Your existing Claude subscription</td><td>Shared across all clients</td></tr>
+            <tr><td>Buffer (optional scheduling)</td><td class="cost-free">FREE tier</td><td>Free tier allows 3 channels and 10 posts queued</td></tr>
+            <tr><td><strong>Total</strong></td><td class="cost-free">£0</td><td>Zero additional cost per client</td></tr>
+          </table>
+        </div>
+        <div class="sc-tab-panel" data-panel="svc-gbp-monthly">
+          <table class="monthly-table">
+            <tr><th>Task</th><th>Type</th><th>What You Do</th><th>Time</th></tr>
+            <tr>
+              <td>Write 4 monthly posts</td>
+              <td><span class="manual-badge">Monthly</span></td>
+              <td>1st of month: open Claude, one prompt generates all 4 posts. Copy into GBP or Buffer. 15 min total.</td>
+              <td><div class="mt-time zero">15 min</div></td>
+            </tr>
+            <tr>
+              <td>Post weekly (if not scheduled)</td>
+              <td><span class="manual-badge">Weekly × 4</span></td>
+              <td>Log into GBP, paste post, publish. 3 min each. OR schedule all 4 in Buffer at the start of month — 10 min total.</td>
+              <td><div class="mt-time zero">10–12 min</div></td>
+            </tr>
+            <tr class="auto-row">
+              <td>Profile stays active + accurate</td>
+              <td><span class="auto-badge">Automated</span></td>
+              <td>Nothing to do. Google indexes posts automatically.</td>
+              <td><div class="mt-time zero">0 min</div></td>
+            </tr>
+            <tr class="total-row">
+              <td colspan="3"><strong>Monthly total</strong></td>
+              <td><div class="mt-time">~30 min</div></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. REVIEW AUTOMATION -->
+    <div class="service-card" data-plans="starter growth complete" data-auto="full" id="svc-reviews">
+      <div class="sc-header" onclick="toggleSvc('svc-reviews')">
+        <div class="sc-auto-dot" style="background:var(--green-fg);"></div>
+        <div class="sc-icon">⭐</div>
+        <div class="sc-main">
+          <div class="sc-name">Review Generation Automation</div>
+          <div class="sc-tagline">Automated SMS/email sent after each job asking for a Google review. Fully hands-off.</div>
+          <div class="plan-pills"><span class="pp pp-s">Starter</span><span class="pp pp-g">Growth</span><span class="pp pp-c">Complete</span></div>
+        </div>
+        <div class="sc-meta">
+          <div><div style="font-size:10px;color:var(--muted);text-align:right;">Setup</div><div class="sc-time low">45–60 min</div></div>
+          <div><div style="font-size:10px;color:var(--muted);text-align:right;">Monthly</div><div class="sc-time zero">5 min</div></div>
+        </div>
+        <div class="sc-toggle">▼</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-tabs">
+          <button class="sc-tab active" onclick="switchSvcTab(event,'svc-reviews','steps')">🔧 Setup Steps</button>
+          <button class="sc-tab" onclick="switchSvcTab(event,'svc-reviews','costs')">💰 Costs</button>
+          <button class="sc-tab" onclick="switchSvcTab(event,'svc-reviews','monthly')">📅 Monthly</button>
+        </div>
+        <div class="sc-tab-panel active" data-panel="svc-reviews-steps">
+          <div class="steps-list">
+            <div class="step">
+              <div class="step-circle">1</div>
+              <div class="step-content">
+                <div class="step-title">Get the Google review link for the client</div>
+                <div class="step-desc">Search the client's business on Google. Click the review count → Write a Review. Copy the URL from the browser (it looks like maps.google.com/... or g.page/...). Shorten it using bit.ly (free) so it fits in an SMS. Save this URL — it goes into every review request message.</div>
+                <div class="step-url"><a href="https://bit.ly" target="_blank">bit.ly</a> (free URL shortener)</div>
+                <div class="tools-row"><span class="tool-chip free">Google Maps (free)</span><span class="tool-chip free">bit.ly (free)</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">5 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">2</div>
+              <div class="step-content">
+                <div class="step-title">Create the Google Sheet trigger</div>
+                <div class="step-desc">Create a new Google Sheet for the client named "[Business] Job Log". Columns: A=Date, B=Customer Name, C=Phone Number, D=Email, E=Job Type, F=Completed (checkbox). Share the sheet with the client — they tick column F when a job is done. This is the trigger that fires the automation.</div>
+                <div class="tools-row"><span class="tool-chip free">Google Sheets (free)</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">10 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">3</div>
+              <div class="step-content">
+                <div class="step-title">Create Twilio account and get a phone number</div>
+                <div class="step-desc">Go to twilio.com. Create account. Buy a UK phone number (~£1/mo). Note your Account SID and Auth Token from the dashboard — you need these in Make. Top up with £10 credit (each SMS costs ~4p so this covers 250 messages). The SMS will appear to come from a number — advise client to tell customers to expect a text.</div>
+                <div class="step-url"><a href="https://twilio.com" target="_blank">twilio.com</a></div>
+                <div class="tools-row"><span class="tool-chip paid">Twilio £1/mo + ~4p/SMS</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">15 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">4</div>
+              <div class="step-content">
+                <div class="step-title">Build the Make.com automation scenario</div>
+                <div class="step-desc">In Make.com: New scenario → Module 1: Google Sheets "Watch Rows" (polls every 15 min for new ticks in column F) → Filter: only continue if column F = TRUE → Module 2: Twilio "Send SMS" (to phone number in column C, message: "Hi [Name], thanks for visiting [Business]! We'd love your feedback — could you leave us a quick Google review? [bit.ly link] Thanks!") → Module 3 (optional): MailerLite "Send email" to column D as backup. Save and activate.</div>
+                <div class="step-url"><a href="https://make.com" target="_blank">make.com</a></div>
+                <div class="tools-row"><span class="tool-chip paid">Make.com (free tier)</span><span class="tool-chip paid">Twilio</span><span class="tool-chip free">Google Sheets</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">30 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">5</div>
+              <div class="step-content">
+                <div class="step-title">Test the full flow end-to-end</div>
+                <div class="step-desc">Add a test row in the Google Sheet with your own phone number. Tick column F. Wait up to 15 minutes. Check your phone — the SMS should arrive with the review link. Click the link and confirm it opens the Google review page. If it works, the automation is live. Train the client to enter customer phone numbers when taking bookings.</div>
+                <div class="tools-row"><span class="tool-chip free">Your phone (testing)</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">10 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+          </div>
+          <div class="auto-tip"><strong>🟢 Fully Automated — Zero Monthly Work</strong>Once built, client ticks the box → SMS fires automatically within 15 minutes. You do nothing. The only task is a monthly check: log into Make, confirm the scenario ran X times, note the review count increase in the monthly report. 5 minutes max.</div>
+        </div>
+        <div class="sc-tab-panel" data-panel="svc-reviews-costs">
+          <table class="costs-table">
+            <tr><th>Item</th><th>Cost</th><th>Notes</th></tr>
+            <tr><td>Make.com (Free tier)</td><td class="cost-free">£0/mo</td><td>1,000 operations/mo free — enough for 100+ review requests</td></tr>
+            <tr><td>Twilio phone number</td><td class="cost-low">~£1/mo</td><td>One number per client. Can also use per-message pricing only.</td></tr>
+            <tr><td>Twilio SMS per message</td><td class="cost-free">~4p per SMS</td><td>50 jobs/mo = £2/mo. 200 jobs/mo = £8/mo.</td></tr>
+            <tr><td>Google Sheets</td><td class="cost-free">FREE</td><td>Free with any Google account</td></tr>
+            <tr><td>bit.ly</td><td class="cost-free">FREE</td><td>Free URL shortener</td></tr>
+            <tr><td><strong>Total per client (50 jobs/mo)</strong></td><td class="cost-free"><strong>~£3/mo</strong></td><td>£1 number + £2 SMS credits</td></tr>
+          </table>
+        </div>
+        <div class="sc-tab-panel" data-panel="svc-reviews-monthly">
+          <table class="monthly-table">
+            <tr><th>Task</th><th>Type</th><th>What You Do</th><th>Time</th></tr>
+            <tr class="auto-row">
+              <td>Review request fires after each job</td>
+              <td><span class="auto-badge">Automated</span></td>
+              <td>Client ticks sheet → Make sends SMS → done. Nothing from you.</td>
+              <td><div class="mt-time zero">0 min</div></td>
+            </tr>
+            <tr>
+              <td>Monthly check — delivery + count</td>
+              <td><span class="manual-badge">Monthly</span></td>
+              <td>Log into Make → check scenario ran. Log into Google Business → note new review count. Record in monthly report. 5 min.</td>
+              <td><div class="mt-time zero">5 min</div></td>
+            </tr>
+            <tr class="total-row">
+              <td colspan="3"><strong>Monthly total</strong></td>
+              <td><div class="mt-time">5 min</div></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. ANALYTICS -->
+    <div class="service-card" data-plans="starter growth complete" data-auto="full" id="svc-analytics">
+      <div class="sc-header" onclick="toggleSvc('svc-analytics')">
+        <div class="sc-auto-dot" style="background:var(--green-fg);"></div>
+        <div class="sc-icon">📊</div>
+        <div class="sc-main">
+          <div class="sc-name">Google Analytics + Search Console</div>
+          <div class="sc-tagline">Set up once. Collects data automatically forever. Powers your monthly report.</div>
+          <div class="plan-pills"><span class="pp pp-s">Starter</span><span class="pp pp-g">Growth</span><span class="pp pp-c">Complete</span></div>
+        </div>
+        <div class="sc-meta">
+          <div><div style="font-size:10px;color:var(--muted);text-align:right;">Setup</div><div class="sc-time low">25–35 min</div></div>
+          <div><div style="font-size:10px;color:var(--muted);text-align:right;">Monthly</div><div class="sc-time zero">5 min</div></div>
+        </div>
+        <div class="sc-toggle">▼</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-tabs">
+          <button class="sc-tab active" onclick="switchSvcTab(event,'svc-analytics','steps')">🔧 Setup Steps</button>
+          <button class="sc-tab" onclick="switchSvcTab(event,'svc-analytics','costs')">💰 Costs</button>
+          <button class="sc-tab" onclick="switchSvcTab(event,'svc-analytics','monthly')">📅 Monthly</button>
+        </div>
+        <div class="sc-tab-panel active" data-panel="svc-analytics-steps">
+          <div class="steps-list">
+            <div class="step">
+              <div class="step-circle">1</div>
+              <div class="step-content">
+                <div class="step-title">Create Google Analytics 4 property</div>
+                <div class="step-desc">Go to analytics.google.com. Sign in with client's Google account. Click Admin → Create Property → enter business name, country (UK), currency (GBP). Choose Web stream. Enter the website URL. GA4 gives you a Measurement ID (G-XXXXXXXXXX) — copy this.</div>
+                <div class="step-url"><a href="https://analytics.google.com" target="_blank">analytics.google.com</a></div>
+                <div class="tools-row"><span class="tool-chip free">Google Analytics 4 (free)</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">10 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">2</div>
+              <div class="step-content">
+                <div class="step-title">Add tracking script to website</div>
+                <div class="step-desc">Open the HTML file in your editor. Find the &lt;head&gt; section. Paste this just before &lt;/head&gt;: &lt;script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"&gt;&lt;/script&gt; plus the gtag() config code (Google provides this ready to copy). Save and re-upload via FTP. Verify by visiting the site and checking GA4 Real-time report shows 1 active user.</div>
+                <div class="tools-row"><span class="tool-chip free">HTML file + FTP</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">10 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">3</div>
+              <div class="step-content">
+                <div class="step-title">Set up Google Search Console</div>
+                <div class="step-desc">Go to search.google.com/search-console. Add property → enter domain URL. Verify ownership via Google Analytics (if already set up, this is instant — just select it). Once verified, Search Console starts collecting data. It only shows data from today forward — so set it up as early as possible.</div>
+                <div class="step-url"><a href="https://search.google.com/search-console" target="_blank">search.google.com/search-console</a></div>
+                <div class="tools-row"><span class="tool-chip free">Google Search Console (free)</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">5 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">4</div>
+              <div class="step-content">
+                <div class="step-title">Submit sitemap to Search Console</div>
+                <div class="step-desc">In Search Console → Sitemaps → enter "sitemap.xml" → Submit. Google will crawl the site and index all pages. Status should change to "Success" within 24–48 hours. This is what gets the site appearing in Google search results faster.</div>
+                <div class="tools-row"><span class="tool-chip free">Google Search Console</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">2 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">5</div>
+              <div class="step-content">
+                <div class="step-title">Link GA4 and Search Console together</div>
+                <div class="step-desc">In GA4 → Admin → Product Links → Search Console Links → Link → select your Search Console property → confirm. Now you can see search queries alongside website behaviour in one place. Very powerful for the monthly report.</div>
+                <div class="tools-row"><span class="tool-chip free">GA4 + Search Console</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">3 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+          </div>
+          <div class="auto-tip"><strong>🟢 Fully Automated Data Collection</strong>Once the tracking script is in the HTML, GA4 and Search Console collect data automatically forever. You never touch them again except to read the numbers once a month for the report. Free, permanent, and completely passive.</div>
+        </div>
+        <div class="sc-tab-panel" data-panel="svc-analytics-costs">
+          <table class="costs-table">
+            <tr><th>Item</th><th>Cost</th></tr>
+            <tr><td>Google Analytics 4</td><td class="cost-free">FREE forever</td></tr>
+            <tr><td>Google Search Console</td><td class="cost-free">FREE forever</td></tr>
+            <tr><td><strong>Total</strong></td><td class="cost-free">£0</td></tr>
+          </table>
+        </div>
+        <div class="sc-tab-panel" data-panel="svc-analytics-monthly">
+          <table class="monthly-table">
+            <tr><th>Task</th><th>Type</th><th>What You Do</th><th>Time</th></tr>
+            <tr class="auto-row">
+              <td>Data collection</td>
+              <td><span class="auto-badge">Automated</span></td>
+              <td>GA4 and Search Console collect every visit, click and search query automatically.</td>
+              <td><div class="mt-time zero">0 min</div></td>
+            </tr>
+            <tr>
+              <td>Pull monthly numbers for report</td>
+              <td><span class="manual-badge">Monthly</span></td>
+              <td>GA4: check total visitors, top pages. Search Console: check impressions, clicks, top queries. Copy 4 numbers into report template. 5 min.</td>
+              <td><div class="mt-time zero">5 min</div></td>
+            </tr>
+            <tr class="total-row">
+              <td colspan="3"><strong>Monthly total</strong></td>
+              <td><div class="mt-time">5 min</div></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end digital presence -->
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 2 — SEO & CONTENT (Growth+)
+  ══════════════════════════════════════════════ -->
+  <div class="section-eyebrow">SEO &amp; Content · Growth + above</div>
+  <div class="services-list">
+
+    <!-- 6. SEO BLOG POSTS -->
+    <div class="service-card" data-plans="growth complete" data-auto="manual" id="svc-blog">
+      <div class="sc-header" onclick="toggleSvc('svc-blog')">
+        <div class="sc-auto-dot" style="background:var(--red);"></div>
+        <div class="sc-icon">📝</div>
+        <div class="sc-main">
+          <div class="sc-name">SEO Blog Posts</div>
+          <div class="sc-tagline">AI-written, locally targeted posts. Each one a permanent Google ranking asset.</div>
+          <div class="plan-pills"><span class="pp pp-g">Growth · 2/mo</span><span class="pp pp-c">Complete · 4/mo</span></div>
+        </div>
+        <div class="sc-meta">
+          <div><div style="font-size:10px;color:var(--muted);text-align:right;">Setup</div><div class="sc-time low">30 min</div></div>
+          <div><div style="font-size:10px;color:var(--muted);text-align:right;">Per post</div><div class="sc-time low">40–50 min</div></div>
+        </div>
+        <div class="sc-toggle">▼</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-tabs">
+          <button class="sc-tab active" onclick="switchSvcTab(event,'svc-blog','steps')">🔧 Setup Steps</button>
+          <button class="sc-tab" onclick="switchSvcTab(event,'svc-blog','costs')">💰 Costs</button>
+          <button class="sc-tab" onclick="switchSvcTab(event,'svc-blog','monthly')">📅 Monthly</button>
+        </div>
+        <div class="sc-tab-panel active" data-panel="svc-blog-steps">
+          <div class="steps-list">
+            <div class="step">
+              <div class="step-circle">1</div>
+              <div class="step-content">
+                <div class="step-title">Build keyword list (do once, use for 12+ months)</div>
+                <div class="step-desc">Go to ubersuggest.com (free, 3 searches/day). Type the client's main service + location: "MOT Ipswich", "car service Suffolk", "mechanic Woodbridge". Also try Google autocomplete — type the service and see what suggestions appear. Also check "People Also Ask" in Google results. Build a list of 20 keywords/topics. Save in a Google Sheet. Pick 2 per month — never run out.</div>
+                <div class="step-url"><a href="https://ubersuggest.com" target="_blank">ubersuggest.com</a></div>
+                <div class="tools-row"><span class="tool-chip free">Ubersuggest (free)</span><span class="tool-chip free">Google autocomplete</span><span class="tool-chip free">Google Sheets</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">30 min once</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">2</div>
+              <div class="step-content">
+                <div class="step-title">Write each post using Claude</div>
+                <div class="step-desc">Pick a keyword. In Claude, use this prompt: "Write a 600-word blog post for [Business Name], a local [type] in [location], targeting the search phrase '[keyword]'. Include the phrase 4–5 times naturally. Reference local areas like [nearby towns]. End with a call to action to book online at [URL]. Friendly but professional tone." Read the output, fix any factual errors, add the real phone number and booking link.</div>
+                <div class="tools-row"><span class="tool-chip free">Claude Pro</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">10–15 min</div><span class="step-type-chip stc-monthly">Monthly</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">3</div>
+              <div class="step-content">
+                <div class="step-title">Add an image</div>
+                <div class="step-desc">Go to unsplash.com (free, no attribution needed). Search for a relevant image (e.g. "car mechanic", "MOT test"). Download. Resize if needed using squoosh.app (free, browser-based). Rename the file with the keyword (e.g. "mot-test-ipswich.jpg") — this helps SEO.</div>
+                <div class="step-url"><a href="https://unsplash.com" target="_blank">unsplash.com</a> · <a href="https://squoosh.app" target="_blank">squoosh.app</a></div>
+                <div class="tools-row"><span class="tool-chip free">Unsplash (free)</span><span class="tool-chip free">squoosh.app (free)</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">5 min</div><span class="step-type-chip stc-monthly">Monthly</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">4</div>
+              <div class="step-content">
+                <div class="step-title">Publish to the website</div>
+                <div class="step-desc">For a static HTML site: create a new HTML file (e.g. mot-ipswich.html), paste the post content using a simple blog post template. Upload via FTP. Add a link to it from the main site's footer or a "News" section. For WordPress: log in → Posts → Add New → paste content → add image → set focus keyword in Yoast → Publish.</div>
+                <div class="tools-row"><span class="tool-chip free">FileZilla FTP</span><span class="tool-chip free">WordPress (if applicable)</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">15–20 min</div><span class="step-type-chip stc-monthly">Monthly</span></div>
+            </div>
+          </div>
+          <div class="auto-tip"><strong>⚡ Speed Tip — Batch Write All Posts in One Session</strong>On the 1st of each month, open Claude and write ALL posts for the month in one session. 2 posts take 30 min total. 4 posts take ~60 min. Publishing them takes an additional 20 min each. Batching keeps you in the zone and saves context-switching time. Your keyword list is the only prep needed each month — tick off 2 keywords, write them, publish.</div>
+        </div>
+        <div class="sc-tab-panel" data-panel="svc-blog-costs">
+          <table class="costs-table">
+            <tr><th>Item</th><th>Cost</th><th>Notes</th></tr>
+            <tr><td>Claude Pro</td><td class="cost-free">Your existing subscription</td><td>Shared across all clients</td></tr>
+            <tr><td>Ubersuggest</td><td class="cost-free">FREE (3 searches/day)</td><td>More than enough once keyword list is built</td></tr>
+            <tr><td>Unsplash images</td><td class="cost-free">FREE</td><td>Royalty-free, no attribution required</td></tr>
+            <tr><td>WordPress (if applicable)</td><td class="cost-free">Client's existing install</td><td>No cost to you</td></tr>
+            <tr><td><strong>Total per post</strong></td><td class="cost-free">£0</td><td>Pure time cost — no cash spend</td></tr>
+          </table>
+        </div>
+        <div class="sc-tab-panel" data-panel="svc-blog-monthly">
+          <table class="monthly-table">
+            <tr><th>Task</th><th>Type</th><th>What You Do</th><th>Time per post</th></tr>
+            <tr>
+              <td>Pick keyword from list</td>
+              <td><span class="manual-badge">Manual</span></td>
+              <td>Open keyword Google Sheet. Tick off next 2 (or 4) keywords. 2 min.</td>
+              <td><div class="mt-time zero">2 min</div></td>
+            </tr>
+            <tr>
+              <td>Write post in Claude</td>
+              <td><span class="manual-badge">Manual</span></td>
+              <td>Paste the prompt template (saved as a text snippet). Edit output. Fix real details.</td>
+              <td><div class="mt-time low">15 min</div></td>
+            </tr>
+            <tr>
+              <td>Find and resize image</td>
+              <td><span class="manual-badge">Manual</span></td>
+              <td>Unsplash search, download, squoosh.app resize, rename with keyword.</td>
+              <td><div class="mt-time zero">5 min</div></td>
+            </tr>
+            <tr>
+              <td>Publish to website</td>
+              <td><span class="manual-badge">Manual</span></td>
+              <td>Create HTML page or WordPress post. Paste content. Upload image. Publish. Check on phone.</td>
+              <td><div class="mt-time low">15–20 min</div></td>
+            </tr>
+            <tr class="total-row">
+              <td colspan="3"><strong>Per post total · × 2 (Growth) or × 4 (Complete)</strong></td>
+              <td><div class="mt-time">~40 min/post</div></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. SOCIAL MEDIA -->
+    <div class="service-card" data-plans="growth complete" data-auto="partial" id="svc-social">
+      <div class="sc-header" onclick="toggleSvc('svc-social')">
+        <div class="sc-auto-dot" style="background:var(--amber);"></div>
+        <div class="sc-icon">📱</div>
+        <div class="sc-main">
+          <div class="sc-name">Social Media Content</div>
+          <div class="sc-tagline">Client sends photos. You write captions with Claude. Buffer schedules them. Mostly automated after setup.</div>
+          <div class="plan-pills"><span class="pp pp-g">Growth · 8/mo</span><span class="pp pp-c">Complete · 12/mo</span></div>
+        </div>
+        <div class="sc-meta">
+          <div><div style="font-size:10px;color:var(--muted);text-align:right;">Setup</div><div class="sc-time low">30 min</div></div>
+          <div><div style="font-size:10px;color:var(--muted);text-align:right;">Monthly</div><div class="sc-time zero">30–40 min</div></div>
+        </div>
+        <div class="sc-toggle">▼</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-tabs">
+          <button class="sc-tab active" onclick="switchSvcTab(event,'svc-social','steps')">🔧 Setup Steps</button>
+          <button class="sc-tab" onclick="switchSvcTab(event,'svc-social','costs')">💰 Costs</button>
+          <button class="sc-tab" onclick="switchSvcTab(event,'svc-social','monthly')">📅 Monthly</button>
+        </div>
+        <div class="sc-tab-panel active" data-panel="svc-social-steps">
+          <div class="steps-list">
+            <div class="step">
+              <div class="step-circle">1</div>
+              <div class="step-content">
+                <div class="step-title">Set up Buffer and connect client social accounts</div>
+                <div class="step-desc">Go to buffer.com. Create account (free tier: 3 channels, 10 posts queued). Connect client's Facebook Page and Instagram Business account (must be a business account — convert personal to business in Instagram settings if needed). Test by scheduling a draft post.</div>
+                <div class="step-url"><a href="https://buffer.com" target="_blank">buffer.com</a></div>
+                <div class="tools-row"><span class="tool-chip free">Buffer free tier</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">15 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">2</div>
+              <div class="step-content">
+                <div class="step-title">Set up photo delivery from client</div>
+                <div class="step-desc">Agree a method with the client to send you photos: WhatsApp is the easiest — they send photos throughout the month, you batch-write captions once a week or at month start. Create a WhatsApp group with just you and the client. Tell them: "Whenever you see something worth sharing — a car, a before/after, the team — just send me the photo." Simple.</div>
+                <div class="tools-row"><span class="tool-chip free">WhatsApp (free)</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">5 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">3</div>
+              <div class="step-content">
+                <div class="step-title">Build a reusable Claude caption prompt template</div>
+                <div class="step-desc">Save this prompt somewhere accessible (Notes app, Google Doc): "Write 8 short Instagram/Facebook captions for [Business Name] in [location]. Tone: friendly, local, genuine. Mix of: service promotion, team/behind-the-scenes, customer appreciation, seasonal. Each caption: 2–3 sentences + 5 relevant hashtags. Business name: [Name]. Phone: [number]. Booking link: [URL]." Paste this once a month, get 8 captions instantly.</div>
+                <div class="tools-row"><span class="tool-chip free">Claude</span><span class="tool-chip free">Google Docs (save template)</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">10 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+          </div>
+          <div class="auto-tip"><strong>⚡ Monthly Workflow — 30 min total for 8 posts</strong>(1) Client sends photos via WhatsApp throughout month. (2) On 1st of month: open saved Claude prompt, run it → 8 captions in 30 seconds. Edit lightly (2 min). (3) Open Buffer. Upload each photo + paste caption. Set schedule (e.g. Mon/Wed/Fri/Tue/Thu = 2 per week). Buffer posts automatically. You're done. Buffer scheduling is the automation that makes this work — you write once, it posts all month.</div>
+        </div>
+        <div class="sc-tab-panel" data-panel="svc-social-costs">
+          <table class="costs-table">
+            <tr><th>Item</th><th>Cost</th><th>Notes</th></tr>
+            <tr><td>Buffer Free</td><td class="cost-free">£0/mo</td><td>3 channels, 10 queued posts — upgrade to Essentials (£5/mo) if you need more</td></tr>
+            <tr><td>Claude Pro</td><td class="cost-free">Existing subscription</td><td>Shared across all clients</td></tr>
+            <tr><td>WhatsApp</td><td class="cost-free">FREE</td><td>Photo delivery from client</td></tr>
+            <tr><td><strong>Total per client</strong></td><td class="cost-free">£0–£5/mo</td><td>Free tier handles most clients</td></tr>
+          </table>
+        </div>
+        <div class="sc-tab-panel" data-panel="svc-social-monthly">
+          <table class="monthly-table">
+            <tr><th>Task</th><th>Type</th><th>What You Do</th><th>Time</th></tr>
+            <tr class="auto-row">
+              <td>Client sends photos</td>
+              <td><span class="auto-badge">By client</span></td>
+              <td>Client sends via WhatsApp throughout month. Nothing from you.</td>
+              <td><div class="mt-time zero">0 min</div></td>
+            </tr>
+            <tr>
+              <td>Write all captions at once</td>
+              <td><span class="manual-badge">Monthly</span></td>
+              <td>Open saved Claude prompt. Run it. Edit output lightly. 8 captions in ~10 min.</td>
+              <td><div class="mt-time zero">10 min</div></td>
+            </tr>
+            <tr>
+              <td>Upload to Buffer and schedule</td>
+              <td><span class="manual-badge">Monthly</span></td>
+              <td>Upload each photo + paste caption into Buffer. Set schedule. Buffer posts automatically all month.</td>
+              <td><div class="mt-time low">20 min</div></td>
+            </tr>
+            <tr class="auto-row">
+              <td>Buffer posts to Facebook + Instagram</td>
+              <td><span class="auto-badge">Automated</span></td>
+              <td>Buffer publishes on schedule. You do nothing. Notifications come to your phone if you want.</td>
+              <td><div class="mt-time zero">0 min</div></td>
+            </tr>
+            <tr class="total-row">
+              <td colspan="3"><strong>Monthly total</strong></td>
+              <td><div class="mt-time">~30 min</div></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 3 — CUSTOMER AUTOMATION (Growth+)
+  ══════════════════════════════════════════════ -->
+  <div class="section-eyebrow">Customer Automation · Growth + above</div>
+  <div class="services-list">
+
+    <!-- 8. MAILERLITE + SEQUENCES -->
+    <div class="service-card" data-plans="growth complete" data-auto="full" id="svc-email">
+      <div class="sc-header" onclick="toggleSvc('svc-email')">
+        <div class="sc-auto-dot" style="background:var(--green-fg);"></div>
+        <div class="sc-icon">✉️</div>
+        <div class="sc-main">
+          <div class="sc-name">MailerLite — Email Sequences &amp; Automations</div>
+          <div class="sc-tagline">Quote follow-ups, rebooking triggers, welcome sequences. Set once, run forever.</div>
+          <div class="plan-pills"><span class="pp pp-g">Growth</span><span class="pp pp-c">Complete</span></div>
+        </div>
+        <div class="sc-meta">
+          <div><div style="font-size:10px;color:var(--muted);text-align:right;">Setup</div><div class="sc-time low">90–120 min</div></div>
+          <div><div style="font-size:10px;color:var(--muted);text-align:right;">Monthly</div><div class="sc-time zero">10 min</div></div>
+        </div>
+        <div class="sc-toggle">▼</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-tabs">
+          <button class="sc-tab active" onclick="switchSvcTab(event,'svc-email','steps')">🔧 Setup Steps</button>
+          <button class="sc-tab" onclick="switchSvcTab(event,'svc-email','costs')">💰 Costs</button>
+          <button class="sc-tab" onclick="switchSvcTab(event,'svc-email','monthly')">📅 Monthly</button>
+        </div>
+        <div class="sc-tab-panel active" data-panel="svc-email-steps">
+          <div class="steps-list">
+            <div class="step">
+              <div class="step-circle">1</div>
+              <div class="step-content">
+                <div class="step-title">Create MailerLite account and import contacts</div>
+                <div class="step-desc">Go to mailerlite.com. Create account using client's business email. Ask client to export their customer list as CSV (from their booking system, spreadsheet or Google Contacts): columns needed = First Name, Email, Last Visit Date. Import the CSV into MailerLite under Subscribers. Free up to 1,000 contacts.</div>
+                <div class="step-url"><a href="https://mailerlite.com" target="_blank">mailerlite.com</a></div>
+                <div class="tools-row"><span class="tool-chip free">MailerLite free</span><span class="tool-chip free">Client CSV export</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">20 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">2</div>
+              <div class="step-content">
+                <div class="step-title">Create subscriber segments</div>
+                <div class="step-desc">In Subscribers → Segments → Create: (1) "All Customers" — everyone. (2) "Lapsed — 90 days" — filter where Last Visit Date is more than 90 days ago. (3) "New Customers" — added in last 30 days. These segments auto-update — no manual work needed to keep them current.</div>
+                <div class="tools-row"><span class="tool-chip free">MailerLite</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">10 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">3</div>
+              <div class="step-content">
+                <div class="step-title">Build welcome / onboarding automation</div>
+                <div class="step-desc">Automations → New Automation → Trigger: "When subscriber is added to group: New Customers" → Email 1 (immediately): welcome message, what to expect, booking link, phone number. Email 2 (Day 3): tip or service info. Email 3 (Day 7): ask for Google review. Use Claude to write all 3 emails — prompt: "Write a friendly welcome email series for a new customer at [Business]." Activate the automation.</div>
+                <div class="tools-row"><span class="tool-chip free">MailerLite automations</span><span class="tool-chip free">Claude (email copy)</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">30 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">4</div>
+              <div class="step-content">
+                <div class="step-title">Build rebooking / quote follow-up sequence</div>
+                <div class="step-desc">Automations → New → Trigger: "When subscriber receives tag: quote-sent". Email 1 (Day 3): "Just following up on your quote from [Business] — happy to answer any questions." Email 2 (Day 7): "Still thinking about it? We have availability this week." Email 3 (Day 14): "Last reminder on your quote — call us if you'd like to discuss." Activate. Train client to add the "quote-sent" tag in MailerLite when they send a quote.</div>
+                <div class="tools-row"><span class="tool-chip free">MailerLite</span><span class="tool-chip free">Claude</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">30 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">5</div>
+              <div class="step-content">
+                <div class="step-title">Build document chasing sequence (for accountants/solicitors)</div>
+                <div class="step-desc">Same approach: Trigger = tag "needs-docs". Email 1 (Day 1): "We're missing a few documents to complete your [work] — could you send [specific items]?" Email 2 (Day 5): gentle nudge. Email 3 (Day 10): "Urgent — we need these by [date] to meet your deadline." Client adds the tag manually when a customer needs chasing.</div>
+                <div class="tools-row"><span class="tool-chip free">MailerLite</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">20 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+          </div>
+          <div class="auto-tip"><strong>🟢 Fully Automated After Setup</strong>All sequences fire the moment the client adds a tag or a new subscriber lands in a group. You never send a single email manually. The only monthly task: check open rates in MailerLite (5 min) and note them in the monthly report. Client manages tags — your role was just building the system.</div>
+        </div>
+        <div class="sc-tab-panel" data-panel="svc-email-costs">
+          <table class="costs-table">
+            <tr><th>Item</th><th>Cost</th><th>Notes</th></tr>
+            <tr><td>MailerLite Free</td><td class="cost-free">£0/mo</td><td>Up to 1,000 subscribers, unlimited emails, full automations</td></tr>
+            <tr><td>MailerLite Growing Business</td><td class="cost-low">£9/mo</td><td>Up to 1,000 subs — upgrade if client has more than 1,000 contacts</td></tr>
+            <tr><td>Claude (email writing)</td><td class="cost-free">Existing subscription</td><td>All sequences written once — no ongoing cost</td></tr>
+            <tr><td><strong>Total</strong></td><td class="cost-free">£0/mo</td><td>Free tier covers most small businesses</td></tr>
+          </table>
+        </div>
+        <div class="sc-tab-panel" data-panel="svc-email-monthly">
+          <table class="monthly-table">
+            <tr><th>Task</th><th>Type</th><th>What You Do</th><th>Time</th></tr>
+            <tr class="auto-row">
+              <td>Welcome sequence fires</td>
+              <td><span class="auto-badge">Automated</span></td>
+              <td>New customer added → 3 emails fire over 7 days automatically.</td>
+              <td><div class="mt-time zero">0 min</div></td>
+            </tr>
+            <tr class="auto-row">
+              <td>Quote follow-up fires</td>
+              <td><span class="auto-badge">Automated</span></td>
+              <td>Client adds tag → 3 follow-up emails fire over 14 days automatically.</td>
+              <td><div class="mt-time zero">0 min</div></td>
+            </tr>
+            <tr>
+              <td>Check open rates + report</td>
+              <td><span class="manual-badge">Monthly</span></td>
+              <td>Log into MailerLite, check automation stats. Note open rates in monthly report. 5–10 min.</td>
+              <td><div class="mt-time zero">5–10 min</div></td>
+            </tr>
+            <tr class="total-row">
+              <td colspan="3"><strong>Monthly total</strong></td>
+              <td><div class="mt-time">~10 min</div></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9. LAPSED REACTIVATION -->
+    <div class="service-card" data-plans="growth complete" data-auto="partial" id="svc-lapsed">
+      <div class="sc-header" onclick="toggleSvc('svc-lapsed')">
+        <div class="sc-auto-dot" style="background:var(--amber);"></div>
+        <div class="sc-icon">🔄</div>
+        <div class="sc-main">
+          <div class="sc-name">Lapsed Customer Reactivation</div>
+          <div class="sc-tagline">Monthly win-back email to customers not seen in 90+ days. One manual task per month.</div>
+          <div class="plan-pills"><span class="pp pp-g">Growth</span><span class="pp pp-c">Complete</span></div>
+        </div>
+        <div class="sc-meta">
+          <div><div style="font-size:10px;color:var(--muted);text-align:right;">Setup</div><div class="sc-time low">30 min</div></div>
+          <div><div style="font-size:10px;color:var(--muted);text-align:right;">Monthly</div><div class="sc-time zero">25 min</div></div>
+        </div>
+        <div class="sc-toggle">▼</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-tabs">
+          <button class="sc-tab active" onclick="switchSvcTab(event,'svc-lapsed','steps')">🔧 Setup Steps</button>
+          <button class="sc-tab" onclick="switchSvcTab(event,'svc-lapsed','costs')">💰 Costs</button>
+          <button class="sc-tab" onclick="switchSvcTab(event,'svc-lapsed','monthly')">📅 Monthly</button>
+        </div>
+        <div class="sc-tab-panel active" data-panel="svc-lapsed-steps">
+          <div class="steps-list">
+            <div class="step">
+              <div class="step-circle">1</div>
+              <div class="step-content">
+                <div class="step-title">Create the "Lapsed 90 days" segment in MailerLite</div>
+                <div class="step-desc">In MailerLite → Subscribers → Segments → New. Filter: Last Visit Date field is more than 90 days ago. If "Last Visit Date" isn't a field yet, import it from the client's CSV. This segment auto-updates every time contacts are imported — anyone who hasn't been in for 90+ days appears here automatically.</div>
+                <div class="tools-row"><span class="tool-chip free">MailerLite segments</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">10 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">2</div>
+              <div class="step-content">
+                <div class="step-title">Write the reactivation email template</div>
+                <div class="step-desc">In Claude: "Write a friendly win-back email for [Business]. The customer hasn't visited in 3 months. Subject line options (3). Body: acknowledge the gap, remind them of our value, include a specific offer (10% off / free check / priority booking). Close with booking link and phone number. First name personalisation." Save as a MailerLite template — reuse every month, just update the offer.</div>
+                <div class="tools-row"><span class="tool-chip free">Claude</span><span class="tool-chip free">MailerLite templates</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">20 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+          </div>
+          <div class="auto-tip"><strong>Monthly Workflow — 25 min total</strong>(1) Client exports updated customer list with last visit dates → you import CSV into MailerLite (10 min). (2) Lapsed segment auto-updates. (3) Open the template, update the offer for this month (5 min). (4) Send to Lapsed segment. Done. The template already exists — you're just changing one line per month.</div>
+        </div>
+        <div class="sc-tab-panel" data-panel="svc-lapsed-costs">
+          <table class="costs-table">
+            <tr><th>Item</th><th>Cost</th></tr>
+            <tr><td>MailerLite (sending)</td><td class="cost-free">FREE — included in MailerLite account</td></tr>
+            <tr><td>Claude (template writing)</td><td class="cost-free">Done once, free after that</td></tr>
+            <tr><td><strong>Total</strong></td><td class="cost-free">£0/mo</td></tr>
+          </table>
+        </div>
+        <div class="sc-tab-panel" data-panel="svc-lapsed-monthly">
+          <table class="monthly-table">
+            <tr><th>Task</th><th>Type</th><th>What You Do</th><th>Time</th></tr>
+            <tr>
+              <td>Import updated contact list from client</td>
+              <td><span class="manual-badge">Monthly</span></td>
+              <td>Client exports CSV from their system. You import into MailerLite. Segment auto-updates. 10 min.</td>
+              <td><div class="mt-time zero">10 min</div></td>
+            </tr>
+            <tr>
+              <td>Update offer in email template</td>
+              <td><span class="manual-badge">Monthly</span></td>
+              <td>Open template. Change one line — the offer. Pick a different angle each month. 5 min.</td>
+              <td><div class="mt-time zero">5 min</div></td>
+            </tr>
+            <tr>
+              <td>Send to Lapsed segment</td>
+              <td><span class="manual-badge">Monthly</span></td>
+              <td>Select template → select Lapsed segment → send. 2 min.</td>
+              <td><div class="mt-time zero">2 min</div></td>
+            </tr>
+            <tr class="auto-row">
+              <td>Email deliveries</td>
+              <td><span class="auto-badge">Automated</span></td>
+              <td>MailerLite sends to everyone in the segment automatically.</td>
+              <td><div class="mt-time zero">0 min</div></td>
+            </tr>
+            <tr class="total-row">
+              <td colspan="3"><strong>Monthly total</strong></td>
+              <td><div class="mt-time">~25 min</div></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       SECTION 4 — COMPLETE PLAN ONLY
+  ══════════════════════════════════════════════ -->
+  <div class="section-eyebrow">Complete Plan Only</div>
+  <div class="services-list">
+
+    <!-- 10. AI CHATBOT -->
+    <div class="service-card" data-plans="complete" data-auto="full" id="svc-chatbot">
+      <div class="sc-header" onclick="toggleSvc('svc-chatbot')">
+        <div class="sc-auto-dot" style="background:var(--green-fg);"></div>
+        <div class="sc-icon">🤖</div>
+        <div class="sc-main">
+          <div class="sc-name">AI Enquiry Chatbot</div>
+          <div class="sc-tagline">Tidio chatbot on client's website. Captures leads 24/7. Fully autonomous once trained.</div>
+          <div class="plan-pills"><span class="pp pp-c">Complete · Also add-on</span></div>
+        </div>
+        <div class="sc-meta">
+          <div><div style="font-size:10px;color:var(--muted);text-align:right;">Setup</div><div class="sc-time med">3–5 hrs</div></div>
+          <div><div style="font-size:10px;color:var(--muted);text-align:right;">Monthly</div><div class="sc-time zero">20 min</div></div>
+        </div>
+        <div class="sc-toggle">▼</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-tabs">
+          <button class="sc-tab active" onclick="switchSvcTab(event,'svc-chatbot','steps')">🔧 Setup Steps</button>
+          <button class="sc-tab" onclick="switchSvcTab(event,'svc-chatbot','costs')">💰 Costs</button>
+          <button class="sc-tab" onclick="switchSvcTab(event,'svc-chatbot','monthly')">📅 Monthly</button>
+        </div>
+        <div class="sc-tab-panel active" data-panel="svc-chatbot-steps">
+          <div class="steps-list">
+            <div class="step">
+              <div class="step-circle">1</div>
+              <div class="step-content">
+                <div class="step-title">Create Tidio account and install on website</div>
+                <div class="step-desc">Go to tidio.com. Create account. Tidio gives you a small script snippet. Add it to the HTML file just before &lt;/body&gt;. Re-upload via FTP. Visit the site — you should see a chat bubble appear in the corner. That confirms installation is working.</div>
+                <div class="step-url"><a href="https://tidio.com" target="_blank">tidio.com</a></div>
+                <div class="tools-row"><span class="tool-chip paid">Tidio £19/mo</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">15 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">2</div>
+              <div class="step-content">
+                <div class="step-title">Collect FAQ answers from the client</div>
+                <div class="step-desc">Email or WhatsApp the client: "I need your answers to these 10 questions so I can train the chatbot:" (1) What are your opening hours? (2) What services do you offer? (3) Do you do while-you-wait MOTs? (4) How much is an MOT? (5) Do you accept card payments? (6) Can you collect my car? (7) What happens if my car fails? (8) How do I book? (9) Where are you located? (10) Do you offer a courtesy car? Their answers become the chatbot's knowledge base.</div>
+                <div class="tools-row"><span class="tool-chip free">WhatsApp / email</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">30 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">3</div>
+              <div class="step-content">
+                <div class="step-title">Train the chatbot on FAQs</div>
+                <div class="step-desc">In Tidio → Lyro AI → Knowledge Base → Add your Q&amp;A pairs. Add each question and the client's answer. Also add the booking link, phone number and address as standalone knowledge items. Tidio's AI will use all of this to answer customer questions intelligently. Add 15–20 Q&amp;As minimum.</div>
+                <div class="tools-row"><span class="tool-chip paid">Tidio Lyro AI</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">45–60 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">4</div>
+              <div class="step-content">
+                <div class="step-title">Build the lead capture flow</div>
+                <div class="step-desc">In Tidio → Flows → Create. Build: Greeting (after 30 seconds on page) → "Hi! Can I help you today? Looking to book a service or got a question?" → if booking: show Calendly link → if question: Lyro AI takes over → at end of conversation: "Leave your name and number and we'll call you back." → captured details emailed to client automatically.</div>
+                <div class="tools-row"><span class="tool-chip paid">Tidio Flows</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">60–90 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+            <div class="step">
+              <div class="step-circle">5</div>
+              <div class="step-content">
+                <div class="step-title">Add GDPR consent message</div>
+                <div class="step-desc">In Tidio → Settings → GDPR → enable the consent notice. It shows: "By using this chat, you agree to our privacy policy." Add a link to the client's privacy policy. This is legally required in the UK for any chat tool that captures personal data.</div>
+                <div class="tools-row"><span class="tool-chip free">Tidio GDPR settings</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">5 min</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+          </div>
+          <div class="auto-tip"><strong>🟢 Fully Automated After Setup</strong>Chatbot answers enquiries 24/7 with no intervention from you or the client. Lead capture emails fire automatically. Monthly task: log into Tidio, check conversations handled, forward any missed leads to client. 20 min. The chatbot learns from conversations over time — it gets smarter without you doing anything.</div>
+        </div>
+        <div class="sc-tab-panel" data-panel="svc-chatbot-costs">
+          <table class="costs-table">
+            <tr><th>Item</th><th>Cost</th><th>Notes</th></tr>
+            <tr><td>Tidio (Communicator plan)</td><td class="cost-low">£19/mo per client</td><td>Includes Lyro AI, flows, live chat. Pass cost to client or include in Complete plan pricing.</td></tr>
+            <tr><td>Setup time (one-off)</td><td class="cost-free">Your time — covered by setup fee</td><td>3–5 hrs covered by £749 setup charge</td></tr>
+            <tr><td><strong>Total per client</strong></td><td class="cost-low">£19/mo</td><td>Charge client £89/mo as add-on — your margin is £70/mo for 20 min work</td></tr>
+          </table>
+        </div>
+        <div class="sc-tab-panel" data-panel="svc-chatbot-monthly">
+          <table class="monthly-table">
+            <tr><th>Task</th><th>Type</th><th>What You Do</th><th>Time</th></tr>
+            <tr class="auto-row">
+              <td>Chatbot answers enquiries</td>
+              <td><span class="auto-badge">Automated</span></td>
+              <td>Tidio handles all conversations automatically 24/7.</td>
+              <td><div class="mt-time zero">0 min</div></td>
+            </tr>
+            <tr class="auto-row">
+              <td>Lead capture emails</td>
+              <td><span class="auto-badge">Automated</span></td>
+              <td>When visitor leaves details, Tidio emails client automatically.</td>
+              <td><div class="mt-time zero">0 min</div></td>
+            </tr>
+            <tr>
+              <td>Monthly conversation review</td>
+              <td><span class="manual-badge">Monthly</span></td>
+              <td>Log into Tidio. Check: how many conversations, how many leads captured, any missed/poor responses. Forward any missed leads to client. Add any new FAQs you spotted. 20 min.</td>
+              <td><div class="mt-time zero">20 min</div></td>
+            </tr>
+            <tr class="total-row">
+              <td colspan="3"><strong>Monthly total</strong></td>
+              <td><div class="mt-time">~20 min</div></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 11. MONTHLY REPORT -->
+    <div class="service-card" data-plans="starter growth complete" data-auto="manual" id="svc-report">
+      <div class="sc-header" onclick="toggleSvc('svc-report')">
+        <div class="sc-auto-dot" style="background:var(--red);"></div>
+        <div class="sc-icon">📋</div>
+        <div class="sc-main">
+          <div class="sc-name">Monthly Performance Report</div>
+          <div class="sc-tagline">Pulls 5–8 numbers from free tools and emails to client. Your main retention tool.</div>
+          <div class="plan-pills"><span class="pp pp-s">Starter · Basic</span><span class="pp pp-g">Growth · Full</span><span class="pp pp-c">Complete · Full + Competitors</span></div>
+        </div>
+        <div class="sc-meta">
+          <div><div style="font-size:10px;color:var(--muted);text-align:right;">Setup</div><div class="sc-time low">30 min</div></div>
+          <div><div style="font-size:10px;color:var(--muted);text-align:right;">Monthly</div><div class="sc-time zero">30–45 min</div></div>
+        </div>
+        <div class="sc-toggle">▼</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-tabs">
+          <button class="sc-tab active" onclick="switchSvcTab(event,'svc-report','steps')">🔧 Setup Steps</button>
+          <button class="sc-tab" onclick="switchSvcTab(event,'svc-report','costs')">💰 Costs</button>
+          <button class="sc-tab" onclick="switchSvcTab(event,'svc-report','monthly')">📅 Monthly</button>
+        </div>
+        <div class="sc-tab-panel active" data-panel="svc-report-steps">
+          <div class="steps-list">
+            <div class="step">
+              <div class="step-circle">1</div>
+              <div class="step-content">
+                <div class="step-title">Build your report template (do once, reuse for all clients)</div>
+                <div class="step-desc">Create a Google Doc or simple HTML template. Sections: (1) Summary sentence. (2) Table of 6–8 metrics with this month vs last month. (3) What's working. (4) What we're doing next month. Metrics to include: Website visitors (GA4), Google search impressions (Search Console), Online bookings (Calendly), Google review count (GBP), Social reach (Buffer), Email open rate (MailerLite). Save as a master template — duplicate for each client each month.</div>
+                <div class="tools-row"><span class="tool-chip free">Google Docs</span></div>
+              </div>
+              <div class="step-right"><div class="step-time-badge">30 min once</div><span class="step-type-chip stc-once">One-off</span></div>
+            </div>
+          </div>
+          <div class="auto-tip"><strong>Monthly Workflow — 30–45 min total for any plan</strong>(1) Open GA4 → note visitors. (2) Search Console → note impressions + clicks + top query. (3) Calendly → note bookings. (4) Google Business → note review count. (5) MailerLite → note open rates. (6) Copy last month's report, update numbers, write 2-line commentary. (7) Email to client as PDF or just a Google Doc link. That's it. The template makes this fast — you just update the numbers.</div>
+        </div>
+        <div class="sc-tab-panel" data-panel="svc-report-costs">
+          <table class="costs-table">
+            <tr><th>Item</th><th>Cost</th></tr>
+            <tr><td>All data sources (GA4, GBP, Calendly, MailerLite, Buffer)</td><td class="cost-free">FREE — all tools already in your stack</td></tr>
+            <tr><td>Report template</td><td class="cost-free">FREE — Google Docs</td></tr>
+            <tr><td><strong>Total</strong></td><td class="cost-free">£0</td></tr>
+          </table>
+        </div>
+        <div class="sc-tab-panel" data-panel="svc-report-monthly">
+          <table class="monthly-table">
+            <tr><th>Metric to Pull</th><th>From Where</th><th>Time</th></tr>
+            <tr><td>Website visitors</td><td>GA4 → Reports → Acquisition</td><td><div class="mt-time zero">1 min</div></td></tr>
+            <tr><td>Search impressions + top query</td><td>Google Search Console → Performance</td><td><div class="mt-time zero">1 min</div></td></tr>
+            <tr><td>Online bookings</td><td>Calendly → Scheduled Events</td><td><div class="mt-time zero">1 min</div></td></tr>
+            <tr><td>Google review count + new reviews</td><td>Google Business Profile → Reviews</td><td><div class="mt-time zero">1 min</div></td></tr>
+            <tr><td>Email open rate</td><td>MailerLite → Campaigns</td><td><div class="mt-time zero">1 min</div></td></tr>
+            <tr><td>Social reach</td><td>Buffer → Analytics</td><td><div class="mt-time zero">1 min</div></td></tr>
+            <tr><td>Write commentary + email client</td><td>Google Doc template → email</td><td><div class="mt-time low">20–25 min</div></td></tr>
+            <tr class="total-row">
+              <td colspan="2"><strong>Monthly total</strong></td>
+              <td><div class="mt-time">~30 min</div></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="summary-footer">
+    <div class="sf-title">Your Full Stack — Time &amp; Cost Summary</div>
+    <div class="sf-grid">
+      <div class="sf-item">
+        <div class="si-label">Core Tool Stack (all clients)</div>
+        <div class="si-val">~£<span>50</span>/mo</div>
+        <div class="si-sub">Hostinger + Twilio + Tidio (per client) + Claude</div>
+      </div>
+      <div class="sf-item">
+        <div class="si-label">Starter Client — Monthly</div>
+        <div class="si-val">~<span>1</span> hr</div>
+        <div class="si-sub">GBP posts (30min) + report (30min)</div>
+      </div>
+      <div class="sf-item">
+        <div class="si-label">Growth Client — Monthly</div>
+        <div class="si-val">~<span>3.5</span> hrs</div>
+        <div class="si-sub">Blogs + social + reactivation + report</div>
+      </div>
+      <div class="sf-item">
+        <div class="si-label">Complete Client — Monthly</div>
+        <div class="si-val">~<span>6</span> hrs</div>
+        <div class="si-sub">All above + chatbot + newsletter + competitor</div>
+      </div>
+      <div class="sf-item">
+        <div class="si-label">% of Tasks Automated</div>
+        <div class="si-val"><span>80</span>%</div>
+        <div class="si-sub">Reviews, booking, sequences, chatbot, scheduling</div>
+      </div>
+      <div class="sf-item">
+        <div class="si-label">5 Growth Clients Revenue</div>
+        <div class="si-val">£<span>2,745</span>/mo</div>
+        <div class="si-sub">~17.5 hrs work · £157/hr effective rate</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  function toggleSvc(id) {
+    document.getElementById(id).classList.toggle('open');
+  }
+  function switchSvcTab(event, svcId, panel) {
+    const card = document.getElementById(svcId);
+    card.querySelectorAll('.sc-tab').forEach(t => t.classList.remove('active'));
+    card.querySelectorAll('.sc-tab-panel').forEach(p => p.classList.remove('active'));
+    event.target.classList.add('active');
+    card.querySelector('[data-panel="' + svcId + '-' + panel + '"]').classList.add('active');
+  }
+  function filterAll(btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.service-card').forEach(c => c.classList.remove('hidden'));
+  }
+  function filterPlan(plan, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.service-card').forEach(c => {
+      c.classList.toggle('hidden', !c.dataset.plans.includes(plan));
+    });
+  }
+  function filterAuto(level, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.service-card').forEach(c => {
+      c.classList.toggle('hidden', c.dataset.auto !== level);
+    });
+  }
+</script>
+</body>
+</html>

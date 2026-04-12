@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Command Centre — AI Consultancy</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --surface2: #18181f;
+    --border: #2a2a38;
+    --accent: #e8ff47;
+    --accent2: #7c6fff;
+    --accent3: #ff6b47;
+    --text: #f0f0f8;
+    --muted: #7a7a9a;
+    --tag-green: #1a3a2a;
+    --tag-green-text: #4ade80;
+    --tag-amber: #3a2a10;
+    --tag-amber-text: #fbbf24;
+    --tag-blue: #1a2040;
+    --tag-blue-text: #60a5fa;
+    --tag-red: #3a1a1a;
+    --tag-red-text: #f87171;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(124,111,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(124,111,255,0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* Header */
+  header {
+    padding: 40px 0 32px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .header-left {}
+
+  .project-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 800;
+    line-height: 1;
+    color: var(--text);
+  }
+
+  h1 span {
+    color: var(--accent);
+  }
+
+  .header-meta {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 8px;
+  }
+
+  .header-right {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .stat-pill {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 16px;
+    text-align: center;
+  }
+
+  .stat-pill .num {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+    line-height: 1;
+  }
+
+  .stat-pill .label {
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  /* Controls bar */
+  .controls {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .search-wrap {
+    position: relative;
+    flex: 1;
+    min-width: 240px;
+  }
+
+  .search-wrap::before {
+    content: '⌕';
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 18px;
+    pointer-events: none;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    padding: 10px 14px 10px 40px;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  input[type="text"]:focus {
+    border-color: var(--accent2);
+  }
+
+  input[type="text"]::placeholder {
+    color: var(--muted);
+  }
+
+  .filter-btns {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #000;
+    font-weight: 600;
+  }
+
+  /* Section headers */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    margin-top: 36px;
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+  }
+
+  .section-count {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* Artifact cards */
+  .artifacts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 14px;
+  }
+
+  .artifact-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .artifact-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--border);
+    transition: background 0.2s;
+  }
+
+  .artifact-card:hover {
+    border-color: var(--accent2);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(124,111,255,0.12);
+  }
+
+  .artifact-card:hover::before {
+    background: var(--accent);
+  }
+
+  .artifact-card.hidden {
+    display: none;
+  }
+
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .artifact-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.3;
+    flex: 1;
+  }
+
+  .status-badge {
+    flex-shrink: 0;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+
+  .status-live { background: var(--tag-green); color: var(--tag-green-text); }
+  .status-draft { background: var(--tag-amber); color: var(--tag-amber-text); }
+  .status-internal { background: var(--tag-blue); color: var(--tag-blue-text); }
+  .status-pending { background: var(--tag-red); color: var(--tag-red-text); }
+
+  .artifact-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .card-meta {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: auto;
+  }
+
+  .tag {
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .tag-client { border-color: rgba(232,255,71,0.3); color: var(--accent); }
+  .tag-internal { border-color: rgba(124,111,255,0.3); color: var(--accent2); }
+  .tag-prospect { border-color: rgba(255,107,71,0.3); color: var(--accent3); }
+
+  .chat-link {
+    margin-left: auto;
+    font-size: 10px;
+    color: var(--accent2);
+    text-decoration: none;
+    padding: 3px 10px;
+    border: 1px solid rgba(124,111,255,0.3);
+    border-radius: 4px;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+
+  .chat-link:hover {
+    background: rgba(124,111,255,0.15);
+    border-color: var(--accent2);
+  }
+
+  /* Goal tracker */
+  .goals-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 14px;
+    margin-bottom: 8px;
+  }
+
+  .goal-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+  }
+
+  .goal-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+
+  .goal-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+
+  .progress-bar {
+    height: 4px;
+    background: var(--surface2);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: var(--accent);
+    transition: width 0.6s ease;
+  }
+
+  .progress-fill.purple { background: var(--accent2); }
+  .progress-fill.orange { background: var(--accent3); }
+
+  /* No results */
+  .no-results {
+    grid-column: 1/-1;
+    padding: 48px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+    display: none;
+  }
+
+  /* Section toggle */
+  .section-toggle {
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .section-toggle .arrow {
+    font-size: 10px;
+    color: var(--muted);
+    transition: transform 0.2s;
+  }
+
+  .section-toggle.collapsed .arrow {
+    transform: rotate(-90deg);
+  }
+
+  .collapsible {
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  /* Empty state */
+  .add-card {
+    background: transparent;
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 12px;
+    cursor: default;
+    opacity: 0.6;
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .artifacts-grid { grid-template-columns: 1fr; }
+    header { flex-direction: column; align-items: flex-start; }
+    .header-right { flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="header-left">
+      <div class="project-label">▸ Project Command Centre</div>
+      <h1>AI Consultancy<br><span>Ipswich & Suffolk</span></h1>
+      <div class="header-meta">Last updated: April 2026 · Salman · Solo operator</div>
+    </div>
+    <div class="header-right">
+      <div class="stat-pill"><span class="num" id="total-count">0</span><span class="label">Artifacts</span></div>
+      <div class="stat-pill"><span class="num" id="live-count">0</span><span class="label">Live</span></div>
+      <div class="stat-pill"><span class="num" id="prospect-count">0</span><span class="label">Prospects</span></div>
+    </div>
+  </header>
+
+  <!-- Goals -->
+  <div class="section-header">
+    <div class="section-title section-toggle" onclick="toggleSection('goals')">
+      <span class="arrow" id="arrow-goals">▾</span> Goals & Targets
+    </div>
+    <div class="section-line"></div>
+  </div>
+  <div class="collapsible" id="goals">
+    <div class="goals-row">
+      <div class="goal-card">
+        <div class="goal-label">Primary Target</div>
+        <div class="goal-value">Close Martlesham SC</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:75%"></div></div>
+      </div>
+      <div class="goal-card">
+        <div class="goal-label">Monthly Recurring Revenue</div>
+        <div class="goal-value">£0 → £2,000/mo</div>
+        <div class="progress-bar"><div class="progress-fill purple" style="width:5%"></div></div>
+      </div>
+      <div class="goal-card">
+        <div class="goal-label">Active Paying Clients</div>
+        <div class="goal-value">0 of 6 target</div>
+        <div class="progress-bar"><div class="progress-fill orange" style="width:0%"></div></div>
+      </div>
+      <div class="goal-card">
+        <div class="goal-label">Next Milestone</div>
+        <div class="goal-value">First case study</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:60%"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls" style="margin-top:32px;">
+    <div class="search-wrap">
+      <input type="text" id="search" placeholder="Search artifacts, clients, topics..." oninput="filterArtifacts()">
+    </div>
+    <div class="filter-btns">
+      <button class="filter-btn active" data-filter="all" onclick="setFilter('all',this)">All</button>
+      <button class="filter-btn" data-filter="client" onclick="setFilter('client',this)">Client</button>
+      <button class="filter-btn" data-filter="prospect" onclick="setFilter('prospect',this)">Prospect</button>
+      <button class="filter-btn" data-filter="internal" onclick="setFilter('internal',this)">Internal</button>
+      <button class="filter-btn" data-filter="live" onclick="setFilter('live',this)">Live</button>
+      <button class="filter-btn" data-filter="draft" onclick="setFilter('draft',this)">Draft</button>
+    </div>
+  </div>
+
+  <!-- SECTION: Client Deliverables -->
+  <div class="section-header">
+    <div class="section-title section-toggle" onclick="toggleSection('client')">
+      <span class="arrow" id="arrow-client">▾</span> Client Deliverables
+    </div>
+    <div class="section-count" id="count-client">—</div>
+    <div class="section-line"></div>
+  </div>
+  <div class="collapsible" id="client">
+    <div class="artifacts-grid" id="grid-client">
+
+      <div class="artifact-card" data-tags="client live martlesham website" data-status="live">
+        <div class="card-top">
+          <div class="artifact-title">Martlesham Service Centre — Website</div>
+          <span class="status-badge status-live">Live</span>
+        </div>
+        <div class="artifact-desc">Full replacement website built in HTML. Includes Calendly booking, Formspree contact form, Google Maps embed, WhatsApp button, mobile responsive. Ready to go live on Hostinger.</div>
+        <div class="card-meta">
+          <span class="tag tag-client">Martlesham SC</span>
+          <span class="tag">Website</span>
+          <span class="tag">HTML</span>
+          <a class="chat-link" href="https://claude.ai/chat/24eda9c8-86fc-48af-9c78-843df794ee61" target="_blank">→ Open chat</a>
+        </div>
+      </div>
+
+      <div class="artifact-card" data-tags="client draft martlesham handover hosting dns" data-status="draft">
+        <div class="card-top">
+          <div class="artifact-title">Martlesham SC — Handover Guide</div>
+          <span class="status-badge status-draft">Draft</span>
+        </div>
+        <div class="artifact-desc">Step-by-step go-live guide covering Hostinger hosting setup, DNS transfer from Netphobia, Calendly config, domain pointing, and post-launch checks.</div>
+        <div class="card-meta">
+          <span class="tag tag-client">Martlesham SC</span>
+          <span class="tag">Ops</span>
+          <span class="tag">Hosting</span>
+          <a class="chat-link" href="https://claude.ai/chat/24eda9c8-86fc-48af-9c78-843df794ee61" target="_blank">→ Open chat</a>
+        </div>
+      </div>
+
+      <div class="artifact-card" data-tags="client martlesham pricing one-pager plans retainer proposal" data-status="draft">
+        <div class="card-top">
+          <div class="artifact-title">Martlesham SC — Service Plans One-Pager</div>
+          <span class="status-badge status-draft">Draft</span>
+        </div>
+        <div class="artifact-desc">Client-facing pricing proposal for Martlesham Service Centre. Shows Starter, Growth and Complete retainer plans with monthly prices, what's included, add-on services, and setup fees. Ready to send or present.</div>
+        <div class="card-meta">
+          <span class="tag tag-client">Martlesham SC</span>
+          <span class="tag">Pricing</span>
+          <span class="tag">HTML</span>
+          <a class="chat-link" href="https://claude.ai/chat/24eda9c8-86fc-48af-9c78-843df794ee61" target="_blank">→ Open chat</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION: Prospect Research -->
+  <div class="section-header">
+    <div class="section-title section-toggle" onclick="toggleSection('prospect')">
+      <span class="arrow" id="arrow-prospect">▾</span> Prospect Research
+    </div>
+    <div class="section-count" id="count-prospect">—</div>
+    <div class="section-line"></div>
+  </div>
+  <div class="collapsible" id="prospect">
+    <div class="artifacts-grid" id="grid-prospect">
+
+      <div class="artifact-card" data-tags="prospect internal hitlist ipswich businesses niches" data-status="internal">
+        <div class="card-top">
+          <div class="artifact-title">Ipswich Prospect Hit List</div>
+          <span class="status-badge status-internal">Internal</span>
+        </div>
+        <div class="artifact-desc">40 named real businesses across 8 niches (garages, salons, restaurants, accountants, trades, estate agents, dental, solicitors). Includes contact details, gap analysis, and opening pitch lines.</div>
+        <div class="card-meta">
+          <span class="tag tag-prospect">All Niches</span>
+          <span class="tag">Research</span>
+          <span class="tag">HTML</span>
+          <a class="chat-link" href="https://claude.ai/chat/24eda9c8-86fc-48af-9c78-843df794ee61" target="_blank">→ Open chat</a>
+        </div>
+      </div>
+
+      <div class="artifact-card" data-tags="prospect h&f auto services garages ipswich pitch" data-status="internal">
+        <div class="card-top">
+          <div class="artifact-title">H&F Auto Services — Prospect Brief</div>
+          <span class="status-badge status-internal">Internal</span>
+        </div>
+        <div class="artifact-desc">Decision-maker ID (Matt), digital weakness assessment, pitch angle around replacing BookMyGarage fees with direct booking. Cost-saving framing calculated.</div>
+        <div class="card-meta">
+          <span class="tag tag-prospect">H&F Auto</span>
+          <span class="tag">Garages</span>
+          <span class="tag">Pitch</span>
+          <a class="chat-link" href="https://claude.ai/chat/e88e9b88-150a-4d26-80bb-48f18557fda9" target="_blank">→ Open chat</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION: Sales & Pricing -->
+  <div class="section-header">
+    <div class="section-title section-toggle" onclick="toggleSection('sales')">
+      <span class="arrow" id="arrow-sales">▾</span> Sales & Pricing
+    </div>
+    <div class="section-count" id="count-sales">—</div>
+    <div class="section-line"></div>
+  </div>
+  <div class="collapsible" id="sales">
+    <div class="artifacts-grid" id="grid-sales">
+
+      <div class="artifact-card" data-tags="internal pricing retainer tiers starter growth complete" data-status="internal">
+        <div class="card-top">
+          <div class="artifact-title">Pricing Architecture — Operator Reference</div>
+          <span class="status-badge status-internal">Internal</span>
+        </div>
+        <div class="artifact-desc">Internal pricing doc. Starter £299/mo, Growth £549/mo, Complete £899/mo. Setup fees, add-on pricing, monthly task breakdown with time estimates, automated vs manual split. Operator eyes only.</div>
+        <div class="card-meta">
+          <span class="tag tag-internal">Pricing</span>
+          <span class="tag">HTML</span>
+          <a class="chat-link" href="https://claude.ai/chat/24eda9c8-86fc-48af-9c78-843df794ee61" target="_blank">→ Open chat</a>
+        </div>
+      </div>
+
+      <div class="artifact-card" data-tags="internal sales objection handling script garages" data-status="internal">
+        <div class="card-top">
+          <div class="artifact-title">Sales Objection Handling Script</div>
+          <span class="status-badge status-internal">Internal</span>
+        </div>
+        <div class="artifact-desc">7 specific objections with exact response language. Includes recommended call flow, pivot questions, 6 golden rules for closing. Garage-owner focused.</div>
+        <div class="card-meta">
+          <span class="tag tag-internal">Sales</span>
+          <span class="tag">Garages</span>
+          <span class="tag">Script</span>
+          <a class="chat-link" href="https://claude.ai/chat/d22a209b-899a-4a7d-88e7-c460c677b73f" target="_blank">→ Open chat</a>
+        </div>
+      </div>
+
+      <div class="artifact-card" data-tags="internal competitor comparison garage software one-pager" data-status="internal">
+        <div class="card-top">
+          <div class="artifact-title">Competitor Comparison One-Pager</div>
+          <span class="status-badge status-internal">Internal</span>
+        </div>
+        <div class="artifact-desc">Client-facing HTML comparing your service vs garage software (My Garage CRM, MOT Manager, BookMOT, etc.). Positioning: "They sell you software. I run it for you."</div>
+        <div class="card-meta">
+          <span class="tag tag-internal">Sales</span>
+          <span class="tag">Garages</span>
+          <span class="tag">HTML</span>
+          <a class="chat-link" href="https://claude.ai/chat/d22a209b-899a-4a7d-88e7-c460c677b73f" target="_blank">→ Open chat</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION: Strategy & Operations -->
+  <div class="section-header">
+    <div class="section-title section-toggle" onclick="toggleSection('strategy')">
+      <span class="arrow" id="arrow-strategy">▾</span> Strategy & Operations
+    </div>
+    <div class="section-count" id="count-strategy">—</div>
+    <div class="section-line"></div>
+  </div>
+  <div class="collapsible" id="strategy">
+    <div class="artifacts-grid" id="grid-strategy">
+
+      <div class="artifact-card" data-tags="internal niche strategy guide ipswich garages trades" data-status="internal">
+        <div class="card-top">
+          <div class="artifact-title">Ipswich AI Niche Strategy Guide</div>
+          <span class="status-badge status-internal">Internal</span>
+        </div>
+        <div class="artifact-desc">8 niches ranked by impact and ease of build. Go-deep-in-garages-first strategy. Includes service offering per niche, entry wedge logic, and expansion roadmap.</div>
+        <div class="card-meta">
+          <span class="tag tag-internal">Strategy</span>
+          <span class="tag">HTML</span>
+          <a class="chat-link" href="https://claude.ai/chat/24eda9c8-86fc-48af-9c78-843df794ee61" target="_blank">→ Open chat</a>
+        </div>
+      </div>
+
+      <div class="artifact-card" data-tags="internal operations manual setup costs automation time monthly" data-status="internal">
+        <div class="card-top">
+          <div class="artifact-title">Operations Manual</div>
+          <span class="status-badge status-internal">Internal</span>
+        </div>
+        <div class="artifact-desc">Every service broken down: setup steps, tool costs, monthly time per client, automation level. Designed to maximise recurring work that runs without manual input.</div>
+        <div class="card-meta">
+          <span class="tag tag-internal">Ops</span>
+          <span class="tag">Automation</span>
+          <span class="tag">HTML</span>
+          <a class="chat-link" href="https://claude.ai/chat/24eda9c8-86fc-48af-9c78-843df794ee61" target="_blank">→ Open chat</a>
+        </div>
+      </div>
+
+      <div class="artifact-card" data-tags="internal gohighlevel platform evaluation migration timing" data-status="internal">
+        <div class="card-top">
+          <div class="artifact-title">GoHighLevel — Platform Evaluation</div>
+          <span class="status-badge status-internal">Internal</span>
+        </div>
+        <div class="artifact-desc">Full analysis: when GHL makes economic sense (4-5 clients), migration strategy, white-label SaaS path. Decision: defer until recurring revenue justifies it.</div>
+        <div class="card-meta">
+          <span class="tag tag-internal">Strategy</span>
+          <span class="tag">Platforms</span>
+          <a class="chat-link" href="https://claude.ai/chat/d2b333f0-dad3-492b-8699-9735fb01f135" target="_blank">→ Open chat</a>
+        </div>
+      </div>
+
+      <div class="artifact-card" data-tags="internal launch plan marketing roadmap instagram sole trader" data-status="internal">
+        <div class="card-top">
+          <div class="artifact-title">Launch & Marketing Plan</div>
+          <span class="status-badge status-internal">Internal</span>
+        </div>
+        <div class="artifact-desc">3-phase roadmap to £2k/mo. Sole trader first, website after first case study, Instagram outreach strategy, tool stack under £35/mo, 6 retainer clients target.</div>
+        <div class="card-meta">
+          <span class="tag tag-internal">Strategy</span>
+          <span class="tag">Marketing</span>
+          <span class="tag">HTML</span>
+          <a class="chat-link" href="https://claude.ai/chat/7b67b9e9-2f69-417e-a797-40ea2649231c" target="_blank">→ Open chat</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION: Own Assets -->
+  <div class="section-header">
+    <div class="section-title section-toggle" onclick="toggleSection('assets')">
+      <span class="arrow" id="arrow-assets">▾</span> Own Brand Assets
+    </div>
+    <div class="section-count" id="count-assets">—</div>
+    <div class="section-line"></div>
+  </div>
+  <div class="collapsible" id="assets">
+    <div class="artifacts-grid" id="grid-assets">
+
+      <div class="artifact-card" data-tags="internal consulting website template apex advisory" data-status="draft">
+        <div class="card-top">
+          <div class="artifact-title">Consulting Website Template</div>
+          <span class="status-badge status-draft">Draft</span>
+        </div>
+        <div class="artifact-desc">Full single-file HTML website (Apex Advisory). Dark dramatic palette, particle animation, service cards, process section, testimonials, lead capture form. Needs rebrand to your name.</div>
+        <div class="card-meta">
+          <span class="tag tag-internal">Own Brand</span>
+          <span class="tag">Website</span>
+          <span class="tag">HTML</span>
+          <a class="chat-link" href="https://claude.ai/chat/8ac585c1-197d-4e73-b86d-bb9cdea54af0" target="_blank">→ Open chat</a>
+        </div>
+      </div>
+
+      <div class="artifact-card" data-tags="internal project command centre dashboard artifacts index" data-status="live">
+        <div class="card-top">
+          <div class="artifact-title">Project Command Centre (this file)</div>
+          <span class="status-badge status-live">Live</span>
+        </div>
+        <div class="artifact-desc">Master index of all project artifacts. Searchable, filterable. Add new artifacts as they're created. Keep locally and open in browser.</div>
+        <div class="card-meta">
+          <span class="tag tag-internal">Meta</span>
+          <span class="tag">Dashboard</span>
+          <span class="tag">HTML</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+  let currentFilter = 'all';
+
+  const sections = ['client','prospect','sales','strategy','assets'];
+
+  function countCards() {
+    const all = document.querySelectorAll('.artifact-card');
+    const live = document.querySelectorAll('.artifact-card[data-status="live"]');
+    const prospect = document.querySelectorAll('.artifact-card[data-tags*="prospect"]');
+    document.getElementById('total-count').textContent = all.length;
+    document.getElementById('live-count').textContent = live.length;
+    document.getElementById('prospect-count').textContent = prospect.length;
+
+    sections.forEach(s => {
+      const grid = document.getElementById('grid-' + s);
+      if (grid) {
+        const count = grid.querySelectorAll('.artifact-card').length;
+        document.getElementById('count-' + s).textContent = count;
+      }
+    });
+  }
+
+  function filterArtifacts() {
+    const query = document.getElementById('search').value.toLowerCase();
+    const cards = document.querySelectorAll('.artifact-card');
+    let anyVisible = false;
+
+    cards.forEach(card => {
+      const tags = (card.dataset.tags || '').toLowerCase();
+      const title = card.querySelector('.artifact-title').textContent.toLowerCase();
+      const desc = card.querySelector('.artifact-desc').textContent.toLowerCase();
+      const status = card.dataset.status || '';
+
+      const matchesSearch = !query || tags.includes(query) || title.includes(query) || desc.includes(query);
+
+      let matchesFilter = true;
+      if (currentFilter === 'live') matchesFilter = status === 'live';
+      else if (currentFilter === 'draft') matchesFilter = status === 'draft';
+      else if (currentFilter === 'internal') matchesFilter = status === 'internal';
+      else if (currentFilter === 'client') matchesFilter = tags.includes('client');
+      else if (currentFilter === 'prospect') matchesFilter = tags.includes('prospect');
+
+      if (matchesSearch && matchesFilter) {
+        card.classList.remove('hidden');
+        anyVisible = true;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+  }
+
+  function setFilter(filter, btn) {
+    currentFilter = filter;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterArtifacts();
+  }
+
+  function toggleSection(id) {
+    const el = document.getElementById(id);
+    const arrow = document.getElementById('arrow-' + id);
+    const toggle = arrow.closest('.section-toggle');
+    const isOpen = el.style.maxHeight !== '0px' && el.style.maxHeight !== '';
+
+    if (isOpen || el.style.maxHeight === '') {
+      el.style.maxHeight = el.scrollHeight + 'px';
+      setTimeout(() => { el.style.maxHeight = '0px'; }, 10);
+      toggle.classList.add('collapsed');
+    } else {
+      el.style.maxHeight = el.scrollHeight + 'px';
+      toggle.classList.remove('collapsed');
+      setTimeout(() => { el.style.maxHeight = 'none'; }, 310);
+    }
+  }
+
+  // Init
+  document.addEventListener('DOMContentLoaded', () => {
+    countCards();
+    // Set initial max-heights for collapsibles
+    document.querySelectorAll('.collapsible').forEach(el => {
+      el.style.maxHeight = 'none';
+    });
+  });
+</script>
+</body>
+</html>

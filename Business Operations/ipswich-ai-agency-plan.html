@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Agency Launch Plan — Ipswich</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f3ee;
+    --accent: #00e5a0;
+    --accent2: #ff6b35;
+    --muted: #6b6b6b;
+    --card: #141414;
+    --border: #1f1f1f;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    padding: 0 0 80px 0;
+  }
+
+  /* HEADER */
+  .hero {
+    padding: 60px 24px 40px;
+    border-bottom: 1px solid var(--border);
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 10vw, 88px);
+    line-height: 0.95;
+    letter-spacing: 0.01em;
+    color: var(--white);
+    margin-bottom: 20px;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero-sub {
+    color: var(--muted);
+    font-size: 15px;
+    max-width: 500px;
+    margin-bottom: 28px;
+  }
+  .goal-bar {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .goal-pill {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 8px 14px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+  }
+  .goal-pill span { color: var(--muted); margin-right: 6px; }
+
+  /* SECTION */
+  .section {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 48px 24px 0;
+  }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    letter-spacing: 0.02em;
+    color: var(--white);
+    margin-bottom: 24px;
+  }
+  .section-title span { color: var(--accent2); }
+
+  /* PHASE CARDS */
+  .phase {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .phase-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    color: var(--border);
+    line-height: 1;
+    min-width: 40px;
+  }
+  .phase-meta {}
+  .phase-name {
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--white);
+  }
+  .phase-timeline {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    margin-top: 2px;
+  }
+  .phase-badge {
+    margin-left: auto;
+    background: #1a1a1a;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .phase-badge.green { color: var(--accent); border-color: rgba(0,229,160,0.2); }
+  .phase-badge.orange { color: var(--accent2); border-color: rgba(255,107,53,0.2); }
+
+  .phase-body {
+    padding: 20px 24px;
+  }
+  .task-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .task-list li {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 14px;
+    color: #c8c4bc;
+  }
+  .task-list li::before {
+    content: '→';
+    color: var(--accent);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    min-width: 16px;
+    margin-top: 2px;
+  }
+  .task-list li strong { color: var(--white); }
+  .task-list li.warn::before { content: '!'; color: var(--accent2); }
+  .task-list li.free::before { content: '£0'; color: var(--accent); font-size: 10px; margin-top: 3px; }
+
+  /* DECISION BOX */
+  .decision {
+    background: #0f1f19;
+    border: 1px solid rgba(0,229,160,0.25);
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+  .decision h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--accent);
+    margin-bottom: 12px;
+    letter-spacing: 0.05em;
+  }
+  .decision p {
+    font-size: 14px;
+    color: #c8c4bc;
+    line-height: 1.7;
+  }
+  .decision p strong { color: var(--white); }
+
+  /* TOOLS TABLE */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 4px;
+  }
+  @media (max-width: 500px) { .tools-grid { grid-template-columns: 1fr; } }
+  .tool-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 16px;
+  }
+  .tool-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--white);
+    margin-bottom: 2px;
+  }
+  .tool-use {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .tool-cost {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    margin-top: 6px;
+  }
+  .tool-cost.paid { color: var(--accent2); }
+
+  /* INCOME TABLE */
+  .income-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 4px;
+  }
+  .income-table th {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: left;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .income-table td {
+    font-size: 14px;
+    color: #c8c4bc;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .income-table td:last-child {
+    font-family: 'DM Mono', monospace;
+    color: var(--accent);
+    font-size: 13px;
+  }
+  .income-table tr:last-child td { border-bottom: none; font-weight: 600; color: var(--white); }
+  .income-table tr:last-child td:last-child { color: var(--accent); font-size: 15px; }
+
+  /* ACCOUNTS LIST */
+  .accounts {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .account-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 18px;
+  }
+  .account-icon {
+    font-size: 20px;
+    min-width: 28px;
+    text-align: center;
+  }
+  .account-info { flex: 1; }
+  .account-name { font-weight: 600; font-size: 14px; color: var(--white); }
+  .account-why { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .account-when {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--accent2);
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  /* DIVIDER */
+  .divider {
+    max-width: 800px;
+    margin: 48px auto 0;
+    padding: 0 24px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* WARNING CALLOUT */
+  .callout {
+    background: #1a1108;
+    border: 1px solid rgba(255,107,53,0.25);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+    font-size: 14px;
+    color: #c8c4bc;
+    line-height: 1.7;
+  }
+  .callout strong { color: var(--accent2); }
+
+  /* FOOTER */
+  .footer {
+    max-width: 800px;
+    margin: 48px auto 0;
+    padding: 24px 24px 0;
+    border-top: 1px solid var(--border);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">// AI Agency Growth Plan · Ipswich → UK</div>
+  <h1>FROM <span>£0</span><br>TO £2K/MO</h1>
+  <p class="hero-sub">A lean, automated AI agency launch plan built for minimal investment, recurring revenue, and minimal manual work.</p>
+  <div class="goal-bar">
+    <div class="goal-pill"><span>TARGET</span>£2,000/mo recurring</div>
+    <div class="goal-pill"><span>DEADLINE</span>June 2025 (~3 months)</div>
+    <div class="goal-pill"><span>FOCUS</span>Ipswich first</div>
+    <div class="goal-pill"><span>BUDGET</span>Up to £50/mo</div>
+  </div>
+</div>
+
+<!-- KEY DECISION -->
+<div class="section">
+  <div class="section-label">// First question to answer</div>
+  <div class="decision">
+    <h3>Freelance First — Company Later</h3>
+    <p>
+      <strong>Don't register a company yet.</strong> Operate as a sole trader (freelancer) — it's free, you can start today, and you only need to tell HMRC via a simple online form. Register a Ltd company only once you're consistently earning £1,500+/mo. The extra cost (Companies House fees, accountant, VAT threshold stress) is unnecessary weight right now.<br><br>
+      <strong>Website:</strong> Don't build it in Week 1. Start with a free Carrd or Notion page as a "proof of work" link. Build the real website at the end of Month 1, once you've landed your first client — so you have a case study and testimonial ready to put on it.
+    </p>
+  </div>
+</div>
+
+<!-- PHASES -->
+<div class="section">
+  <div class="section-label">// The roadmap</div>
+  <div class="section-title">3-MONTH <span>PHASES</span></div>
+
+  <!-- PHASE 1 -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-num">01</div>
+      <div class="phase-meta">
+        <div class="phase-name">Groundwork & First 2 Clients</div>
+        <div class="phase-timeline">Weeks 1–3 · Right Now</div>
+      </div>
+      <div class="phase-badge green">£0 spend</div>
+    </div>
+    <div class="phase-body">
+      <ul class="task-list">
+        <li class="free"><strong>Register as sole trader</strong> on HMRC website — free, takes 10 mins. No company yet.</li>
+        <li class="free"><strong>Create a simple offer</strong> — pick ONE service to start: e.g. "AI-powered social media content system" OR "automated lead follow-up for local businesses." One offer, one price.</li>
+        <li><strong>Set up Instagram business profile</strong> — brand name, logo (use Canva free tier), bio that says exactly who you help and what result you deliver.</li>
+        <li class="free"><strong>Build a free Carrd.co landing page</strong> (free plan) — your "link in bio." One page: what you do, who it's for, a Calendly booking link.</li>
+        <li><strong>Make a list of 30 local Ipswich businesses</strong> — restaurants, salons, trades, estate agents, gyms, dentists. These are your first outreach targets.</li>
+        <li><strong>DM / cold email 10 per day</strong> — personalised, short, outcome-focused. Offer a FREE audit of their current online presence as your foot in the door.</li>
+        <li class="warn"><strong>Don't wait to be "ready."</strong> Your first client will be landed through conversations, not a perfect website.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PHASE 2 -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-num">02</div>
+      <div class="phase-meta">
+        <div class="phase-name">Land 3–5 Clients & Build Website</div>
+        <div class="phase-timeline">Weeks 4–8 · April–May</div>
+      </div>
+      <div class="phase-badge orange">~£20–30/mo spend</div>
+    </div>
+    <div class="phase-body">
+      <ul class="task-list">
+        <li><strong>Build your real website</strong> — use Framer (free tier or £14/mo paid) or Webflow. Keep it to 3 pages: Home, Services, Contact. Add your first case study immediately.</li>
+        <li><strong>Start posting on Instagram 4x/week</strong> — mix of: results/case studies, "what AI can do for [local biz type]", behind-the-scenes, client wins. Use AI to generate content ideas and captions.</li>
+        <li><strong>Set up Make.com (free tier)</strong> — automate your own client onboarding: new client → sends welcome email → creates folder → adds to tracker. Demonstrate this automation to clients as a taste of what you do.</li>
+        <li><strong>Price your retainer packages</strong> — aim for £300–600/mo per client at this stage. At 4–5 clients you hit £1,500–2,000/mo.</li>
+        <li><strong>Ask every client for a testimonial + referral</strong> — local word of mouth in Ipswich will be your fastest growth channel.</li>
+        <li><strong>Set up a Google Business Profile</strong> — free. Ipswich searches for "AI marketing agency" or "social media agency Ipswich" will find you.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PHASE 3 -->
+  <div class="phase">
+    <div class="phase-header">
+      <div class="phase-num">03</div>
+      <div class="phase-meta">
+        <div class="phase-name">Systematise, Automate & Hit £2K</div>
+        <div class="phase-timeline">Weeks 9–12 · May–June</div>
+      </div>
+      <div class="phase-badge green">£2,000/mo target</div>
+    </div>
+    <div class="phase-body">
+      <ul class="task-list">
+        <li><strong>Automate client deliverables</strong> — use AI (Claude API, ChatGPT, or n8n) to generate monthly content calendars, social posts, and reports automatically. You review and approve; AI does the drafting.</li>
+        <li><strong>Create a "set and forget" monthly retainer system</strong> — client pays → automation kicks off their content pipeline → you spend max 2 hours/client/month on review.</li>
+        <li><strong>Expand to Suffolk / Essex towns</strong> — Colchester, Bury St Edmunds, Felixstowe. Use the Ipswich case studies as proof.</li>
+        <li><strong>Consider registering a Ltd company</strong> — once you're at £1,500+/mo consistently, it starts making tax sense. Total cost ~£50 + accountant.</li>
+        <li><strong>Add a higher-tier offer</strong> — e.g. a one-time "AI workflow setup" project at £800–1,500, in addition to your monthly retainers. This accelerates cash.</li>
+        <li class="warn"><strong>Don't take on more clients than you can automate.</strong> 6–8 automated retainer clients at £300/mo = £2,400/mo with almost no manual work.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- INCOME MODEL -->
+<div class="section">
+  <div class="section-label">// How £2,000/mo actually looks</div>
+  <div class="section-title">THE INCOME <span>MATH</span></div>
+  <div class="phase">
+    <div class="phase-body" style="padding: 0;">
+      <table class="income-table">
+        <thead>
+          <tr>
+            <th>Client Type</th>
+            <th>No. of Clients</th>
+            <th>Monthly Fee</th>
+            <th>Revenue</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>AI Social Media Retainer</td>
+            <td>4</td>
+            <td>£300/mo</td>
+            <td>£1,200</td>
+          </tr>
+          <tr>
+            <td>AI Automation Setup Retainer</td>
+            <td>2</td>
+            <td>£400/mo</td>
+            <td>£800</td>
+          </tr>
+          <tr>
+            <td><strong>Total</strong></td>
+            <td><strong>6 clients</strong></td>
+            <td>—</td>
+            <td><strong>£2,000/mo</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="callout">
+    <strong>Key insight:</strong> 6 local Ipswich businesses at £300–400/mo each is very achievable. These clients exist everywhere — restaurants, physios, trades, estate agents — and almost none of them are using AI yet. You have a head start.
+  </div>
+</div>
+
+<!-- ACCOUNTS TO CREATE -->
+<div class="section">
+  <div class="section-label">// What to set up and when</div>
+  <div class="section-title">ACCOUNTS <span>CHECKLIST</span></div>
+  <div class="accounts">
+    <div class="account-row">
+      <div class="account-icon">📋</div>
+      <div class="account-info">
+        <div class="account-name">HMRC Sole Trader Registration</div>
+        <div class="account-why">Legal — register as self-employed. Free. Takes 10 mins online.</div>
+      </div>
+      <div class="account-when">WEEK 1 · FREE</div>
+    </div>
+    <div class="account-row">
+      <div class="account-icon">📸</div>
+      <div class="account-info">
+        <div class="account-name">Instagram Business Account</div>
+        <div class="account-why">Your primary marketing channel. Local hashtags, reels, DMs.</div>
+      </div>
+      <div class="account-when">WEEK 1 · FREE</div>
+    </div>
+    <div class="account-row">
+      <div class="account-icon">🔗</div>
+      <div class="account-info">
+        <div class="account-name">Carrd.co (free landing page)</div>
+        <div class="account-why">Temporary "link in bio" with your offer + Calendly booking link.</div>
+      </div>
+      <div class="account-when">WEEK 1 · FREE</div>
+    </div>
+    <div class="account-row">
+      <div class="account-icon">📅</div>
+      <div class="account-info">
+        <div class="account-name">Calendly (free tier)</div>
+        <div class="account-why">Clients book discovery calls directly. No back-and-forth.</div>
+      </div>
+      <div class="account-when">WEEK 1 · FREE</div>
+    </div>
+    <div class="account-row">
+      <div class="account-icon">💳</div>
+      <div class="account-info">
+        <div class="account-name">Stripe</div>
+        <div class="account-why">Collect recurring monthly payments from clients. No monthly fee — just 1.5% per transaction.</div>
+      </div>
+      <div class="account-when">WEEK 1 · FREE</div>
+    </div>
+    <div class="account-row">
+      <div class="account-icon">⚙️</div>
+      <div class="account-info">
+        <div class="account-name">Make.com (free tier)</div>
+        <div class="account-why">Automation backbone. Build client workflows + your own ops.</div>
+      </div>
+      <div class="account-when">WEEK 2 · FREE</div>
+    </div>
+    <div class="account-row">
+      <div class="account-icon">🗂️</div>
+      <div class="account-info">
+        <div class="account-name">Notion (free)</div>
+        <div class="account-why">Client tracker, project management, content calendar. Free forever.</div>
+      </div>
+      <div class="account-when">WEEK 2 · FREE</div>
+    </div>
+    <div class="account-row">
+      <div class="account-icon">🌐</div>
+      <div class="account-info">
+        <div class="account-name">Google Business Profile</div>
+        <div class="account-why">Free local SEO. Shows up when Ipswich businesses Google "AI agency."</div>
+      </div>
+      <div class="account-when">WEEK 2 · FREE</div>
+    </div>
+    <div class="account-row">
+      <div class="account-icon">🖥️</div>
+      <div class="account-info">
+        <div class="account-name">Framer or Webflow (website)</div>
+        <div class="account-why">Build your real website once you have a case study. Framer free tier is enough to start.</div>
+      </div>
+      <div class="account-when">MONTH 1 END · FREE/£14mo</div>
+    </div>
+    <div class="account-row">
+      <div class="account-icon">🔵</div>
+      <div class="account-info">
+        <div class="account-name">LinkedIn Business Page</div>
+        <div class="account-why">For credibility & B2B outreach as you grow beyond local.</div>
+      </div>
+      <div class="account-when">MONTH 2 · FREE</div>
+    </div>
+  </div>
+</div>
+
+<!-- TOOLS -->
+<div class="section">
+  <div class="section-label">// Tools that keep costs under £50/mo</div>
+  <div class="section-title">YOUR TECH <span>STACK</span></div>
+  <div class="tools-grid">
+    <div class="tool-card">
+      <div class="tool-name">Claude / ChatGPT</div>
+      <div class="tool-use">Content generation, client deliverables, automations</div>
+      <div class="tool-cost">£18–20/mo (Claude Pro)</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-name">Make.com</div>
+      <div class="tool-use">All automation workflows</div>
+      <div class="tool-cost">FREE (1,000 ops/mo free)</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-name">Canva Free</div>
+      <div class="tool-use">Graphics, social posts, presentations</div>
+      <div class="tool-cost">FREE</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-name">Framer</div>
+      <div class="tool-use">Agency website</div>
+      <div class="tool-cost paid">FREE or £14/mo</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-name">Stripe</div>
+      <div class="tool-use">Recurring client billing</div>
+      <div class="tool-cost">FREE (% per transaction)</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-name">Notion</div>
+      <div class="tool-use">Client & project management</div>
+      <div class="tool-cost">FREE</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-name">Google Workspace</div>
+      <div class="tool-use">Email with your domain</div>
+      <div class="tool-cost paid">£5/mo (or use Gmail free)</div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-name">Namecheap domain</div>
+      <div class="tool-use">youragency.co.uk</div>
+      <div class="tool-cost paid">~£8/year (~£1/mo)</div>
+    </div>
+  </div>
+  <div style="margin-top: 12px;" class="callout">
+    <strong>Total estimated monthly spend:</strong> Claude Pro £20 + domain £1 + optional Framer £14 = <strong>~£35/mo max.</strong> Well within budget.
+  </div>
+</div>
+
+<!-- INSTAGRAM STRATEGY -->
+<div class="section">
+  <div class="section-label">// Social media focus</div>
+  <div class="section-title">INSTAGRAM <span>STRATEGY</span></div>
+  <div class="phase">
+    <div class="phase-body">
+      <ul class="task-list">
+        <li><strong>Bio formula:</strong> "Helping [Ipswich/Suffolk] businesses grow with AI automation 🤖 | Book a free audit 👇"</li>
+        <li><strong>Content mix (4x/week):</strong> 2x educational reels ("3 things AI can do for your salon"), 1x client result/case study, 1x behind-the-scenes or personal.</li>
+        <li><strong>Local hashtags:</strong> #Ipswich #IpswichBusiness #SuffolkBusiness #SuffolkSmallBusiness — small pools, less competition, highly targeted.</li>
+        <li><strong>Outreach via DMs:</strong> Find local business accounts, watch their stories, then DM genuinely: "I noticed you don't have automated follow-ups — I help businesses like yours set these up. Want me to show you what it could look like?"</li>
+        <li><strong>Don't obsess over followers.</strong> 200 engaged local followers will get you clients faster than 5,000 randoms. Focus on conversations, not vanity metrics.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  AI Agency Launch Plan · Ipswich · Built April 2025 · Review monthly and adjust
+</div>
+
+</body>
+</html>
