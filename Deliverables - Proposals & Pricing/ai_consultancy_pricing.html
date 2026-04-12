@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Consultancy — Service Plans & Pricing</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0C0C0C;
+    --paper: #FAFAF7;
+    --cream: #F2EFE8;
+    --gold: #B8962E;
+    --gold-light: #E8D5A0;
+    --gold-pale: #FAF5E8;
+    --mid: #5A5650;
+    --border: #E0DAD0;
+    --white: #FFFFFF;
+    --starter: #1A3A2A;
+    --growth: #0F2240;
+    --full: #2A0F0F;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ── PAGE HEADER ── */
+  .page-header {
+    background: var(--ink);
+    padding: 64px 60px 52px;
+    position: relative;
+    overflow: hidden;
+  }
+  .page-header::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    border: 1px solid rgba(184,150,46,0.15);
+  }
+  .page-header::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: 40%;
+    width: 240px; height: 240px;
+    border-radius: 50%;
+    border: 1px solid rgba(184,150,46,0.08);
+  }
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 24px;
+    position: relative;
+    z-index: 2;
+  }
+  .header-left {}
+  .agency-name {
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .agency-name::before {
+    content: '';
+    width: 28px;
+    height: 1px;
+    background: var(--gold);
+  }
+  .page-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 900;
+    color: var(--paper);
+    line-height: 1.05;
+    margin-bottom: 16px;
+  }
+  .page-title em {
+    color: var(--gold);
+    font-style: normal;
+  }
+  .page-sub {
+    font-size: 16px;
+    color: rgba(250,250,247,0.5);
+    font-weight: 300;
+    max-width: 480px;
+    line-height: 1.6;
+  }
+  .header-right {
+    text-align: right;
+  }
+  .positioning-pill {
+    display: inline-block;
+    border: 1px solid rgba(184,150,46,0.4);
+    border-radius: 100px;
+    padding: 10px 20px;
+    font-size: 13px;
+    color: var(--gold-light);
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+  .tagline {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: rgba(250,250,247,0.7);
+    font-style: italic;
+  }
+
+  /* ── SETUP FEE BANNER ── */
+  .setup-banner {
+    background: var(--gold);
+    padding: 20px 60px;
+  }
+  .setup-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .setup-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .setup-icon {
+    width: 44px;
+    height: 44px;
+    background: rgba(0,0,0,0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .setup-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(12,12,12,0.65);
+    margin-bottom: 2px;
+  }
+  .setup-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .setup-right {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .setup-item {
+    text-align: center;
+  }
+  .setup-item .si-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(12,12,12,0.55);
+    margin-bottom: 2px;
+  }
+  .setup-item .si-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .setup-note {
+    font-size: 13px;
+    color: rgba(12,12,12,0.6);
+    max-width: 260px;
+    line-height: 1.5;
+  }
+
+  /* ── MAIN CONTENT ── */
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 56px 60px 80px;
+  }
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── PLANS GRID ── */
+  .plans-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 64px;
+    box-shadow: 0 8px 48px rgba(0,0,0,0.06);
+  }
+
+  .plan-card {
+    padding: 40px 36px;
+    border-right: 1.5px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background: var(--white);
+  }
+  .plan-card:last-child { border-right: none; }
+  .plan-card.featured {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .plan-card.featured .plan-desc,
+  .plan-card.featured .feature-text,
+  .plan-card.featured .plan-ideal { color: rgba(250,250,247,0.6); }
+  .plan-card.featured .feature-icon { color: var(--gold); }
+  .plan-card.featured .divider { border-color: rgba(255,255,255,0.1); }
+  .plan-card.featured .plan-name { color: var(--paper); }
+
+  .plan-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    align-self: flex-start;
+  }
+  .badge-starter { background: #D5EDD9; color: #1A3A2A; }
+  .badge-growth { background: var(--gold); color: var(--ink); }
+  .badge-full { background: #FFE8E8; color: #6B1A1A; }
+
+  .plan-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+  .plan-desc {
+    font-size: 13px;
+    color: var(--mid);
+    line-height: 1.6;
+    margin-bottom: 28px;
+    font-weight: 300;
+  }
+
+  .price-block {
+    margin-bottom: 8px;
+  }
+  .price-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 52px;
+    font-weight: 900;
+    line-height: 1;
+  }
+  .price-amount sup {
+    font-size: 24px;
+    vertical-align: super;
+    font-weight: 700;
+  }
+  .price-period {
+    font-size: 14px;
+    color: var(--mid);
+    font-weight: 400;
+    margin-bottom: 4px;
+  }
+  .plan-card.featured .price-period { color: rgba(250,250,247,0.5); }
+  .price-hours {
+    font-size: 12px;
+    color: var(--gold);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 24px;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 24px 0;
+  }
+
+  .features-list {
+    list-style: none;
+    flex: 1;
+    margin-bottom: 32px;
+  }
+  .feature-item {
+    display: flex;
+    gap: 10px;
+    padding: 7px 0;
+    align-items: flex-start;
+  }
+  .feature-icon {
+    font-size: 14px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    color: var(--starter);
+  }
+  .feature-text {
+    font-size: 14px;
+    color: #333;
+    line-height: 1.4;
+  }
+  .feature-text strong {
+    font-weight: 600;
+    display: block;
+    font-size: 13px;
+  }
+  .feature-text span {
+    font-size: 12px;
+    color: var(--mid);
+    font-weight: 300;
+  }
+
+  .plan-ideal {
+    font-size: 11px;
+    color: var(--mid);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+
+  .plan-cta {
+    display: block;
+    text-align: center;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: default;
+  }
+  .cta-starter {
+    background: transparent;
+    border: 1.5px solid var(--starter);
+    color: var(--starter);
+  }
+  .cta-growth {
+    background: var(--gold);
+    border: 1.5px solid var(--gold);
+    color: var(--ink);
+  }
+  .cta-full {
+    background: transparent;
+    border: 1.5px solid rgba(250,250,247,0.3);
+    color: var(--paper);
+  }
+
+  /* ── WHAT IS INCLUDED DETAIL TABLE ── */
+  .detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 64px;
+    font-size: 13px;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+  }
+  .detail-table thead tr {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .detail-table thead th {
+    padding: 14px 20px;
+    text-align: left;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-family: 'Outfit', sans-serif;
+  }
+  .detail-table thead th:nth-child(2),
+  .detail-table thead th:nth-child(3),
+  .detail-table thead th:nth-child(4) { text-align: center; }
+  .detail-table thead th:nth-child(3) { color: var(--gold); }
+  .detail-table tbody tr:nth-child(even) td { background: #FAFAF7; }
+  .detail-table tbody td {
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    color: #333;
+    vertical-align: middle;
+  }
+  .detail-table tbody tr:last-child td { border-bottom: none; }
+  .detail-table .service-name { font-weight: 600; font-size: 13px; }
+  .detail-table .service-detail { font-size: 11px; color: var(--mid); margin-top: 2px; }
+  .detail-table td:nth-child(2),
+  .detail-table td:nth-child(3),
+  .detail-table td:nth-child(4) { text-align: center; }
+  .check { color: #1A3A2A; font-size: 16px; font-weight: 700; }
+  .cross { color: #CCC; font-size: 16px; }
+  .partial { color: var(--gold); font-size: 13px; font-weight: 600; }
+  .cat-row td {
+    background: var(--cream) !important;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--mid);
+    font-weight: 700;
+    padding: 8px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── ADD-ONS ── */
+  .addons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+    margin-bottom: 64px;
+  }
+  .addon-card {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .addon-card:hover {
+    border-color: var(--gold);
+    box-shadow: 0 4px 20px rgba(184,150,46,0.1);
+  }
+  .addon-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: var(--cream);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .addon-name { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+  .addon-desc { font-size: 12px; color: var(--mid); line-height: 1.5; margin-bottom: 10px; }
+  .addon-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .addon-price-type {
+    font-size: 11px;
+    color: var(--mid);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 400;
+  }
+
+  /* ── SETUP FEE RATIONALE ── */
+  .rationale-box {
+    background: var(--ink);
+    border-radius: 16px;
+    padding: 48px;
+    color: var(--paper);
+    margin-bottom: 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+  .rationale-box h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--paper);
+  }
+  .rationale-box h3 span { color: var(--gold); }
+  .rationale-box p {
+    font-size: 14px;
+    color: rgba(250,250,247,0.65);
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+  .rationale-items { list-style: none; }
+  .rationale-items li {
+    display: flex;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    font-size: 13px;
+    color: rgba(250,250,247,0.75);
+    line-height: 1.5;
+  }
+  .rationale-items li:last-child { border-bottom: none; }
+  .rationale-items li .ri-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--gold);
+    flex-shrink: 0;
+    width: 24px;
+  }
+  .setup-fee-boxes {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .sfe-box {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+  .sfe-box.recommended {
+    background: rgba(184,150,46,0.12);
+    border-color: rgba(184,150,46,0.35);
+  }
+  .sfe-name { font-weight: 600; font-size: 14px; }
+  .sfe-detail { font-size: 12px; color: rgba(250,250,247,0.5); margin-top: 2px; }
+  .sfe-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .sfe-rec-tag {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--ink);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 100px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+
+  /* ── EFFECTIVE RATE FOOTER ── */
+  .eff-rate {
+    background: var(--cream);
+    border-radius: 12px;
+    padding: 32px 40px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    text-align: center;
+    border: 1.5px solid var(--border);
+  }
+  .er-item .er-plan {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 6px;
+  }
+  .er-item .er-rate {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .er-item .er-rate span { color: var(--gold); font-size: 16px; }
+  .er-item .er-detail { font-size: 12px; color: var(--mid); }
+
+  @media (max-width: 900px) {
+    .plans-grid { grid-template-columns: 1fr; }
+    .plan-card { border-right: none; border-bottom: 1.5px solid var(--border); }
+    .plan-card:last-child { border-bottom: none; }
+    .rationale-box { grid-template-columns: 1fr; gap: 32px; }
+    .eff-rate { grid-template-columns: 1fr; }
+    .page-header { padding: 48px 28px 40px; }
+    .setup-banner { padding: 20px 28px; }
+    main { padding: 40px 28px 60px; }
+  }
+  @media (max-width: 600px) {
+    .addons-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <div class="agency-name">AI Growth Consultancy · Ipswich &amp; Suffolk</div>
+      <h1 class="page-title">Service Plans<br>&amp; <em>Pricing</em></h1>
+      <p class="page-sub">Everything you need to grow your business online — new customers, better visibility, less admin. No jargon, no surprises.</p>
+    </div>
+    <div class="header-right">
+      <div class="positioning-pill">📍 Serving Ipswich &amp; Suffolk</div>
+      <div class="tagline">"We bring you new customers.<br>Your systems manage the rest."</div>
+    </div>
+  </div>
+</div>
+
+<!-- SETUP FEE BANNER -->
+<div class="setup-banner">
+  <div class="setup-inner">
+    <div class="setup-left">
+      <div class="setup-icon">⚡</div>
+      <div>
+        <div class="setup-label">One-Time Setup Fee</div>
+        <div class="setup-title">Required on all plans — paid once, never again</div>
+      </div>
+    </div>
+    <div class="setup-right">
+      <div class="setup-item">
+        <div class="si-label">Starter</div>
+        <div class="si-val">£299</div>
+      </div>
+      <div class="setup-item">
+        <div class="si-label">Growth</div>
+        <div class="si-val">£499</div>
+      </div>
+      <div class="setup-item">
+        <div class="si-label">Full Stack</div>
+        <div class="si-val">£749</div>
+      </div>
+      <div class="setup-note">Covers website build, Calendly setup, Google Business optimisation and all onboarding. Charged before work begins.</div>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <!-- PLANS -->
+  <div class="section-label">Monthly Retainer Plans</div>
+
+  <div class="plans-grid">
+
+    <!-- STARTER -->
+    <div class="plan-card">
+      <span class="plan-badge badge-starter">Starter</span>
+      <div class="plan-name">Visibility</div>
+      <div class="plan-desc">Get found online. Get more Google reviews. Get a professional website that works 24/7.</div>
+      <div class="price-block">
+        <div class="price-amount"><sup>£</sup>299</div>
+      </div>
+      <div class="price-period">per month</div>
+      <div class="price-hours">⏱ ~1–2 hrs of your time/month · Setup: £299</div>
+      <hr class="divider">
+      <ul class="features-list">
+        <li class="feature-item">
+          <span class="feature-icon">✦</span>
+          <div class="feature-text"><strong>Professional Website</strong><span>New build, mobile-ready, hosted by us</span></div>
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon">✦</span>
+          <div class="feature-text"><strong>Online Booking (Calendly)</strong><span>Customers book 24/7 without calling</span></div>
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon">✦</span>
+          <div class="feature-text"><strong>Google Business Optimisation</strong><span>Profile fully set up, Book button added</span></div>
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon">✦</span>
+          <div class="feature-text"><strong>Review Generation Automation</strong><span>Automated SMS/email asking for Google reviews after each job</span></div>
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon">✦</span>
+          <div class="feature-text"><strong>4 Google Business Posts/mo</strong><span>Weekly updates to keep your profile active</span></div>
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon">✦</span>
+          <div class="feature-text"><strong>Monthly Performance Report</strong><span>5 key metrics — bookings, reviews, visibility</span></div>
+        </li>
+      </ul>
+      <div class="plan-ideal">Best for: Garages · Cafés · Takeaways</div>
+      <a class="plan-cta cta-starter">Starter Plan</a>
+    </div>
+
+    <!-- GROWTH (FEATURED) -->
+    <div class="plan-card featured">
+      <span class="plan-badge badge-growth">⭐ Most Popular</span>
+      <div class="plan-name">Growth</div>
+      <div class="plan-desc">Everything in Starter plus content marketing, customer reactivation and automation that brings people back.</div>
+      <div class="price-block">
+        <div class="price-amount"><sup>£</sup>549</div>
+      </div>
+      <div class="price-period">per month</div>
+      <div class="price-hours">⏱ ~2–3 hrs of your time/month · Setup: £499</div>
+      <hr class="divider">
+      <ul class="features-list">
+        <li class="feature-item">
+          <span class="feature-icon">✦</span>
+          <div class="feature-text"><strong>Everything in Starter</strong><span>Website, booking, reviews, GBP posts</span></div>
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon">✦</span>
+          <div class="feature-text"><strong>2 SEO Blog Posts/month</strong><span>AI-written, locally targeted — "MOT Ipswich" etc</span></div>
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon">✦</span>
+          <div class="feature-text"><strong>Social Media Content</strong><span>8 captions/mo for Instagram &amp; Facebook, scheduled</span></div>
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon">✦</span>
+          <div class="feature-text"><strong>Lapsed Customer Reactivation</strong><span>Monthly email to customers not seen in 90+ days</span></div>
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon">✦</span>
+          <div class="feature-text"><strong>Automated Follow-Up Sequences</strong><span>Quote follow-ups, rebooking triggers, upsell emails</span></div>
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon">✦</span>
+          <div class="feature-text"><strong>Full Monthly Report</strong><span>Traffic, bookings, reviews, social reach, SEO rankings</span></div>
+        </li>
+      </ul>
+      <div class="plan-ideal" style="color:rgba(250,250,247,0.45);">Best for: Salons · Accountants · Estate Agents · Trades</div>
+      <a class="plan-cta cta-growth">Growth Plan</a>
+    </div>
+
+    <!-- FULL STACK -->
+    <div class="plan-card" style="background:var(--full);">
+      <span class="plan-badge badge-full">Full Stack</span>
+      <div class="plan-name" style="color:var(--paper);">Complete</div>
+      <div class="plan-desc" style="color:rgba(250,250,247,0.55);">The complete digital growth system. Every service, fully managed. Maximum impact, zero effort from you.</div>
+      <div class="price-block">
+        <div class="price-amount" style="color:var(--paper);"><sup>£</sup>899</div>
+      </div>
+      <div class="price-period" style="color:rgba(250,250,247,0.45);">per month</div>
+      <div class="price-hours">⏱ ~3–5 hrs of your time/month · Setup: £749</div>
+      <hr class="divider" style="border-color:rgba(255,255,255,0.1);">
+      <ul class="features-list">
+        <li class="feature-item">
+          <span class="feature-icon">✦</span>
+          <div class="feature-text" style="color:rgba(250,250,247,0.85);"><strong style="color:var(--paper);">Everything in Growth</strong><span style="color:rgba(250,250,247,0.5);">All starter and growth services included</span></div>
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon">✦</span>
+          <div class="feature-text" style="color:rgba(250,250,247,0.85);"><strong style="color:var(--paper);">AI Enquiry Chatbot</strong><span style="color:rgba(250,250,247,0.5);">24/7 chatbot captures leads, qualifies and responds instantly</span></div>
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon">✦</span>
+          <div class="feature-text" style="color:rgba(250,250,247,0.85);"><strong style="color:var(--paper);">Email Marketing Campaigns</strong><span style="color:rgba(250,250,247,0.5);">Monthly newsletter + seasonal promotions</span></div>
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon">✦</span>
+          <div class="feature-text" style="color:rgba(250,250,247,0.85);"><strong style="color:var(--paper);">4 SEO Blog Posts/month</strong><span style="color:rgba(250,250,247,0.5);">Double the content, double the ranking speed</span></div>
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon">✦</span>
+          <div class="feature-text" style="color:rgba(250,250,247,0.85);"><strong style="color:var(--paper);">Competitor Monitoring</strong><span style="color:rgba(250,250,247,0.5);">Monthly report on how you rank vs local competitors</span></div>
+        </li>
+        <li class="feature-item">
+          <span class="feature-icon">✦</span>
+          <div class="feature-text" style="color:rgba(250,250,247,0.85);"><strong style="color:var(--paper);">Priority Support</strong><span style="color:rgba(250,250,247,0.5);">Same-day response, quarterly strategy review call</span></div>
+        </li>
+      </ul>
+      <div class="plan-ideal" style="color:rgba(250,250,247,0.35);">Best for: Dental · Solicitors · Multi-location businesses</div>
+      <a class="plan-cta cta-full">Complete Plan</a>
+    </div>
+
+  </div>
+
+  <!-- WHAT'S INCLUDED TABLE -->
+  <div class="section-label">What's Included — At a Glance</div>
+
+  <table class="detail-table">
+    <thead>
+      <tr>
+        <th style="width:40%;">Service</th>
+        <th>Starter<br>£299/mo</th>
+        <th style="color:var(--gold);">Growth<br>£549/mo</th>
+        <th>Complete<br>£899/mo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="cat-row"><td colspan="4">Digital Presence</td></tr>
+      <tr>
+        <td><div class="service-name">Professional Website</div><div class="service-detail">Built, hosted and maintained by us</div></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+      <tr>
+        <td><div class="service-name">Online Booking (Calendly)</div><div class="service-detail">Live calendar, instant customer confirmation</div></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+      <tr>
+        <td><div class="service-name">Google Business Profile</div><div class="service-detail">Optimised, Book button, weekly posts</div></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+      <tr>
+        <td><div class="service-name">SSL Certificate (HTTPS)</div><div class="service-detail">Secure site — Google ranking factor</div></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+
+      <tr class="cat-row"><td colspan="4">Review Growth</td></tr>
+      <tr>
+        <td><div class="service-name">Post-Job Review Request SMS/Email</div><div class="service-detail">Automated trigger after each job or visit</div></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+      <tr>
+        <td><div class="service-name">Review Performance Tracking</div><div class="service-detail">Monthly count, rating trend, competitor comparison</div></td>
+        <td><span class="cross">—</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+
+      <tr class="cat-row"><td colspan="4">SEO &amp; Content</td></tr>
+      <tr>
+        <td><div class="service-name">SEO Blog Posts</div><div class="service-detail">AI-written, locally targeted, posted to your site</div></td>
+        <td><span class="cross">—</span></td>
+        <td><span class="partial">2/mo</span></td>
+        <td><span class="partial">4/mo</span></td>
+      </tr>
+      <tr>
+        <td><div class="service-name">Google Business Posts</div><div class="service-detail">Weekly updates — offers, news, seasonal content</div></td>
+        <td><span class="partial">4/mo</span></td>
+        <td><span class="partial">4/mo</span></td>
+        <td><span class="partial">8/mo</span></td>
+      </tr>
+      <tr>
+        <td><div class="service-name">Competitor SEO Monitoring</div><div class="service-detail">How you rank vs local competitors each month</div></td>
+        <td><span class="cross">—</span></td>
+        <td><span class="cross">—</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+
+      <tr class="cat-row"><td colspan="4">Social Media</td></tr>
+      <tr>
+        <td><div class="service-name">Social Media Captions</div><div class="service-detail">Instagram &amp; Facebook — written and scheduled</div></td>
+        <td><span class="cross">—</span></td>
+        <td><span class="partial">8/mo</span></td>
+        <td><span class="partial">12/mo</span></td>
+      </tr>
+
+      <tr class="cat-row"><td colspan="4">Customer Automation</td></tr>
+      <tr>
+        <td><div class="service-name">Lapsed Customer Reactivation</div><div class="service-detail">Monthly win-back email to dormant customers</div></td>
+        <td><span class="cross">—</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+      <tr>
+        <td><div class="service-name">Follow-Up &amp; Rebooking Sequences</div><div class="service-detail">Automated quote nudges, rebooking triggers</div></td>
+        <td><span class="cross">—</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+      <tr>
+        <td><div class="service-name">Monthly Email Campaign</div><div class="service-detail">Newsletter / promotion to your full customer list</div></td>
+        <td><span class="cross">—</span></td>
+        <td><span class="cross">—</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+      <tr>
+        <td><div class="service-name">AI Enquiry Chatbot</div><div class="service-detail">24/7 lead capture on your website</div></td>
+        <td><span class="cross">—</span></td>
+        <td><span class="cross">—</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+
+      <tr class="cat-row"><td colspan="4">Reporting &amp; Support</td></tr>
+      <tr>
+        <td><div class="service-name">Monthly Performance Report</div><div class="service-detail">Bookings, reviews, traffic, rankings</div></td>
+        <td><span class="partial">Basic</span></td>
+        <td><span class="partial">Full</span></td>
+        <td><span class="partial">Full + Competitors</span></td>
+      </tr>
+      <tr>
+        <td><div class="service-name">Response Time</div><div class="service-detail">How quickly we respond to your queries</div></td>
+        <td><span class="partial">48hrs</span></td>
+        <td><span class="partial">24hrs</span></td>
+        <td><span class="partial">Same day</span></td>
+      </tr>
+      <tr>
+        <td><div class="service-name">Quarterly Strategy Call</div><div class="service-detail">Review what's working, plan next quarter</div></td>
+        <td><span class="cross">—</span></td>
+        <td><span class="cross">—</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ADD-ONS -->
+  <div class="section-label">Add-On Services — Available on Any Plan</div>
+
+  <div class="addons-grid">
+
+    <div class="addon-card">
+      <div class="addon-icon">📄</div>
+      <div>
+        <div class="addon-name">Extra Blog Post</div>
+        <div class="addon-desc">Additional AI-written, locally targeted SEO post. Posted to your WordPress or website.</div>
+        <div class="addon-price">£65 <span class="addon-price-type">per post</span></div>
+      </div>
+    </div>
+
+    <div class="addon-card">
+      <div class="addon-icon">📱</div>
+      <div>
+        <div class="addon-name">Extra Social Posts</div>
+        <div class="addon-desc">Additional batch of 4 social media captions written and scheduled for you.</div>
+        <div class="addon-price">£45 <span class="addon-price-type">per batch of 4</span></div>
+      </div>
+    </div>
+
+    <div class="addon-card">
+      <div class="addon-icon">🤖</div>
+      <div>
+        <div class="addon-name">AI Chatbot (Add to Starter/Growth)</div>
+        <div class="addon-desc">24/7 enquiry chatbot on your website. Captures leads, answers FAQs, books appointments.</div>
+        <div class="addon-price">£89 <span class="addon-price-type">per month</span></div>
+      </div>
+    </div>
+
+    <div class="addon-card">
+      <div class="addon-icon">✉️</div>
+      <div>
+        <div class="addon-name">One-Off Email Campaign</div>
+        <div class="addon-desc">Single promotional email to your full customer list — seasonal offer, announcement, reactivation.</div>
+        <div class="addon-price">£79 <span class="addon-price-type">per campaign</span></div>
+      </div>
+    </div>
+
+    <div class="addon-card">
+      <div class="addon-icon">🌐</div>
+      <div>
+        <div class="addon-name">Multi-Page Website Upgrade</div>
+        <div class="addon-desc">Upgrade from single-page to multi-page site with dedicated service pages for better SEO.</div>
+        <div class="addon-price">£299 <span class="addon-price-type">one-off</span></div>
+      </div>
+    </div>
+
+    <div class="addon-card">
+      <div class="addon-icon">📊</div>
+      <div>
+        <div class="addon-name">Google Analytics &amp; Search Console Setup</div>
+        <div class="addon-desc">Full setup so you see real visitor data, what people search, and where they come from.</div>
+        <div class="addon-price">£99 <span class="addon-price-type">one-off</span></div>
+      </div>
+    </div>
+
+    <div class="addon-card">
+      <div class="addon-icon">📋</div>
+      <div>
+        <div class="addon-name">Directory Listing Campaign</div>
+        <div class="addon-desc">Submit your business to 15 UK directories (Yell, Thomson, FreeIndex etc) for backlinks and visibility.</div>
+        <div class="addon-price">£149 <span class="addon-price-type">one-off</span></div>
+      </div>
+    </div>
+
+    <div class="addon-card">
+      <div class="addon-icon">📸</div>
+      <div>
+        <div class="addon-name">Google Business Photo Refresh</div>
+        <div class="addon-desc">Upload and optimise 10 professional photos to your Google Business Profile with keyword-rich captions.</div>
+        <div class="addon-price">£69 <span class="addon-price-type">one-off</span></div>
+      </div>
+    </div>
+
+    <div class="addon-card">
+      <div class="addon-icon">🔔</div>
+      <div>
+        <div class="addon-name">SMS Reminder System</div>
+        <div class="addon-desc">Automated SMS reminders for appointments, MOT due dates, annual service triggers. Uses Twilio.</div>
+        <div class="addon-price">£59 <span class="addon-price-type">setup + ~£0.04/SMS</span></div>
+      </div>
+    </div>
+
+    <div class="addon-card">
+      <div class="addon-icon">🔄</div>
+      <div>
+        <div class="addon-name">Competitor Analysis Report</div>
+        <div class="addon-desc">Deep one-off analysis of your top 3 local competitors — SEO gaps, review count, website weaknesses.</div>
+        <div class="addon-price">£129 <span class="addon-price-type">one-off</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SETUP FEE RATIONALE -->
+  <div class="section-label">Setup Fee — Why It Exists &amp; What It Covers</div>
+
+  <div class="rationale-box">
+    <div>
+      <h3>Why we charge a <span>setup fee</span></h3>
+      <p>The setup fee covers the real work done before your first monthly payment — and it ensures only serious clients engage. Businesses that pay even a small amount upfront are far more likely to follow through, share access, and see results.</p>
+      <p>It also covers your actual cost of time in month one, which is always the heaviest — typically 5–15 hours depending on the plan.</p>
+      <ul class="rationale-items">
+        <li><span class="ri-num">1</span>Website design, build and hosting setup — typically 4–6 hours of work</li>
+        <li><span class="ri-num">2</span>Calendly account creation, event types, calendar sync and testing</li>
+        <li><span class="ri-num">3</span>Google Business Profile claim, optimisation and booking button</li>
+        <li><span class="ri-num">4</span>Review automation setup in Make.com and MailerLite</li>
+        <li><span class="ri-num">5</span>Onboarding call, access collection and system testing</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Recommended <span>fee by plan</span></h3>
+      <div class="setup-fee-boxes">
+        <div class="sfe-box">
+          <div>
+            <div class="sfe-name">Starter Plan Setup</div>
+            <div class="sfe-detail">Website + booking + GBP + review automation · ~5–7 hrs work</div>
+          </div>
+          <div class="sfe-price">£299</div>
+        </div>
+        <div class="sfe-box recommended">
+          <div>
+            <div class="sfe-name">Growth Plan Setup <span class="sfe-rec-tag">Recommended</span></div>
+            <div class="sfe-detail">All starter + email sequences + social setup · ~8–12 hrs work</div>
+          </div>
+          <div class="sfe-price">£499</div>
+        </div>
+        <div class="sfe-box">
+          <div>
+            <div class="sfe-name">Complete Plan Setup</div>
+            <div class="sfe-detail">All above + chatbot training + analytics · ~12–18 hrs work</div>
+          </div>
+          <div class="sfe-price">£749</div>
+        </div>
+        <div style="margin-top:8px;padding:12px 0;font-size:12px;color:rgba(250,250,247,0.4);border-top:1px solid rgba(255,255,255,0.08);">
+          💡 The Growth setup fee at £499 roughly equals your effective hourly rate for the build time — so month one breaks even and month two onwards is pure profit.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EFFECTIVE RATE -->
+  <div class="section-label">Your Effective Hourly Rate — After Setup</div>
+  <div class="eff-rate">
+    <div class="er-item">
+      <div class="er-plan">Starter · £299/mo</div>
+      <div class="er-rate">£<span>150</span>/hr</div>
+      <div class="er-detail">~2 hrs/mo ongoing management</div>
+    </div>
+    <div class="er-item">
+      <div class="er-plan">Growth · £549/mo</div>
+      <div class="er-rate">£<span>183</span>/hr</div>
+      <div class="er-detail">~3 hrs/mo ongoing management</div>
+    </div>
+    <div class="er-item">
+      <div class="er-plan">Complete · £899/mo</div>
+      <div class="er-rate">£<span>180</span>/hr</div>
+      <div class="er-detail">~5 hrs/mo ongoing management</div>
+    </div>
+  </div>
+
+</main>
+
+</body>
+</html>

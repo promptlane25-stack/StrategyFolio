@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Consultancy — Service Plans, Pricing &amp; Implementation</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0C0C0C;
+    --paper: #FAFAF7;
+    --cream: #F2EFE8;
+    --gold: #B8962E;
+    --gold-light: #E8D5A0;
+    --mid: #5A5650;
+    --border: #E0DAD0;
+    --white: #FFFFFF;
+    --starter: #1A3A2A;
+    --growth: #0F2240;
+    --full: #2A0F0F;
+    --green: #1A3A2A;
+    --amber: #7A4A00;
+    --red: #6B1A1A;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Outfit', sans-serif; background: var(--paper); color: var(--ink); }
+
+  /* ── HEADER ── */
+  .page-header {
+    background: var(--ink); padding: 64px 60px 52px;
+    position: relative; overflow: hidden;
+  }
+  .page-header::before { content:''; position:absolute; top:-80px; right:-80px; width:400px; height:400px; border-radius:50%; border:1px solid rgba(184,150,46,0.15); }
+  .page-header::after { content:''; position:absolute; bottom:-60px; left:40%; width:240px; height:240px; border-radius:50%; border:1px solid rgba(184,150,46,0.08); }
+  .header-inner { max-width:1200px; margin:0 auto; display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:24px; position:relative; z-index:2; }
+  .agency-name { font-size:12px; letter-spacing:4px; text-transform:uppercase; color:var(--gold); margin-bottom:16px; display:flex; align-items:center; gap:10px; }
+  .agency-name::before { content:''; width:28px; height:1px; background:var(--gold); }
+  .page-title { font-family:'Playfair Display',serif; font-size:clamp(32px,5vw,58px); font-weight:900; color:var(--paper); line-height:1.05; margin-bottom:14px; }
+  .page-title em { color:var(--gold); font-style:normal; }
+  .page-sub { font-size:15px; color:rgba(250,250,247,0.5); font-weight:300; max-width:480px; line-height:1.6; }
+  .positioning-pill { display:inline-block; border:1px solid rgba(184,150,46,0.4); border-radius:100px; padding:10px 20px; font-size:13px; color:var(--gold-light); font-weight:500; margin-bottom:12px; }
+  .tagline { font-family:'Playfair Display',serif; font-size:17px; color:rgba(250,250,247,0.6); font-style:italic; }
+
+  /* ── SETUP BANNER ── */
+  .setup-banner { background:var(--gold); padding:20px 60px; }
+  .setup-inner { max-width:1200px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+  .setup-left { display:flex; align-items:center; gap:16px; }
+  .setup-icon { width:44px; height:44px; background:rgba(0,0,0,0.15); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; }
+  .setup-label { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:rgba(12,12,12,0.65); margin-bottom:2px; }
+  .setup-title { font-family:'Playfair Display',serif; font-size:19px; font-weight:700; color:var(--ink); }
+  .setup-right { display:flex; gap:32px; align-items:center; flex-wrap:wrap; }
+  .setup-item .si-label { font-size:11px; text-transform:uppercase; letter-spacing:1px; color:rgba(12,12,12,0.55); margin-bottom:2px; }
+  .setup-item .si-val { font-family:'Playfair Display',serif; font-size:22px; font-weight:700; color:var(--ink); }
+  .setup-note { font-size:13px; color:rgba(12,12,12,0.6); max-width:260px; line-height:1.5; }
+
+  /* ── MAIN ── */
+  main { max-width:1200px; margin:0 auto; padding:56px 60px 80px; }
+  .section-label { font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--mid); margin-bottom:32px; display:flex; align-items:center; gap:12px; }
+  .section-label::after { content:''; flex:1; height:1px; background:var(--border); }
+
+  /* ── PLAN BLOCKS ── */
+  .plan-block {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 32px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.05);
+  }
+  .plan-block.featured { border-color: var(--ink); }
+  .plan-block.plan-full { border-color: var(--full); }
+
+  /* Plan top header */
+  .plan-top {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    min-height: 220px;
+  }
+  .plan-left {
+    padding: 36px 32px;
+    border-right: 1.5px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .plan-block.featured .plan-left { background: var(--ink); border-right-color: rgba(255,255,255,0.1); }
+  .plan-block.plan-full .plan-left { background: var(--full); }
+
+  .plan-badge { display:inline-block; padding:3px 10px; border-radius:100px; font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:12px; align-self:flex-start; }
+  .badge-starter { background:#D5EDD9; color:#1A3A2A; }
+  .badge-growth { background:var(--gold); color:var(--ink); }
+  .badge-full { background:#FFE8E8; color:#6B1A1A; }
+
+  .plan-name { font-family:'Playfair Display',serif; font-size:26px; font-weight:900; margin-bottom:4px; color:var(--ink); }
+  .plan-block.featured .plan-name,
+  .plan-block.plan-full .plan-name { color:var(--paper); }
+  .plan-tagline { font-size:13px; color:var(--mid); line-height:1.5; font-weight:300; margin-bottom:16px; }
+  .plan-block.featured .plan-tagline,
+  .plan-block.plan-full .plan-tagline { color:rgba(250,250,247,0.5); }
+
+  .price-row { display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; }
+  .price-main { font-family:'Playfair Display',serif; font-size:44px; font-weight:900; color:var(--ink); line-height:1; }
+  .plan-block.featured .price-main,
+  .plan-block.plan-full .price-main { color:var(--paper); }
+  .price-main sup { font-size:20px; vertical-align:super; }
+  .price-sub { font-size:13px; color:var(--mid); }
+  .plan-block.featured .price-sub,
+  .plan-block.plan-full .price-sub { color:rgba(250,250,247,0.45); }
+  .price-hours { font-size:11px; color:var(--gold); font-weight:600; margin-top:6px; }
+
+  .plan-right {
+    padding: 28px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* Plan tabs */
+  .plan-tabs { display:flex; border-bottom:1px solid var(--border); gap:0; margin-bottom:0; }
+  .plan-tab {
+    padding:12px 20px; font-size:13px; font-weight:600; cursor:pointer;
+    border-bottom:2px solid transparent; color:var(--mid); transition:all 0.2s;
+    background:none; border-top:none; border-left:none; border-right:none;
+    font-family:'Outfit',sans-serif; white-space:nowrap;
+  }
+  .plan-tab.active { color:var(--ink); border-bottom-color:var(--gold); }
+  .plan-tab:hover { color:var(--ink); }
+  .tab-panel { display:none; padding:24px 0 8px; }
+  .tab-panel.active { display:block; }
+
+  /* Features list inside tab */
+  .features-list { list-style:none; display:grid; grid-template-columns:1fr 1fr; gap:6px 24px; }
+  .feature-item { display:flex; gap:8px; align-items:flex-start; padding:5px 0; font-size:13px; }
+  .fi-check { color:var(--green); font-weight:700; flex-shrink:0; font-size:14px; }
+  .fi-text strong { font-weight:600; display:block; font-size:13px; }
+  .fi-text span { font-size:11px; color:var(--mid); }
+
+  /* Implementation steps */
+  .impl-steps { display:flex; flex-direction:column; gap:0; }
+  .impl-step {
+    display:grid;
+    grid-template-columns:44px 1fr auto;
+    gap:0 16px;
+    padding:14px 0;
+    border-bottom:1px solid var(--border);
+    align-items:start;
+  }
+  .impl-step:last-child { border-bottom:none; }
+  .step-num {
+    width:32px; height:32px; border-radius:50%;
+    background:var(--ink); color:var(--paper);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Playfair Display',serif; font-size:14px; font-weight:700;
+    flex-shrink:0; margin-top:2px;
+  }
+  .step-body { flex:1; }
+  .step-title { font-weight:700; font-size:13px; margin-bottom:3px; }
+  .step-detail { font-size:12px; color:var(--mid); line-height:1.5; }
+  .step-tools { display:flex; flex-wrap:wrap; gap:4px; margin-top:6px; }
+  .step-tool {
+    background:var(--cream); border:1px solid var(--border);
+    padding:2px 8px; border-radius:100px;
+    font-size:10px; font-weight:600; color:var(--mid);
+    white-space:nowrap;
+  }
+  .step-meta {
+    display:flex; flex-direction:column; align-items:flex-end; gap:4px;
+    flex-shrink:0; min-width:70px;
+  }
+  .step-time {
+    font-size:11px; font-weight:700; color:var(--gold);
+    white-space:nowrap;
+  }
+  .step-type {
+    font-size:9px; padding:2px 6px; border-radius:100px;
+    text-transform:uppercase; letter-spacing:1px; font-weight:700;
+    white-space:nowrap;
+  }
+  .type-setup { background:#D5EDD9; color:#1A3A2A; }
+  .type-monthly { background:#D6EAF8; color:#1A5276; }
+  .type-auto { background:#FEF9E7; color:#9A7D0A; }
+  .type-onetime { background:#FDEDEC; color:#C0392B; }
+
+  /* Totals bar */
+  .impl-total {
+    background:var(--ink); border-radius:10px; padding:16px 20px;
+    display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:12px; margin-top:12px;
+  }
+  .it-label { font-size:13px; color:rgba(250,250,247,0.6); }
+  .it-setup { text-align:center; }
+  .it-setup .it-val { font-family:'Playfair Display',serif; font-size:22px; font-weight:700; color:var(--paper); }
+  .it-setup .it-sub { font-size:11px; color:rgba(250,250,247,0.4); }
+  .it-rate { text-align:right; }
+  .it-rate .it-val { font-family:'Playfair Display',serif; font-size:22px; font-weight:700; color:var(--gold); }
+  .it-rate .it-sub { font-size:11px; color:rgba(250,250,247,0.4); }
+
+  /* Monthly view */
+  .monthly-table { width:100%; border-collapse:collapse; font-size:13px; }
+  .monthly-table th { background:var(--cream); padding:8px 14px; text-align:left; font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--mid); font-weight:700; border-bottom:1px solid var(--border); }
+  .monthly-table td { padding:10px 14px; border-bottom:1px solid var(--border); vertical-align:top; }
+  .monthly-table tr:last-child td { border-bottom:none; }
+  .mt-task { font-weight:600; font-size:13px; }
+  .mt-what { font-size:12px; color:var(--mid); margin-top:2px; line-height:1.4; }
+  .mt-type { display:inline-block; padding:2px 8px; border-radius:100px; font-size:10px; font-weight:700; }
+  .mt-time { font-family:'Playfair Display',serif; font-weight:700; font-size:15px; color:var(--ink); white-space:nowrap; }
+  .mt-time.zero { color:#CCC; }
+  .mt-total-row td { background:var(--ink); color:var(--paper); font-weight:700; font-size:14px; padding:12px 14px; }
+  .mt-total-row .mt-time { color:var(--gold); font-size:18px; }
+
+  /* Add-ons */
+  .addons-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:14px; margin-bottom:56px; }
+  .addon-card { background:var(--white); border:1.5px solid var(--border); border-radius:12px; padding:22px; display:flex; gap:14px; align-items:flex-start; transition:border-color 0.2s; }
+  .addon-card:hover { border-color:var(--gold); }
+  .addon-icon { width:42px; height:42px; border-radius:10px; background:var(--cream); display:flex; align-items:center; justify-content:center; font-size:19px; flex-shrink:0; }
+  .addon-name { font-weight:700; font-size:14px; margin-bottom:3px; }
+  .addon-desc { font-size:12px; color:var(--mid); line-height:1.5; margin-bottom:8px; }
+  .addon-impl { font-size:11px; color:var(--green); font-weight:600; margin-bottom:6px; }
+  .addon-price { font-family:'Playfair Display',serif; font-size:19px; font-weight:700; }
+  .addon-price-type { font-size:11px; color:var(--mid); font-family:'Outfit',sans-serif; font-weight:400; }
+
+  /* Setup rationale */
+  .rationale-box { background:var(--ink); border-radius:16px; padding:48px; color:var(--paper); margin-bottom:48px; display:grid; grid-template-columns:1fr 1fr; gap:48px; }
+  .rationale-box h3 { font-family:'Playfair Display',serif; font-size:26px; font-weight:700; margin-bottom:10px; }
+  .rationale-box h3 span { color:var(--gold); }
+  .rationale-box p { font-size:14px; color:rgba(250,250,247,0.6); line-height:1.7; margin-bottom:14px; }
+  .rationale-items { list-style:none; }
+  .rationale-items li { display:flex; gap:12px; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.07); font-size:13px; color:rgba(250,250,247,0.75); line-height:1.5; }
+  .rationale-items li:last-child { border-bottom:none; }
+  .ri-num { font-family:'Playfair Display',serif; font-size:18px; font-weight:700; color:var(--gold); flex-shrink:0; width:24px; }
+  .setup-fee-boxes { display:flex; flex-direction:column; gap:12px; }
+  .sfe-box { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:18px 22px; display:flex; justify-content:space-between; align-items:center; gap:12px; }
+  .sfe-box.recommended { background:rgba(184,150,46,0.12); border-color:rgba(184,150,46,0.35); }
+  .sfe-name { font-weight:600; font-size:14px; }
+  .sfe-detail { font-size:11px; color:rgba(250,250,247,0.45); margin-top:2px; }
+  .sfe-price { font-family:'Playfair Display',serif; font-size:26px; font-weight:700; white-space:nowrap; }
+  .sfe-rec-tag { display:inline-block; background:var(--gold); color:var(--ink); font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:2px 8px; border-radius:100px; margin-left:8px; }
+
+  /* eff rate */
+  .eff-rate { background:var(--cream); border-radius:12px; padding:32px 40px; display:grid; grid-template-columns:repeat(3,1fr); gap:24px; text-align:center; border:1.5px solid var(--border); }
+  .er-plan { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--mid); margin-bottom:6px; }
+  .er-rate { font-family:'Playfair Display',serif; font-size:30px; font-weight:900; color:var(--ink); margin-bottom:4px; }
+  .er-rate span { color:var(--gold); font-size:15px; }
+  .er-detail { font-size:12px; color:var(--mid); }
+
+  @media(max-width:900px){
+    .plan-top { grid-template-columns:1fr; }
+    .plan-left { border-right:none; border-bottom:1px solid var(--border); }
+    .features-list { grid-template-columns:1fr; }
+    .impl-step { grid-template-columns:44px 1fr; }
+    .step-meta { grid-column:2; }
+    .rationale-box { grid-template-columns:1fr; gap:32px; }
+    .eff-rate { grid-template-columns:1fr; }
+    .page-header, .setup-banner, main { padding-left:24px; padding-right:24px; }
+  }
+  @media(max-width:600px){
+    .addons-grid { grid-template-columns:1fr; }
+    .plan-tabs { overflow-x:auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="header-inner">
+    <div>
+      <div class="agency-name">AI Growth Consultancy · Ipswich &amp; Suffolk</div>
+      <h1 class="page-title">Service Plans, Pricing<br>&amp; <em>Implementation Steps</em></h1>
+      <p class="page-sub">Every plan includes a full breakdown of what you do to build it and what you do every month to maintain it.</p>
+    </div>
+    <div style="text-align:right;">
+      <div class="positioning-pill">📍 Serving Ipswich &amp; Suffolk</div>
+      <div class="tagline">"We bring you new customers.<br>Your systems manage the rest."</div>
+    </div>
+  </div>
+</div>
+
+<div class="setup-banner">
+  <div class="setup-inner">
+    <div class="setup-left">
+      <div class="setup-icon">⚡</div>
+      <div>
+        <div class="setup-label">One-Time Setup Fee — Required on all plans</div>
+        <div class="setup-title">Paid once before work begins. Never charged again.</div>
+      </div>
+    </div>
+    <div class="setup-right">
+      <div class="setup-item"><div class="si-label">Starter</div><div class="si-val">£299</div></div>
+      <div class="setup-item"><div class="si-label">Growth</div><div class="si-val">£499</div></div>
+      <div class="setup-item"><div class="si-label">Complete</div><div class="si-val">£749</div></div>
+      <div class="setup-note">Covers website build, Calendly setup, Google Business optimisation, automations and all onboarding.</div>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <div class="section-label">The 3 Plans — Click Tabs to See: What's Included · How You Build It · Monthly Work</div>
+
+  <!-- ══════════════════════════
+       PLAN 1 — STARTER
+  ══════════════════════════ -->
+  <div class="plan-block" id="plan-starter">
+    <div class="plan-top">
+      <div class="plan-left">
+        <div>
+          <span class="plan-badge badge-starter">Starter</span>
+          <div class="plan-name">Visibility Plan</div>
+          <div class="plan-tagline">Get found. Get reviewed. Get booked. The essentials that every small business needs online.</div>
+        </div>
+        <div>
+          <div class="price-row"><div class="price-main"><sup>£</sup>299</div><div class="price-sub">/month</div></div>
+          <div class="price-hours">⏱ ~1–2 hrs/mo ongoing after setup · Setup fee: £299</div>
+        </div>
+      </div>
+      <div class="plan-right">
+        <div class="plan-tabs">
+          <button class="plan-tab active" onclick="switchPlanTab(event,'starter','included')">✦ What's Included</button>
+          <button class="plan-tab" onclick="switchPlanTab(event,'starter','build')">🔧 How You Build It</button>
+          <button class="plan-tab" onclick="switchPlanTab(event,'starter','monthly')">📅 Monthly Work</button>
+        </div>
+
+        <div class="tab-panel active" data-panel="starter-included">
+          <ul class="features-list">
+            <li class="feature-item"><span class="fi-check">✓</span><div class="fi-text"><strong>Professional Website</strong><span>New build, mobile-ready, hosted on your server</span></div></li>
+            <li class="feature-item"><span class="fi-check">✓</span><div class="fi-text"><strong>Online Booking (Calendly)</strong><span>Customers book 24/7, instant confirmation</span></div></li>
+            <li class="feature-item"><span class="fi-check">✓</span><div class="fi-text"><strong>Google Business Optimisation</strong><span>Profile set up, Book button added, photos uploaded</span></div></li>
+            <li class="feature-item"><span class="fi-check">✓</span><div class="fi-text"><strong>Review Generation Automation</strong><span>Auto SMS/email after each job requesting Google review</span></div></li>
+            <li class="feature-item"><span class="fi-check">✓</span><div class="fi-text"><strong>4 Google Business Posts/mo</strong><span>Weekly updates to keep profile active in search</span></div></li>
+            <li class="feature-item"><span class="fi-check">✓</span><div class="fi-text"><strong>SSL Certificate (HTTPS)</strong><span>Secure site — Google ranking factor</span></div></li>
+            <li class="feature-item"><span class="fi-check">✓</span><div class="fi-text"><strong>Website Hosting</strong><span>Managed by you on Hostinger — £3/mo included in fee</span></div></li>
+            <li class="feature-item"><span class="fi-check">✓</span><div class="fi-text"><strong>Monthly Performance Report</strong><span>Bookings, review count, Google visibility — 5 key metrics</span></div></li>
+          </ul>
+        </div>
+
+        <div class="tab-panel" data-panel="starter-build">
+          <div class="impl-steps">
+            <div class="impl-step">
+              <div class="step-num">1</div>
+              <div class="step-body">
+                <div class="step-title">Set up hosting on Hostinger</div>
+                <div class="step-detail">Create Hostinger account. Set up a hosting plan. Get the server IP address. Point client domain DNS A record to this IP (or request access from their current registrar). Install free SSL certificate.</div>
+                <div class="step-tools"><span class="step-tool">Hostinger</span><span class="step-tool">DNS registrar</span><span class="step-tool">Let's Encrypt SSL</span></div>
+              </div>
+              <div class="step-meta"><div class="step-time">30–45 min</div><span class="step-type type-setup">Setup</span></div>
+            </div>
+            <div class="impl-step">
+              <div class="step-num">2</div>
+              <div class="step-body">
+                <div class="step-title">Build and upload the website</div>
+                <div class="step-detail">Use the HTML template already built for this business type. Customise with client name, phone, address, services, photos and prices. Upload via FTP or Hostinger file manager. Test on mobile and desktop.</div>
+                <div class="step-tools"><span class="step-tool">HTML file</span><span class="step-tool">FileZilla (FTP)</span><span class="step-tool">Client photos</span></div>
+              </div>
+              <div class="step-meta"><div class="step-time">2–4 hrs</div><span class="step-type type-setup">Setup</span></div>
+            </div>
+            <div class="impl-step">
+              <div class="step-num">3</div>
+              <div class="step-body">
+                <div class="step-title">Set up Calendly</div>
+                <div class="step-detail">Create account at calendly.com using client's email. Create event types for each service (MOT, Service, Repairs etc) with correct durations. Connect to client's Google Calendar. Set availability Mon–Fri 8am–5:30pm. Copy embed code into website HTML. Add as "Book" button on their Google Business profile.</div>
+                <div class="step-tools"><span class="step-tool">Calendly</span><span class="step-tool">Google Calendar</span></div>
+              </div>
+              <div class="step-meta"><div class="step-time">30–45 min</div><span class="step-type type-setup">Setup</span></div>
+            </div>
+            <div class="impl-step">
+              <div class="step-num">4</div>
+              <div class="step-body">
+                <div class="step-title">Claim and optimise Google Business Profile</div>
+                <div class="step-detail">Go to business.google.com. Claim listing if unclaimed (verify by postcard or phone). Complete every field: description, hours, categories, services, photos (upload at least 10). Add Calendly link as booking URL. Add products/services with prices.</div>
+                <div class="step-tools"><span class="step-tool">Google Business</span><span class="step-tool">Client photos</span></div>
+              </div>
+              <div class="step-meta"><div class="step-time">45–60 min</div><span class="step-type type-setup">Setup</span></div>
+            </div>
+            <div class="impl-step">
+              <div class="step-num">5</div>
+              <div class="step-body">
+                <div class="step-title">Build review request automation in Make.com</div>
+                <div class="step-detail">Create Make account. Build scenario: client ticks "job complete" checkbox in Google Sheet → Make triggers Twilio SMS to customer 2 hours later with Google review link. Test with a real phone number. Train client how to tick the checkbox.</div>
+                <div class="step-tools"><span class="step-tool">Make.com</span><span class="step-tool">Twilio</span><span class="step-tool">Google Sheets</span></div>
+              </div>
+              <div class="step-meta"><div class="step-time">45–60 min</div><span class="step-type type-setup">Setup</span></div>
+            </div>
+            <div class="impl-step">
+              <div class="step-num">6</div>
+              <div class="step-body">
+                <div class="step-title">Set up Google Analytics + Search Console</div>
+                <div class="step-detail">Create Google Analytics 4 property. Add tracking script to the website HTML. Set up Google Search Console, verify ownership. Submit sitemap.xml (generate free at xml-sitemaps.com, upload to server). Link GA4 and Search Console.</div>
+                <div class="step-tools"><span class="step-tool">Google Analytics 4</span><span class="step-tool">Search Console</span><span class="step-tool">xml-sitemaps.com</span></div>
+              </div>
+              <div class="step-meta"><div class="step-time">20–30 min</div><span class="step-type type-setup">Setup</span></div>
+            </div>
+            <div class="impl-step">
+              <div class="step-num">7</div>
+              <div class="step-body">
+                <div class="step-title">Batch-write first month of Google Business posts</div>
+                <div class="step-detail">Use Claude to write 4 posts for the first month — one per week. Topics: introduce the business, promote the booking link, highlight a service, seasonal/local angle. Schedule or save as drafts in Google Business.</div>
+                <div class="step-tools"><span class="step-tool">Claude</span><span class="step-tool">Google Business</span></div>
+              </div>
+              <div class="step-meta"><div class="step-time">30 min</div><span class="step-type type-setup">Setup</span></div>
+            </div>
+          </div>
+          <div class="impl-total">
+            <div class="it-label">Starter Plan — Total Setup</div>
+            <div class="it-setup"><div class="it-val">5–8 hrs</div><div class="it-sub">one-time build</div></div>
+            <div class="it-rate"><div class="it-val">£299</div><div class="it-sub">setup fee charged</div></div>
+          </div>
+        </div>
+
+        <div class="tab-panel" data-panel="starter-monthly">
+          <table class="monthly-table">
+            <thead><tr><th>Task</th><th>Type</th><th>What You Do</th><th>Time</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><div class="mt-task">Review request automation</div></td>
+                <td><span class="mt-type type-auto" style="background:#FEF9E7;color:#9A7D0A;">Automated</span></td>
+                <td class="mt-what">Fires automatically when client ticks Google Sheet. Check it's delivering once a month — 10 mins.</td>
+                <td><div class="mt-time zero">0 hrs</div></td>
+              </tr>
+              <tr>
+                <td><div class="mt-task">Calendly + booking system</div></td>
+                <td><span class="mt-type type-auto" style="background:#FEF9E7;color:#9A7D0A;">Automated</span></td>
+                <td class="mt-what">Runs itself. Check bookings are landing in Google Calendar correctly once a month.</td>
+                <td><div class="mt-time zero">0 hrs</div></td>
+              </tr>
+              <tr>
+                <td><div class="mt-task">4 Google Business posts</div></td>
+                <td><span class="mt-type type-monthly" style="background:#D6EAF8;color:#1A5276;">Monthly</span></td>
+                <td class="mt-what">Use Claude to write 4 short posts. Copy into Google Business and post (or schedule). Takes 20–25 mins total.</td>
+                <td><div class="mt-time">0.5 hr</div></td>
+              </tr>
+              <tr>
+                <td><div class="mt-task">Monthly performance report</div></td>
+                <td><span class="mt-type type-monthly" style="background:#D6EAF8;color:#1A5276;">Monthly</span></td>
+                <td class="mt-what">Pull 5 numbers: Calendly bookings, Google review count, GBP views, website visits, search impressions. Email to client in a simple template.</td>
+                <td><div class="mt-time">0.5 hr</div></td>
+              </tr>
+              <tr class="mt-total-row">
+                <td colspan="3"><strong>Total monthly hours — Starter</strong></td>
+                <td><div class="mt-time">~1 hr</div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════
+       PLAN 2 — GROWTH
+  ══════════════════════════ -->
+  <div class="plan-block featured" id="plan-growth">
+    <div class="plan-top">
+      <div class="plan-left">
+        <div>
+          <span class="plan-badge badge-growth">⭐ Most Popular</span>
+          <div class="plan-name">Growth Plan</div>
+          <div class="plan-tagline">Everything in Starter plus content marketing, SEO, social media and customer reactivation.</div>
+        </div>
+        <div>
+          <div class="price-row"><div class="price-main"><sup>£</sup>549</div><div class="price-sub">/month</div></div>
+          <div class="price-hours">⏱ ~3 hrs/mo ongoing · Setup fee: £499</div>
+        </div>
+      </div>
+      <div class="plan-right" style="background:#FAFAF7;">
+        <div class="plan-tabs">
+          <button class="plan-tab active" onclick="switchPlanTab(event,'growth','included')">✦ What's Included</button>
+          <button class="plan-tab" onclick="switchPlanTab(event,'growth','build')">🔧 How You Build It</button>
+          <button class="plan-tab" onclick="switchPlanTab(event,'growth','monthly')">📅 Monthly Work</button>
+        </div>
+
+        <div class="tab-panel active" data-panel="growth-included">
+          <ul class="features-list">
+            <li class="feature-item"><span class="fi-check">✓</span><div class="fi-text"><strong>Everything in Starter</strong><span>Website, booking, GBP, reviews, reporting</span></div></li>
+            <li class="feature-item"><span class="fi-check">✓</span><div class="fi-text"><strong>2 SEO Blog Posts/month</strong><span>AI-written, locally targeted, posted to website</span></div></li>
+            <li class="feature-item"><span class="fi-check">✓</span><div class="fi-text"><strong>Social Media Content</strong><span>8 captions/mo for Instagram &amp; Facebook, scheduled</span></div></li>
+            <li class="feature-item"><span class="fi-check">✓</span><div class="fi-text"><strong>Lapsed Customer Reactivation</strong><span>Monthly win-back email to dormant customers</span></div></li>
+            <li class="feature-item"><span class="fi-check">✓</span><div class="fi-text"><strong>Automated Follow-Up Sequences</strong><span>Quote nudges, rebooking triggers, upsell emails</span></div></li>
+            <li class="feature-item"><span class="fi-check">✓</span><div class="fi-text"><strong>MailerLite Email Account Setup</strong><span>Full email automation platform configured</span></div></li>
+            <li class="feature-item"><span class="fi-check">✓</span><div class="fi-text"><strong>Review Performance Tracking</strong><span>Monthly review count, rating trend, competitor comparison</span></div></li>
+            <li class="feature-item"><span class="fi-check">✓</span><div class="fi-text"><strong>Full Monthly Report</strong><span>Traffic, bookings, reviews, social reach, SEO rankings</span></div></li>
+          </ul>
+        </div>
+
+        <div class="tab-panel" data-panel="growth-build">
+          <div class="impl-steps">
+            <div class="impl-step">
+              <div class="step-num">1</div>
+              <div class="step-body">
+                <div class="step-title">Complete all Starter setup steps first</div>
+                <div class="step-detail">Website, hosting, Calendly, Google Business, review automation, Analytics — all steps from Starter plan apply here too. Do these first before adding the Growth-specific items below.</div>
+                <div class="step-tools"><span class="step-tool">See Starter tab</span></div>
+              </div>
+              <div class="step-meta"><div class="step-time">5–8 hrs</div><span class="step-type type-setup">Setup</span></div>
+            </div>
+            <div class="impl-step">
+              <div class="step-num">2</div>
+              <div class="step-body">
+                <div class="step-title">Set up MailerLite email account</div>
+                <div class="step-detail">Create a MailerLite account (free up to 1,000 contacts). Set up sender name as the business (e.g. "Martlesham Service Centre"). Import client's existing customer list as a CSV — they export it from their booking system or spreadsheet. Create segments: All Customers, Lapsed (90+ days), New Customers.</div>
+                <div class="step-tools"><span class="step-tool">MailerLite</span><span class="step-tool">CSV export from client</span></div>
+              </div>
+              <div class="step-meta"><div class="step-time">45 min</div><span class="step-type type-setup">Setup</span></div>
+            </div>
+            <div class="impl-step">
+              <div class="step-num">3</div>
+              <div class="step-body">
+                <div class="step-title">Build lapsed customer reactivation email</div>
+                <div class="step-detail">In MailerLite, create a one-email campaign template for "We miss you" win-back. Subject line, offer (e.g. 10% off next booking), booking link, personalised with first name. Save as a reusable template — you update the offer each month and send to the Lapsed segment.</div>
+                <div class="step-tools"><span class="step-tool">MailerLite</span><span class="step-tool">Claude (copy writing)</span></div>
+              </div>
+              <div class="step-meta"><div class="step-time">30 min</div><span class="step-type type-setup">Setup</span></div>
+            </div>
+            <div class="impl-step">
+              <div class="step-num">4</div>
+              <div class="step-body">
+                <div class="step-title">Build follow-up / rebooking automation sequences</div>
+                <div class="step-detail">In MailerLite, create an automation: when a customer tag "needs rebooking" is added → send 3-email sequence (Day 1: reminder, Day 7: nudge, Day 14: final offer). Separately build a quote follow-up sequence: tag "quote sent" → 3 days later send a nudge. Train client to add tags when relevant.</div>
+                <div class="step-tools"><span class="step-tool">MailerLite automations</span><span class="step-tool">Claude (email copy)</span></div>
+              </div>
+              <div class="step-meta"><div class="step-time">60–90 min</div><span class="step-type type-setup">Setup</span></div>
+            </div>
+            <div class="impl-step">
+              <div class="step-num">5</div>
+              <div class="step-body">
+                <div class="step-title">Set up social media scheduling</div>
+                <div class="step-detail">Create a Buffer account (free tier). Connect to client's Facebook page and Instagram. Agree a photo-sharing method with client — WhatsApp is easiest. Test by writing first 4 captions using Claude and scheduling them in Buffer. Show client how to send photos to you.</div>
+                <div class="step-tools"><span class="step-tool">Buffer</span><span class="step-tool">Claude</span><span class="step-tool">Facebook / Instagram</span></div>
+              </div>
+              <div class="step-meta"><div class="step-time">30 min</div><span class="step-type type-setup">Setup</span></div>
+            </div>
+            <div class="impl-step">
+              <div class="step-num">6</div>
+              <div class="step-body">
+                <div class="step-title">Research SEO keyword list for this client</div>
+                <div class="step-detail">Go to Ubersuggest (free). Type in 5–6 keyword ideas for the client's niche and location — e.g. "MOT Ipswich", "car service Martlesham Heath", "garage near Woodbridge". Save the top 15 keywords with search volume. This becomes your blog post target list — draw from it every month.</div>
+                <div class="step-tools"><span class="step-tool">Ubersuggest (free)</span><span class="step-tool">Google autocomplete</span></div>
+              </div>
+              <div class="step-meta"><div class="step-time">30 min</div><span class="step-type type-onetime">Once</span></div>
+            </div>
+            <div class="impl-step">
+              <div class="step-num">7</div>
+              <div class="step-body">
+                <div class="step-title">Write and post first 2 SEO blog posts</div>
+                <div class="step-detail">Pick 2 keywords from the list. In Claude, prompt: "Write a 600-word blog post for a local [niche] in Ipswich targeting the keyword '[keyword]'. Include the keyword 4–5 times naturally, local references, and a call to action to book online." Edit lightly. Log into client's WordPress/website back end. Create new post, paste content, add one image from Unsplash, publish.</div>
+                <div class="step-tools"><span class="step-tool">Claude</span><span class="step-tool">WordPress / website CMS</span><span class="step-tool">Unsplash (free images)</span></div>
+              </div>
+              <div class="step-meta"><div class="step-time">60–90 min</div><span class="step-type type-setup">Setup</span></div>
+            </div>
+          </div>
+          <div class="impl-total">
+            <div class="it-label">Growth Plan — Total Setup</div>
+            <div class="it-setup"><div class="it-val">9–14 hrs</div><div class="it-sub">one-time build</div></div>
+            <div class="it-rate"><div class="it-val">£499</div><div class="it-sub">setup fee charged</div></div>
+          </div>
+        </div>
+
+        <div class="tab-panel" data-panel="growth-monthly">
+          <table class="monthly-table">
+            <thead><tr><th>Task</th><th>Type</th><th>What You Do</th><th>Time</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><div class="mt-task">Review request SMS</div></td>
+                <td><span class="mt-type type-auto" style="background:#FEF9E7;color:#9A7D0A;">Automated</span></td>
+                <td class="mt-what">Runs itself via Make. Check delivery stats once a month.</td>
+                <td><div class="mt-time zero">0 hrs</div></td>
+              </tr>
+              <tr>
+                <td><div class="mt-task">Calendly / booking system</div></td>
+                <td><span class="mt-type type-auto" style="background:#FEF9E7;color:#9A7D0A;">Automated</span></td>
+                <td class="mt-what">Runs itself. Quick check bookings landing correctly.</td>
+                <td><div class="mt-time zero">0 hrs</div></td>
+              </tr>
+              <tr>
+                <td><div class="mt-task">Follow-up sequences</div></td>
+                <td><span class="mt-type type-auto" style="background:#FEF9E7;color:#9A7D0A;">Automated</span></td>
+                <td class="mt-what">Triggered by client adding tags. Remind client to tag new quotes/visits. 10 mins.</td>
+                <td><div class="mt-time zero">0 hrs</div></td>
+              </tr>
+              <tr>
+                <td><div class="mt-task">Lapsed customer reactivation email</div></td>
+                <td><span class="mt-type type-monthly" style="background:#D6EAF8;color:#1A5276;">Monthly</span></td>
+                <td class="mt-what">Export lapsed contacts from client (90+ days no visit). Update the offer in the email template. Send to Lapsed segment in MailerLite. 30 mins.</td>
+                <td><div class="mt-time">0.5 hr</div></td>
+              </tr>
+              <tr>
+                <td><div class="mt-task">2 SEO blog posts</div></td>
+                <td><span class="mt-type type-monthly" style="background:#D6EAF8;color:#1A5276;">Monthly</span></td>
+                <td class="mt-what">Pick 2 keywords from your list. Prompt Claude. Edit output. Log into website, create post, add image, publish. ~45 mins per post.</td>
+                <td><div class="mt-time">1.5 hrs</div></td>
+              </tr>
+              <tr>
+                <td><div class="mt-task">8 social media captions</div></td>
+                <td><span class="mt-type type-monthly" style="background:#D6EAF8;color:#1A5276;">Monthly</span></td>
+                <td class="mt-what">Client WhatsApps you 8 photos during the month. Batch-write captions using Claude (20 mins total). Schedule in Buffer (10 mins). Or do weekly in 10 min batches.</td>
+                <td><div class="mt-time">0.5 hr</div></td>
+              </tr>
+              <tr>
+                <td><div class="mt-task">4 Google Business posts</div></td>
+                <td><span class="mt-type type-monthly" style="background:#D6EAF8;color:#1A5276;">Monthly</span></td>
+                <td class="mt-what">Write 4 posts with Claude, post to GBP. 20–25 mins.</td>
+                <td><div class="mt-time">0.5 hr</div></td>
+              </tr>
+              <tr>
+                <td><div class="mt-task">Full monthly report</div></td>
+                <td><span class="mt-type type-monthly" style="background:#D6EAF8;color:#1A5276;">Monthly</span></td>
+                <td class="mt-what">Pull: GA4 visits, Search Console impressions, Calendly bookings, review count, social reach. Fill report template. Email to client.</td>
+                <td><div class="mt-time">0.5 hr</div></td>
+              </tr>
+              <tr class="mt-total-row">
+                <td colspan="3"><strong>Total monthly hours — Growth</strong></td>
+                <td><div class="mt-time">~3.5 hrs</div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════
+       PLAN 3 — COMPLETE
+  ══════════════════════════ -->
+  <div class="plan-block plan-full" id="plan-complete">
+    <div class="plan-top">
+      <div class="plan-left">
+        <div>
+          <span class="plan-badge badge-full">Complete</span>
+          <div class="plan-name">Complete Plan</div>
+          <div class="plan-tagline">The full digital growth system. Every service, fully managed. Maximum impact, minimum effort from the client.</div>
+        </div>
+        <div>
+          <div class="price-row"><div class="price-main"><sup>£</sup>899</div><div class="price-sub">/month</div></div>
+          <div class="price-hours">⏱ ~5 hrs/mo ongoing · Setup fee: £749</div>
+        </div>
+      </div>
+      <div class="plan-right" style="background:#FAFAF7;">
+        <div class="plan-tabs">
+          <button class="plan-tab active" onclick="switchPlanTab(event,'complete','included')">✦ What's Included</button>
+          <button class="plan-tab" onclick="switchPlanTab(event,'complete','build')">🔧 How You Build It</button>
+          <button class="plan-tab" onclick="switchPlanTab(event,'complete','monthly')">📅 Monthly Work</button>
+        </div>
+
+        <div class="tab-panel active" data-panel="complete-included">
+          <ul class="features-list">
+            <li class="feature-item"><span class="fi-check">✓</span><div class="fi-text"><strong>Everything in Growth</strong><span>All starter and growth services included</span></div></li>
+            <li class="feature-item"><span class="fi-check">✓</span><div class="fi-text"><strong>AI Enquiry Chatbot</strong><span>24/7 on website — captures leads, answers FAQs instantly</span></div></li>
+            <li class="feature-item"><span class="fi-check">✓</span><div class="fi-text"><strong>Monthly Email Newsletter</strong><span>Branded email to full customer list — news, offers, updates</span></div></li>
+            <li class="feature-item"><span class="fi-check">✓</span><div class="fi-text"><strong>4 SEO Blog Posts/month</strong><span>Double the content, double the ranking speed</span></div></li>
+            <li class="feature-item"><span class="fi-check">✓</span><div class="fi-text"><strong>12 Social Media Captions/mo</strong><span>3 per week across Instagram &amp; Facebook</span></div></li>
+            <li class="feature-item"><span class="fi-check">✓</span><div class="fi-text"><strong>Competitor Monitoring Report</strong><span>Monthly comparison vs top 3 local competitors</span></div></li>
+            <li class="feature-item"><span class="fi-check">✓</span><div class="fi-text"><strong>Same-Day Support</strong><span>All queries answered the same working day</span></div></li>
+            <li class="feature-item"><span class="fi-check">✓</span><div class="fi-text"><strong>Quarterly Strategy Call</strong><span>30-min review + planning call every 3 months</span></div></li>
+          </ul>
+        </div>
+
+        <div class="tab-panel" data-panel="complete-build">
+          <div class="impl-steps">
+            <div class="impl-step">
+              <div class="step-num">1</div>
+              <div class="step-body">
+                <div class="step-title">Complete all Starter + Growth setup steps</div>
+                <div class="step-detail">Website, hosting, Calendly, GBP, review automation, Analytics, MailerLite, email sequences, Buffer social setup, keyword research — all from the previous two plans. These are the foundation everything else builds on.</div>
+                <div class="step-tools"><span class="step-tool">See Starter + Growth tabs</span></div>
+              </div>
+              <div class="step-meta"><div class="step-time">9–14 hrs</div><span class="step-type type-setup">Setup</span></div>
+            </div>
+            <div class="impl-step">
+              <div class="step-num">2</div>
+              <div class="step-body">
+                <div class="step-title">Build and configure AI enquiry chatbot</div>
+                <div class="step-detail">Create a Tidio account. Install the Tidio widget on the client's website by adding one script tag to the HTML. In Tidio, set up an AI flow: greeting → ask what they need → capture name + phone + query type → send lead notification email to client. Train the bot on 10–15 FAQs using client's own answers. Test thoroughly before going live.</div>
+                <div class="step-tools"><span class="step-tool">Tidio (£19/mo)</span><span class="step-tool">Client FAQ list</span><span class="step-tool">Website HTML</span></div>
+              </div>
+              <div class="step-meta"><div class="step-time">3–5 hrs</div><span class="step-type type-setup">Setup</span></div>
+            </div>
+            <div class="impl-step">
+              <div class="step-num">3</div>
+              <div class="step-body">
+                <div class="step-title">Set up monthly email newsletter template</div>
+                <div class="step-detail">In MailerLite, create a branded newsletter template using the client's colours and logo. Structure: opening message, featured service, offer of the month, booking button, contact info. Save as a reusable template. Each month you update the content and send to All Customers segment.</div>
+                <div class="step-tools"><span class="step-tool">MailerLite</span><span class="step-tool">Client branding/logo</span><span class="step-tool">Claude (copy)</span></div>
+              </div>
+              <div class="step-meta"><div class="step-time">60 min</div><span class="step-type type-setup">Setup</span></div>
+            </div>
+            <div class="impl-step">
+              <div class="step-num">4</div>
+              <div class="step-body">
+                <div class="step-title">Set up competitor monitoring</div>
+                <div class="step-detail">Identify 3 main local competitors. Go to Ubersuggest or SEOptimer. Run a domain analysis for each competitor. Note: their domain authority, estimated traffic, top keywords, review count on Google. Save as a template in Google Sheets — update monthly. This takes 20 mins/mo once the template is built.</div>
+                <div class="step-tools"><span class="step-tool">Ubersuggest</span><span class="step-tool">SEOptimer</span><span class="step-tool">Google Sheets</span></div>
+              </div>
+              <div class="step-meta"><div class="step-time">45 min</div><span class="step-type type-onetime">Once</span></div>
+            </div>
+            <div class="impl-step">
+              <div class="step-num">5</div>
+              <div class="step-body">
+                <div class="step-title">Write and post first 4 SEO blog posts</div>
+                <div class="step-detail">Same process as Growth but double the output. Pick 4 keywords. Run Claude prompt for each. Edit and publish to WordPress. Add internal links between posts where relevant. At month 3+, start linking older posts to newer ones to build internal SEO structure.</div>
+                <div class="step-tools"><span class="step-tool">Claude</span><span class="step-tool">WordPress</span><span class="step-tool">Unsplash</span></div>
+              </div>
+              <div class="step-meta"><div class="step-time">2–3 hrs</div><span class="step-type type-setup">Setup</span></div>
+            </div>
+            <div class="impl-step">
+              <div class="step-num">6</div>
+              <div class="step-body">
+                <div class="step-title">Book and conduct quarterly strategy call</div>
+                <div class="step-detail">At end of month 3, schedule a 30-min video call with the client. Prepare by reviewing: what's ranking, review growth, booking volume trend, social engagement. Present 3 recommendations for next quarter. Use Google Meet or Zoom — free.</div>
+                <div class="step-tools"><span class="step-tool">Google Meet (free)</span><span class="step-tool">GA4 + Search Console</span></div>
+              </div>
+              <div class="step-meta"><div class="step-time">60 min</div><span class="step-type type-onetime">Quarterly</span></div>
+            </div>
+          </div>
+          <div class="impl-total">
+            <div class="it-label">Complete Plan — Total Setup</div>
+            <div class="it-setup"><div class="it-val">14–20 hrs</div><div class="it-sub">one-time build</div></div>
+            <div class="it-rate"><div class="it-val">£749</div><div class="it-sub">setup fee charged</div></div>
+          </div>
+        </div>
+
+        <div class="tab-panel" data-panel="complete-monthly">
+          <table class="monthly-table">
+            <thead><tr><th>Task</th><th>Type</th><th>What You Do</th><th>Time</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><div class="mt-task">All automations (review, booking, sequences)</div></td>
+                <td><span class="mt-type type-auto" style="background:#FEF9E7;color:#9A7D0A;">Automated</span></td>
+                <td class="mt-what">All run automatically. Monthly health check — 15 mins.</td>
+                <td><div class="mt-time zero">0 hrs</div></td>
+              </tr>
+              <tr>
+                <td><div class="mt-task">Lapsed reactivation email</div></td>
+                <td><span class="mt-type type-monthly" style="background:#D6EAF8;color:#1A5276;">Monthly</span></td>
+                <td class="mt-what">Export lapsed list, update offer, send in MailerLite. 30 mins.</td>
+                <td><div class="mt-time">0.5 hr</div></td>
+              </tr>
+              <tr>
+                <td><div class="mt-task">Monthly email newsletter</div></td>
+                <td><span class="mt-type type-monthly" style="background:#D6EAF8;color:#1A5276;">Monthly</span></td>
+                <td class="mt-what">Use Claude to write newsletter content (service spotlight, offer, news). Update MailerLite template. Send to All Customers. 45 mins.</td>
+                <td><div class="mt-time">0.75 hr</div></td>
+              </tr>
+              <tr>
+                <td><div class="mt-task">4 SEO blog posts</div></td>
+                <td><span class="mt-type type-monthly" style="background:#D6EAF8;color:#1A5276;">Monthly</span></td>
+                <td class="mt-what">4 × Claude-written, edited and published to website. ~45 mins each.</td>
+                <td><div class="mt-time">3 hrs</div></td>
+              </tr>
+              <tr>
+                <td><div class="mt-task">12 social media captions</div></td>
+                <td><span class="mt-type type-monthly" style="background:#D6EAF8;color:#1A5276;">Monthly</span></td>
+                <td class="mt-what">Receive photos from client via WhatsApp. Batch-write 12 captions with Claude (30 mins). Schedule in Buffer (15 mins).</td>
+                <td><div class="mt-time">0.75 hr</div></td>
+              </tr>
+              <tr>
+                <td><div class="mt-task">8 Google Business posts</div></td>
+                <td><span class="mt-type type-monthly" style="background:#D6EAF8;color:#1A5276;">Monthly</span></td>
+                <td class="mt-what">Write 8 posts with Claude, post to GBP. 30–40 mins.</td>
+                <td><div class="mt-time">0.5 hr</div></td>
+              </tr>
+              <tr>
+                <td><div class="mt-task">AI chatbot monitoring</div></td>
+                <td><span class="mt-type type-monthly" style="background:#D6EAF8;color:#1A5276;">Monthly</span></td>
+                <td class="mt-what">Check Tidio: leads captured, conversations handled, any missed enquiries needing follow-up. Forward any missed leads to client. 20 mins.</td>
+                <td><div class="mt-time">0.5 hr</div></td>
+              </tr>
+              <tr>
+                <td><div class="mt-task">Competitor monitoring update</div></td>
+                <td><span class="mt-type type-monthly" style="background:#D6EAF8;color:#1A5276;">Monthly</span></td>
+                <td class="mt-what">Update Google Sheet with competitor review counts, ranking checks for 3 target keywords. 20 mins.</td>
+                <td><div class="mt-time">0.5 hr</div></td>
+              </tr>
+              <tr>
+                <td><div class="mt-task">Full performance report</div></td>
+                <td><span class="mt-type type-monthly" style="background:#D6EAF8;color:#1A5276;">Monthly</span></td>
+                <td class="mt-what">Pull all metrics: GA4, Search Console, Calendly, reviews, social, chatbot leads, competitor comparison. Fill report template. Email to client with commentary.</td>
+                <td><div class="mt-time">1 hr</div></td>
+              </tr>
+              <tr class="mt-total-row">
+                <td colspan="3"><strong>Total monthly hours — Complete</strong></td>
+                <td><div class="mt-time">~7.5 hrs</div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ADD-ONS -->
+  <div class="section-label" style="margin-top:56px;">Add-On Services — Available on Any Plan</div>
+  <div class="addons-grid">
+    <div class="addon-card">
+      <div class="addon-icon">📄</div>
+      <div>
+        <div class="addon-name">Extra Blog Post</div>
+        <div class="addon-desc">Additional locally targeted SEO post written by AI, edited by you, published to their site.</div>
+        <div class="addon-impl">⚙ Claude prompt → edit → WordPress publish — 45 mins</div>
+        <div class="addon-price">£65 <span class="addon-price-type">per post</span></div>
+      </div>
+    </div>
+    <div class="addon-card">
+      <div class="addon-icon">📱</div>
+      <div>
+        <div class="addon-name">Extra Social Posts (×4)</div>
+        <div class="addon-desc">Additional batch of 4 captions written from client photos and scheduled in Buffer.</div>
+        <div class="addon-impl">⚙ Claude captions → Buffer schedule — 20 mins</div>
+        <div class="addon-price">£45 <span class="addon-price-type">per batch of 4</span></div>
+      </div>
+    </div>
+    <div class="addon-card">
+      <div class="addon-icon">🤖</div>
+      <div>
+        <div class="addon-name">AI Chatbot (Starter/Growth add-on)</div>
+        <div class="addon-desc">Tidio chatbot on their website. Lead capture, FAQ answers, 24/7 enquiry handling.</div>
+        <div class="addon-impl">⚙ Tidio setup + FAQ training — 3–5 hrs one-off</div>
+        <div class="addon-price">£89 <span class="addon-price-type">/month (incl. Tidio £19)</span></div>
+      </div>
+    </div>
+    <div class="addon-card">
+      <div class="addon-icon">✉️</div>
+      <div>
+        <div class="addon-name">One-Off Email Campaign</div>
+        <div class="addon-desc">Single promotional email to full customer list — offer, announcement or seasonal campaign.</div>
+        <div class="addon-impl">⚙ Claude copy → MailerLite → send — 45 mins</div>
+        <div class="addon-price">£79 <span class="addon-price-type">per campaign</span></div>
+      </div>
+    </div>
+    <div class="addon-card">
+      <div class="addon-icon">🌐</div>
+      <div>
+        <div class="addon-name">Multi-Page Website Upgrade</div>
+        <div class="addon-desc">Upgrade from single-page to multi-page with dedicated service pages for stronger SEO.</div>
+        <div class="addon-impl">⚙ Build additional HTML pages, internal linking — 4–6 hrs</div>
+        <div class="addon-price">£299 <span class="addon-price-type">one-off</span></div>
+      </div>
+    </div>
+    <div class="addon-card">
+      <div class="addon-icon">📋</div>
+      <div>
+        <div class="addon-name">Directory Listing Campaign</div>
+        <div class="addon-desc">Submit business to 15 UK directories for backlinks and visibility (Yell, Thomson, FreeIndex etc).</div>
+        <div class="addon-impl">⚙ Manual submissions to each directory — 2–3 hrs</div>
+        <div class="addon-price">£149 <span class="addon-price-type">one-off</span></div>
+      </div>
+    </div>
+    <div class="addon-card">
+      <div class="addon-icon">🔔</div>
+      <div>
+        <div class="addon-name">SMS Reminder System</div>
+        <div class="addon-desc">Automated SMS for MOT reminders, service triggers or appointment confirmations via Twilio.</div>
+        <div class="addon-impl">⚙ Make scenario + Twilio setup — 2 hrs one-off</div>
+        <div class="addon-price">£59 <span class="addon-price-type">setup + ~4p/SMS</span></div>
+      </div>
+    </div>
+    <div class="addon-card">
+      <div class="addon-icon">🔍</div>
+      <div>
+        <div class="addon-name">Competitor Analysis Report</div>
+        <div class="addon-desc">Deep one-off analysis of top 3 local competitors — SEO gaps, reviews, website weaknesses.</div>
+        <div class="addon-impl">⚙ Ubersuggest + SEOptimer research + report write-up — 2 hrs</div>
+        <div class="addon-price">£129 <span class="addon-price-type">one-off</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETUP RATIONALE -->
+  <div class="section-label">Setup Fee — What It Covers &amp; Why We Charge It</div>
+  <div class="rationale-box">
+    <div>
+      <h3>Why a <span>setup fee</span> exists</h3>
+      <p>Month one is always the most work — typically 5–20 hours depending on the plan. The setup fee covers that real build time and ensures only serious clients engage.</p>
+      <p>Clients who pay something upfront are also far more likely to share access, follow through, and stay long term.</p>
+      <ul class="rationale-items">
+        <li><span class="ri-num">1</span>Website design, build, hosting setup and domain DNS change</li>
+        <li><span class="ri-num">2</span>Calendly account, event types, Google Calendar sync and testing</li>
+        <li><span class="ri-num">3</span>Google Business Profile claim, optimisation and booking button</li>
+        <li><span class="ri-num">4</span>Make.com review automation build and testing</li>
+        <li><span class="ri-num">5</span>Google Analytics and Search Console setup and sitemap submission</li>
+        <li><span class="ri-num">6</span>MailerLite account, contacts import, sequences (Growth+)</li>
+        <li><span class="ri-num">7</span>Chatbot setup and FAQ training (Complete only)</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Setup fees <span>by plan</span></h3>
+      <div class="setup-fee-boxes">
+        <div class="sfe-box">
+          <div><div class="sfe-name">Starter Plan</div><div class="sfe-detail">Website + booking + GBP + review automation · ~5–8 hrs</div></div>
+          <div class="sfe-price">£299</div>
+        </div>
+        <div class="sfe-box recommended">
+          <div><div class="sfe-name">Growth Plan <span class="sfe-rec-tag">Recommended</span></div><div class="sfe-detail">All above + email sequences + social setup · ~9–14 hrs</div></div>
+          <div class="sfe-price">£499</div>
+        </div>
+        <div class="sfe-box">
+          <div><div class="sfe-name">Complete Plan</div><div class="sfe-detail">All above + chatbot + newsletter template · ~14–20 hrs</div></div>
+          <div class="sfe-price">£749</div>
+        </div>
+        <div style="margin-top:8px;padding:12px 0;font-size:12px;color:rgba(250,250,247,0.4);border-top:1px solid rgba(255,255,255,0.08);">
+          💡 The setup fee roughly equals your first month of time at a fair rate. From month two, all three plans run at £150–180/hr effective — nearly all profit.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EFFECTIVE RATE -->
+  <div class="section-label">Your Effective Hourly Rate — After Setup</div>
+  <div class="eff-rate">
+    <div>
+      <div class="er-plan">Starter · £299/mo</div>
+      <div class="er-rate">£<span>299</span>/hr</div>
+      <div class="er-detail">~1 hr/mo · almost entirely automated</div>
+    </div>
+    <div>
+      <div class="er-plan">Growth · £549/mo</div>
+      <div class="er-rate">£<span>157</span>/hr</div>
+      <div class="er-detail">~3.5 hrs/mo · content + automation</div>
+    </div>
+    <div>
+      <div class="er-plan">Complete · £899/mo</div>
+      <div class="er-rate">£<span>120</span>/hr</div>
+      <div class="er-detail">~7.5 hrs/mo · full service delivery</div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  function switchPlanTab(event, plan, panel) {
+    const block = document.getElementById('plan-' + plan);
+    block.querySelectorAll('.plan-tab').forEach(t => t.classList.remove('active'));
+    block.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    event.target.classList.add('active');
+    block.querySelector('[data-panel="' + plan + '-' + panel + '"]').classList.add('active');
+  }
+</script>
+</body>
+</html>
