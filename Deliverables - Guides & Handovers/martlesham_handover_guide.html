@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Martlesham Service Centre — Website Handover Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#0D0D0D; --paper:#F5F0E8; --red:#C8281E; --green:#2D6A4F; --amber:#D4840A; --muted:#6B6560; --border:#E0D8CC; --card:#FFFFFF; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'DM Sans',sans-serif; background:var(--paper); color:var(--ink); }
+  header { background:var(--ink); color:white; padding:48px 40px; }
+  header .label { font-family:'Syne',sans-serif; font-size:11px; letter-spacing:3px; text-transform:uppercase; color:#C9A84C; margin-bottom:12px; }
+  header h1 { font-family:'Syne',sans-serif; font-size:clamp(28px,5vw,44px); font-weight:800; margin-bottom:12px; }
+  header p { color:rgba(255,255,255,0.6); font-size:15px; max-width:540px; line-height:1.6; }
+  main { max-width:900px; margin:0 auto; padding:48px 40px; }
+  h2 { font-family:'Syne',sans-serif; font-size:22px; font-weight:800; margin-bottom:16px; margin-top:48px; padding-bottom:10px; border-bottom:2px solid var(--border); }
+  h2:first-child { margin-top:0; }
+  h3 { font-family:'Syne',sans-serif; font-size:16px; font-weight:700; margin-bottom:8px; margin-top:24px; }
+  p { font-size:15px; line-height:1.7; margin-bottom:14px; color:#333; }
+  ul, ol { margin:0 0 16px 20px; }
+  li { font-size:15px; line-height:1.7; color:#333; margin-bottom:6px; }
+  .step-block { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:24px; margin-bottom:16px; }
+  .step-num { font-family:'Syne',sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--red); margin-bottom:6px; }
+  .step-title { font-family:'Syne',sans-serif; font-size:17px; font-weight:700; margin-bottom:10px; }
+  .step-body { font-size:14px; color:#444; line-height:1.7; }
+  code { background:#F0EDE8; padding:2px 8px; border-radius:4px; font-family:monospace; font-size:13px; color:var(--red); }
+  .cost-table { width:100%; border-collapse:collapse; margin:20px 0; font-size:14px; }
+  .cost-table th { background:var(--ink); color:white; padding:10px 14px; text-align:left; font-family:'Syne',sans-serif; font-size:11px; letter-spacing:1px; }
+  .cost-table td { padding:10px 14px; border-bottom:1px solid var(--border); }
+  .cost-table tr:nth-child(even) td { background:#FAFAF8; }
+  .cost-free { color:var(--green); font-weight:600; }
+  .cost-paid { color:var(--amber); font-weight:600; }
+  .highlight { background:#FFF3CD; border-left:4px solid var(--amber); padding:14px 18px; border-radius:0 6px 6px 0; margin:20px 0; font-size:14px; line-height:1.6; }
+  .success { background:#D5F5E3; border-left:4px solid var(--green); padding:14px 18px; border-radius:0 6px 6px 0; margin:20px 0; font-size:14px; line-height:1.6; }
+  .pitch-box { background:var(--ink); color:white; border-radius:10px; padding:28px; margin:28px 0; }
+  .pitch-box .pb-label { font-family:'Syne',sans-serif; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:#C9A84C; margin-bottom:10px; }
+  .pitch-box p { color:rgba(255,255,255,0.8); margin-bottom:0; }
+  @media(max-width:600px){ main { padding:32px 20px; } header { padding:32px 20px; } }
+</style>
+</head>
+<body>
+<header>
+  <div class="label">Prepared by your AI Consultancy</div>
+  <h1>Martlesham Service Centre<br>Website Handover Guide</h1>
+  <p>Everything you need to get the new website live, set up Calendly bookings, and understand the monthly costs involved.</p>
+</header>
+<main>
+
+<h2>What You're Getting</h2>
+<p>A complete, rebuilt website for Martlesham Service Centre. Same business, same content — but modernised, mobile-friendly, and built to rank on Google for local searches. Key improvements over the old site:</p>
+<ul>
+  <li>Online booking widget powered by Calendly (customers pick their own slot — no manual callbacks)</li>
+  <li>Updated pricing (the old site still showed "January 2022")</li>
+  <li>Serves areas mentioned: Woodbridge, Kesgrave, Rushmere, Felixstowe — Google will now find them for those searches</li>
+  <li>All makes and models mentioned — so "VW service Ipswich" type searches can now find them</li>
+  <li>8 FAQ answers instead of 3 — includes "how long does an MOT take" and "what if my car fails"</li>
+  <li>Google Maps embed and Get Directions button</li>
+  <li>Leave a Google Review button on the testimonials section</li>
+  <li>Mobile-responsive — works on all phones and tablets</li>
+</ul>
+
+<h2>Step-by-Step: Getting It Live Tonight</h2>
+
+<div class="step-block">
+  <div class="step-num">Step 1</div>
+  <div class="step-title">Set Up Calendly (Free — 20 minutes)</div>
+  <div class="step-body">
+    <ol>
+      <li>Go to <strong>calendly.com</strong> and create a free account using the garage's email (info@martleshamservicecentre.co.uk)</li>
+      <li>Click <strong>"New Event Type"</strong> → choose <strong>"One-on-One"</strong></li>
+      <li>Create 4 event types (one per service):
+        <ul>
+          <li><strong>MOT Test</strong> — 60 minutes</li>
+          <li><strong>Interim Service</strong> — 90 minutes</li>
+          <li><strong>Full Service</strong> — 120 minutes</li>
+          <li><strong>Repairs / Other</strong> — 60 minutes</li>
+        </ul>
+      </li>
+      <li>Set availability: Monday–Friday, 8:00am–5:30pm</li>
+      <li>In each event type, add a custom question: <em>"Vehicle registration number"</em> (required)</li>
+      <li>Your Calendly username will be something like: <code>calendly.com/martlesham-msc</code></li>
+    </ol>
+  </div>
+</div>
+
+<div class="step-block">
+  <div class="step-num">Step 2</div>
+  <div class="step-title">Add Your Calendly Username to the Website File</div>
+  <div class="step-body">
+    <ol>
+      <li>Open the file <strong>martlesham_service_centre.html</strong> in any text editor (Notepad on Windows, TextEdit on Mac)</li>
+      <li>Press <strong>Ctrl+F</strong> (or Cmd+F on Mac) and search for: <code>YOUR_CALENDLY_USERNAME</code></li>
+      <li>Replace it with your actual Calendly username. For example:
+        <br><br>
+        Change: <code>https://calendly.com/YOUR_CALENDLY_USERNAME</code>
+        <br>
+        To: <code>https://calendly.com/martlesham-msc</code>
+      </li>
+      <li>Save the file</li>
+    </ol>
+    <div class="highlight">
+      ⚠️ Until you do this step, the website will show a simple booking request form instead of the Calendly calendar. It still works — it just isn't as slick.
+    </div>
+  </div>
+</div>
+
+<div class="step-block">
+  <div class="step-num">Step 3 — Option A (Recommended)</div>
+  <div class="step-title">Upload Via FTP / cPanel (Replace the Old Site)</div>
+  <div class="step-body">
+    <p>The current site is hosted by Netphobia. You need hosting access from them.</p>
+    <ol>
+      <li>Email Netphobia (their email is on the current site footer) and ask: <em>"Can you please provide FTP login details or cPanel access so we can update the website?"</em></li>
+      <li>Once you have FTP details, download <strong>FileZilla</strong> (free — filezilla-project.org)</li>
+      <li>Connect using the FTP details provided</li>
+      <li>Navigate to the <code>public_html</code> folder (or <code>www</code> folder)</li>
+      <li>You'll see the existing <code>index.html</code> file. Rename it to <code>index_old.html</code> (keeps it as a backup)</li>
+      <li>Upload the new <code>martlesham_service_centre.html</code> file and rename it to <code>index.html</code></li>
+      <li>The new site is live</li>
+    </ol>
+  </div>
+</div>
+
+<div class="step-block">
+  <div class="step-num">Step 3 — Option B (Tonight, No Website Access Needed)</div>
+  <div class="step-title">Get Calendly Live Before the Site Is Even Touched</div>
+  <div class="step-body">
+    <p>You don't need to wait for website access to start using the Calendly booking system. Do this tonight:</p>
+    <ol>
+      <li>Complete Step 1 above (set up Calendly)</li>
+      <li>Share the Calendly link directly with the garage owner: <code>calendly.com/martlesham-msc</code></li>
+      <li>They can immediately add it to:
+        <ul>
+          <li>Their Google Business Profile (add as a "Book" button)</li>
+          <li>Their email signature</li>
+          <li>WhatsApp messages to customers</li>
+          <li>Their Facebook page if they have one</li>
+        </ul>
+      </li>
+      <li>The website upload can happen next week once you have FTP access</li>
+    </ol>
+    <div class="success">✓ This means they can start taking online bookings <strong>tonight</strong> — before the new website is even live.</div>
+  </div>
+</div>
+
+<h2>Costs Breakdown</h2>
+<p>Here is every cost involved — both what you pay and what to pass on to the client.</p>
+
+<h3>One-Time Costs (You Charge the Client)</h3>
+<table class="cost-table">
+  <tr><th>Item</th><th>What It Is</th><th>Cost to Charge</th></tr>
+  <tr><td>New website build</td><td>This file — fully built, tested, mobile ready</td><td class="cost-paid">£300–£500 one-off</td></tr>
+  <tr><td>Calendly setup</td><td>Creating account, 4 event types, availability, custom fields</td><td class="cost-paid">£75–£100 one-off</td></tr>
+  <tr><td>FTP upload + go-live</td><td>Uploading file, checking everything works live</td><td class="cost-paid">£50 one-off</td></tr>
+  <tr><td><strong>Total one-time</strong></td><td></td><td class="cost-paid"><strong>£425–£650</strong></td></tr>
+</table>
+
+<h3>Monthly Ongoing Costs</h3>
+<table class="cost-table">
+  <tr><th>Item</th><th>What It Is</th><th>Monthly Cost</th><th>Who Pays</th></tr>
+  <tr><td>Calendly Free</td><td>Basic booking — 1 calendar, unlimited bookings</td><td class="cost-free">£0/mo</td><td>You or client</td></tr>
+  <tr><td>Calendly Standard (optional)</td><td>Adds SMS reminders, multiple event types, more customisation</td><td class="cost-paid">~£8/mo</td><td>Pass to client</td></tr>
+  <tr><td>Website hosting</td><td>Already paid by client via Netphobia — no change needed</td><td class="cost-free">£0 (existing)</td><td>Client already pays</td></tr>
+  <tr><td>Domain renewal</td><td>martleshamservicecentre.co.uk — already registered</td><td class="cost-free">~£10/yr</td><td>Client already pays</td></tr>
+  <tr><td>Your monthly retainer</td><td>Maintenance, content updates, Google Business posts</td><td class="cost-paid">£300/mo</td><td>Client pays you</td></tr>
+</table>
+
+<h3>Your Monthly Retainer — What You Do For £300/mo</h3>
+<ul>
+  <li>Update any prices or service info on the website when they change (~15 min)</li>
+  <li>Write and post 2 SEO blog posts per month targeting local search terms (~2 hrs)</li>
+  <li>Post 4 weekly updates to their Google Business Profile (~30 min/mo)</li>
+  <li>Monitor Calendly bookings are working correctly (~15 min/mo)</li>
+  <li>Send them a monthly summary of website visits, booking volume, and review count (~30 min)</li>
+  <li><strong>Total: ~3.5 hours per month</strong></li>
+</ul>
+
+<div class="pitch-box">
+  <div class="pb-label">💬 Your Pitch to the Garage</div>
+  <p>"The new website will cost you a one-off payment of £500 to build and go live. After that, £300 a month covers everything — I update it, post regular content to keep Google happy, and manage your online bookings. The Calendly booking system alone will save you 30–40 phone calls a month and stop customers going to competitors because no one answered. One extra MOT a month more than covers the entire fee."</p>
+</div>
+
+<h2>What to Tell Them About Maintenance</h2>
+<p>The website is a single HTML file. It is very easy to maintain. Specifically:</p>
+<ul>
+  <li><strong>To change a price:</strong> Open the file in Notepad, find the old price with Ctrl+F, type the new one, save, re-upload via FTP. Takes 5 minutes.</li>
+  <li><strong>To add a new service:</strong> Copy an existing service card block in the HTML and change the text. 10 minutes.</li>
+  <li><strong>To add a blog:</strong> For proper SEO blogging, the recommendation is to migrate to WordPress (a one-time 2–3 hour job you can charge £150–200 for). This gives a proper content management system so you don't need to touch HTML every time.</li>
+  <li><strong>To update Calendly availability</strong> (e.g. holiday closures): Log into Calendly → go to availability settings → mark days as unavailable. No website change needed — Calendly handles it automatically.</li>
+</ul>
+
+<h2>Things to Do in the First Week</h2>
+<ol>
+  <li>✅ Set up Calendly account and share the link with the owner immediately</li>
+  <li>✅ Add the Calendly booking link to their Google Business Profile as a "Book appointment" button</li>
+  <li>✅ Email Netphobia to request FTP/cPanel access</li>
+  <li>✅ Replace <code>YOUR_CALENDLY_USERNAME</code> in the HTML file with the real username</li>
+  <li>✅ Upload the HTML file via FTP, rename to index.html</li>
+  <li>✅ Check the live site on mobile and desktop</li>
+  <li>✅ Ask the owner to update you on current prices (MOT, services) to make sure they're accurate</li>
+  <li>✅ Claim/optimise their Google Business Profile if not already done</li>
+</ol>
+
+<h2>Summary — Total Investment for the Garage</h2>
+<table class="cost-table">
+  <tr><th>When</th><th>What</th><th>Cost</th></tr>
+  <tr><td>One-off</td><td>New website + Calendly setup + go-live</td><td class="cost-paid">£500</td></tr>
+  <tr><td>Monthly</td><td>Your retainer (maintenance, SEO, Google posts, reporting)</td><td class="cost-paid">£300/mo</td></tr>
+  <tr><td>Monthly (optional)</td><td>Calendly Standard for SMS reminders</td><td class="cost-paid">£8/mo (pass-through)</td></tr>
+  <tr><td>Annual</td><td>Domain + hosting (already paying via Netphobia)</td><td class="cost-free">£0 extra</td></tr>
+</table>
+
+<div class="success">
+  <strong>Their total year 1 cost:</strong> £500 + (£308 × 12) = <strong>~£4,200</strong><br>
+  <strong>Your year 1 revenue from this one client:</strong> £500 + (£300 × 12) = <strong>£4,100</strong><br>
+  <strong>Your actual time:</strong> ~4 hrs setup + ~3.5 hrs/mo = ~46 hrs over the year = <strong>~£89/hr effective rate</strong>
+</div>
+
+<p style="margin-top:32px;font-size:13px;color:#999;">Document prepared for Martlesham Service Centre engagement · Confidential</p>
+
+</main>
+</body>
+</html>
