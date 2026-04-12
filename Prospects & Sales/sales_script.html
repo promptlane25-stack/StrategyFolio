@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Objection Handling — Garage Sales Playbook</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,500&family=JetBrains+Mono:wght@400;500;700&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #111;
+    --paper: #fafaf7;
+    --paper-2: #f0ede3;
+    --red: #c1272d;
+    --red-bg: #fdf1f1;
+    --green: #1d6a3e;
+    --green-bg: #eaf5ee;
+    --amber: #b8860b;
+    --line: #d8d4c4;
+    --muted: #6a6a63;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter Tight', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  .wrap {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 56px 28px 96px;
+  }
+
+  /* CONFIDENTIAL header strip */
+  .classified {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 10px 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 32px;
+  }
+  .classified span::before { content: "■ "; color: var(--red); }
+
+  /* Title block */
+  .title-block {
+    border-top: 6px solid var(--ink);
+    border-bottom: 1px solid var(--line);
+    padding: 28px 0 36px;
+    margin-bottom: 48px;
+  }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 16px;
+  }
+  h1.main {
+    font-family: 'Fraunces', serif;
+    font-weight: 800;
+    font-size: 64px;
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+    margin-bottom: 20px;
+  }
+  h1.main em {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--red);
+  }
+  .lede {
+    font-family: 'Fraunces', serif;
+    font-size: 19px;
+    line-height: 1.5;
+    max-width: 640px;
+    color: var(--muted);
+    font-weight: 400;
+  }
+
+  /* Core principle box */
+  .principle {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 36px 40px;
+    margin-bottom: 56px;
+    position: relative;
+  }
+  .principle::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 6px;
+    height: 100%;
+    background: var(--red);
+  }
+  .principle .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: #f8a5a9;
+    margin-bottom: 14px;
+  }
+  .principle h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+  .principle h2 em {
+    color: #f8a5a9;
+    font-style: italic;
+    font-weight: 500;
+  }
+
+  /* Section headers */
+  .section {
+    margin-bottom: 56px;
+  }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    margin-bottom: 28px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--ink);
+  }
+  .section-num {
+    font-family: 'Fraunces', serif;
+    font-size: 42px;
+    font-weight: 800;
+    color: var(--red);
+    line-height: 1;
+  }
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .section-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    margin-left: auto;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* Objection card */
+  .objection {
+    border: 1px solid var(--line);
+    background: var(--paper);
+    margin-bottom: 28px;
+    overflow: hidden;
+  }
+  .obj-header {
+    background: var(--red-bg);
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .obj-label {
+    flex-shrink: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    background: var(--red);
+    color: white;
+    padding: 4px 8px;
+    letter-spacing: 0.1em;
+    margin-top: 2px;
+  }
+  .obj-text {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 19px;
+    line-height: 1.4;
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .obj-text::before {
+    content: "\201C";
+    font-size: 32px;
+    line-height: 0;
+    vertical-align: -10px;
+    color: var(--red);
+    margin-right: 2px;
+  }
+  .obj-text::after {
+    content: "\201D";
+    font-size: 32px;
+    line-height: 0;
+    vertical-align: -18px;
+    color: var(--red);
+    margin-left: 2px;
+  }
+
+  .obj-body {
+    padding: 24px 24px 8px;
+  }
+  .obj-section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px dashed var(--line);
+  }
+  .obj-section-label.green { color: var(--green); }
+  .obj-section-label.amber { color: var(--amber); }
+  .obj-body p {
+    font-size: 14.5px;
+    line-height: 1.6;
+    margin-bottom: 18px;
+  }
+  .obj-response {
+    background: var(--green-bg);
+    border-left: 3px solid var(--green);
+    padding: 16px 20px;
+    margin: 8px 0 20px;
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    font-style: italic;
+    line-height: 1.55;
+    color: #0c3820;
+  }
+  .obj-footer {
+    background: #f7f5ea;
+    padding: 12px 24px;
+    border-top: 1px solid var(--line);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .obj-footer strong {
+    color: var(--ink);
+  }
+
+  /* Pivot flow */
+  .flow {
+    background: var(--paper-2);
+    padding: 32px 36px;
+    border-left: 4px solid var(--ink);
+    margin-bottom: 32px;
+  }
+  .flow h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    margin-bottom: 18px;
+  }
+  .flow-step {
+    display: flex;
+    gap: 18px;
+    margin-bottom: 16px;
+    align-items: flex-start;
+  }
+  .flow-num {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .flow-step p {
+    font-size: 14px;
+    line-height: 1.55;
+    padding-top: 3px;
+  }
+  .flow-step strong { color: var(--red); }
+
+  /* Golden rules footer */
+  .rules {
+    border: 2px solid var(--ink);
+    padding: 32px 36px;
+    position: relative;
+  }
+  .rules::before {
+    content: "GOLDEN RULES";
+    position: absolute;
+    top: -11px;
+    left: 24px;
+    background: var(--paper);
+    padding: 0 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    font-weight: 700;
+  }
+  .rules ol {
+    list-style: none;
+    counter-reset: rule;
+  }
+  .rules li {
+    counter-increment: rule;
+    padding: 14px 0;
+    border-bottom: 1px dashed var(--line);
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  .rules li:last-child { border-bottom: none; }
+  .rules li::before {
+    content: counter(rule, decimal-leading-zero);
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--red);
+    flex-shrink: 0;
+    line-height: 1;
+    padding-top: 2px;
+  }
+  .rules li p {
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  .rules li p strong {
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  @media (max-width: 680px) {
+    h1.main { font-size: 42px; }
+    .principle h2 { font-size: 22px; }
+    .principle { padding: 28px 24px; }
+    .obj-text { font-size: 16px; }
+    .section-num { font-size: 32px; }
+    .section-title { font-size: 20px; }
+    .section-sub { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="classified">
+    <span>INTERNAL · SALES PLAYBOOK</span>
+    <span>v1.0 · SALMAN</span>
+  </div>
+
+  <div class="title-block">
+    <div class="eyebrow">Objection Handling · Garage Prospects</div>
+    <h1 class="main">When they say<br>"<em>it's too expensive</em>"<br>here's what you say.</h1>
+    <p class="lede">Seven objections you'll hear on every garage call. Read this before the conversation, not during it — you should know the answers cold.</p>
+  </div>
+
+  <!-- CORE PRINCIPLE -->
+  <div class="principle">
+    <div class="label">► THE ONE PRINCIPLE BEHIND EVERY RESPONSE</div>
+    <h2>Never defend your price. <em>Always reframe the comparison.</em> They're comparing you to software — your job is to move the conversation to what the software doesn't do.</h2>
+  </div>
+
+  <!-- OBJECTION 1 -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-num">01</div>
+      <div class="section-title">The headline price objection</div>
+      <div class="section-sub">Most common · 80% of calls</div>
+    </div>
+
+    <div class="objection">
+      <div class="obj-header">
+        <span class="obj-label">THEY SAY</span>
+        <div class="obj-text">My Garage CRM is only £139 a month. Why would I pay you £549?</div>
+      </div>
+      <div class="obj-body">
+        <div class="obj-section-label">THE TRAP</div>
+        <p>They're comparing a tool to a service. Don't argue with the number — reframe what they're buying. The moment you start justifying £549 against £139 on features, you lose.</p>
+
+        <div class="obj-section-label green">WHAT YOU SAY</div>
+        <div class="obj-response">"That's a fair question, and honestly — My Garage CRM is great software. If you don't have any system for running your workshop, get it. It's a hundred and forty quid well spent. But here's the thing — that tool sends reminders to customers you <em>already have</em>. It doesn't bring new ones in. It doesn't show up on Google when someone types 'MOT near me'. It doesn't write your blog, post to your Facebook, or keep your website alive. That's a completely different job — and that's the one I do. You need both. They're not the same thing."</div>
+
+        <div class="obj-section-label amber">THEN PIVOT TO</div>
+        <p>Ask immediately: <strong>"Out of curiosity — how many new customers walked through your door last month that found you online?"</strong> Their answer (usually "I don't know" or "not many") hands you the next part of the conversation.</p>
+      </div>
+      <div class="obj-footer"><strong>Never:</strong> list features against theirs. Never apologise for the price. Never offer a discount in the first breath.</div>
+    </div>
+  </div>
+
+  <!-- OBJECTION 2 -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-num">02</div>
+      <div class="section-title">The "I already have software" objection</div>
+      <div class="section-sub">2nd most common</div>
+    </div>
+
+    <div class="objection">
+      <div class="obj-header">
+        <span class="obj-label">THEY SAY</span>
+        <div class="obj-text">I already use [MOT Manager / Motasoft / etc.] for all that.</div>
+      </div>
+      <div class="obj-body">
+        <div class="obj-section-label">THE TRAP</div>
+        <p>They're saying this to end the conversation. Don't attack their software — agree with it and reposition yourself as complementary, not a replacement.</p>
+
+        <div class="obj-section-label green">WHAT YOU SAY</div>
+        <div class="obj-response">"Perfect — keep it. Seriously. That's the engine room of your business and I'd never ask you to rip it out. But your garage software is the cash register. I'm the shop window. MOT Manager will never build you a website, it won't rank you on Google, and it won't write a single word of content. What I do sits on top of what you've already got and feeds it more customers. You run them through MOT Manager once they walk through the door — that's its job, not mine."</div>
+
+        <div class="obj-section-label amber">THEN PIVOT TO</div>
+        <p><strong>"Can I ask — when was the last time someone found your garage through a Google search and booked without phoning first?"</strong> Works every time. Almost nobody can answer.</p>
+      </div>
+      <div class="obj-footer"><strong>Key:</strong> Position yourself as "works with" not "instead of". This lowers their defences instantly.</div>
+    </div>
+  </div>
+
+  <!-- OBJECTION 3 -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-num">03</div>
+      <div class="section-title">The DIY objection</div>
+      <div class="section-sub">Usually from younger owners</div>
+    </div>
+
+    <div class="objection">
+      <div class="obj-header">
+        <span class="obj-label">THEY SAY</span>
+        <div class="obj-text">I can just do this stuff myself — I've got a Facebook page already.</div>
+      </div>
+      <div class="obj-body">
+        <div class="obj-section-label">THE TRAP</div>
+        <p>Don't tell them they're wrong. Agree that they <em>can</em> — then make the time cost obvious.</p>
+
+        <div class="obj-section-label green">WHAT YOU SAY</div>
+        <div class="obj-response">"Absolutely, you can. The question is whether you <em>will</em>, every week, for the next two years. Every garage owner I've met has started a Facebook page and a website. Most of them — and I mean most — haven't posted to either in six months because they've been busy fixing cars. That's not a criticism, that's just the job. What I do is make sure this stuff actually gets done. Every week. Whether you've got a busy day or not. At your shop rate of — what, forty pounds an hour? — six hours a month of this admin is two hundred and forty quid of your time gone. You might as well be paying me and spending those hours on a ramp making real money."</div>
+
+        <div class="obj-section-label amber">THEN PIVOT TO</div>
+        <p><strong>"When was the last time you posted something on your Facebook page?"</strong> If it's more than a month ago (it always is), you've just proved the point without saying a word.</p>
+      </div>
+      <div class="obj-footer"><strong>The maths is your friend here:</strong> their own hourly rate beats yours.</div>
+    </div>
+  </div>
+
+  <!-- OBJECTION 4 -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-num">04</div>
+      <div class="section-title">The "prove it" objection</div>
+      <div class="section-sub">Legitimate · handle carefully</div>
+    </div>
+
+    <div class="objection">
+      <div class="obj-header">
+        <span class="obj-label">THEY SAY</span>
+        <div class="obj-text">How do I know this will actually work? Where are your case studies?</div>
+      </div>
+      <div class="obj-body">
+        <div class="obj-section-label">THE TRAP</div>
+        <p>Don't oversell. Don't invent numbers. You're new — own it and turn it into a pricing advantage. This is the honesty play, and it closes more deals than a fake case study ever would.</p>
+
+        <div class="obj-section-label green">WHAT YOU SAY</div>
+        <div class="obj-response">"Fair. I'm not going to pretend I've got fifty garages on the books — I'm building this consultancy and you'd be one of my first clients. Here's what that actually means for you: I'm hungry. I'll give your garage a level of attention a bigger agency never would. I'll answer the phone when you call. And because you're early, I can do something I won't be able to do in a year — I can knock the setup fee in half if you're willing to be my case study. One condition: after six months, if it's working, you let me put your name and numbers on my website. That's the deal."</div>
+
+        <div class="obj-section-label amber">THEN PIVOT TO</div>
+        <p><strong>"Does that sound fair?"</strong> Use silence afterwards. Don't keep talking. They'll either accept the framing or raise the real objection.</p>
+      </div>
+      <div class="obj-footer"><strong>Use sparingly:</strong> only drop the 50% setup discount for your first 2–3 clients. Martlesham is one of them.</div>
+    </div>
+  </div>
+
+  <!-- OBJECTION 5 -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-num">05</div>
+      <div class="section-title">The "contract" objection</div>
+      <div class="section-sub">Risk-averse owners</div>
+    </div>
+
+    <div class="objection">
+      <div class="obj-header">
+        <span class="obj-label">THEY SAY</span>
+        <div class="obj-text">I'm not signing up to £549 a month for 12 months on someone I've just met.</div>
+      </div>
+      <div class="obj-body">
+        <div class="obj-section-label">THE TRAP</div>
+        <p>Don't try to lock them in. A month-to-month deal removes the objection and forces <em>you</em> to perform — which you'd do anyway.</p>
+
+        <div class="obj-section-label green">WHAT YOU SAY</div>
+        <div class="obj-response">"Then don't. I don't do annual contracts — it's month-to-month from day one. Thirty days' notice, cancel any time. If I'm not earning my fee by month three you'll know about it and you should cancel. The only thing I'd ask is give it a proper ninety days — SEO and content don't work overnight, and it'd be unfair on both of us to judge it after two weeks. But I'm not going to tie you into anything. Your money, your choice, every single month."</div>
+
+        <div class="obj-section-label amber">THEN PIVOT TO</div>
+        <p>Push straight to next step: <strong>"If there's no lock-in, what's actually stopping us starting next week?"</strong></p>
+      </div>
+      <div class="obj-footer"><strong>This is your strongest close for Martlesham-sized garages.</strong> Risk removal beats discount every time.</div>
+    </div>
+  </div>
+
+  <!-- OBJECTION 6 -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-num">06</div>
+      <div class="section-title">The "AI is a scam" objection</div>
+      <div class="section-sub">Older owners mainly</div>
+    </div>
+
+    <div class="objection">
+      <div class="obj-header">
+        <span class="obj-label">THEY SAY</span>
+        <div class="obj-text">All this AI stuff is a load of rubbish. I don't trust it.</div>
+      </div>
+      <div class="obj-body">
+        <div class="obj-section-label">THE TRAP</div>
+        <p>Don't defend AI. Don't lecture them. Reframe the word entirely — they're reacting to the label, not the thing.</p>
+
+        <div class="obj-section-label green">WHAT YOU SAY</div>
+        <div class="obj-response">"I hear that a lot, and honestly, a lot of the AI hype is rubbish. Forget the buzzword for a second. What I actually do is pretty simple — I build you a proper website, I make sure Google knows you exist, I write the blog posts and the social posts so you don't have to, and I set up automatic reminders so customers come back. AI is just a tool I use to get it done faster and cheaper than an agency would. You don't need to trust AI — you need to trust the results. Let me show you what the website would look like before you commit to a penny."</div>
+
+        <div class="obj-section-label amber">THEN PIVOT TO</div>
+        <p>Offer a free website mockup. <strong>"Give me your garage name and I'll build you a sample page for free. No obligation. If you like it, we talk. If not, you've lost nothing."</strong></p>
+      </div>
+      <div class="obj-footer"><strong>Remember:</strong> strip the word "AI" out of your sales language entirely with skeptical owners. Sell the outcome.</div>
+    </div>
+  </div>
+
+  <!-- OBJECTION 7 -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-num">07</div>
+      <div class="section-title">The stall</div>
+      <div class="section-sub">Soft "no" dressed as a "maybe"</div>
+    </div>
+
+    <div class="objection">
+      <div class="obj-header">
+        <span class="obj-label">THEY SAY</span>
+        <div class="obj-text">Let me think about it and get back to you.</div>
+      </div>
+      <div class="obj-body">
+        <div class="obj-section-label">THE TRAP</div>
+        <p>This is not an objection — it's a polite brush-off. If you let them leave without a specific next step, you will never hear from them again. Ruthless follow-through starts here.</p>
+
+        <div class="obj-section-label green">WHAT YOU SAY</div>
+        <div class="obj-response">"Absolutely, take the time you need. Can I ask one thing though — what specifically do you want to think about? Because if it's the price, I can tell you right now what the cheapest entry point looks like. If it's whether it'll work, I can show you three examples in ten minutes. If it's timing, we can start any month you want. Nine times out of ten 'let me think about it' means I haven't explained something properly — so what's the actual question?"</div>
+
+        <div class="obj-section-label amber">THEN PIVOT TO</div>
+        <p>If they still want to go: <strong>"No problem. Let me put fifteen minutes in the diary for Thursday afternoon — I'll call you back then and you can tell me yes, no, or what you need from me to decide. Does Thursday at 3 work?"</strong> Lock in a specific time, not "next week".</p>
+      </div>
+      <div class="obj-footer"><strong>Ruthless rule:</strong> no follow-up call scheduled = no deal. Don't leave without a time in the diary.</div>
+    </div>
+  </div>
+
+  <!-- FLOW -->
+  <div class="flow">
+    <h3>The ideal call flow</h3>
+    <div class="flow-step"><div class="flow-num">1</div><p><strong>Open with their pain, not your pitch.</strong> "How are you finding new customers at the moment?" Let them describe the gap themselves.</p></div>
+    <div class="flow-step"><div class="flow-num">2</div><p><strong>Listen for 3 minutes before selling anything.</strong> They will tell you which objections are coming. Adjust.</p></div>
+    <div class="flow-step"><div class="flow-num">3</div><p><strong>Anchor high, land mid.</strong> Mention Complete first (£899), then position Growth (£549) as "what most garages your size go for". Starter is the safety net.</p></div>
+    <div class="flow-step"><div class="flow-num">4</div><p><strong>Handle 1 objection max before asking for the next step.</strong> Don't let the call become a debate. Reframe, pivot, close.</p></div>
+    <div class="flow-step"><div class="flow-num">5</div><p><strong>Always leave with a diary slot.</strong> Next call, next mockup, next visit. A garage owner who says "I'll think about it" with no date is already gone.</p></div>
+  </div>
+
+  <!-- RULES -->
+  <div class="rules">
+    <ol>
+      <li><p><strong>Never say "only"</strong>Never say "it's only £549". The word "only" is a tell. Say "it's £549" with a straight face and wait.</p></li>
+      <li><p><strong>Silence is a weapon</strong>After you've said the price or handled the objection, shut up. The first person to speak loses. Count to ten in your head.</p></li>
+      <li><p><strong>Sell the outcome, not the tool</strong>Nobody buys "a website with Calendly integration". They buy "fifteen more MOT bookings a month without answering the phone".</p></li>
+      <li><p><strong>Never trash the competitor</strong>Always say their software is great. It makes you look confident and stops them defending it instead of listening to you.</p></li>
+      <li><p><strong>Book the next step on the call</strong>Always leave with a specific date and time. Never "I'll email you next week". That's a lost deal.</p></li>
+      <li><p><strong>Walk away if you have to</strong>If they're never going to buy, end the call politely and move on. Your time is worth more than chasing a no.</p></li>
+    </ol>
+  </div>
+
+</div>
+
+</body>
+</html>

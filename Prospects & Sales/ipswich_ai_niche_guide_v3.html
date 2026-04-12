@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Consultancy — Ipswich Niche Strategy v3</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0D0D0D; --paper: #F5F0E8; --accent: #E84545; --gold: #C9A84C;
+    --muted: #7A7267; --card: #FFFFFF; --border: #E0D8CC;
+    --green: #2D6A4F; --amber: #D4840A; --red: #C0392B; --purple: #6C3483;
+    --tier1: #1B4332; --tier2: #1A5276; --tier3: #7D6608;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); min-height: 100vh; }
+
+  header { background: var(--ink); color: var(--paper); padding: 48px 40px 36px; position: relative; overflow: hidden; }
+  header::before { content: ''; position: absolute; top: -60px; right: -60px; width: 280px; height: 280px; border-radius: 50%; border: 2px solid rgba(201,168,76,0.2); }
+  header::after { content: ''; position: absolute; bottom: -40px; left: 200px; width: 160px; height: 160px; border-radius: 50%; border: 1px solid rgba(232,69,69,0.3); }
+  .header-label { font-family: 'Syne', sans-serif; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+  header h1 { font-family: 'Syne', sans-serif; font-size: clamp(26px, 5vw, 44px); font-weight: 800; line-height: 1.1; margin-bottom: 16px; }
+  header h1 span { color: var(--accent); }
+  header p { font-size: 15px; color: rgba(245,240,232,0.7); max-width: 580px; line-height: 1.6; }
+  .header-meta { display: flex; gap: 28px; margin-top: 28px; flex-wrap: wrap; }
+  .meta-item { display: flex; flex-direction: column; gap: 2px; }
+  .meta-item .label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
+  .meta-item .value { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; }
+
+  .filters { padding: 20px 40px; background: var(--ink); border-top: 1px solid rgba(255,255,255,0.08); display: flex; gap: 8px; flex-wrap: wrap; }
+  .filter-btn { background: transparent; border: 1px solid rgba(245,240,232,0.2); color: rgba(245,240,232,0.6); padding: 6px 16px; border-radius: 100px; font-family: 'DM Sans', sans-serif; font-size: 13px; cursor: pointer; transition: all 0.2s; }
+  .filter-btn:hover, .filter-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
+
+  main { max-width: 1240px; margin: 0 auto; padding: 48px 40px; }
+
+  .section-label { font-family: 'Syne', sans-serif; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* BUILDER MATRIX */
+  .builder-matrix { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; margin-bottom: 48px; }
+  .matrix-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; position: relative; overflow: hidden; }
+  .matrix-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+  .matrix-card.easiest::before { background: var(--green); }
+  .matrix-card.moderate::before { background: var(--amber); }
+  .matrix-card.complex::before { background: var(--red); }
+  .matrix-rank { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; }
+  .matrix-niche { font-size: 12px; font-weight: 600; margin: 4px 0 4px; }
+  .matrix-hours { font-size: 11px; color: var(--muted); margin-bottom: 2px; }
+  .matrix-ongoing { font-size: 11px; color: var(--muted); }
+  .matrix-build-badge { display: inline-block; padding: 2px 8px; border-radius: 100px; font-size: 10px; font-weight: 600; margin-top: 6px; }
+  .easiest .matrix-build-badge { background: #D5F5E3; color: #1E8449; }
+  .moderate .matrix-build-badge { background: #FEF9E7; color: #9A7D0A; }
+  .complex .matrix-build-badge { background: #FDEDEC; color: #C0392B; }
+
+  /* CARDS */
+  .niche-grid { display: flex; flex-direction: column; gap: 24px; }
+  .niche-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: box-shadow 0.2s; }
+  .niche-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
+  .niche-card.hidden { display: none; }
+
+  .card-header { padding: 22px 28px 18px; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--border); cursor: pointer; user-select: none; }
+  .card-left { display: flex; align-items: flex-start; gap: 16px; flex: 1; }
+  .rank-badge { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800; flex-shrink: 0; color: white; }
+  .rank-1{background:var(--tier1)} .rank-2{background:var(--tier2)} .rank-3{background:var(--tier3)}
+  .rank-4{background:#6C3483} .rank-5{background:#7B241C} .rank-6{background:#1A5276}
+  .rank-7{background:#0E6251} .rank-8{background:#4D5656}
+  .niche-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+  .niche-subtitle { font-size: 13px; color: var(--muted); }
+  .card-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+  .impact-badge { padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 600; }
+  .impact-very-high { background: #D5F5E3; color: #1E8449; }
+  .impact-high { background: #D6EAF8; color: #1A5276; }
+  .impact-medium { background: #FEF9E7; color: #9A7D0A; }
+  .build-badge-header { padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 600; }
+  .build-easy { background: #D5F5E3; color: #1E8449; }
+  .build-moderate { background: #FEF9E7; color: #9A7D0A; }
+  .build-complex { background: #FDEDEC; color: #C0392B; }
+  .revenue-preview { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: var(--green); }
+  .toggle-icon { font-size: 20px; color: var(--muted); margin-left: 8px; transition: transform 0.3s; flex-shrink: 0; }
+  .niche-card.open .toggle-icon { transform: rotate(180deg); }
+
+  .card-body { display: none; padding: 28px; }
+  .niche-card.open .card-body { display: block; }
+
+  /* TABS */
+  .card-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 24px; overflow-x: auto; }
+  .card-tab { padding: 10px 18px; font-size: 13px; font-weight: 600; cursor: pointer; border-bottom: 2px solid transparent; color: var(--muted); transition: all 0.2s; background: none; border-top: none; border-left: none; border-right: none; font-family: 'DM Sans', sans-serif; white-space: nowrap; }
+  .card-tab.active { color: var(--ink); border-bottom-color: var(--accent); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .body-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+  @media(max-width:700px){.body-grid{grid-template-columns:1fr;}}
+  .body-section h4 { font-family: 'Syne', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+
+  .improvements-list { list-style: none; }
+  .improvements-list li { display: flex; gap: 10px; margin-bottom: 10px; font-size: 14px; line-height: 1.5; }
+  .dot { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; flex-shrink: 0; margin-top: 1px; }
+  .dot-green{background:#D5F5E3;color:#1E8449} .dot-blue{background:#D6EAF8;color:#1A5276} .dot-amber{background:#FEF9E7;color:#9A7D0A}
+
+  .pricing-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .pricing-table th { background: var(--ink); color: var(--paper); padding: 10px 14px; text-align: left; font-family: 'Syne', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 1px; }
+  .pricing-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .pricing-table tr:last-child td { border-bottom: none; }
+  .pricing-table tr:nth-child(even) td { background: #FAFAF8; }
+  .price { font-family: 'Syne', sans-serif; font-weight: 700; color: var(--green); }
+  .hours-num { font-family: 'Syne', sans-serif; font-weight: 700; }
+  .h-low { color: var(--green); } .h-mid { color: var(--amber); } .h-high { color: var(--red); }
+
+  .value-bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-size: 13px; }
+  .value-bar-label { width: 160px; flex-shrink: 0; }
+  .value-bar-track { flex: 1; height: 8px; background: var(--border); border-radius: 100px; overflow: hidden; }
+  .value-bar-fill { height: 100%; border-radius: 100px; background: var(--green); }
+  .value-bar-pct { width: 36px; text-align: right; font-weight: 600; font-size: 12px; color: var(--green); }
+
+  .pitch-hook { background: var(--ink); color: var(--paper); border-radius: 8px; padding: 16px 20px; font-size: 14px; line-height: 1.6; margin-top: 20px; }
+  .pitch-hook::before { content: '💬 PITCH HOOK'; display: block; font-family: 'Syne', sans-serif; font-size: 10px; letter-spacing: 2px; color: var(--gold); margin-bottom: 8px; }
+
+  /* BUILD TAB */
+  .build-overview { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-bottom: 24px; }
+  @media(max-width:600px){.build-overview{grid-template-columns:1fr 1fr;}}
+  .build-stat { background: #F8F6F0; border-radius: 8px; padding: 14px 16px; }
+  .build-stat .bs-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .build-stat .bs-value { font-family: 'Syne', sans-serif; font-size: 19px; font-weight: 700; }
+  .bs-green{color:var(--green)} .bs-amber{color:var(--amber)} .bs-red{color:var(--red)}
+
+  .build-items-list { list-style: none; margin-bottom: 20px; }
+  .build-items-list li { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 13px; line-height: 1.5; }
+  .build-items-list li:last-child { border-bottom: none; }
+  .build-task-name { font-weight: 600; font-size: 13px; margin-bottom: 2px; }
+  .build-task-meta { font-size: 12px; color: var(--muted); }
+  .complexity-pill { display: inline-block; padding: 2px 10px; border-radius: 100px; font-size: 11px; font-weight: 600; white-space: nowrap; flex-shrink: 0; height: fit-content; }
+  .cp-easy{background:#D5F5E3;color:#1E8449} .cp-moderate{background:#FEF9E7;color:#9A7D0A} .cp-hard{background:#FDEDEC;color:#C0392B}
+
+  .tools-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(185px,1fr)); gap: 10px; margin-bottom: 20px; }
+  .tool-card { border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; }
+  .tool-name { font-weight: 600; font-size: 13px; margin-bottom: 2px; }
+  .tool-type { font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+  .tool-cost { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; }
+  .cost-free{color:var(--green)} .cost-paid{color:var(--amber)} .cost-varies{color:var(--purple)}
+
+  .build-note { background: #EDE7F6; border-radius: 8px; padding: 14px 16px; font-size: 13px; line-height: 1.6; color: #4A235A; }
+  .build-note strong { display: block; margin-bottom: 4px; color: #6C3483; font-family: 'Syne', sans-serif; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+
+  /* ── MONTHLY HOURS TAB ── */
+  .pkg-switcher { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+  .pkg-btn { padding: 7px 18px; border-radius: 100px; font-size: 13px; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: white; color: var(--muted); font-family: 'DM Sans', sans-serif; transition: all 0.18s; }
+  .pkg-btn.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .pkg-panel { display: none; }
+  .pkg-panel.active { display: block; }
+
+  .monthly-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 16px; }
+  .monthly-table th { background: #1B2631; color: var(--paper); padding: 10px 14px; text-align: left; font-family: 'Syne', sans-serif; font-size: 11px; letter-spacing: 1px; }
+  .monthly-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); line-height: 1.5; vertical-align: top; }
+  .monthly-table tr:last-child td { border-bottom: none; }
+  .monthly-table tr:nth-child(even) td { background: #FAFAF8; }
+  .task-type { font-size: 10px; padding: 2px 7px; border-radius: 100px; font-weight: 600; white-space: nowrap; }
+  .tt-auto { background: #D5F5E3; color: #1E8449; }   /* runs itself */
+  .tt-manual { background: #FEF9E7; color: #9A7D0A; } /* you do it */
+  .tt-creative { background: #D6EAF8; color: #1A5276; } /* creative work */
+
+  .hours-total-bar { background: #1B2631; border-radius: 8px; padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 4px; }
+  .htb-label { font-size: 13px; color: rgba(245,240,232,0.7); }
+  .htb-hours { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; color: var(--paper); }
+  .htb-hours span { font-size: 14px; color: var(--gold); font-weight: 400; }
+  .htb-rate { font-size: 13px; color: var(--gold); }
+
+  /* SUMMARY STRIP */
+  .summary-strip { background: var(--ink); border-radius: 12px; padding: 28px 32px; margin-bottom: 40px; display: grid; grid-template-columns: repeat(auto-fit,minmax(150px,1fr)); gap: 20px; }
+  .strip-item { text-align: center; }
+  .strip-item .s-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: rgba(245,240,232,0.5); margin-bottom: 6px; }
+  .strip-item .s-value { font-family: 'Syne', sans-serif; font-size: 24px; font-weight: 800; color: var(--paper); }
+  .strip-item .s-value span { color: var(--gold); }
+
+  h4.sub { font-family: 'Syne', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; margin-top: 4px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-label">AI Consultancy · Ipswich Market · v3 — Build + Monthly Hours</div>
+  <h1>Target Niches, Revenue &amp;<br><span>Full Time Workload Breakdown</span></h1>
+  <p>Every card now has three tabs: Impact &amp; Pricing · How to Build It · Monthly Hours Per Package — so you know exactly what you're committing to before signing a client.</p>
+  <div class="header-meta">
+    <div class="meta-item"><span class="label">Niches Ranked</span><span class="value">8</span></div>
+    <div class="meta-item"><span class="label">Lowest Monthly Ongoing</span><span class="value">1–2 hrs</span></div>
+    <div class="meta-item"><span class="label">Fastest First Build</span><span class="value">4–6 hrs</span></div>
+    <div class="meta-item"><span class="label">Core Tool Stack</span><span class="value">~£50–80/mo</span></div>
+  </div>
+</header>
+
+<div class="filters">
+  <button class="filter-btn active" onclick="filterNiches('all',this)">All Niches</button>
+  <button class="filter-btn" onclick="filterNiches('very-high',this)">🔥 Very High Impact</button>
+  <button class="filter-btn" onclick="filterNiches('high',this)">⚡ High Impact</button>
+  <button class="filter-btn" onclick="filterNiches('medium',this)">📈 Medium Impact</button>
+  <button class="filter-btn" onclick="filterByBuild('easy',this)">🟢 Easiest to Build</button>
+  <button class="filter-btn" onclick="filterByBuild('moderate',this)">🟡 Moderate Build</button>
+  <button class="filter-btn" onclick="filterByBuild('complex',this)">🔴 Complex Build</button>
+</div>
+
+<main>
+
+  <div class="section-label">Builder Priority Matrix — Easiest to Build First</div>
+  <div class="builder-matrix">
+    <div class="matrix-card easiest">
+      <div class="matrix-rank">#1 Start Here</div>
+      <div class="matrix-niche">Hair &amp; Beauty</div>
+      <div class="matrix-hours">⏱ Build: 4–6 hrs</div>
+      <div class="matrix-ongoing">🔄 Ongoing: 1–3 hrs/mo</div>
+      <div class="matrix-build-badge">🟢 Easiest</div>
+    </div>
+    <div class="matrix-card easiest">
+      <div class="matrix-rank">#2</div>
+      <div class="matrix-niche">Restaurants &amp; Cafés</div>
+      <div class="matrix-hours">⏱ Build: 5–8 hrs</div>
+      <div class="matrix-ongoing">🔄 Ongoing: 1–4 hrs/mo</div>
+      <div class="matrix-build-badge">🟢 Easiest</div>
+    </div>
+    <div class="matrix-card easiest">
+      <div class="matrix-rank">#3</div>
+      <div class="matrix-niche">Car Garages</div>
+      <div class="matrix-hours">⏱ Build: 5–8 hrs</div>
+      <div class="matrix-ongoing">🔄 Ongoing: 1–3 hrs/mo</div>
+      <div class="matrix-build-badge">🟢 Easiest</div>
+    </div>
+    <div class="matrix-card moderate">
+      <div class="matrix-rank">#4</div>
+      <div class="matrix-niche">Accountants</div>
+      <div class="matrix-hours">⏱ Build: 8–12 hrs</div>
+      <div class="matrix-ongoing">🔄 Ongoing: 2–5 hrs/mo</div>
+      <div class="matrix-build-badge">🟡 Moderate</div>
+    </div>
+    <div class="matrix-card moderate">
+      <div class="matrix-rank">#5</div>
+      <div class="matrix-niche">Trades</div>
+      <div class="matrix-hours">⏱ Build: 8–14 hrs</div>
+      <div class="matrix-ongoing">🔄 Ongoing: 2–5 hrs/mo</div>
+      <div class="matrix-build-badge">🟡 Moderate</div>
+    </div>
+    <div class="matrix-card moderate">
+      <div class="matrix-rank">#6</div>
+      <div class="matrix-niche">Estate Agents</div>
+      <div class="matrix-hours">⏱ Build: 10–16 hrs</div>
+      <div class="matrix-ongoing">🔄 Ongoing: 2–6 hrs/mo</div>
+      <div class="matrix-build-badge">🟡 Moderate</div>
+    </div>
+    <div class="matrix-card complex">
+      <div class="matrix-rank">#7</div>
+      <div class="matrix-niche">Dental / Clinics</div>
+      <div class="matrix-hours">⏱ Build: 14–20 hrs</div>
+      <div class="matrix-ongoing">🔄 Ongoing: 3–7 hrs/mo</div>
+      <div class="matrix-build-badge">🔴 Complex</div>
+    </div>
+    <div class="matrix-card complex">
+      <div class="matrix-rank">#8</div>
+      <div class="matrix-niche">Solicitors</div>
+      <div class="matrix-hours">⏱ Build: 16–24 hrs</div>
+      <div class="matrix-ongoing">🔄 Ongoing: 3–7 hrs/mo</div>
+      <div class="matrix-build-badge">🔴 Complex</div>
+    </div>
+  </div>
+
+  <div class="summary-strip">
+    <div class="strip-item"><div class="s-label">Lowest Monthly Mgmt</div><div class="s-value">1<span>hr</span></div></div>
+    <div class="strip-item"><div class="s-label">Avg Monthly Mgmt</div><div class="s-value">3<span>hrs</span></div></div>
+    <div class="strip-item"><div class="s-label">Most Automated Niche</div><div class="s-value">Beauty</div></div>
+    <div class="strip-item"><div class="s-label">Most Manual Niche</div><div class="s-value">Solicitors</div></div>
+    <div class="strip-item"><div class="s-label">Tool Stack / mo</div><div class="s-value">~£<span>65</span></div></div>
+  </div>
+
+  <div class="section-label">All 8 Niches — 3 Tabs Per Card: Impact · Build · Monthly Hours</div>
+
+  <div class="niche-grid">
+
+    <!-- ════════════════════════════════════════
+         CARD 5 FIRST (easiest) — HAIR & BEAUTY
+         ════════════════════════════════════════ -->
+    <div class="niche-card" data-impact="high" data-build="easy" id="card-5">
+      <div class="card-header" onclick="toggleCard('card-5')">
+        <div class="card-left">
+          <div class="rank-badge rank-5">5</div>
+          <div>
+            <div class="niche-title">Hair Salons, Beauty &amp; Aesthetics</div>
+            <div class="niche-subtitle">🟢 Build first — easiest setup, most automated ongoing, great case study niche.</div>
+          </div>
+        </div>
+        <div class="card-right">
+          <span class="impact-badge impact-high">⚡ High Impact</span>
+          <span class="build-badge-header build-easy">🟢 Build: 4–6 hrs · Ongoing: 1–3 hrs/mo</span>
+          <span class="revenue-preview">£300–£900/mo</span>
+          <span class="toggle-icon">▼</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-tabs">
+          <button class="card-tab active" onclick="switchTab(event,'card-5','impact')">📈 Impact &amp; Pricing</button>
+          <button class="card-tab" onclick="switchTab(event,'card-5','build')">🔧 How to Build It</button>
+          <button class="card-tab" onclick="switchTab(event,'card-5','hours')">⏱ Monthly Hours</button>
+        </div>
+
+        <div class="tab-panel active" data-panel="card-5-impact">
+          <div class="body-grid">
+            <div class="body-section">
+              <h4>AI Improvements You Can Deliver</h4>
+              <ul class="improvements-list">
+                <li><span class="dot dot-green">✓</span><span><strong>6-Week Rebooking Trigger</strong> — automated "time to rebook?" message at right interval per service type.</span></li>
+                <li><span class="dot dot-green">✓</span><span><strong>No-Show Reduction Reminders</strong> — 48hr and 2hr reminders. Cuts no-shows 30%+.</span></li>
+                <li><span class="dot dot-blue">✓</span><span><strong>Lapsed Client Reactivation</strong> — win-back email to anyone not booked in 90+ days.</span></li>
+                <li><span class="dot dot-blue">✓</span><span><strong>AI Social Content</strong> — weekly captions for Instagram/Facebook from photos the salon sends you.</span></li>
+                <li><span class="dot dot-amber">✓</span><span><strong>Post-Treatment Product Upsell</strong> — personalised aftercare email triggered by service type.</span></li>
+              </ul>
+            </div>
+            <div class="body-section">
+              <h4>Business Value to the Client</h4>
+              <div class="value-bar-row"><span class="value-bar-label">Repeat bookings</span><div class="value-bar-track"><div class="value-bar-fill" style="width:80%"></div></div><span class="value-bar-pct">+80%</span></div>
+              <div class="value-bar-row"><span class="value-bar-label">No-show rate</span><div class="value-bar-track"><div class="value-bar-fill" style="width:70%"></div></div><span class="value-bar-pct">−30%</span></div>
+              <div class="value-bar-row"><span class="value-bar-label">Revenue per client</span><div class="value-bar-track"><div class="value-bar-fill" style="width:55%"></div></div><span class="value-bar-pct">+55%</span></div>
+              <br>
+              <table class="pricing-table">
+                <tr><th>Package</th><th>What's Included</th><th>Price</th></tr>
+                <tr><td>Starter</td><td>Rebooking + no-show reminders</td><td class="price">£300/mo</td></tr>
+                <tr><td>Growth</td><td>+ lapsed reactivation + social content</td><td class="price">£600/mo</td></tr>
+                <tr><td>Full Stack</td><td>All above + upsell emails + reporting</td><td class="price">£900/mo</td></tr>
+              </table>
+            </div>
+          </div>
+          <div class="pitch-hook">"A salon losing 2 no-shows a week is losing £6,000+ a year. Our system cuts that in half — and the rebooking trigger fills £1,500–£2,000 of empty diary space every month automatically."</div>
+        </div>
+
+        <div class="tab-panel" data-panel="card-5-build">
+          <div class="build-overview">
+            <div class="build-stat"><div class="bs-label">Complexity</div><div class="bs-value bs-green">Easy</div></div>
+            <div class="build-stat"><div class="bs-label">First Build</div><div class="bs-value bs-green">4–6 hrs</div></div>
+            <div class="build-stat"><div class="bs-label">Tool Cost</div><div class="bs-value bs-green">~£30/mo</div></div>
+            <div class="build-stat"><div class="bs-label">Coding</div><div class="bs-value bs-green">Zero</div></div>
+            <div class="build-stat"><div class="bs-label">Hardest Part</div><div class="bs-value bs-green" style="font-size:13px">Getting client list</div></div>
+            <div class="build-stat"><div class="bs-label">Reusable Template</div><div class="bs-value bs-green">Yes — fully</div></div>
+          </div>
+          <ul class="build-items-list">
+            <li><span class="complexity-pill cp-easy">Easy · 1 hr</span><div><div class="build-task-name">No-Show Reminders</div><div class="build-task-meta">Configure in Fresha/Timely (most salons already have it) or build 2-email sequence in MailerLite triggered by booking confirmation.</div></div></li>
+            <li><span class="complexity-pill cp-easy">Easy · 1–2 hrs</span><div><div class="build-task-name">6-Week Rebooking Trigger</div><div class="build-task-meta">Single automated email 6 weeks after last appointment. Tag in MailerLite post-visit. Template reusable across all salon clients.</div></div></li>
+            <li><span class="complexity-pill cp-easy">Easy · 1 hr</span><div><div class="build-task-name">Lapsed Reactivation</div><div class="build-task-meta">Monthly export of contacts with no visit in 90+ days → MailerLite segment → win-back email with small offer. 30 min/mo ongoing.</div></div></li>
+            <li><span class="complexity-pill cp-easy">Easy · 1 hr setup</span><div><div class="build-task-name">Social Content Pipeline</div><div class="build-task-meta">Salon WhatsApps you photos. You run them through Claude prompt template → 4–8 captions → schedule in Buffer. Template built once.</div></div></li>
+            <li><span class="complexity-pill cp-easy">Easy · 30 min</span><div><div class="build-task-name">Post-Treatment Upsell Email</div><div class="build-task-meta">3–4 templates by service type. Tag triggers correct email. Write once, runs forever.</div></div></li>
+          </ul>
+          <h4 class="sub">Tools &amp; Subscriptions</h4>
+          <div class="tools-grid">
+            <div class="tool-card"><div class="tool-name">MailerLite</div><div class="tool-type">Email sequences</div><div class="tool-cost cost-free">Free up to 1,000</div></div>
+            <div class="tool-card"><div class="tool-name">Fresha / Timely</div><div class="tool-type">Booking (client's own)</div><div class="tool-cost cost-free">Client already has it</div></div>
+            <div class="tool-card"><div class="tool-name">Buffer</div><div class="tool-type">Social scheduling</div><div class="tool-cost cost-free">Free tier fine</div></div>
+            <div class="tool-card"><div class="tool-name">Claude / ChatGPT</div><div class="tool-type">Caption writing</div><div class="tool-cost cost-paid">£20/mo</div></div>
+            <div class="tool-card"><div class="tool-name">Make (optional)</div><div class="tool-type">Trigger automation</div><div class="tool-cost cost-free">Free tier fine</div></div>
+          </div>
+          <div class="build-note"><strong>🟢 START HERE — Your First Client</strong>Build this on a Saturday morning. If they use Fresha, reminders are already there — you just configure them. Your value-add is the rebooking sequence, lapsed reactivation, and social content. Stack 3–4 salon clients at £300–400/mo for a solid base.</div>
+        </div>
+
+        <!-- MONTHLY HOURS TAB -->
+        <div class="tab-panel" data-panel="card-5-hours">
+          <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">Once built, here's exactly what you do every month for each package — and how long each task takes. <strong>Automated</strong> = runs itself, you just check it. <strong>Manual</strong> = you actively do this.</p>
+          <div class="pkg-switcher">
+            <button class="pkg-btn active" onclick="switchPkg(event,'card-5','starter')">Starter · £300/mo</button>
+            <button class="pkg-btn" onclick="switchPkg(event,'card-5','growth')">Growth · £600/mo</button>
+            <button class="pkg-btn" onclick="switchPkg(event,'card-5','full')">Full Stack · £900/mo</button>
+          </div>
+
+          <div class="pkg-panel active" data-pkg="card-5-starter">
+            <table class="monthly-table">
+              <tr><th>Task</th><th>Type</th><th>Frequency</th><th>Hrs/mo</th><th>What You Actually Do</th></tr>
+              <tr><td>No-show reminders</td><td><span class="task-type tt-auto">Automated</span></td><td>Continuous</td><td class="hours-num h-low">0</td><td>Check deliverability once a month. Runs itself.</td></tr>
+              <tr><td>Rebooking trigger emails</td><td><span class="task-type tt-auto">Automated</span></td><td>Continuous</td><td class="hours-num h-low">0</td><td>Fires 6 weeks after each visit automatically.</td></tr>
+              <tr><td>Monthly check &amp; reporting</td><td><span class="task-type tt-manual">Manual</span></td><td>Monthly</td><td class="hours-num h-low">1</td><td>Pull open/click rates from MailerLite. Send client a 5-line summary email.</td></tr>
+            </table>
+            <div class="hours-total-bar">
+              <div><div class="htb-label">Total monthly hours — Starter</div><div class="htb-hours">~1 hr <span>per client</span></div></div>
+              <div class="htb-rate">£300 ÷ 1 hr = <strong style="color:white">£300/hr effective rate</strong></div>
+            </div>
+          </div>
+
+          <div class="pkg-panel" data-pkg="card-5-growth">
+            <table class="monthly-table">
+              <tr><th>Task</th><th>Type</th><th>Frequency</th><th>Hrs/mo</th><th>What You Actually Do</th></tr>
+              <tr><td>No-show reminders</td><td><span class="task-type tt-auto">Automated</span></td><td>Continuous</td><td class="hours-num h-low">0</td><td>Runs itself. Zero touch.</td></tr>
+              <tr><td>Rebooking trigger</td><td><span class="task-type tt-auto">Automated</span></td><td>Continuous</td><td class="hours-num h-low">0</td><td>Runs itself. Zero touch.</td></tr>
+              <tr><td>Lapsed client export &amp; send</td><td><span class="task-type tt-manual">Manual</span></td><td>Monthly</td><td class="hours-num h-low">0.5</td><td>Export 90-day lapsed list from Fresha/sheet → load into MailerLite segment → send win-back email. Takes 30 mins.</td></tr>
+              <tr><td>Social media captions</td><td><span class="task-type tt-creative">Creative</span></td><td>Weekly</td><td class="hours-num h-mid">1.5</td><td>Receive 4–5 photos from salon via WhatsApp. Run through Claude prompt template → edit lightly → schedule in Buffer. ~20 min/week.</td></tr>
+              <tr><td>Monthly check &amp; reporting</td><td><span class="task-type tt-manual">Manual</span></td><td>Monthly</td><td class="hours-num h-low">1</td><td>Pull stats, send client summary.</td></tr>
+            </table>
+            <div class="hours-total-bar">
+              <div><div class="htb-label">Total monthly hours — Growth</div><div class="htb-hours">~3 hrs <span>per client</span></div></div>
+              <div class="htb-rate">£600 ÷ 3 hrs = <strong style="color:white">£200/hr effective rate</strong></div>
+            </div>
+          </div>
+
+          <div class="pkg-panel" data-pkg="card-5-full">
+            <table class="monthly-table">
+              <tr><th>Task</th><th>Type</th><th>Frequency</th><th>Hrs/mo</th><th>What You Actually Do</th></tr>
+              <tr><td>No-show reminders</td><td><span class="task-type tt-auto">Automated</span></td><td>Continuous</td><td class="hours-num h-low">0</td><td>Runs itself.</td></tr>
+              <tr><td>Rebooking trigger</td><td><span class="task-type tt-auto">Automated</span></td><td>Continuous</td><td class="hours-num h-low">0</td><td>Runs itself.</td></tr>
+              <tr><td>Upsell emails</td><td><span class="task-type tt-auto">Automated</span></td><td>Continuous</td><td class="hours-num h-low">0</td><td>Triggers by service tag. Zero touch.</td></tr>
+              <tr><td>Lapsed client export &amp; send</td><td><span class="task-type tt-manual">Manual</span></td><td>Monthly</td><td class="hours-num h-low">0.5</td><td>30 min export + send.</td></tr>
+              <tr><td>Social media captions</td><td><span class="task-type tt-creative">Creative</span></td><td>Weekly</td><td class="hours-num h-mid">1.5</td><td>~20 min/week from photos to scheduled posts.</td></tr>
+              <tr><td>Performance report</td><td><span class="task-type tt-manual">Manual</span></td><td>Monthly</td><td class="hours-num h-low">1</td><td>Full stats summary + recommendations for client.</td></tr>
+            </table>
+            <div class="hours-total-bar">
+              <div><div class="htb-label">Total monthly hours — Full Stack</div><div class="htb-hours">~3 hrs <span>per client</span></div></div>
+              <div class="htb-rate">£900 ÷ 3 hrs = <strong style="color:white">£300/hr effective rate</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════
+         CARD 6 — RESTAURANTS
+         ════════════════════════ -->
+    <div class="niche-card" data-impact="high" data-build="easy" id="card-6">
+      <div class="card-header" onclick="toggleCard('card-6')">
+        <div class="card-left">
+          <div class="rank-badge rank-6">6</div>
+          <div>
+            <div class="niche-title">Restaurants, Cafés &amp; Takeaways</div>
+            <div class="niche-subtitle">High footfall, weak digital presence, zero marketing spend. Easy wins.</div>
+          </div>
+        </div>
+        <div class="card-right">
+          <span class="impact-badge impact-high">⚡ High Impact</span>
+          <span class="build-badge-header build-easy">🟢 Build: 5–8 hrs · Ongoing: 1–4 hrs/mo</span>
+          <span class="revenue-preview">£300–£800/mo</span>
+          <span class="toggle-icon">▼</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-tabs">
+          <button class="card-tab active" onclick="switchTab(event,'card-6','impact')">📈 Impact &amp; Pricing</button>
+          <button class="card-tab" onclick="switchTab(event,'card-6','build')">🔧 How to Build It</button>
+          <button class="card-tab" onclick="switchTab(event,'card-6','hours')">⏱ Monthly Hours</button>
+        </div>
+        <div class="tab-panel active" data-panel="card-6-impact">
+          <div class="body-grid">
+            <div class="body-section">
+              <h4>AI Improvements You Can Deliver</h4>
+              <ul class="improvements-list">
+                <li><span class="dot dot-green">✓</span><span><strong>Post-Visit Review Request SMS</strong> — 2 hours after dining, AI sends a text. Builds Google reviews fast.</span></li>
+                <li><span class="dot dot-green">✓</span><span><strong>AI Social Media Content</strong> — captions for food photos. Owner sends photos, you write and schedule.</span></li>
+                <li><span class="dot dot-blue">✓</span><span><strong>Booking Confirmation &amp; Reminder</strong> — reduces no-shows automatically.</span></li>
+                <li><span class="dot dot-blue">✓</span><span><strong>Loyalty Re-engagement Campaign</strong> — monthly email to lapsed customers with offer.</span></li>
+                <li><span class="dot dot-amber">✓</span><span><strong>Google Business SEO</strong> — optimised profile + weekly automated posts.</span></li>
+              </ul>
+            </div>
+            <div class="body-section">
+              <h4>Business Value</h4>
+              <div class="value-bar-row"><span class="value-bar-label">Google reviews</span><div class="value-bar-track"><div class="value-bar-fill" style="width:90%"></div></div><span class="value-bar-pct">+90%</span></div>
+              <div class="value-bar-row"><span class="value-bar-label">Return visit rate</span><div class="value-bar-track"><div class="value-bar-fill" style="width:65%"></div></div><span class="value-bar-pct">+65%</span></div>
+              <br>
+              <table class="pricing-table">
+                <tr><th>Package</th><th>What's Included</th><th>Price</th></tr>
+                <tr><td>Starter</td><td>Review automation + Google Business</td><td class="price">£300/mo</td></tr>
+                <tr><td>Growth</td><td>+ social content + booking flow</td><td class="price">£550/mo</td></tr>
+                <tr><td>Full Stack</td><td>All above + loyalty campaign</td><td class="price">£800/mo</td></tr>
+              </table>
+            </div>
+          </div>
+          <div class="pitch-hook">"A restaurant getting just 10% more repeat visits is worth £15,000+ a year. The review SMS alone could take you from 30 to 300 Google reviews in 3 months — and reviews drive footfall."</div>
+        </div>
+        <div class="tab-panel" data-panel="card-6-build">
+          <div class="build-overview">
+            <div class="build-stat"><div class="bs-label">Complexity</div><div class="bs-value bs-green">Easy</div></div>
+            <div class="build-stat"><div class="bs-label">First Build</div><div class="bs-value bs-green">5–8 hrs</div></div>
+            <div class="build-stat"><div class="bs-label">Tool Cost</div><div class="bs-value bs-green">~£30/mo</div></div>
+            <div class="build-stat"><div class="bs-label">Coding</div><div class="bs-value bs-green">Zero</div></div>
+            <div class="build-stat"><div class="bs-label">Hardest Part</div><div class="bs-value bs-green" style="font-size:13px">Getting customer emails</div></div>
+            <div class="build-stat"><div class="bs-label">Reusable</div><div class="bs-value bs-green">Fully</div></div>
+          </div>
+          <ul class="build-items-list">
+            <li><span class="complexity-pill cp-easy">Easy · 1 hr</span><div><div class="build-task-name">Review Request SMS</div><div class="build-task-meta">Owner ticks Google Sheet → Make triggers Twilio SMS 2 hrs later with Google review link. 1 hour to set up and test.</div></div></li>
+            <li><span class="complexity-pill cp-easy">Easy · 2 hrs setup</span><div><div class="build-task-name">Google Business Optimisation + Auto Posts</div><div class="build-task-meta">Claim/optimise profile. Set up Make + GBP API to post 1 update/week automatically. Claude writes copy from template.</div></div></li>
+            <li><span class="complexity-pill cp-easy">Easy · 1 hr setup + weekly</span><div><div class="build-task-name">Social Content</div><div class="build-task-meta">Owner sends photos. You write captions using Claude, schedule via Buffer. ~20 min/week ongoing.</div></div></li>
+            <li><span class="complexity-pill cp-easy">Easy · 1 hr</span><div><div class="build-task-name">Booking Reminders</div><div class="build-task-meta">If they use OpenTable/ResDiary — configure built-in reminders. If manual, simple MailerLite trigger from a Google Sheet entry.</div></div></li>
+            <li><span class="complexity-pill cp-easy">Easy · 30 min setup</span><div><div class="build-task-name">Loyalty Re-engagement</div><div class="build-task-meta">Monthly email blast to customer list. Write template once, update the offer each month. 30 min ongoing.</div></div></li>
+          </ul>
+          <div class="tools-grid">
+            <div class="tool-card"><div class="tool-name">Make</div><div class="tool-type">Automation</div><div class="tool-cost cost-free">Free tier fine</div></div>
+            <div class="tool-card"><div class="tool-name">Twilio</div><div class="tool-type">Review SMS</div><div class="tool-cost cost-varies">~£0.04/SMS</div></div>
+            <div class="tool-card"><div class="tool-name">MailerLite</div><div class="tool-type">Email campaigns</div><div class="tool-cost cost-free">Free up to 1,000</div></div>
+            <div class="tool-card"><div class="tool-name">Buffer</div><div class="tool-type">Social scheduling</div><div class="tool-cost cost-free">Free tier</div></div>
+            <div class="tool-card"><div class="tool-name">Claude</div><div class="tool-type">Captions &amp; copy</div><div class="tool-cost cost-paid">£20/mo</div></div>
+            <div class="tool-card"><div class="tool-name">Google Business</div><div class="tool-type">SEO profile</div><div class="tool-cost cost-free">Free</div></div>
+          </div>
+        </div>
+        <div class="tab-panel" data-panel="card-6-hours">
+          <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">One-time build is done. Here's what your month actually looks like per client.</p>
+          <div class="pkg-switcher">
+            <button class="pkg-btn active" onclick="switchPkg(event,'card-6','starter')">Starter · £300/mo</button>
+            <button class="pkg-btn" onclick="switchPkg(event,'card-6','growth')">Growth · £550/mo</button>
+            <button class="pkg-btn" onclick="switchPkg(event,'card-6','full')">Full Stack · £800/mo</button>
+          </div>
+          <div class="pkg-panel active" data-pkg="card-6-starter">
+            <table class="monthly-table">
+              <tr><th>Task</th><th>Type</th><th>Frequency</th><th>Hrs/mo</th><th>What You Actually Do</th></tr>
+              <tr><td>Review request SMS</td><td><span class="task-type tt-auto">Automated</span></td><td>Continuous</td><td class="hours-num h-low">0</td><td>Fires automatically when owner ticks sheet. You check it works once a month.</td></tr>
+              <tr><td>Google Business weekly post</td><td><span class="task-type tt-auto">Automated</span></td><td>Weekly</td><td class="hours-num h-low">0.5</td><td>Write 4 post captions with Claude at start of month. Schedule them. Takes 30 min total.</td></tr>
+              <tr><td>Monthly check &amp; report</td><td><span class="task-type tt-manual">Manual</span></td><td>Monthly</td><td class="hours-num h-low">0.5</td><td>Check review count, GBP views, send 5-line update to owner.</td></tr>
+            </table>
+            <div class="hours-total-bar">
+              <div><div class="htb-label">Total monthly hours — Starter</div><div class="htb-hours">~1 hr <span>per client</span></div></div>
+              <div class="htb-rate">£300 ÷ 1 hr = <strong style="color:white">£300/hr effective rate</strong></div>
+            </div>
+          </div>
+          <div class="pkg-panel" data-pkg="card-6-growth">
+            <table class="monthly-table">
+              <tr><th>Task</th><th>Type</th><th>Frequency</th><th>Hrs/mo</th><th>What You Actually Do</th></tr>
+              <tr><td>Review request SMS</td><td><span class="task-type tt-auto">Automated</span></td><td>Continuous</td><td class="hours-num h-low">0</td><td>Runs itself.</td></tr>
+              <tr><td>Google Business posts</td><td><span class="task-type tt-creative">Creative</span></td><td>Weekly</td><td class="hours-num h-low">0.5</td><td>30 min at start of month — 4 captions, scheduled.</td></tr>
+              <tr><td>Social media captions</td><td><span class="task-type tt-creative">Creative</span></td><td>Weekly</td><td class="hours-num h-mid">1.5</td><td>Receive photos weekly → Claude prompt → edit → Buffer. ~20 min/week.</td></tr>
+              <tr><td>Booking reminders check</td><td><span class="task-type tt-auto">Automated</span></td><td>Continuous</td><td class="hours-num h-low">0</td><td>Configured. Runs itself.</td></tr>
+              <tr><td>Monthly report</td><td><span class="task-type tt-manual">Manual</span></td><td>Monthly</td><td class="hours-num h-low">0.5</td><td>Stats summary to owner.</td></tr>
+            </table>
+            <div class="hours-total-bar">
+              <div><div class="htb-label">Total monthly hours — Growth</div><div class="htb-hours">~2.5 hrs <span>per client</span></div></div>
+              <div class="htb-rate">£550 ÷ 2.5 hrs = <strong style="color:white">£220/hr effective rate</strong></div>
+            </div>
+          </div>
+          <div class="pkg-panel" data-pkg="card-6-full">
+            <table class="monthly-table">
+              <tr><th>Task</th><th>Type</th><th>Frequency</th><th>Hrs/mo</th><th>What You Actually Do</th></tr>
+              <tr><td>Review request SMS</td><td><span class="task-type tt-auto">Automated</span></td><td>Continuous</td><td class="hours-num h-low">0</td><td>Runs itself.</td></tr>
+              <tr><td>Google Business posts</td><td><span class="task-type tt-creative">Creative</span></td><td>Weekly</td><td class="hours-num h-low">0.5</td><td>30 min total, batched at month start.</td></tr>
+              <tr><td>Social media captions</td><td><span class="task-type tt-creative">Creative</span></td><td>Weekly</td><td class="hours-num h-mid">1.5</td><td>~20 min/week from photos to Buffer.</td></tr>
+              <tr><td>Booking reminders</td><td><span class="task-type tt-auto">Automated</span></td><td>Continuous</td><td class="hours-num h-low">0</td><td>Runs itself.</td></tr>
+              <tr><td>Loyalty campaign</td><td><span class="task-type tt-creative">Creative</span></td><td>Monthly</td><td class="hours-num h-low">0.5</td><td>Update offer text in email template, send to list. 30 min.</td></tr>
+              <tr><td>Full performance report</td><td><span class="task-type tt-manual">Manual</span></td><td>Monthly</td><td class="hours-num h-low">1</td><td>Review count, GBP views, email stats, social reach. Send to owner with commentary.</td></tr>
+            </table>
+            <div class="hours-total-bar">
+              <div><div class="htb-label">Total monthly hours — Full Stack</div><div class="htb-hours">~4 hrs <span>per client</span></div></div>
+              <div class="htb-rate">£800 ÷ 4 hrs = <strong style="color:white">£200/hr effective rate</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════
+         CARD 8 — CAR GARAGES
+         ════════════════════════ -->
+    <div class="niche-card" data-impact="medium" data-build="easy" id="card-8">
+      <div class="card-header" onclick="toggleCard('card-8')">
+        <div class="card-left">
+          <div class="rank-badge rank-8">8</div>
+          <div>
+            <div class="niche-title">MOT Centres &amp; Car Garages</div>
+            <div class="niche-subtitle">Predictable recall triggers. Once built, almost entirely self-running.</div>
+          </div>
+        </div>
+        <div class="card-right">
+          <span class="impact-badge impact-medium">📈 Medium Impact</span>
+          <span class="build-badge-header build-easy">🟢 Build: 5–8 hrs · Ongoing: 1–3 hrs/mo</span>
+          <span class="revenue-preview">£300–£750/mo</span>
+          <span class="toggle-icon">▼</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-tabs">
+          <button class="card-tab active" onclick="switchTab(event,'card-8','impact')">📈 Impact &amp; Pricing</button>
+          <button class="card-tab" onclick="switchTab(event,'card-8','build')">🔧 How to Build It</button>
+          <button class="card-tab" onclick="switchTab(event,'card-8','hours')">⏱ Monthly Hours</button>
+        </div>
+        <div class="tab-panel active" data-panel="card-8-impact">
+          <div class="body-grid">
+            <div class="body-section">
+              <h4>AI Improvements You Can Deliver</h4>
+              <ul class="improvements-list">
+                <li><span class="dot dot-green">✓</span><span><strong>MOT Due Reminder</strong> — 6-week pre-MOT email + SMS. Fills the diary before customers go elsewhere.</span></li>
+                <li><span class="dot dot-green">✓</span><span><strong>Vehicle Ready SMS</strong> — automated collection notification.</span></li>
+                <li><span class="dot dot-blue">✓</span><span><strong>Annual Service Trigger</strong> — 11 months post-service rebooking prompt.</span></li>
+                <li><span class="dot dot-blue">✓</span><span><strong>Post-Service Review Request</strong> — builds Google reviews automatically.</span></li>
+                <li><span class="dot dot-amber">✓</span><span><strong>Local SEO Content</strong> — monthly blog posts targeting local searches.</span></li>
+              </ul>
+            </div>
+            <div class="body-section">
+              <h4>Business Value</h4>
+              <div class="value-bar-row"><span class="value-bar-label">MOT rebooking rate</span><div class="value-bar-track"><div class="value-bar-fill" style="width:75%"></div></div><span class="value-bar-pct">+75%</span></div>
+              <div class="value-bar-row"><span class="value-bar-label">Google reviews</span><div class="value-bar-track"><div class="value-bar-fill" style="width:80%"></div></div><span class="value-bar-pct">+80%</span></div>
+              <br>
+              <table class="pricing-table">
+                <tr><th>Package</th><th>What's Included</th><th>Price</th></tr>
+                <tr><td>Starter</td><td>MOT reminders + vehicle ready SMS</td><td class="price">£300/mo</td></tr>
+                <tr><td>Growth</td><td>+ service trigger + review automation</td><td class="price">£500/mo</td></tr>
+                <tr><td>Full Stack</td><td>All above + local SEO content</td><td class="price">£750/mo</td></tr>
+              </table>
+            </div>
+          </div>
+          <div class="pitch-hook">"A garage with 400 customers is losing a fortune to Kwik Fit simply because they never follow up. Our AI contacts every customer before their MOT is due — automatically, 365 days a year."</div>
+        </div>
+        <div class="tab-panel" data-panel="card-8-build">
+          <div class="build-overview">
+            <div class="build-stat"><div class="bs-label">Complexity</div><div class="bs-value bs-green">Easy</div></div>
+            <div class="build-stat"><div class="bs-label">First Build</div><div class="bs-value bs-green">5–8 hrs</div></div>
+            <div class="build-stat"><div class="bs-label">Tool Cost</div><div class="bs-value bs-green">~£30/mo</div></div>
+            <div class="build-stat"><div class="bs-label">Coding</div><div class="bs-value bs-green">Zero</div></div>
+            <div class="build-stat"><div class="bs-label">Hardest Part</div><div class="bs-value bs-green" style="font-size:13px">Getting MOT date data</div></div>
+            <div class="build-stat"><div class="bs-label">Reusable</div><div class="bs-value bs-green">Fully</div></div>
+          </div>
+          <ul class="build-items-list">
+            <li><span class="complexity-pill cp-easy">Easy · 2–3 hrs</span><div><div class="build-task-name">MOT Reminder + Annual Service Trigger</div><div class="build-task-meta">Garage provides spreadsheet with customer MOT/service dates. Make watches sheet daily → triggers email + SMS when date is 6 weeks away. Build once for both (same scenario, different dates column).</div></div></li>
+            <li><span class="complexity-pill cp-easy">Easy · 30 min</span><div><div class="build-task-name">Vehicle Ready SMS</div><div class="build-task-meta">Mechanic ticks "complete" in Google Sheet → Make fires Twilio SMS to customer. Simplest automation possible.</div></div></li>
+            <li><span class="complexity-pill cp-easy">Easy · 30 min</span><div><div class="build-task-name">Review Request</div><div class="build-task-meta">Add a step to the vehicle ready Make scenario: 2 hrs after SMS → send review request. Zero extra setup.</div></div></li>
+            <li><span class="complexity-pill cp-moderate">Moderate · 2 hrs/mo ongoing</span><div><div class="build-task-name">Local SEO Blog Posts</div><div class="build-task-meta">2 Claude-written posts/month targeting "MOT Ipswich", "cheap garage near me". Post to their WordPress.</div></div></li>
+          </ul>
+          <div class="tools-grid">
+            <div class="tool-card"><div class="tool-name">Make</div><div class="tool-type">Automation</div><div class="tool-cost cost-free">Free tier fine</div></div>
+            <div class="tool-card"><div class="tool-name">Twilio</div><div class="tool-type">SMS reminders</div><div class="tool-cost cost-varies">~£0.04/SMS</div></div>
+            <div class="tool-card"><div class="tool-name">MailerLite</div><div class="tool-type">Email sequences</div><div class="tool-cost cost-free">Free up to 1,000</div></div>
+            <div class="tool-card"><div class="tool-name">Google Sheets</div><div class="tool-type">Customer data</div><div class="tool-cost cost-free">Free</div></div>
+            <div class="tool-card"><div class="tool-name">Claude</div><div class="tool-type">SEO blog writing</div><div class="tool-cost cost-paid">£20/mo</div></div>
+          </div>
+        </div>
+        <div class="tab-panel" data-panel="card-8-hours">
+          <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">The automation does 90% of the work. Here's your actual monthly commitment per client.</p>
+          <div class="pkg-switcher">
+            <button class="pkg-btn active" onclick="switchPkg(event,'card-8','starter')">Starter · £300/mo</button>
+            <button class="pkg-btn" onclick="switchPkg(event,'card-8','growth')">Growth · £500/mo</button>
+            <button class="pkg-btn" onclick="switchPkg(event,'card-8','full')">Full Stack · £750/mo</button>
+          </div>
+          <div class="pkg-panel active" data-pkg="card-8-starter">
+            <table class="monthly-table">
+              <tr><th>Task</th><th>Type</th><th>Frequency</th><th>Hrs/mo</th><th>What You Actually Do</th></tr>
+              <tr><td>MOT reminder emails/SMS</td><td><span class="task-type tt-auto">Automated</span></td><td>Daily (auto)</td><td class="hours-num h-low">0</td><td>Make checks the sheet daily and fires automatically. You do nothing.</td></tr>
+              <tr><td>Vehicle ready SMS</td><td><span class="task-type tt-auto">Automated</span></td><td>Per job</td><td class="hours-num h-low">0</td><td>Mechanic ticks sheet. Fires itself.</td></tr>
+              <tr><td>Update customer spreadsheet</td><td><span class="task-type tt-manual">Manual</span></td><td>Monthly</td><td class="hours-num h-low">0.5</td><td>Garage sends you new customer records once a month. You add to the master sheet. 30 min.</td></tr>
+              <tr><td>Monthly check &amp; report</td><td><span class="task-type tt-manual">Manual</span></td><td>Monthly</td><td class="hours-num h-low">0.5</td><td>Check SMS delivery, email open rates. Send a 5-line update to the garage owner.</td></tr>
+            </table>
+            <div class="hours-total-bar">
+              <div><div class="htb-label">Total monthly hours — Starter</div><div class="htb-hours">~1 hr <span>per client</span></div></div>
+              <div class="htb-rate">£300 ÷ 1 hr = <strong style="color:white">£300/hr effective rate</strong></div>
+            </div>
+          </div>
+          <div class="pkg-panel" data-pkg="card-8-growth">
+            <table class="monthly-table">
+              <tr><th>Task</th><th>Type</th><th>Frequency</th><th>Hrs/mo</th><th>What You Actually Do</th></tr>
+              <tr><td>MOT + service reminders</td><td><span class="task-type tt-auto">Automated</span></td><td>Daily (auto)</td><td class="hours-num h-low">0</td><td>Fully automated.</td></tr>
+              <tr><td>Vehicle ready + review request</td><td><span class="task-type tt-auto">Automated</span></td><td>Per job</td><td class="hours-num h-low">0</td><td>Fully automated — one Make scenario handles both.</td></tr>
+              <tr><td>Update customer spreadsheet</td><td><span class="task-type tt-manual">Manual</span></td><td>Monthly</td><td class="hours-num h-low">0.5</td><td>Add new records from garage. 30 min.</td></tr>
+              <tr><td>Monthly report</td><td><span class="task-type tt-manual">Manual</span></td><td>Monthly</td><td class="hours-num h-low">0.5</td><td>SMS stats, review count growth, email opens. Brief update to owner.</td></tr>
+            </table>
+            <div class="hours-total-bar">
+              <div><div class="htb-label">Total monthly hours — Growth</div><div class="htb-hours">~1 hr <span>per client</span></div></div>
+              <div class="htb-rate">£500 ÷ 1 hr = <strong style="color:white">£500/hr effective rate</strong></div>
+            </div>
+          </div>
+          <div class="pkg-panel" data-pkg="card-8-full">
+            <table class="monthly-table">
+              <tr><th>Task</th><th>Type</th><th>Frequency</th><th>Hrs/mo</th><th>What You Actually Do</th></tr>
+              <tr><td>MOT + service reminders</td><td><span class="task-type tt-auto">Automated</span></td><td>Daily (auto)</td><td class="hours-num h-low">0</td><td>Fully automated.</td></tr>
+              <tr><td>Vehicle ready + review request</td><td><span class="task-type tt-auto">Automated</span></td><td>Per job</td><td class="hours-num h-low">0</td><td>Fully automated.</td></tr>
+              <tr><td>Update customer spreadsheet</td><td><span class="task-type tt-manual">Manual</span></td><td>Monthly</td><td class="hours-num h-low">0.5</td><td>New records from garage. 30 min.</td></tr>
+              <tr><td>Local SEO blog posts</td><td><span class="task-type tt-creative">Creative</span></td><td>Monthly</td><td class="hours-num h-mid">2</td><td>Write 2 posts with Claude targeting local terms. Review, format, post to their website. ~1 hr/post.</td></tr>
+              <tr><td>Full report</td><td><span class="task-type tt-manual">Manual</span></td><td>Monthly</td><td class="hours-num h-low">0.5</td><td>Review count, organic traffic, SMS stats. Send to owner.</td></tr>
+            </table>
+            <div class="hours-total-bar">
+              <div><div class="htb-label">Total monthly hours — Full Stack</div><div class="htb-hours">~3 hrs <span>per client</span></div></div>
+              <div class="htb-rate">£750 ÷ 3 hrs = <strong style="color:white">£250/hr effective rate</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════
+         CARD 4 — ACCOUNTANTS
+         ════════════════════════ -->
+    <div class="niche-card" data-impact="high" data-build="moderate" id="card-4">
+      <div class="card-header" onclick="toggleCard('card-4')">
+        <div class="card-left">
+          <div class="rank-badge rank-4">4</div>
+          <div>
+            <div class="niche-title">Accountants &amp; Bookkeepers</div>
+            <div class="niche-subtitle">Seasonal spikes, doc chasing chaos, surprisingly low ongoing commitment once built.</div>
+          </div>
+        </div>
+        <div class="card-right">
+          <span class="impact-badge impact-high">⚡ High Impact</span>
+          <span class="build-badge-header build-moderate">🟡 Build: 8–12 hrs · Ongoing: 2–5 hrs/mo</span>
+          <span class="revenue-preview">£400–£1,200/mo</span>
+          <span class="toggle-icon">▼</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-tabs">
+          <button class="card-tab active" onclick="switchTab(event,'card-4','impact')">📈 Impact &amp; Pricing</button>
+          <button class="card-tab" onclick="switchTab(event,'card-4','build')">🔧 How to Build It</button>
+          <button class="card-tab" onclick="switchTab(event,'card-4','hours')">⏱ Monthly Hours</button>
+        </div>
+        <div class="tab-panel active" data-panel="card-4-impact">
+          <div class="body-grid">
+            <div class="body-section">
+              <h4>AI Improvements You Can Deliver</h4>
+              <ul class="improvements-list">
+                <li><span class="dot dot-green">✓</span><span><strong>Tax Deadline Reminder Sequences</strong> — automated campaigns weeks before SA/VAT deadlines to all clients.</span></li>
+                <li><span class="dot dot-green">✓</span><span><strong>Document Chasing Automation</strong> — 3-step email chase for missing payslips, receipts, bank statements.</span></li>
+                <li><span class="dot dot-blue">✓</span><span><strong>Client Onboarding Flow</strong> — welcome sequence + intake form, runs automatically for every new client.</span></li>
+                <li><span class="dot dot-blue">✓</span><span><strong>AI Monthly Newsletter</strong> — tax/finance update email drafted by Claude, reviewed by partner, sent monthly.</span></li>
+                <li><span class="dot dot-amber">✓</span><span><strong>Local SEO Blog Content</strong> — "small business accountant Ipswich" style content driving inbound leads.</span></li>
+              </ul>
+            </div>
+            <div class="body-section">
+              <h4>Business Value</h4>
+              <div class="value-bar-row"><span class="value-bar-label">Admin time saved</span><div class="value-bar-track"><div class="value-bar-fill" style="width:75%"></div></div><span class="value-bar-pct">6–10h</span></div>
+              <div class="value-bar-row"><span class="value-bar-label">Late filings avoided</span><div class="value-bar-track"><div class="value-bar-fill" style="width:80%"></div></div><span class="value-bar-pct">−80%</span></div>
+              <br>
+              <table class="pricing-table">
+                <tr><th>Package</th><th>What's Included</th><th>Price</th></tr>
+                <tr><td>Starter</td><td>Deadline reminders + doc chasing</td><td class="price">£400/mo</td></tr>
+                <tr><td>Growth</td><td>+ onboarding flow + newsletter</td><td class="price">£800/mo</td></tr>
+                <tr><td>Full Stack</td><td>All above + SEO content + chatbot</td><td class="price">£1,200/mo</td></tr>
+              </table>
+            </div>
+          </div>
+          <div class="pitch-hook">"Your team spends January in chaos because clients submit docs at the last minute. Our automated nudges start 6 weeks out — you get everything early, your team stops chasing, and you free up 8 hours a week."</div>
+        </div>
+        <div class="tab-panel" data-panel="card-4-build">
+          <div class="build-overview">
+            <div class="build-stat"><div class="bs-label">Complexity</div><div class="bs-value bs-amber">Moderate</div></div>
+            <div class="build-stat"><div class="bs-label">First Build</div><div class="bs-value bs-amber">8–12 hrs</div></div>
+            <div class="build-stat"><div class="bs-label">Tool Cost</div><div class="bs-value bs-amber">~£50/mo</div></div>
+            <div class="build-stat"><div class="bs-label">Coding</div><div class="bs-value bs-green">None</div></div>
+            <div class="build-stat"><div class="bs-label">Hardest Part</div><div class="bs-value bs-amber" style="font-size:13px">Client data list setup</div></div>
+            <div class="build-stat"><div class="bs-label">Reusable</div><div class="bs-value bs-green">Mostly</div></div>
+          </div>
+          <ul class="build-items-list">
+            <li><span class="complexity-pill cp-easy">Easy · 2–3 hrs</span><div><div class="build-task-name">Deadline Reminder Campaigns</div><div class="build-task-meta">Scheduled MailerLite campaigns around Jan 31, Apr 7, etc. Client provides CSV of emails. Reusable year to year.</div></div></li>
+            <li><span class="complexity-pill cp-easy">Easy · 1–2 hrs</span><div><div class="build-task-name">Document Chasing Sequence</div><div class="build-task-meta">3-step automated email chase. Accountant tags client as "needs docs" → sequence fires over 10 days.</div></div></li>
+            <li><span class="complexity-pill cp-easy">Easy · 1–2 hrs</span><div><div class="build-task-name">New Client Onboarding</div><div class="build-task-meta">5-email welcome sequence + Typeform intake. Triggered on new client tag. Write once, activate per new client.</div></div></li>
+            <li><span class="complexity-pill cp-moderate">Moderate · 2–3 hrs/mo ongoing</span><div><div class="build-task-name">AI Monthly Newsletter</div><div class="build-task-meta">Claude drafts from a prompt (budget updates, tax tips). Partner reviews. You schedule and send. Ongoing monthly task.</div></div></li>
+            <li><span class="complexity-pill cp-moderate">Moderate · 2 hrs/mo ongoing</span><div><div class="build-task-name">SEO Blog Content</div><div class="build-task-meta">2 Claude-drafted posts/month. Post to their site. ~1 hr/post.</div></div></li>
+          </ul>
+          <div class="tools-grid">
+            <div class="tool-card"><div class="tool-name">MailerLite</div><div class="tool-type">Email automation</div><div class="tool-cost cost-free">Free up to 1,000</div></div>
+            <div class="tool-card"><div class="tool-name">Typeform</div><div class="tool-type">Client intake forms</div><div class="tool-cost cost-paid">£25/mo</div></div>
+            <div class="tool-card"><div class="tool-name">Claude API</div><div class="tool-type">Newsletter + blog</div><div class="tool-cost cost-paid">£15–20/mo</div></div>
+            <div class="tool-card"><div class="tool-name">Make</div><div class="tool-type">Trigger automation</div><div class="tool-cost cost-paid">£9/mo</div></div>
+          </div>
+        </div>
+        <div class="tab-panel" data-panel="card-4-hours">
+          <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">Note: This niche has seasonality — Jan and Jul are heavier months due to deadlines. Hours below reflect a typical quiet month.</p>
+          <div class="pkg-switcher">
+            <button class="pkg-btn active" onclick="switchPkg(event,'card-4','starter')">Starter · £400/mo</button>
+            <button class="pkg-btn" onclick="switchPkg(event,'card-4','growth')">Growth · £800/mo</button>
+            <button class="pkg-btn" onclick="switchPkg(event,'card-4','full')">Full Stack · £1,200/mo</button>
+          </div>
+          <div class="pkg-panel active" data-pkg="card-4-starter">
+            <table class="monthly-table">
+              <tr><th>Task</th><th>Type</th><th>Frequency</th><th>Hrs/mo</th><th>What You Actually Do</th></tr>
+              <tr><td>Deadline reminder campaigns</td><td><span class="task-type tt-auto">Automated</span></td><td>Scheduled</td><td class="hours-num h-low">0</td><td>Set up once per year around deadline dates. Runs automatically. You check it fired correctly.</td></tr>
+              <tr><td>Document chasing sequences</td><td><span class="task-type tt-manual">Manual</span></td><td>As needed</td><td class="hours-num h-low">0.5</td><td>Accountant tells you which clients need docs → you tag them in MailerLite → sequence fires. 5–10 min per batch.</td></tr>
+              <tr><td>Monthly check &amp; report</td><td><span class="task-type tt-manual">Manual</span></td><td>Monthly</td><td class="hours-num h-low">0.5</td><td>Email open rates, sequence activity. Brief update to partner.</td></tr>
+            </table>
+            <div class="hours-total-bar">
+              <div><div class="htb-label">Total monthly hours — Starter (typical month)</div><div class="htb-hours">~1 hr <span>per client</span></div></div>
+              <div class="htb-rate">£400 ÷ 1 hr = <strong style="color:white">£400/hr effective rate</strong></div>
+            </div>
+          </div>
+          <div class="pkg-panel" data-pkg="card-4-growth">
+            <table class="monthly-table">
+              <tr><th>Task</th><th>Type</th><th>Frequency</th><th>Hrs/mo</th><th>What You Actually Do</th></tr>
+              <tr><td>Deadline reminders</td><td><span class="task-type tt-auto">Automated</span></td><td>Scheduled</td><td class="hours-num h-low">0</td><td>Runs itself on schedule.</td></tr>
+              <tr><td>Doc chasing sequences</td><td><span class="task-type tt-manual">Manual</span></td><td>As needed</td><td class="hours-num h-low">0.5</td><td>Tag clients when needed. 5 min per activation.</td></tr>
+              <tr><td>New client onboarding</td><td><span class="task-type tt-auto">Automated</span></td><td>Per new client</td><td class="hours-num h-low">0</td><td>You add new client tag → 5-email sequence fires automatically.</td></tr>
+              <tr><td>AI newsletter draft + review</td><td><span class="task-type tt-creative">Creative</span></td><td>Monthly</td><td class="hours-num h-mid">1.5</td><td>Prompt Claude → edit output → send to partner for 10-min review → you schedule it. ~90 min total.</td></tr>
+              <tr><td>Monthly report</td><td><span class="task-type tt-manual">Manual</span></td><td>Monthly</td><td class="hours-num h-low">0.5</td><td>Stats + update to partner.</td></tr>
+            </table>
+            <div class="hours-total-bar">
+              <div><div class="htb-label">Total monthly hours — Growth</div><div class="htb-hours">~2.5 hrs <span>per client</span></div></div>
+              <div class="htb-rate">£800 ÷ 2.5 hrs = <strong style="color:white">£320/hr effective rate</strong></div>
+            </div>
+          </div>
+          <div class="pkg-panel" data-pkg="card-4-full">
+            <table class="monthly-table">
+              <tr><th>Task</th><th>Type</th><th>Frequency</th><th>Hrs/mo</th><th>What You Actually Do</th></tr>
+              <tr><td>Deadline reminders</td><td><span class="task-type tt-auto">Automated</span></td><td>Scheduled</td><td class="hours-num h-low">0</td><td>Runs itself.</td></tr>
+              <tr><td>Doc chasing sequences</td><td><span class="task-type tt-manual">Manual</span></td><td>As needed</td><td class="hours-num h-low">0.5</td><td>Tag activation. 5 min per batch.</td></tr>
+              <tr><td>Onboarding flow</td><td><span class="task-type tt-auto">Automated</span></td><td>Per new client</td><td class="hours-num h-low">0</td><td>Automated on tag.</td></tr>
+              <tr><td>AI newsletter</td><td><span class="task-type tt-creative">Creative</span></td><td>Monthly</td><td class="hours-num h-mid">1.5</td><td>Claude draft → edit → partner review → schedule.</td></tr>
+              <tr><td>SEO blog posts (×2)</td><td><span class="task-type tt-creative">Creative</span></td><td>Monthly</td><td class="hours-num h-mid">2</td><td>Claude drafts 2 posts → you edit + add internal links → post to WordPress. ~1 hr/post.</td></tr>
+              <tr><td>Full performance report</td><td><span class="task-type tt-manual">Manual</span></td><td>Monthly</td><td class="hours-num h-low">1</td><td>Email stats, sequence activity, SEO ranking check, organic traffic. Full report to partner.</td></tr>
+            </table>
+            <div class="hours-total-bar">
+              <div><div class="htb-label">Total monthly hours — Full Stack</div><div class="htb-hours">~5 hrs <span>per client</span></div></div>
+              <div class="htb-rate">£1,200 ÷ 5 hrs = <strong style="color:white">£240/hr effective rate</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════
+         CARD 1 — TRADES
+         ════════════════════ -->
+    <div class="niche-card" data-impact="very-high" data-build="moderate" id="card-1">
+      <div class="card-header" onclick="toggleCard('card-1')">
+        <div class="card-left">
+          <div class="rank-badge rank-1">1</div>
+          <div>
+            <div class="niche-title">Trades — Roofers, Electricians, Plumbers, Heating Engineers</div>
+            <div class="niche-subtitle">High-ticket, quote-driven, terrible at follow-up. Huge revenue impact.</div>
+          </div>
+        </div>
+        <div class="card-right">
+          <span class="impact-badge impact-very-high">🔥 Very High Impact</span>
+          <span class="build-badge-header build-moderate">🟡 Build: 8–14 hrs · Ongoing: 2–5 hrs/mo</span>
+          <span class="revenue-preview">£400–£1,400/mo</span>
+          <span class="toggle-icon">▼</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-tabs">
+          <button class="card-tab active" onclick="switchTab(event,'card-1','impact')">📈 Impact &amp; Pricing</button>
+          <button class="card-tab" onclick="switchTab(event,'card-1','build')">🔧 How to Build It</button>
+          <button class="card-tab" onclick="switchTab(event,'card-1','hours')">⏱ Monthly Hours</button>
+        </div>
+        <div class="tab-panel active" data-panel="card-1-impact">
+          <div class="body-grid">
+            <div class="body-section">
+              <h4>AI Improvements You Can Deliver</h4>
+              <ul class="improvements-list">
+                <li><span class="dot dot-green">✓</span><span><strong>Instant Enquiry Responder</strong> — AI chatbot captures job details and holds enquiry 24/7, even at 11pm.</span></li>
+                <li><span class="dot dot-green">✓</span><span><strong>Quote Follow-Up Sequences</strong> — if quote not accepted in 3 days, AI nudges. Converts 15–25% more.</span></li>
+                <li><span class="dot dot-green">✓</span><span><strong>Google Review Automation</strong> — post-job trigger for review request. Reviews = local SEO = inbound.</span></li>
+                <li><span class="dot dot-blue">✓</span><span><strong>Job Completion Email</strong> — branded email with warranty info and referral ask.</span></li>
+                <li><span class="dot dot-amber">✓</span><span><strong>AI Local SEO Blog Posts</strong> — monthly content targeting "roofer Ipswich", "emergency plumber Suffolk".</span></li>
+              </ul>
+            </div>
+            <div class="body-section">
+              <h4>Business Value</h4>
+              <div class="value-bar-row"><span class="value-bar-label">Lead capture rate</span><div class="value-bar-track"><div class="value-bar-fill" style="width:85%"></div></div><span class="value-bar-pct">+85%</span></div>
+              <div class="value-bar-row"><span class="value-bar-label">Quote conversion</span><div class="value-bar-track"><div class="value-bar-fill" style="width:70%"></div></div><span class="value-bar-pct">+70%</span></div>
+              <br>
+              <table class="pricing-table">
+                <tr><th>Package</th><th>What's Included</th><th>Price</th></tr>
+                <tr><td>Starter</td><td>AI chatbot + review automation</td><td class="price">£400/mo</td></tr>
+                <tr><td>Growth</td><td>+ quote follow-up + job completion email</td><td class="price">£900/mo</td></tr>
+                <tr><td>Full Stack</td><td>All above + SEO content + reporting</td><td class="price">£1,400/mo</td></tr>
+              </table>
+            </div>
+          </div>
+          <div class="pitch-hook">"For a roofer averaging £800/job, one saved enquiry = one month's fee back in their pocket. The AI responds in under 60 seconds at any hour — they never miss another lead."</div>
+        </div>
+        <div class="tab-panel" data-panel="card-1-build">
+          <div class="build-overview">
+            <div class="build-stat"><div class="bs-label">Complexity</div><div class="bs-value bs-amber">Moderate</div></div>
+            <div class="build-stat"><div class="bs-label">First Build</div><div class="bs-value bs-amber">8–14 hrs</div></div>
+            <div class="build-stat"><div class="bs-label">Tool Cost</div><div class="bs-value bs-amber">~£65/mo</div></div>
+            <div class="build-stat"><div class="bs-label">Coding</div><div class="bs-value bs-green">None</div></div>
+            <div class="build-stat"><div class="bs-label">Hardest Part</div><div class="bs-value bs-amber" style="font-size:13px">Chatbot training</div></div>
+            <div class="build-stat"><div class="bs-label">Reusable</div><div class="bs-value bs-green">Mostly</div></div>
+          </div>
+          <ul class="build-items-list">
+            <li><span class="complexity-pill cp-easy">Easy · 1–2 hrs</span><div><div class="build-task-name">Review Request Automation</div><div class="build-task-meta">Tradesperson marks job complete in Google Sheet → Make triggers Twilio SMS with Google review link. Reusable template.</div></div></li>
+            <li><span class="complexity-pill cp-easy">Easy · 1 hr</span><div><div class="build-task-name">Job Completion Email</div><div class="build-task-meta">Branded email template in MailerLite. Triggered from sheet or sent manually. Write once.</div></div></li>
+            <li><span class="complexity-pill cp-moderate">Moderate · 3–4 hrs</span><div><div class="build-task-name">Quote Follow-Up Sequence</div><div class="build-task-meta">3-email drip in MailerLite. Needs tradesperson to tag quotes as "sent" in their system or a Google Sheet.</div></div></li>
+            <li><span class="complexity-pill cp-moderate">Moderate · 3–5 hrs</span><div><div class="build-task-name">AI Enquiry Chatbot</div><div class="build-task-meta">Tidio embedded on their site. Train on service types, job areas, FAQs. Hands off to email/WhatsApp. Key challenge: getting their enquiry process documented.</div></div></li>
+            <li><span class="complexity-pill cp-moderate">Moderate · 2 hrs/mo ongoing</span><div><div class="build-task-name">Local SEO Blog Posts</div><div class="build-task-meta">2 Claude-written posts/month. Post to WordPress. ~1 hr/post ongoing.</div></div></li>
+          </ul>
+          <div class="tools-grid">
+            <div class="tool-card"><div class="tool-name">Make</div><div class="tool-type">Automation</div><div class="tool-cost cost-paid">£9/mo</div></div>
+            <div class="tool-card"><div class="tool-name">MailerLite</div><div class="tool-type">Email sequences</div><div class="tool-cost cost-free">Free–£10</div></div>
+            <div class="tool-card"><div class="tool-name">Tidio</div><div class="tool-type">AI chatbot</div><div class="tool-cost cost-paid">£19/mo/client</div></div>
+            <div class="tool-card"><div class="tool-name">Twilio</div><div class="tool-type">SMS</div><div class="tool-cost cost-varies">~£0.04/SMS</div></div>
+            <div class="tool-card"><div class="tool-name">Claude</div><div class="tool-type">SEO content</div><div class="tool-cost cost-paid">£20/mo</div></div>
+          </div>
+          <div class="build-note"><strong>💡 Build Tip</strong>Start with review automation + job completion email (2 hrs total). These are immediately impressive and pay for themselves. Save the chatbot for month 2 — it's the hardest to configure and needs the most client input.</div>
+        </div>
+        <div class="tab-panel" data-panel="card-1-hours">
+          <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">Chatbot and automations run themselves. Your monthly time is mostly creative (SEO) and light monitoring.</p>
+          <div class="pkg-switcher">
+            <button class="pkg-btn active" onclick="switchPkg(event,'card-1','starter')">Starter · £400/mo</button>
+            <button class="pkg-btn" onclick="switchPkg(event,'card-1','growth')">Growth · £900/mo</button>
+            <button class="pkg-btn" onclick="switchPkg(event,'card-1','full')">Full Stack · £1,400/mo</button>
+          </div>
+          <div class="pkg-panel active" data-pkg="card-1-starter">
+            <table class="monthly-table">
+              <tr><th>Task</th><th>Type</th><th>Frequency</th><th>Hrs/mo</th><th>What You Actually Do</th></tr>
+              <tr><td>Enquiry chatbot</td><td><span class="task-type tt-auto">Automated</span></td><td>Continuous</td><td class="hours-num h-low">0</td><td>Runs 24/7. You check lead volume and quality once a month. 15 min.</td></tr>
+              <tr><td>Review request SMS</td><td><span class="task-type tt-auto">Automated</span></td><td>Per job</td><td class="hours-num h-low">0</td><td>Tradesperson ticks sheet. Fires itself.</td></tr>
+              <tr><td>Monthly check &amp; report</td><td><span class="task-type tt-manual">Manual</span></td><td>Monthly</td><td class="hours-num h-low">1</td><td>Check chatbot leads captured, review count, SMS delivery. Send update to client.</td></tr>
+            </table>
+            <div class="hours-total-bar">
+              <div><div class="htb-label">Total monthly hours — Starter</div><div class="htb-hours">~1 hr <span>per client</span></div></div>
+              <div class="htb-rate">£400 ÷ 1 hr = <strong style="color:white">£400/hr effective rate</strong></div>
+            </div>
+          </div>
+          <div class="pkg-panel" data-pkg="card-1-growth">
+            <table class="monthly-table">
+              <tr><th>Task</th><th>Type</th><th>Frequency</th><th>Hrs/mo</th><th>What You Actually Do</th></tr>
+              <tr><td>Enquiry chatbot</td><td><span class="task-type tt-auto">Automated</span></td><td>Continuous</td><td class="hours-num h-low">0</td><td>Runs itself.</td></tr>
+              <tr><td>Review request SMS</td><td><span class="task-type tt-auto">Automated</span></td><td>Per job</td><td class="hours-num h-low">0</td><td>Runs itself.</td></tr>
+              <tr><td>Quote follow-up sequences</td><td><span class="task-type tt-manual">Manual</span></td><td>As needed</td><td class="hours-num h-low">0.5</td><td>Tradesperson logs new quotes → you (or they) tag them in MailerLite to trigger sequence. ~5 min per batch. Check once a week.</td></tr>
+              <tr><td>Job completion emails</td><td><span class="task-type tt-auto">Automated</span></td><td>Per job</td><td class="hours-num h-low">0</td><td>Triggered from sheet. Runs itself.</td></tr>
+              <tr><td>Monthly report</td><td><span class="task-type tt-manual">Manual</span></td><td>Monthly</td><td class="hours-num h-low">1</td><td>Leads captured, quote conversion stats, review count. Email to client.</td></tr>
+            </table>
+            <div class="hours-total-bar">
+              <div><div class="htb-label">Total monthly hours — Growth</div><div class="htb-hours">~1.5 hrs <span>per client</span></div></div>
+              <div class="htb-rate">£900 ÷ 1.5 hrs = <strong style="color:white">£600/hr effective rate</strong></div>
+            </div>
+          </div>
+          <div class="pkg-panel" data-pkg="card-1-full">
+            <table class="monthly-table">
+              <tr><th>Task</th><th>Type</th><th>Frequency</th><th>Hrs/mo</th><th>What You Actually Do</th></tr>
+              <tr><td>Enquiry chatbot</td><td><span class="task-type tt-auto">Automated</span></td><td>Continuous</td><td class="hours-num h-low">0</td><td>Runs itself. Monthly lead quality check: 15 min.</td></tr>
+              <tr><td>Review request + job completion</td><td><span class="task-type tt-auto">Automated</span></td><td>Per job</td><td class="hours-num h-low">0</td><td>Both fully automated from sheet triggers.</td></tr>
+              <tr><td>Quote follow-up tagging</td><td><span class="task-type tt-manual">Manual</span></td><td>Weekly</td><td class="hours-num h-low">0.5</td><td>Tag new quotes to fire sequence. Can train client to do this themselves after month 2.</td></tr>
+              <tr><td>SEO blog posts (×2)</td><td><span class="task-type tt-creative">Creative</span></td><td>Monthly</td><td class="hours-num h-mid">2</td><td>Claude drafts → you edit → post to their WordPress. ~1 hr/post.</td></tr>
+              <tr><td>Full performance report</td><td><span class="task-type tt-manual">Manual</span></td><td>Monthly</td><td class="hours-num h-mid">1.5</td><td>Leads, review count, organic traffic, quote conversion. Detailed summary to client.</td></tr>
+            </table>
+            <div class="hours-total-bar">
+              <div><div class="htb-label">Total monthly hours — Full Stack</div><div class="htb-hours">~4 hrs <span>per client</span></div></div>
+              <div class="htb-rate">£1,400 ÷ 4 hrs = <strong style="color:white">£350/hr effective rate</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════
+         CARD 3 — ESTATE AGENTS
+         ════════════════════════ -->
+    <div class="niche-card" data-impact="very-high" data-build="moderate" id="card-3">
+      <div class="card-header" onclick="toggleCard('card-3')">
+        <div class="card-left">
+          <div class="rank-badge rank-3">3</div>
+          <div>
+            <div class="niche-title">Estate &amp; Letting Agents</div>
+            <div class="niche-subtitle">Admin-heavy. AI slashes hours across listings, viewings, and landlord comms.</div>
+          </div>
+        </div>
+        <div class="card-right">
+          <span class="impact-badge impact-very-high">🔥 Very High Impact</span>
+          <span class="build-badge-header build-moderate">🟡 Build: 10–16 hrs · Ongoing: 2–6 hrs/mo</span>
+          <span class="revenue-preview">£500–£1,500/mo</span>
+          <span class="toggle-icon">▼</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-tabs">
+          <button class="card-tab active" onclick="switchTab(event,'card-3','impact')">📈 Impact &amp; Pricing</button>
+          <button class="card-tab" onclick="switchTab(event,'card-3','build')">🔧 How to Build It</button>
+          <button class="card-tab" onclick="switchTab(event,'card-3','hours')">⏱ Monthly Hours</button>
+        </div>
+        <div class="tab-panel active" data-panel="card-3-impact">
+          <div class="body-grid">
+            <div class="body-section">
+              <h4>AI Improvements You Can Deliver</h4>
+              <ul class="improvements-list">
+                <li><span class="dot dot-green">✓</span><span><strong>AI Property Listing Writer</strong> — polished Rightmove/Zoopla descriptions in seconds from basic details.</span></li>
+                <li><span class="dot dot-green">✓</span><span><strong>Buyer/Tenant Nurture Sequences</strong> — auto-emails new properties to registered buyers matching their criteria.</span></li>
+                <li><span class="dot dot-green">✓</span><span><strong>Landlord Monthly Report PDF</strong> — auto-compiled statements sent to every landlord.</span></li>
+                <li><span class="dot dot-blue">✓</span><span><strong>Viewing Reminder Bot</strong> — confirmation + directions sent automatically, cuts no-shows.</span></li>
+                <li><span class="dot dot-amber">✓</span><span><strong>Valuation Lead Chatbot</strong> — captures website enquiries 24/7 and books valuation slots.</span></li>
+              </ul>
+            </div>
+            <div class="body-section">
+              <h4>Business Value</h4>
+              <div class="value-bar-row"><span class="value-bar-label">Admin time saved</span><div class="value-bar-track"><div class="value-bar-fill" style="width:80%"></div></div><span class="value-bar-pct">8–12h</span></div>
+              <div class="value-bar-row"><span class="value-bar-label">Lead response speed</span><div class="value-bar-track"><div class="value-bar-fill" style="width:95%"></div></div><span class="value-bar-pct">+95%</span></div>
+              <br>
+              <table class="pricing-table">
+                <tr><th>Package</th><th>What's Included</th><th>Price</th></tr>
+                <tr><td>Starter</td><td>AI listing writer + viewing reminders</td><td class="price">£500/mo</td></tr>
+                <tr><td>Growth</td><td>+ nurture sequences + landlord reports</td><td class="price">£1,000/mo</td></tr>
+                <tr><td>Full Stack</td><td>All above + valuation chatbot</td><td class="price">£1,500/mo</td></tr>
+              </table>
+            </div>
+          </div>
+          <div class="pitch-hook">"One extra instruction per month pays for everything. Your negotiators get 3 hours a day back that they're currently spending writing descriptions and chasing viewing confirmations."</div>
+        </div>
+        <div class="tab-panel" data-panel="card-3-build">
+          <div class="build-overview">
+            <div class="build-stat"><div class="bs-label">Complexity</div><div class="bs-value bs-amber">Moderate</div></div>
+            <div class="build-stat"><div class="bs-label">First Build</div><div class="bs-value bs-amber">10–16 hrs</div></div>
+            <div class="build-stat"><div class="bs-label">Tool Cost</div><div class="bs-value bs-amber">~£60/mo</div></div>
+            <div class="build-stat"><div class="bs-label">Coding</div><div class="bs-value bs-green">None</div></div>
+            <div class="build-stat"><div class="bs-label">Hardest Part</div><div class="bs-value bs-amber" style="font-size:13px">PDF report generation</div></div>
+            <div class="build-stat"><div class="bs-label">Demo Feature</div><div class="bs-value bs-green">Listing writer</div></div>
+          </div>
+          <ul class="build-items-list">
+            <li><span class="complexity-pill cp-easy">Easy · 1–2 hrs</span><div><div class="build-task-name">AI Listing Writer</div><div class="build-task-meta">Claude prompt template. Agent fills Google Form → Make passes to Claude API → emails formatted listing back. One-time build.</div></div></li>
+            <li><span class="complexity-pill cp-easy">Easy · 1–2 hrs</span><div><div class="build-task-name">Viewing Confirmation + Reminder</div><div class="build-task-meta">Viewing logged in Google Sheet → Make triggers email + SMS with time, address, Google Maps link. Simple.</div></div></li>
+            <li><span class="complexity-pill cp-moderate">Moderate · 3–5 hrs</span><div><div class="build-task-name">Buyer Nurture Sequences</div><div class="build-task-meta">New listing → Make checks registered buyer criteria in sheet → targeted email to matches. Matching logic is the complexity.</div></div></li>
+            <li><span class="complexity-pill cp-moderate">Moderate · 4–6 hrs</span><div><div class="build-task-name">Landlord Monthly Report PDF</div><div class="build-task-meta">Make pulls rent/maintenance data from Google Sheet → DocuPilot generates PDF → emails to each landlord. Template build is the main effort.</div></div></li>
+            <li><span class="complexity-pill cp-moderate">Moderate · 3–4 hrs</span><div><div class="build-task-name">Valuation Chatbot</div><div class="build-task-meta">Tidio or Voiceflow on their site. Captures property details → sends lead to agent. Straightforward to configure.</div></div></li>
+          </ul>
+          <div class="tools-grid">
+            <div class="tool-card"><div class="tool-name">Make</div><div class="tool-type">Automation</div><div class="tool-cost cost-paid">£9–18/mo</div></div>
+            <div class="tool-card"><div class="tool-name">Claude API</div><div class="tool-type">Listing copy</div><div class="tool-cost cost-paid">~£15/mo</div></div>
+            <div class="tool-card"><div class="tool-name">DocuPilot</div><div class="tool-type">PDF reports</div><div class="tool-cost cost-paid">£19–29/mo</div></div>
+            <div class="tool-card"><div class="tool-name">Tidio</div><div class="tool-type">Valuation chatbot</div><div class="tool-cost cost-paid">£19/mo/client</div></div>
+            <div class="tool-card"><div class="tool-name">MailerLite</div><div class="tool-type">Nurture emails</div><div class="tool-cost cost-free">Free–£10</div></div>
+            <div class="tool-card"><div class="tool-name">Twilio</div><div class="tool-type">SMS confirmations</div><div class="tool-cost cost-varies">£0.04/SMS</div></div>
+          </div>
+        </div>
+        <div class="tab-panel" data-panel="card-3-hours">
+          <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">Most tasks run automatically. The Starter package is almost zero-touch once built — the main manual work comes in at Growth and Full Stack with the nurture matching and reports.</p>
+          <div class="pkg-switcher">
+            <button class="pkg-btn active" onclick="switchPkg(event,'card-3','starter')">Starter · £500/mo</button>
+            <button class="pkg-btn" onclick="switchPkg(event,'card-3','growth')">Growth · £1,000/mo</button>
+            <button class="pkg-btn" onclick="switchPkg(event,'card-3','full')">Full Stack · £1,500/mo</button>
+          </div>
+          <div class="pkg-panel active" data-pkg="card-3-starter">
+            <table class="monthly-table">
+              <tr><th>Task</th><th>Type</th><th>Frequency</th><th>Hrs/mo</th><th>What You Actually Do</th></tr>
+              <tr><td>AI listing writer</td><td><span class="task-type tt-auto">Automated</span></td><td>Per listing</td><td class="hours-num h-low">0</td><td>Agent fills form → Claude generates copy → emailed back. You do nothing per listing. Check quality once a month: 20 min.</td></tr>
+              <tr><td>Viewing confirmations + reminders</td><td><span class="task-type tt-auto">Automated</span></td><td>Per viewing</td><td class="hours-num h-low">0</td><td>Fires when viewing logged in sheet. Fully automated.</td></tr>
+              <tr><td>Monthly check &amp; report</td><td><span class="task-type tt-manual">Manual</span></td><td>Monthly</td><td class="hours-num h-low">1</td><td>Check listings generated, viewing no-show rate, send update to agency manager.</td></tr>
+            </table>
+            <div class="hours-total-bar">
+              <div><div class="htb-label">Total monthly hours — Starter</div><div class="htb-hours">~1 hr <span>per client</span></div></div>
+              <div class="htb-rate">£500 ÷ 1 hr = <strong style="color:white">£500/hr effective rate</strong></div>
+            </div>
+          </div>
+          <div class="pkg-panel" data-pkg="card-3-growth">
+            <table class="monthly-table">
+              <tr><th>Task</th><th>Type</th><th>Frequency</th><th>Hrs/mo</th><th>What You Actually Do</th></tr>
+              <tr><td>AI listing writer</td><td><span class="task-type tt-auto">Automated</span></td><td>Per listing</td><td class="hours-num h-low">0</td><td>Fully automated.</td></tr>
+              <tr><td>Viewing confirmations</td><td><span class="task-type tt-auto">Automated</span></td><td>Per viewing</td><td class="hours-num h-low">0</td><td>Fully automated.</td></tr>
+              <tr><td>Buyer nurture — new listing match</td><td><span class="task-type tt-manual">Manual</span></td><td>Per new listing</td><td class="hours-num h-mid">1.5</td><td>When new listing added, check buyer criteria sheet, trigger the right MailerLite segment. ~15 min per listing, maybe 6 listings/mo = ~1.5 hrs. (Can semi-automate with Make over time.)</td></tr>
+              <tr><td>Landlord PDF reports</td><td><span class="task-type tt-auto">Automated</span></td><td>Monthly</td><td class="hours-num h-low">0.5</td><td>Make + DocuPilot auto-generates from sheet data. You review 2–3 samples for accuracy. 30 min.</td></tr>
+              <tr><td>Monthly management report</td><td><span class="task-type tt-manual">Manual</span></td><td>Monthly</td><td class="hours-num h-low">1</td><td>Listings generated, viewing stats, nurture email performance, send to manager.</td></tr>
+            </table>
+            <div class="hours-total-bar">
+              <div><div class="htb-label">Total monthly hours — Growth</div><div class="htb-hours">~3 hrs <span>per client</span></div></div>
+              <div class="htb-rate">£1,000 ÷ 3 hrs = <strong style="color:white">£333/hr effective rate</strong></div>
+            </div>
+          </div>
+          <div class="pkg-panel" data-pkg="card-3-full">
+            <table class="monthly-table">
+              <tr><th>Task</th><th>Type</th><th>Frequency</th><th>Hrs/mo</th><th>What You Actually Do</th></tr>
+              <tr><td>AI listing writer</td><td><span class="task-type tt-auto">Automated</span></td><td>Per listing</td><td class="hours-num h-low">0</td><td>Automated.</td></tr>
+              <tr><td>Viewing confirmations</td><td><span class="task-type tt-auto">Automated</span></td><td>Per viewing</td><td class="hours-num h-low">0</td><td>Automated.</td></tr>
+              <tr><td>Buyer nurture matching</td><td><span class="task-type tt-manual">Manual</span></td><td>Per new listing</td><td class="hours-num h-mid">1.5</td><td>~15 min per listing to match and trigger the right segment.</td></tr>
+              <tr><td>Landlord PDF reports</td><td><span class="task-type tt-auto">Automated</span></td><td>Monthly</td><td class="hours-num h-low">0.5</td><td>Review samples for accuracy. 30 min.</td></tr>
+              <tr><td>Valuation chatbot leads review</td><td><span class="task-type tt-manual">Manual</span></td><td>Weekly</td><td class="hours-num h-low">0.5</td><td>Check chatbot leads quality, forward any missed ones to agency. 15 min/week.</td></tr>
+              <tr><td>Full performance report</td><td><span class="task-type tt-manual">Manual</span></td><td>Monthly</td><td class="hours-num h-mid">1.5</td><td>Listings, viewings, nurture stats, chatbot leads, landlord report accuracy. Full summary.</td></tr>
+            </table>
+            <div class="hours-total-bar">
+              <div><div class="htb-label">Total monthly hours — Full Stack</div><div class="htb-hours">~4.5 hrs <span>per client</span></div></div>
+              <div class="htb-rate">£1,500 ÷ 4.5 hrs = <strong style="color:white">£333/hr effective rate</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════
+         CARD 2 — DENTAL
+         ════════════════════════ -->
+    <div class="niche-card" data-impact="very-high" data-build="complex" id="card-2">
+      <div class="card-header" onclick="toggleCard('card-2')">
+        <div class="card-left">
+          <div class="rank-badge rank-2">2</div>
+          <div>
+            <div class="niche-title">Dental Practices &amp; Private Clinics</div>
+            <div class="niche-subtitle">Highest revenue per client. Complex build — but highest effective rate when running.</div>
+          </div>
+        </div>
+        <div class="card-right">
+          <span class="impact-badge impact-very-high">🔥 Very High Impact</span>
+          <span class="build-badge-header build-complex">🔴 Build: 14–20 hrs · Ongoing: 3–7 hrs/mo</span>
+          <span class="revenue-preview">£600–£1,800/mo</span>
+          <span class="toggle-icon">▼</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-tabs">
+          <button class="card-tab active" onclick="switchTab(event,'card-2','impact')">📈 Impact &amp; Pricing</button>
+          <button class="card-tab" onclick="switchTab(event,'card-2','build')">🔧 How to Build It</button>
+          <button class="card-tab" onclick="switchTab(event,'card-2','hours')">⏱ Monthly Hours</button>
+        </div>
+        <div class="tab-panel active" data-panel="card-2-impact">
+          <div class="body-grid">
+            <div class="body-section">
+              <h4>AI Improvements You Can Deliver</h4>
+              <ul class="improvements-list">
+                <li><span class="dot dot-green">✓</span><span><strong>Patient Recall Automation</strong> — emails/SMS to patients due for check-up. 5 recovered patients/month = £2,000+ for them.</span></li>
+                <li><span class="dot dot-green">✓</span><span><strong>No-Show Reduction</strong> — 48hr, 24hr, 2hr reminders with reschedule link. Cuts no-shows 30–40%.</span></li>
+                <li><span class="dot dot-green">✓</span><span><strong>Treatment Upsell Triggers</strong> — post-hygienist email about whitening, Invisalign etc.</span></li>
+                <li><span class="dot dot-blue">✓</span><span><strong>New Patient Onboarding</strong> — welcome sequence + digital intake form, automated.</span></li>
+                <li><span class="dot dot-amber">✓</span><span><strong>Local SEO + Google Business</strong> — "private dentist Ipswich" is high-value, high-intent traffic.</span></li>
+              </ul>
+            </div>
+            <div class="body-section">
+              <h4>Business Value</h4>
+              <div class="value-bar-row"><span class="value-bar-label">Recall revenue</span><div class="value-bar-track"><div class="value-bar-fill" style="width:90%"></div></div><span class="value-bar-pct">+90%</span></div>
+              <div class="value-bar-row"><span class="value-bar-label">No-show rate</span><div class="value-bar-track"><div class="value-bar-fill" style="width:75%"></div></div><span class="value-bar-pct">−35%</span></div>
+              <br>
+              <table class="pricing-table">
+                <tr><th>Package</th><th>What's Included</th><th>Price</th></tr>
+                <tr><td>Recall Engine</td><td>Recall + no-show reminders</td><td class="price">£600/mo</td></tr>
+                <tr><td>Growth</td><td>+ upsell flows + onboarding</td><td class="price">£1,200/mo</td></tr>
+                <tr><td>Premium</td><td>All above + SEO + analytics</td><td class="price">£1,800/mo</td></tr>
+              </table>
+            </div>
+          </div>
+          <div class="pitch-hook">"Every empty chair costs £150–£400/hr. AI reminders cut no-shows by a third and the recall system brings back lapsed patients every month on autopilot — without the receptionist lifting a finger."</div>
+        </div>
+        <div class="tab-panel" data-panel="card-2-build">
+          <div class="build-overview">
+            <div class="build-stat"><div class="bs-label">Complexity</div><div class="bs-value bs-red">Complex</div></div>
+            <div class="build-stat"><div class="bs-label">First Build</div><div class="bs-value bs-red">14–20 hrs</div></div>
+            <div class="build-stat"><div class="bs-label">Tool Cost</div><div class="bs-value bs-red">~£90/mo</div></div>
+            <div class="build-stat"><div class="bs-label">Coding</div><div class="bs-value bs-amber">Minimal</div></div>
+            <div class="build-stat"><div class="bs-label">Hardest Part</div><div class="bs-value bs-red" style="font-size:13px">Patient data access</div></div>
+            <div class="build-stat"><div class="bs-label">GDPR Risk</div><div class="bs-value bs-red">High — plan for it</div></div>
+          </div>
+          <ul class="build-items-list">
+            <li><span class="complexity-pill cp-moderate">Moderate · 3–4 hrs</span><div><div class="build-task-name">No-Show Reminder Sequences</div><div class="build-task-meta">MailerLite 48hr/24hr/2hr drip. Needs booking data exported from their PMS (Dentally, SOE). The export coordination is the hard part.</div></div></li>
+            <li><span class="complexity-pill cp-hard">Hard · 5–8 hrs</span><div><div class="build-task-name">Patient Recall Automation</div><div class="build-task-meta">Most dental PMS has no API. Plan: monthly CSV export → Make → MailerLite. Requires admin buy-in and GDPR agreement. Main complexity of this niche.</div></div></li>
+            <li><span class="complexity-pill cp-moderate">Moderate · 2–3 hrs</span><div><div class="build-task-name">Onboarding + Upsell Flows</div><div class="build-task-meta">Typeform intake + 5-email welcome sequence. Upsell triggered by treatment type tag. Straightforward once patient data pipeline is working.</div></div></li>
+            <li><span class="complexity-pill cp-moderate">Moderate · 3–4 hrs + ongoing</span><div><div class="build-task-name">Local SEO + Google Business</div><div class="build-task-meta">Profile optimisation + weekly automated posts + monthly Claude-written blog posts.</div></div></li>
+          </ul>
+          <div class="build-note"><strong>⚠️ Builder Warning — Do This Niche After Month 2</strong>Start with no-show reminders and onboarding — these don't touch patient records. Add recall automation once you've earned their trust and sorted a GDPR-compliant data flow with their admin.</div>
+        </div>
+        <div class="tab-panel" data-panel="card-2-hours">
+          <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">The key manual task each month is the patient data refresh — pulling the CSV from their system. Everything else is either automated or templated.</p>
+          <div class="pkg-switcher">
+            <button class="pkg-btn active" onclick="switchPkg(event,'card-2','starter')">Recall Engine · £600/mo</button>
+            <button class="pkg-btn" onclick="switchPkg(event,'card-2','growth')">Growth · £1,200/mo</button>
+            <button class="pkg-btn" onclick="switchPkg(event,'card-2','full')">Premium · £1,800/mo</button>
+          </div>
+          <div class="pkg-panel active" data-pkg="card-2-starter">
+            <table class="monthly-table">
+              <tr><th>Task</th><th>Type</th><th>Frequency</th><th>Hrs/mo</th><th>What You Actually Do</th></tr>
+              <tr><td>No-show reminders</td><td><span class="task-type tt-auto">Automated</span></td><td>Continuous</td><td class="hours-num h-low">0</td><td>Fires from booking data. You check delivery stats once a month: 15 min.</td></tr>
+              <tr><td>Patient recall CSV refresh</td><td><span class="task-type tt-manual">Manual</span></td><td>Monthly</td><td class="hours-num h-mid">1.5</td><td>Coordinate with their admin to export overdue-recall CSV from their PMS. Clean and import to MailerLite. The most manual task in this niche — ~90 min per cycle.</td></tr>
+              <tr><td>Monthly check &amp; report</td><td><span class="task-type tt-manual">Manual</span></td><td>Monthly</td><td class="hours-num h-low">1</td><td>Recall emails sent/opened, no-show rate, appointments recovered. Send to practice manager.</td></tr>
+            </table>
+            <div class="hours-total-bar">
+              <div><div class="htb-label">Total monthly hours — Recall Engine</div><div class="htb-hours">~2.5 hrs <span>per client</span></div></div>
+              <div class="htb-rate">£600 ÷ 2.5 hrs = <strong style="color:white">£240/hr effective rate</strong></div>
+            </div>
+          </div>
+          <div class="pkg-panel" data-pkg="card-2-growth">
+            <table class="monthly-table">
+              <tr><th>Task</th><th>Type</th><th>Frequency</th><th>Hrs/mo</th><th>What You Actually Do</th></tr>
+              <tr><td>No-show reminders</td><td><span class="task-type tt-auto">Automated</span></td><td>Continuous</td><td class="hours-num h-low">0</td><td>Runs itself.</td></tr>
+              <tr><td>Patient recall CSV refresh</td><td><span class="task-type tt-manual">Manual</span></td><td>Monthly</td><td class="hours-num h-mid">1.5</td><td>Export, clean, import. ~90 min.</td></tr>
+              <tr><td>Onboarding flow check</td><td><span class="task-type tt-auto">Automated</span></td><td>Continuous</td><td class="hours-num h-low">0</td><td>Triggered by new patient tag. Runs itself.</td></tr>
+              <tr><td>Upsell email check</td><td><span class="task-type tt-auto">Automated</span></td><td>Continuous</td><td class="hours-num h-low">0</td><td>Triggered by treatment tag. Runs itself.</td></tr>
+              <tr><td>Monthly report</td><td><span class="task-type tt-manual">Manual</span></td><td>Monthly</td><td class="hours-num h-mid">1.5</td><td>Recall stats, no-show improvement, upsell conversions, onboarding completions.</td></tr>
+            </table>
+            <div class="hours-total-bar">
+              <div><div class="htb-label">Total monthly hours — Growth</div><div class="htb-hours">~3 hrs <span>per client</span></div></div>
+              <div class="htb-rate">£1,200 ÷ 3 hrs = <strong style="color:white">£400/hr effective rate</strong></div>
+            </div>
+          </div>
+          <div class="pkg-panel" data-pkg="card-2-full">
+            <table class="monthly-table">
+              <tr><th>Task</th><th>Type</th><th>Frequency</th><th>Hrs/mo</th><th>What You Actually Do</th></tr>
+              <tr><td>No-show reminders</td><td><span class="task-type tt-auto">Automated</span></td><td>Continuous</td><td class="hours-num h-low">0</td><td>Runs itself.</td></tr>
+              <tr><td>Patient recall CSV refresh</td><td><span class="task-type tt-manual">Manual</span></td><td>Monthly</td><td class="hours-num h-mid">1.5</td><td>Export, clean, import. ~90 min.</td></tr>
+              <tr><td>Onboarding + upsell flows</td><td><span class="task-type tt-auto">Automated</span></td><td>Continuous</td><td class="hours-num h-low">0</td><td>Both automated.</td></tr>
+              <tr><td>SEO blog posts (×2)</td><td><span class="task-type tt-creative">Creative</span></td><td>Monthly</td><td class="hours-num h-mid">2</td><td>Claude drafts → edit → post. ~1 hr/post.</td></tr>
+              <tr><td>Google Business posts</td><td><span class="task-type tt-creative">Creative</span></td><td>Weekly</td><td class="hours-num h-low">0.5</td><td>4 posts batched at month start. 30 min.</td></tr>
+              <tr><td>Full analytics report</td><td><span class="task-type tt-manual">Manual</span></td><td>Monthly</td><td class="hours-num h-mid">2</td><td>Recall stats, no-shows, upsells, SEO traffic, GBP views. Full monthly dashboard for practice manager.</td></tr>
+            </table>
+            <div class="hours-total-bar">
+              <div><div class="htb-label">Total monthly hours — Premium</div><div class="htb-hours">~6 hrs <span>per client</span></div></div>
+              <div class="htb-rate">£1,800 ÷ 6 hrs = <strong style="color:white">£300/hr effective rate</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════
+         CARD 7 — SOLICITORS
+         ════════════════════════ -->
+    <div class="niche-card" data-impact="high" data-build="complex" id="card-7">
+      <div class="card-header" onclick="toggleCard('card-7')">
+        <div class="card-left">
+          <div class="rank-badge rank-7">7</div>
+          <div>
+            <div class="niche-title">Solicitors &amp; Small Law Firms</div>
+            <div class="niche-subtitle">Hardest build, slowest to close — but high-value sticky clients once you're in.</div>
+          </div>
+        </div>
+        <div class="card-right">
+          <span class="impact-badge impact-high">⚡ High Impact</span>
+          <span class="build-badge-header build-complex">🔴 Build: 16–24 hrs · Ongoing: 3–7 hrs/mo</span>
+          <span class="revenue-preview">£600–£1,400/mo</span>
+          <span class="toggle-icon">▼</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-tabs">
+          <button class="card-tab active" onclick="switchTab(event,'card-7','impact')">📈 Impact &amp; Pricing</button>
+          <button class="card-tab" onclick="switchTab(event,'card-7','build')">🔧 How to Build It</button>
+          <button class="card-tab" onclick="switchTab(event,'card-7','hours')">⏱ Monthly Hours</button>
+        </div>
+        <div class="tab-panel active" data-panel="card-7-impact">
+          <div class="body-grid">
+            <div class="body-section">
+              <h4>AI Improvements You Can Deliver</h4>
+              <ul class="improvements-list">
+                <li><span class="dot dot-green">✓</span><span><strong>Enquiry Chatbot</strong> — out-of-hours lead capture, qualifies by practice area, books consultations.</span></li>
+                <li><span class="dot dot-green">✓</span><span><strong>Case Milestone Updates</strong> — automated emails to clients at key case stages. Stops "where are we?" calls.</span></li>
+                <li><span class="dot dot-blue">✓</span><span><strong>Document Chasing Sequence</strong> — automated nudges for unsigned docs or ID verification.</span></li>
+                <li><span class="dot dot-blue">✓</span><span><strong>AI Legal Blog for SEO</strong> — hyper-local content drives organic enquiries.</span></li>
+                <li><span class="dot dot-amber">✓</span><span><strong>Billing Reminder Automation</strong> — reduces debtor days significantly.</span></li>
+              </ul>
+            </div>
+            <div class="body-section">
+              <h4>Business Value</h4>
+              <div class="value-bar-row"><span class="value-bar-label">Out-of-hours leads</span><div class="value-bar-track"><div class="value-bar-fill" style="width:85%"></div></div><span class="value-bar-pct">+85%</span></div>
+              <div class="value-bar-row"><span class="value-bar-label">Admin load reduced</span><div class="value-bar-track"><div class="value-bar-fill" style="width:65%"></div></div><span class="value-bar-pct">−65%</span></div>
+              <br>
+              <table class="pricing-table">
+                <tr><th>Package</th><th>What's Included</th><th>Price</th></tr>
+                <tr><td>Core Comms</td><td>Chatbot + case milestone updates</td><td class="price">£600/mo</td></tr>
+                <tr><td>Growth</td><td>+ doc chasing + billing reminders</td><td class="price">£1,000/mo</td></tr>
+                <tr><td>Authority</td><td>All above + AI legal blog SEO</td><td class="price">£1,400/mo</td></tr>
+              </table>
+            </div>
+          </div>
+          <div class="pitch-hook">"Fee earners are spending 90 min/day answering 'where are we up to?' calls. We automate those updates — your team gets that time back as billable hours."</div>
+        </div>
+        <div class="tab-panel" data-panel="card-7-build">
+          <div class="build-overview">
+            <div class="build-stat"><div class="bs-label">Complexity</div><div class="bs-value bs-red">Complex</div></div>
+            <div class="build-stat"><div class="bs-label">First Build</div><div class="bs-value bs-red">16–24 hrs</div></div>
+            <div class="build-stat"><div class="bs-label">Tool Cost</div><div class="bs-value bs-amber">~£70/mo</div></div>
+            <div class="build-stat"><div class="bs-label">Coding</div><div class="bs-value bs-amber">Minimal</div></div>
+            <div class="build-stat"><div class="bs-label">Hardest Part</div><div class="bs-value bs-red" style="font-size:13px">Case stage tracking</div></div>
+            <div class="build-stat"><div class="bs-label">Close Timeline</div><div class="bs-value bs-red" style="font-size:13px">Slow — 4–8 wks</div></div>
+          </div>
+          <ul class="build-items-list">
+            <li><span class="complexity-pill cp-hard">Hard · 6–8 hrs</span><div><div class="build-task-name">Case Milestone Update System</div><div class="build-task-meta">Solicitor updates Google Sheet with case stage → Make triggers appropriate client email. Templates needed per practice area. The design work is the complexity.</div></div></li>
+            <li><span class="complexity-pill cp-moderate">Moderate · 4–6 hrs</span><div><div class="build-task-name">Enquiry Chatbot</div><div class="build-task-meta">Voiceflow or Tidio trained on practice areas, fees, FAQs. Needs careful GDPR wording. Captures lead → emails duty solicitor.</div></div></li>
+            <li><span class="complexity-pill cp-easy">Easy · 2–3 hrs</span><div><div class="build-task-name">Doc Chasing + Billing Reminders</div><div class="build-task-meta">Both are simple MailerLite sequences triggered by tags. Same pattern as accountants. Straightforward.</div></div></li>
+            <li><span class="complexity-pill cp-moderate">Moderate · 3–5 hrs + ongoing</span><div><div class="build-task-name">AI Legal Blog / SEO</div><div class="build-task-meta">2 hyper-local articles/month. Claude drafts, partner reviews, you post. Same workflow as other niches.</div></div></li>
+          </ul>
+          <div class="build-note"><strong>⚠️ Do This Niche Last</strong>Risk-averse, slow to decide, complex processes. Come here with 2–3 case studies from simpler niches. Lead with doc chasing and billing reminders as quick wins, then upsell the full system.</div>
+        </div>
+        <div class="tab-panel" data-panel="card-7-hours">
+          <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">The big manual task here is case milestone management — the solicitor needs to update a sheet when cases progress, and you need to check it's triggering correctly.</p>
+          <div class="pkg-switcher">
+            <button class="pkg-btn active" onclick="switchPkg(event,'card-7','starter')">Core Comms · £600/mo</button>
+            <button class="pkg-btn" onclick="switchPkg(event,'card-7','growth')">Growth · £1,000/mo</button>
+            <button class="pkg-btn" onclick="switchPkg(event,'card-7','full')">Authority · £1,400/mo</button>
+          </div>
+          <div class="pkg-panel active" data-pkg="card-7-starter">
+            <table class="monthly-table">
+              <tr><th>Task</th><th>Type</th><th>Frequency</th><th>Hrs/mo</th><th>What You Actually Do</th></tr>
+              <tr><td>Enquiry chatbot</td><td><span class="task-type tt-auto">Automated</span></td><td>Continuous</td><td class="hours-num h-low">0</td><td>Runs 24/7. Check lead quality weekly: 15 min/week = ~1 hr/mo.</td></tr>
+              <tr><td>Case milestone email triggers</td><td><span class="task-type tt-manual">Manual</span></td><td>Ongoing</td><td class="hours-num h-mid">1.5</td><td>Solicitor updates Google Sheet as cases progress. You verify the triggers are firing correctly and email clients are going out accurately. ~30 min/week of spot-checking.</td></tr>
+              <tr><td>Monthly report</td><td><span class="task-type tt-manual">Manual</span></td><td>Monthly</td><td class="hours-num h-low">1</td><td>Chatbot leads captured, milestone emails sent, any issues flagged. Summary to managing partner.</td></tr>
+            </table>
+            <div class="hours-total-bar">
+              <div><div class="htb-label">Total monthly hours — Core Comms</div><div class="htb-hours">~3.5 hrs <span>per client</span></div></div>
+              <div class="htb-rate">£600 ÷ 3.5 hrs = <strong style="color:white">£171/hr effective rate</strong></div>
+            </div>
+          </div>
+          <div class="pkg-panel" data-pkg="card-7-growth">
+            <table class="monthly-table">
+              <tr><th>Task</th><th>Type</th><th>Frequency</th><th>Hrs/mo</th><th>What You Actually Do</th></tr>
+              <tr><td>Enquiry chatbot monitoring</td><td><span class="task-type tt-manual">Manual</span></td><td>Weekly</td><td class="hours-num h-low">1</td><td>Check lead quality, forward any missed leads. 15 min/week.</td></tr>
+              <tr><td>Case milestone spot-check</td><td><span class="task-type tt-manual">Manual</span></td><td>Weekly</td><td class="hours-num h-mid">1.5</td><td>Verify triggers firing correctly. 30 min/week.</td></tr>
+              <tr><td>Doc chasing sequence activation</td><td><span class="task-type tt-manual">Manual</span></td><td>As needed</td><td class="hours-num h-low">0.5</td><td>Tag clients who need docs → 3-email sequence fires. 5 min per activation.</td></tr>
+              <tr><td>Billing reminder check</td><td><span class="task-type tt-auto">Automated</span></td><td>Continuous</td><td class="hours-num h-low">0</td><td>Triggered from Xero unpaid invoices. Runs itself.</td></tr>
+              <tr><td>Monthly report</td><td><span class="task-type tt-manual">Manual</span></td><td>Monthly</td><td class="hours-num h-low">1</td><td>Chatbot leads, milestone emails, doc chase responses, billing reminders sent.</td></tr>
+            </table>
+            <div class="hours-total-bar">
+              <div><div class="htb-label">Total monthly hours — Growth</div><div class="htb-hours">~4 hrs <span>per client</span></div></div>
+              <div class="htb-rate">£1,000 ÷ 4 hrs = <strong style="color:white">£250/hr effective rate</strong></div>
+            </div>
+          </div>
+          <div class="pkg-panel" data-pkg="card-7-full">
+            <table class="monthly-table">
+              <tr><th>Task</th><th>Type</th><th>Frequency</th><th>Hrs/mo</th><th>What You Actually Do</th></tr>
+              <tr><td>Chatbot monitoring</td><td><span class="task-type tt-manual">Manual</span></td><td>Weekly</td><td class="hours-num h-low">1</td><td>15 min/week quality check.</td></tr>
+              <tr><td>Case milestone spot-check</td><td><span class="task-type tt-manual">Manual</span></td><td>Weekly</td><td class="hours-num h-mid">1.5</td><td>30 min/week to verify triggers.</td></tr>
+              <tr><td>Doc chasing activations</td><td><span class="task-type tt-manual">Manual</span></td><td>As needed</td><td class="hours-num h-low">0.5</td><td>Tag and trigger. 5 min per client batch.</td></tr>
+              <tr><td>Billing reminders</td><td><span class="task-type tt-auto">Automated</span></td><td>Continuous</td><td class="hours-num h-low">0</td><td>Automated via Xero integration.</td></tr>
+              <tr><td>Legal SEO blog posts (×2)</td><td><span class="task-type tt-creative">Creative</span></td><td>Monthly</td><td class="hours-num h-mid">2</td><td>Claude drafts hyper-local legal content → partner reviews → you post. ~1 hr/post.</td></tr>
+              <tr><td>Full report</td><td><span class="task-type tt-manual">Manual</span></td><td>Monthly</td><td class="hours-num h-mid">1.5</td><td>All metrics including organic traffic, chatbot conversions, milestone email impact.</td></tr>
+            </table>
+            <div class="hours-total-bar">
+              <div><div class="htb-label">Total monthly hours — Authority</div><div class="htb-hours">~6.5 hrs <span>per client</span></div></div>
+              <div class="htb-rate">£1,400 ÷ 6.5 hrs = <strong style="color:white">£215/hr effective rate</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end niche-grid -->
+
+  <!-- MASTER REFERENCE -->
+  <div style="margin-top:56px;">
+    <div class="section-label">Master Reference — All Niches · Build + Monthly Hours + Effective Rate</div>
+    <div style="overflow-x:auto;">
+    <table class="pricing-table" style="width:100%;min-width:900px;">
+      <tr>
+        <th>Niche</th><th>Build (hrs)</th><th>Starter Price</th><th>Starter hrs/mo</th><th>Starter rate/hr</th><th>Full Stack Price</th><th>Full hrs/mo</th><th>Full rate/hr</th><th>Start Order</th>
+      </tr>
+      <tr><td><strong>Hair &amp; Beauty</strong></td><td>4–6</td><td class="price">£300</td><td>~1 hr</td><td class="price">£300/hr</td><td class="price">£900</td><td>~3 hrs</td><td class="price">£300/hr</td><td><strong style="color:var(--green)">① Build First</strong></td></tr>
+      <tr><td><strong>Restaurants</strong></td><td>5–8</td><td class="price">£300</td><td>~1 hr</td><td class="price">£300/hr</td><td class="price">£800</td><td>~4 hrs</td><td class="price">£200/hr</td><td><strong style="color:var(--green)">② Build First</strong></td></tr>
+      <tr><td><strong>Car Garages</strong></td><td>5–8</td><td class="price">£300</td><td>~1 hr</td><td class="price">£300/hr</td><td class="price">£750</td><td>~3 hrs</td><td class="price">£250/hr</td><td><strong style="color:var(--green)">③ Build First</strong></td></tr>
+      <tr><td><strong>Accountants</strong></td><td>8–12</td><td class="price">£400</td><td>~1 hr</td><td class="price">£400/hr</td><td class="price">£1,200</td><td>~5 hrs</td><td class="price">£240/hr</td><td><strong style="color:var(--amber)">④ Month 2</strong></td></tr>
+      <tr><td><strong>Trades</strong></td><td>8–14</td><td class="price">£400</td><td>~1 hr</td><td class="price">£400/hr</td><td class="price">£1,400</td><td>~4 hrs</td><td class="price">£350/hr</td><td><strong style="color:var(--amber)">⑤ Month 2</strong></td></tr>
+      <tr><td><strong>Estate Agents</strong></td><td>10–16</td><td class="price">£500</td><td>~1 hr</td><td class="price">£500/hr</td><td class="price">£1,500</td><td>~4.5 hrs</td><td class="price">£333/hr</td><td><strong style="color:var(--amber)">⑥ Month 2–3</strong></td></tr>
+      <tr><td><strong>Dental</strong></td><td>14–20</td><td class="price">£600</td><td>~2.5 hrs</td><td class="price">£240/hr</td><td class="price">£1,800</td><td>~6 hrs</td><td class="price">£300/hr</td><td><strong style="color:var(--red)">⑦ Month 3+</strong></td></tr>
+      <tr><td><strong>Solicitors</strong></td><td>16–24</td><td class="price">£600</td><td>~3.5 hrs</td><td class="price">£171/hr</td><td class="price">£1,400</td><td>~6.5 hrs</td><td class="price">£215/hr</td><td><strong style="color:var(--red)">⑧ Month 3+</strong></td></tr>
+    </table>
+    </div>
+  </div>
+
+  <div style="margin-top:32px;padding:24px;background:#1B2631;border-radius:12px;color:rgba(245,240,232,0.8);font-size:13px;line-height:1.9;">
+    <strong style="color:var(--gold);font-family:Syne,sans-serif;letter-spacing:1px;display:block;margin-bottom:8px;">KEY INSIGHT — Your Effective Hourly Rate Across All Starter Packages Is £171–£500/hr</strong>
+    The Starter packages are almost entirely automated — most run at 1 hour/month per client. <strong style="color:white">Stack 5 Starter clients and you're earning £1,500–£2,500/mo for roughly 5 hours of work.</strong><br>
+    The Full Stack packages take more time (3–7 hrs/mo) but earn proportionally more — typically £200–£350/hr effective rate.<br><br>
+    <strong style="color:white;">The exception:</strong> Solicitors Core Comms (£171/hr) is the lowest effective rate because case milestone monitoring is genuinely manual — target this niche only once you can charge £1,000+/mo to compensate for the management overhead.
+  </div>
+
+</main>
+
+<script>
+  function toggleCard(id) {
+    document.getElementById(id).classList.toggle('open');
+  }
+
+  function switchTab(event, cardId, panel) {
+    const card = document.getElementById(cardId);
+    card.querySelectorAll('.card-tab').forEach(t => t.classList.remove('active'));
+    card.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    event.target.classList.add('active');
+    card.querySelector(`[data-panel="${cardId}-${panel}"]`).classList.add('active');
+  }
+
+  function switchPkg(event, cardId, pkg) {
+    const card = document.getElementById(cardId);
+    card.querySelectorAll('.pkg-btn').forEach(b => b.classList.remove('active'));
+    card.querySelectorAll('.pkg-panel').forEach(p => p.classList.remove('active'));
+    event.target.classList.add('active');
+    card.querySelector(`[data-pkg="${cardId}-${pkg}"]`).classList.add('active');
+  }
+
+  function filterNiches(impact, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.niche-card').forEach(card => {
+      card.classList.toggle('hidden', impact !== 'all' && card.dataset.impact !== impact);
+    });
+  }
+
+  function filterByBuild(build, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.niche-card').forEach(card => {
+      card.classList.toggle('hidden', card.dataset.build !== build);
+    });
+  }
+</script>
+</body>
+</html>

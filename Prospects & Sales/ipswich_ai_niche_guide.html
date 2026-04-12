@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Consultancy — Ipswich Niche Strategy</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0D0D0D;
+    --paper: #F5F0E8;
+    --accent: #E84545;
+    --gold: #C9A84C;
+    --muted: #7A7267;
+    --card: #FFFFFF;
+    --border: #E0D8CC;
+    --green: #2D6A4F;
+    --amber: #D4840A;
+    --red: #C0392B;
+    --tier1: #1B4332;
+    --tier2: #1A5276;
+    --tier3: #7D6608;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 48px 40px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 280px; height: 280px;
+    border-radius: 50%;
+    border: 2px solid rgba(201,168,76,0.2);
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: 200px;
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    border: 1px solid rgba(232,69,69,0.3);
+  }
+  .header-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  header h1 span { color: var(--accent); }
+  header p {
+    font-size: 15px;
+    color: rgba(245,240,232,0.7);
+    max-width: 560px;
+    line-height: 1.6;
+  }
+  .header-meta {
+    display: flex;
+    gap: 32px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .meta-item .label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .meta-item .value {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  /* FILTERS */
+  .filters {
+    padding: 20px 40px;
+    background: var(--ink);
+    border-top: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .filter-btn {
+    background: transparent;
+    border: 1px solid rgba(245,240,232,0.2);
+    color: rgba(245,240,232,0.6);
+    padding: 6px 16px;
+    border-radius: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+  }
+
+  /* MAIN */
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 48px 40px;
+  }
+
+  .section-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* NICHE CARDS */
+  .niche-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .niche-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+  .niche-card:hover {
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+  }
+  .niche-card.hidden { display: none; }
+
+  .card-header {
+    padding: 24px 28px 20px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+  }
+  .card-left {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    flex: 1;
+  }
+  .rank-badge {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    flex-shrink: 0;
+    color: white;
+  }
+  .rank-1 { background: var(--tier1); }
+  .rank-2 { background: var(--tier2); }
+  .rank-3 { background: var(--tier3); }
+  .rank-4 { background: #6C3483; }
+  .rank-5 { background: #7B241C; }
+  .rank-6 { background: #1A5276; }
+  .rank-7 { background: #0E6251; }
+  .rank-8 { background: #4D5656; }
+
+  .niche-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .niche-subtitle {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .card-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+  }
+  .impact-badge {
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .impact-very-high { background: #D5F5E3; color: #1E8449; }
+  .impact-high { background: #D6EAF8; color: #1A5276; }
+  .impact-medium { background: #FEF9E7; color: #9A7D0A; }
+
+  .revenue-preview {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--green);
+  }
+
+  .toggle-icon {
+    font-size: 20px;
+    color: var(--muted);
+    margin-left: 8px;
+    transition: transform 0.3s;
+    flex-shrink: 0;
+  }
+  .niche-card.open .toggle-icon { transform: rotate(180deg); }
+
+  /* CARD BODY */
+  .card-body {
+    display: none;
+    padding: 28px;
+  }
+  .niche-card.open .card-body { display: block; }
+
+  .body-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+  @media (max-width: 700px) {
+    .body-grid { grid-template-columns: 1fr; }
+  }
+
+  .body-section h4 {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .improvements-list {
+    list-style: none;
+  }
+  .improvements-list li {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .improvements-list li .dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .dot-green { background: #D5F5E3; color: #1E8449; }
+  .dot-blue { background: #D6EAF8; color: #1A5276; }
+  .dot-amber { background: #FEF9E7; color: #9A7D0A; }
+
+  /* PRICING TABLE */
+  .pricing-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .pricing-table th {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 10px 14px;
+    text-align: left;
+    font-family: 'Syne', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+  .pricing-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .pricing-table tr:last-child td { border-bottom: none; }
+  .pricing-table tr:nth-child(even) td { background: #FAFAF8; }
+  .price { font-family: 'Syne', sans-serif; font-weight: 700; color: var(--green); }
+
+  /* BUSINESS VALUE BAR */
+  .value-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+  .value-bar-label { width: 160px; flex-shrink: 0; }
+  .value-bar-track {
+    flex: 1;
+    height: 8px;
+    background: var(--border);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+  .value-bar-fill {
+    height: 100%;
+    border-radius: 100px;
+    background: var(--green);
+  }
+  .value-bar-pct {
+    width: 36px;
+    text-align: right;
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--green);
+  }
+
+  /* PITCH HOOK */
+  .pitch-hook {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-top: 20px;
+    position: relative;
+  }
+  .pitch-hook::before {
+    content: '💬 PITCH HOOK';
+    display: block;
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  /* SUMMARY STRIP */
+  .summary-strip {
+    background: var(--ink);
+    border-radius: 12px;
+    padding: 32px;
+    margin-bottom: 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 24px;
+  }
+  .strip-item { text-align: center; }
+  .strip-item .s-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.5);
+    margin-bottom: 6px;
+  }
+  .strip-item .s-value {
+    font-family: 'Syne', sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--paper);
+  }
+  .strip-item .s-value span { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-label">AI Consultancy · Ipswich Market</div>
+  <h1>Target Niches &amp;<br><span>Revenue Playbook</span></h1>
+  <p>Ranked by impact &amp; ease of sale — the highest-uplift AI solutions for small businesses in and around Ipswich, with what to charge and how to pitch it.</p>
+  <div class="header-meta">
+    <div class="meta-item">
+      <span class="label">Niches Ranked</span>
+      <span class="value">8</span>
+    </div>
+    <div class="meta-item">
+      <span class="label">Monthly Revenue Ceiling</span>
+      <span class="value">£12,800+</span>
+    </div>
+    <div class="meta-item">
+      <span class="label">Focus Area</span>
+      <span class="value">Ipswich &amp; Suffolk</span>
+    </div>
+    <div class="meta-item">
+      <span class="label">Best for</span>
+      <span class="value">£50k–£2M Cos.</span>
+    </div>
+  </div>
+</header>
+
+<div class="filters">
+  <button class="filter-btn active" onclick="filterNiches('all', this)">All Niches</button>
+  <button class="filter-btn" onclick="filterNiches('very-high', this)">🔥 Very High Impact</button>
+  <button class="filter-btn" onclick="filterNiches('high', this)">⚡ High Impact</button>
+  <button class="filter-btn" onclick="filterNiches('medium', this)">📈 Medium Impact</button>
+</div>
+
+<main>
+
+  <div class="summary-strip">
+    <div class="strip-item">
+      <div class="s-label">Lowest Entry Price</div>
+      <div class="s-value"><span>£</span>400/mo</div>
+    </div>
+    <div class="strip-item">
+      <div class="s-label">Avg Retainer Per Client</div>
+      <div class="s-value"><span>£</span>900/mo</div>
+    </div>
+    <div class="strip-item">
+      <div class="s-label">Easiest First Win</div>
+      <div class="s-value">Trades</div>
+    </div>
+    <div class="strip-item">
+      <div class="s-label">Highest Value Niche</div>
+      <div class="s-value">Dental</div>
+    </div>
+    <div class="strip-item">
+      <div class="s-label">Avg ROI to Client</div>
+      <div class="s-value"><span>4–8</span>×</div>
+    </div>
+  </div>
+
+  <div class="section-label">Ranked by Impact × Ease of Sale</div>
+
+  <div class="niche-grid">
+
+    <!-- ========== 1. TRADES ========== -->
+    <div class="niche-card" data-impact="very-high" id="card-1">
+      <div class="card-header" onclick="toggleCard('card-1')">
+        <div class="card-left">
+          <div class="rank-badge rank-1">1</div>
+          <div>
+            <div class="niche-title">Trades — Roofers, Electricians, Plumbers, Heating Engineers</div>
+            <div class="niche-subtitle">High-ticket, quote-driven, terrible at follow-up. Perfect AI prey.</div>
+          </div>
+        </div>
+        <div class="card-right">
+          <span class="impact-badge impact-very-high">🔥 Very High Impact</span>
+          <span class="revenue-preview">£600–£1,400/mo</span>
+          <span class="toggle-icon">▼</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="body-grid">
+          <div class="body-section">
+            <h4>AI Improvements You Can Deliver</h4>
+            <ul class="improvements-list">
+              <li><span class="dot dot-green">✓</span><span><strong>Instant Quote-Request Responder</strong> — AI chatbot on their site captures job details and sends a holding reply within 60 seconds, 24/7. Most trades miss 40–60% of enquiries.</span></li>
+              <li><span class="dot dot-green">✓</span><span><strong>Automated Follow-Up Sequences</strong> — if quote not accepted in 3 days, AI sends a nudge. Converts 15–25% more quotes.</span></li>
+              <li><span class="dot dot-green">✓</span><span><strong>Google Review Automation</strong> — post-job SMS/email trigger asking for a review. Reviews = local SEO = more inbound.</span></li>
+              <li><span class="dot dot-blue">✓</span><span><strong>Job Completion Emails</strong> — branded, professional "your job is complete" email with warranty info and referral ask.</span></li>
+              <li><span class="dot dot-amber">✓</span><span><strong>AI Local SEO Content</strong> — monthly blog posts targeting "roofer in Ipswich", "emergency plumber Suffolk" etc.</span></li>
+            </ul>
+          </div>
+          <div class="body-section">
+            <h4>Business Value to the Client</h4>
+            <div class="value-bar-row"><span class="value-bar-label">Lead capture rate</span><div class="value-bar-track"><div class="value-bar-fill" style="width:85%"></div></div><span class="value-bar-pct">+85%</span></div>
+            <div class="value-bar-row"><span class="value-bar-label">Quote conversion</span><div class="value-bar-track"><div class="value-bar-fill" style="width:70%"></div></div><span class="value-bar-pct">+70%</span></div>
+            <div class="value-bar-row"><span class="value-bar-label">Google reviews</span><div class="value-bar-track"><div class="value-bar-fill" style="width:90%"></div></div><span class="value-bar-pct">+90%</span></div>
+            <div class="value-bar-row"><span class="value-bar-label">Time saved/week</span><div class="value-bar-track"><div class="value-bar-fill" style="width:60%"></div></div><span class="value-bar-pct">5–8h</span></div>
+            <br>
+            <table class="pricing-table">
+              <tr><th>Package</th><th>What's Included</th><th>Your Price</th></tr>
+              <tr><td>Starter</td><td>AI chatbot + review automation</td><td class="price">£400/mo</td></tr>
+              <tr><td>Growth</td><td>+ follow-up sequences + SEO content</td><td class="price">£900/mo</td></tr>
+              <tr><td>Full Stack</td><td>All above + monthly reporting</td><td class="price">£1,400/mo</td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="pitch-hook">
+          "You're losing 3–5 jobs a week to voicemail. An AI that responds to every enquiry in under 60 seconds — even at 11pm — will pay for itself with the first extra job it captures. For a roofer averaging £800/job, that's one saved lead = one month's fee back in your pocket."
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== 2. DENTAL / HEALTHCARE ========== -->
+    <div class="niche-card" data-impact="very-high" id="card-2">
+      <div class="card-header" onclick="toggleCard('card-2')">
+        <div class="card-left">
+          <div class="rank-badge rank-2">2</div>
+          <div>
+            <div class="niche-title">Dental Practices &amp; Private Clinics</div>
+            <div class="niche-subtitle">High revenue per patient, high no-show rates, massive recall opportunity.</div>
+          </div>
+        </div>
+        <div class="card-right">
+          <span class="impact-badge impact-very-high">🔥 Very High Impact</span>
+          <span class="revenue-preview">£800–£1,800/mo</span>
+          <span class="toggle-icon">▼</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="body-grid">
+          <div class="body-section">
+            <h4>AI Improvements You Can Deliver</h4>
+            <ul class="improvements-list">
+              <li><span class="dot dot-green">✓</span><span><strong>Patient Recall Automation</strong> — AI emails/SMS patients due for a check-up. A 50-patient practice recovering just 5 lapsed patients/month = £2,000+ revenue for them.</span></li>
+              <li><span class="dot dot-green">✓</span><span><strong>No-Show Reduction Sequences</strong> — 48hr, 24hr, 2hr reminders that can confirm/reschedule automatically. Cuts no-shows by 30–40%.</span></li>
+              <li><span class="dot dot-green">✓</span><span><strong>Treatment Upsell Triggers</strong> — after a hygienist visit, AI sends info about whitening or Invisalign. Converts passively.</span></li>
+              <li><span class="dot dot-blue">✓</span><span><strong>New Patient Onboarding Flow</strong> — automated welcome sequence with forms, what to expect, parking info.</span></li>
+              <li><span class="dot dot-amber">✓</span><span><strong>"Near Me" SEO + Google Business</strong> — "private dentist Ipswich" is high-value search traffic.</span></li>
+            </ul>
+          </div>
+          <div class="body-section">
+            <h4>Business Value to the Client</h4>
+            <div class="value-bar-row"><span class="value-bar-label">Recall revenue</span><div class="value-bar-track"><div class="value-bar-fill" style="width:90%"></div></div><span class="value-bar-pct">+90%</span></div>
+            <div class="value-bar-row"><span class="value-bar-label">No-show reduction</span><div class="value-bar-track"><div class="value-bar-fill" style="width:75%"></div></div><span class="value-bar-pct">−35%</span></div>
+            <div class="value-bar-row"><span class="value-bar-label">Upsell conversions</span><div class="value-bar-track"><div class="value-bar-fill" style="width:55%"></div></div><span class="value-bar-pct">+55%</span></div>
+            <div class="value-bar-row"><span class="value-bar-label">Admin time saved</span><div class="value-bar-track"><div class="value-bar-fill" style="width:65%"></div></div><span class="value-bar-pct">6–10h</span></div>
+            <br>
+            <table class="pricing-table">
+              <tr><th>Package</th><th>What's Included</th><th>Your Price</th></tr>
+              <tr><td>Recall Engine</td><td>Patient recall + no-show automation</td><td class="price">£600/mo</td></tr>
+              <tr><td>Growth</td><td>+ upsell flows + new patient onboarding</td><td class="price">£1,200/mo</td></tr>
+              <tr><td>Premium</td><td>All above + SEO + monthly analytics</td><td class="price">£1,800/mo</td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="pitch-hook">
+          "Every empty chair in a dental practice costs £150–£400 per hour. AI appointment reminders alone cut no-shows by a third — and our patient recall system quietly brings back lapsed patients every month on autopilot, without your receptionist lifting a finger."
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== 3. ESTATE AGENTS ========== -->
+    <div class="niche-card" data-impact="very-high" id="card-3">
+      <div class="card-header" onclick="toggleCard('card-3')">
+        <div class="card-left">
+          <div class="rank-badge rank-3">3</div>
+          <div>
+            <div class="niche-title">Estate &amp; Letting Agents</div>
+            <div class="niche-subtitle">Drowning in admin. AI slashes hours and improves landlord/buyer experience.</div>
+          </div>
+        </div>
+        <div class="card-right">
+          <span class="impact-badge impact-very-high">🔥 Very High Impact</span>
+          <span class="revenue-preview">£700–£1,500/mo</span>
+          <span class="toggle-icon">▼</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="body-grid">
+          <div class="body-section">
+            <h4>AI Improvements You Can Deliver</h4>
+            <ul class="improvements-list">
+              <li><span class="dot dot-green">✓</span><span><strong>AI Property Listing Writer</strong> — takes basic details, outputs polished Rightmove/Zoopla descriptions in seconds. Saves 2–3hrs per listing.</span></li>
+              <li><span class="dot dot-green">✓</span><span><strong>Buyer/Tenant Nurture Sequences</strong> — auto-emails new properties to registered buyers matching their criteria, before they even check portals.</span></li>
+              <li><span class="dot dot-green">✓</span><span><strong>Landlord Monthly Report Automation</strong> — AI compiles rent receipts, maintenance updates and statements into a monthly PDF, sent automatically.</span></li>
+              <li><span class="dot dot-blue">✓</span><span><strong>Viewing Confirmation &amp; Reminder Bot</strong> — cuts viewing no-shows, confirms times, sends directions automatically.</span></li>
+              <li><span class="dot dot-amber">✓</span><span><strong>Valuation Request Chatbot</strong> — captures leads from their website 24/7, qualifies them, and books a valuation slot.</span></li>
+            </ul>
+          </div>
+          <div class="body-section">
+            <h4>Business Value to the Client</h4>
+            <div class="value-bar-row"><span class="value-bar-label">Admin time saved</span><div class="value-bar-track"><div class="value-bar-fill" style="width:80%"></div></div><span class="value-bar-pct">8–12h</span></div>
+            <div class="value-bar-row"><span class="value-bar-label">Lead response speed</span><div class="value-bar-track"><div class="value-bar-fill" style="width:95%"></div></div><span class="value-bar-pct">+95%</span></div>
+            <div class="value-bar-row"><span class="value-bar-label">Landlord retention</span><div class="value-bar-track"><div class="value-bar-fill" style="width:60%"></div></div><span class="value-bar-pct">+60%</span></div>
+            <div class="value-bar-row"><span class="value-bar-label">Listing quality</span><div class="value-bar-track"><div class="value-bar-fill" style="width:70%"></div></div><span class="value-bar-pct">+70%</span></div>
+            <br>
+            <table class="pricing-table">
+              <tr><th>Package</th><th>What's Included</th><th>Your Price</th></tr>
+              <tr><td>Starter</td><td>AI listing writer + viewing bot</td><td class="price">£500/mo</td></tr>
+              <tr><td>Growth</td><td>+ nurture sequences + landlord reports</td><td class="price">£1,000/mo</td></tr>
+              <tr><td>Full Stack</td><td>All above + chatbot + analytics</td><td class="price">£1,500/mo</td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="pitch-hook">
+          "Your negotiators are spending 3 hours a day writing property descriptions and chasing viewings. We automate all of that — so they spend those hours winning instructions instead. One extra listing per month pays for everything."
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== 4. ACCOUNTANTS / BOOKKEEPERS ========== -->
+    <div class="niche-card" data-impact="high" id="card-4">
+      <div class="card-header" onclick="toggleCard('card-4')">
+        <div class="card-left">
+          <div class="rank-badge rank-4">4</div>
+          <div>
+            <div class="niche-title">Accountants &amp; Bookkeepers</div>
+            <div class="niche-subtitle">Seasonal pressure, poor client comms, huge automation potential.</div>
+          </div>
+        </div>
+        <div class="card-right">
+          <span class="impact-badge impact-high">⚡ High Impact</span>
+          <span class="revenue-preview">£600–£1,200/mo</span>
+          <span class="toggle-icon">▼</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="body-grid">
+          <div class="body-section">
+            <h4>AI Improvements You Can Deliver</h4>
+            <ul class="improvements-list">
+              <li><span class="dot dot-green">✓</span><span><strong>Tax Deadline Reminder Sequences</strong> — automated email/SMS campaigns to all clients 6 weeks, 3 weeks, 1 week before their self-assessment or VAT deadline.</span></li>
+              <li><span class="dot dot-green">✓</span><span><strong>Document Chasing Automation</strong> — AI sends polite follow-ups requesting missing payslips, receipts, bank statements. Stops the endless manual chasing.</span></li>
+              <li><span class="dot dot-blue">✓</span><span><strong>Client Onboarding Flow</strong> — new client welcome pack, document checklist, and portal setup guide sent automatically.</span></li>
+              <li><span class="dot dot-blue">✓</span><span><strong>AI Newsletter / Content</strong> — monthly budget/tax update email to all clients, written by AI and reviewed by partner. Builds authority.</span></li>
+              <li><span class="dot dot-amber">✓</span><span><strong>Local SEO for services</strong> — "accountant Ipswich small business" is a high-intent search, often served by weak local sites.</span></li>
+            </ul>
+          </div>
+          <div class="body-section">
+            <h4>Business Value to the Client</h4>
+            <div class="value-bar-row"><span class="value-bar-label">Admin time saved</span><div class="value-bar-track"><div class="value-bar-fill" style="width:75%"></div></div><span class="value-bar-pct">6–10h</span></div>
+            <div class="value-bar-row"><span class="value-bar-label">Client satisfaction</span><div class="value-bar-track"><div class="value-bar-fill" style="width:65%"></div></div><span class="value-bar-pct">+65%</span></div>
+            <div class="value-bar-row"><span class="value-bar-label">Late filings avoided</span><div class="value-bar-track"><div class="value-bar-fill" style="width:80%"></div></div><span class="value-bar-pct">−80%</span></div>
+            <div class="value-bar-row"><span class="value-bar-label">New client referrals</span><div class="value-bar-track"><div class="value-bar-fill" style="width:50%"></div></div><span class="value-bar-pct">+50%</span></div>
+            <br>
+            <table class="pricing-table">
+              <tr><th>Package</th><th>What's Included</th><th>Your Price</th></tr>
+              <tr><td>Core</td><td>Deadline reminders + doc chasing</td><td class="price">£400/mo</td></tr>
+              <tr><td>Growth</td><td>+ onboarding + newsletter</td><td class="price">£800/mo</td></tr>
+              <tr><td>Premium</td><td>All above + SEO + chatbot</td><td class="price">£1,200/mo</td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="pitch-hook">
+          "Your team spends January and July in chaos because clients submit documents at the last minute. Our AI sends automated nudges weeks in advance — so you get everything early, avoid rushed work, and free up 8 hours a week your team is wasting on chasing calls."
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== 5. HAIR & BEAUTY ========== -->
+    <div class="niche-card" data-impact="high" id="card-5">
+      <div class="card-header" onclick="toggleCard('card-5')">
+        <div class="card-left">
+          <div class="rank-badge rank-5">5</div>
+          <div>
+            <div class="niche-title">Hair Salons, Beauty &amp; Aesthetics</div>
+            <div class="niche-subtitle">Repeat-booking gold. No-shows are a profit killer. AI fixes both.</div>
+          </div>
+        </div>
+        <div class="card-right">
+          <span class="impact-badge impact-high">⚡ High Impact</span>
+          <span class="revenue-preview">£400–£900/mo</span>
+          <span class="toggle-icon">▼</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="body-grid">
+          <div class="body-section">
+            <h4>AI Improvements You Can Deliver</h4>
+            <ul class="improvements-list">
+              <li><span class="dot dot-green">✓</span><span><strong>6-Week Rebooking Trigger</strong> — automated "time to rebook?" message sent at the right interval for each service (colour = 8wks, trim = 6wks etc.).</span></li>
+              <li><span class="dot dot-green">✓</span><span><strong>No-Show Reduction Reminders</strong> — 48hr and 2hr reminders with a link to cancel/reschedule. Cuts no-shows by 30%+.</span></li>
+              <li><span class="dot dot-blue">✓</span><span><strong>Lapsed Client Reactivation</strong> — AI identifies clients not seen in 3+ months and sends a personalised win-back offer.</span></li>
+              <li><span class="dot dot-blue">✓</span><span><strong>AI Social Content Generator</strong> — weekly before/after captions, treatment spotlights, product recommendations for Instagram/Facebook.</span></li>
+              <li><span class="dot dot-amber">✓</span><span><strong>Post-Treatment Product Upsell</strong> — after colour treatment, AI sends a personalised email recommending the aftercare products used in salon.</span></li>
+            </ul>
+          </div>
+          <div class="body-section">
+            <h4>Business Value to the Client</h4>
+            <div class="value-bar-row"><span class="value-bar-label">Repeat bookings</span><div class="value-bar-track"><div class="value-bar-fill" style="width:80%"></div></div><span class="value-bar-pct">+80%</span></div>
+            <div class="value-bar-row"><span class="value-bar-label">No-show rate</span><div class="value-bar-track"><div class="value-bar-fill" style="width:70%"></div></div><span class="value-bar-pct">−30%</span></div>
+            <div class="value-bar-row"><span class="value-bar-label">Revenue per client</span><div class="value-bar-track"><div class="value-bar-fill" style="width:55%"></div></div><span class="value-bar-pct">+55%</span></div>
+            <div class="value-bar-row"><span class="value-bar-label">Social engagement</span><div class="value-bar-track"><div class="value-bar-fill" style="width:60%"></div></div><span class="value-bar-pct">+60%</span></div>
+            <br>
+            <table class="pricing-table">
+              <tr><th>Package</th><th>What's Included</th><th>Your Price</th></tr>
+              <tr><td>Essentials</td><td>Rebooking + no-show reminders</td><td class="price">£300/mo</td></tr>
+              <tr><td>Growth</td><td>+ lapsed reactivation + social content</td><td class="price">£600/mo</td></tr>
+              <tr><td>Full Stack</td><td>All above + upsells + analytics</td><td class="price">£900/mo</td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="pitch-hook">
+          "A salon with 200 active clients losing just 2 no-shows a week is losing £6,000+ a year in revenue. Our system cuts that in half — and the rebooking trigger alone typically fills £1,500–£2,000 of empty diary space every month."
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== 6. RESTAURANTS / CAFES ========== -->
+    <div class="niche-card" data-impact="high" id="card-6">
+      <div class="card-header" onclick="toggleCard('card-6')">
+        <div class="card-left">
+          <div class="rank-badge rank-6">6</div>
+          <div>
+            <div class="niche-title">Restaurants, Cafés &amp; Takeaways</div>
+            <div class="niche-subtitle">High footfall, weak digital presence, desperate for repeat customers.</div>
+          </div>
+        </div>
+        <div class="card-right">
+          <span class="impact-badge impact-high">⚡ High Impact</span>
+          <span class="revenue-preview">£350–£800/mo</span>
+          <span class="toggle-icon">▼</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="body-grid">
+          <div class="body-section">
+            <h4>AI Improvements You Can Deliver</h4>
+            <ul class="improvements-list">
+              <li><span class="dot dot-green">✓</span><span><strong>Post-Visit Review Request</strong> — 2 hours after dining, AI sends an SMS: "Hope you enjoyed it — a quick Google review means the world to us." Builds reviews fast.</span></li>
+              <li><span class="dot dot-green">✓</span><span><strong>AI Social Media Content</strong> — daily food imagery captions, seasonal specials, behind-the-scenes posts. Owner just uploads photos; AI handles the copy.</span></li>
+              <li><span class="dot dot-blue">✓</span><span><strong>Booking Confirmation &amp; Reminder Flow</strong> — reduces table no-shows with automated confirmation + 24hr reminder.</span></li>
+              <li><span class="dot dot-blue">✓</span><span><strong>Loyalty Re-engagement Emails</strong> — "We miss you!" campaign to customers not visited in 6 weeks, with an offer.</span></li>
+              <li><span class="dot dot-amber">✓</span><span><strong>Google Business SEO</strong> — optimised profile, weekly post automation, menu updates. Local "restaurant near me" searches drive huge footfall.</span></li>
+            </ul>
+          </div>
+          <div class="body-section">
+            <h4>Business Value to the Client</h4>
+            <div class="value-bar-row"><span class="value-bar-label">Google reviews</span><div class="value-bar-track"><div class="value-bar-fill" style="width:90%"></div></div><span class="value-bar-pct">+90%</span></div>
+            <div class="value-bar-row"><span class="value-bar-label">Return visit rate</span><div class="value-bar-track"><div class="value-bar-fill" style="width:65%"></div></div><span class="value-bar-pct">+65%</span></div>
+            <div class="value-bar-row"><span class="value-bar-label">Social following</span><div class="value-bar-track"><div class="value-bar-fill" style="width:55%"></div></div><span class="value-bar-pct">+55%</span></div>
+            <div class="value-bar-row"><span class="value-bar-label">No-show rate</span><div class="value-bar-track"><div class="value-bar-fill" style="width:50%"></div></div><span class="value-bar-pct">−50%</span></div>
+            <br>
+            <table class="pricing-table">
+              <tr><th>Package</th><th>What's Included</th><th>Your Price</th></tr>
+              <tr><td>Visibility</td><td>Review automation + Google SEO</td><td class="price">£300/mo</td></tr>
+              <tr><td>Growth</td><td>+ social content + booking flows</td><td class="price">£550/mo</td></tr>
+              <tr><td>Full Stack</td><td>All above + loyalty campaigns</td><td class="price">£800/mo</td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="pitch-hook">
+          "You're spending £0 on marketing but relying on people finding you on Google. We make sure they do — and once they visit, our system brings them back. A restaurant averaging 200 covers a week getting just 10% more repeat visits is worth £15,000+ a year in extra revenue."
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== 7. SOLICITORS / LAW FIRMS ========== -->
+    <div class="niche-card" data-impact="high" id="card-7">
+      <div class="card-header" onclick="toggleCard('card-7')">
+        <div class="card-left">
+          <div class="rank-badge rank-7">7</div>
+          <div>
+            <div class="niche-title">Solicitors &amp; Small Law Firms</div>
+            <div class="niche-subtitle">Premium fees, low digital presence, poor client communication flows.</div>
+          </div>
+        </div>
+        <div class="card-right">
+          <span class="impact-badge impact-high">⚡ High Impact</span>
+          <span class="revenue-preview">£700–£1,400/mo</span>
+          <span class="toggle-icon">▼</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="body-grid">
+          <div class="body-section">
+            <h4>AI Improvements You Can Deliver</h4>
+            <ul class="improvements-list">
+              <li><span class="dot dot-green">✓</span><span><strong>Enquiry Response Chatbot</strong> — captures out-of-hours leads from their website, qualifies them by practice area, and books a consultation automatically.</span></li>
+              <li><span class="dot dot-green">✓</span><span><strong>Case Milestone Client Updates</strong> — automated emails at key stages ("your contract has been sent to the other party", "we're awaiting the court date") so clients stop calling to ask.</span></li>
+              <li><span class="dot dot-blue">✓</span><span><strong>Document Chasing Workflow</strong> — automated nudges when clients haven't returned signed docs or ID verification within 48hrs.</span></li>
+              <li><span class="dot dot-blue">✓</span><span><strong>AI Legal Blog for SEO</strong> — "what to do if a landlord won't return your deposit Ipswich" type content drives organic enquiries.</span></li>
+              <li><span class="dot dot-amber">✓</span><span><strong>Billing Reminder Automation</strong> — polite automated billing reminders reduce debtor days significantly.</span></li>
+            </ul>
+          </div>
+          <div class="body-section">
+            <h4>Business Value to the Client</h4>
+            <div class="value-bar-row"><span class="value-bar-label">Out-of-hours leads</span><div class="value-bar-track"><div class="value-bar-fill" style="width:85%"></div></div><span class="value-bar-pct">+85%</span></div>
+            <div class="value-bar-row"><span class="value-bar-label">Client satisfaction</span><div class="value-bar-track"><div class="value-bar-fill" style="width:70%"></div></div><span class="value-bar-pct">+70%</span></div>
+            <div class="value-bar-row"><span class="value-bar-label">Admin load</span><div class="value-bar-track"><div class="value-bar-fill" style="width:65%"></div></div><span class="value-bar-pct">−65%</span></div>
+            <div class="value-bar-row"><span class="value-bar-label">Debtor days</span><div class="value-bar-track"><div class="value-bar-fill" style="width:55%"></div></div><span class="value-bar-pct">−55%</span></div>
+            <br>
+            <table class="pricing-table">
+              <tr><th>Package</th><th>What's Included</th><th>Your Price</th></tr>
+              <tr><td>Core Comms</td><td>Chatbot + case update automation</td><td class="price">£600/mo</td></tr>
+              <tr><td>Growth</td><td>+ doc chasing + billing reminders</td><td class="price">£1,000/mo</td></tr>
+              <tr><td>Authority</td><td>All above + AI blog SEO</td><td class="price">£1,400/mo</td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="pitch-hook">
+          "Your fee earners are spending 90 minutes a day answering 'where are we up to?' calls from clients. We automate those updates so clients are proactively informed at every stage — your team gets that time back to do billable work instead."
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== 8. CAR GARAGES ========== -->
+    <div class="niche-card" data-impact="medium" id="card-8">
+      <div class="card-header" onclick="toggleCard('card-8')">
+        <div class="card-left">
+          <div class="rank-badge rank-8">8</div>
+          <div>
+            <div class="niche-title">MOT Centres &amp; Car Garages</div>
+            <div class="niche-subtitle">Recurring revenue model with predictable service triggers. Very automatable.</div>
+          </div>
+        </div>
+        <div class="card-right">
+          <span class="impact-badge impact-medium">📈 Medium Impact</span>
+          <span class="revenue-preview">£350–£750/mo</span>
+          <span class="toggle-icon">▼</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="body-grid">
+          <div class="body-section">
+            <h4>AI Improvements You Can Deliver</h4>
+            <ul class="improvements-list">
+              <li><span class="dot dot-green">✓</span><span><strong>MOT Due Reminder Campaign</strong> — 6 weeks before their MOT, AI sends a personalised email + SMS. Fills the diary before customers go elsewhere.</span></li>
+              <li><span class="dot dot-green">✓</span><span><strong>Vehicle Ready SMS</strong> — automated "your car is ready for collection" notification. Small but customers love it.</span></li>
+              <li><span class="dot dot-blue">✓</span><span><strong>Annual Service Trigger</strong> — 11 months after a service, AI prompts customers to rebook. Moves from reactive to proactive.</span></li>
+              <li><span class="dot dot-blue">✓</span><span><strong>Post-Service Review Request</strong> — builds Google reviews which drive "mechanic near me" traffic.</span></li>
+              <li><span class="dot dot-amber">✓</span><span><strong>Local "Near Me" SEO</strong> — "MOT Ipswich cheap", "garage near me Ipswich" — high-intent searches that smaller garages lose to chains.</span></li>
+            </ul>
+          </div>
+          <div class="body-section">
+            <h4>Business Value to the Client</h4>
+            <div class="value-bar-row"><span class="value-bar-label">MOT rebooking rate</span><div class="value-bar-track"><div class="value-bar-fill" style="width:75%"></div></div><span class="value-bar-pct">+75%</span></div>
+            <div class="value-bar-row"><span class="value-bar-label">Customer retention</span><div class="value-bar-track"><div class="value-bar-fill" style="width:65%"></div></div><span class="value-bar-pct">+65%</span></div>
+            <div class="value-bar-row"><span class="value-bar-label">Google reviews</span><div class="value-bar-track"><div class="value-bar-fill" style="width:80%"></div></div><span class="value-bar-pct">+80%</span></div>
+            <div class="value-bar-row"><span class="value-bar-label">Inbound calls saved</span><div class="value-bar-track"><div class="value-bar-fill" style="width:50%"></div></div><span class="value-bar-pct">−50%</span></div>
+            <br>
+            <table class="pricing-table">
+              <tr><th>Package</th><th>What's Included</th><th>Your Price</th></tr>
+              <tr><td>Recall</td><td>MOT reminders + service triggers</td><td class="price">£300/mo</td></tr>
+              <tr><td>Growth</td><td>+ review automation + SMS flows</td><td class="price">£500/mo</td></tr>
+              <tr><td>Full Stack</td><td>All above + local SEO</td><td class="price">£750/mo</td></tr>
+            </table>
+          </div>
+        </div>
+        <div class="pitch-hook">
+          "A garage with 400 customers doing annual services is sitting on a goldmine of recurring revenue — but only if they remember to contact those customers first. Our AI does it automatically, 365 days a year, before your customer even thinks about going to Kwik Fit."
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end niche-grid -->
+
+  <!-- QUICK REFERENCE -->
+  <div style="margin-top: 56px;">
+    <div class="section-label">Quick Reference — All Niches at a Glance</div>
+    <table class="pricing-table" style="width:100%">
+      <tr>
+        <th>#</th>
+        <th>Niche</th>
+        <th>Impact</th>
+        <th>Easiest Win</th>
+        <th>Starter Price</th>
+        <th>Premium Price</th>
+        <th>Best Pitch Angle</th>
+      </tr>
+      <tr>
+        <td><strong>1</strong></td>
+        <td>Trades (Roofers, Electricians etc.)</td>
+        <td>🔥 Very High</td>
+        <td>AI chatbot / enquiry bot</td>
+        <td class="price">£400/mo</td>
+        <td class="price">£1,400/mo</td>
+        <td>Lost leads / missed calls</td>
+      </tr>
+      <tr>
+        <td><strong>2</strong></td>
+        <td>Dental &amp; Private Clinics</td>
+        <td>🔥 Very High</td>
+        <td>Patient recall automation</td>
+        <td class="price">£600/mo</td>
+        <td class="price">£1,800/mo</td>
+        <td>Empty chairs = lost revenue</td>
+      </tr>
+      <tr>
+        <td><strong>3</strong></td>
+        <td>Estate &amp; Letting Agents</td>
+        <td>🔥 Very High</td>
+        <td>AI listing writer</td>
+        <td class="price">£500/mo</td>
+        <td class="price">£1,500/mo</td>
+        <td>Admin overload / time drain</td>
+      </tr>
+      <tr>
+        <td><strong>4</strong></td>
+        <td>Accountants &amp; Bookkeepers</td>
+        <td>⚡ High</td>
+        <td>Deadline reminder sequences</td>
+        <td class="price">£400/mo</td>
+        <td class="price">£1,200/mo</td>
+        <td>Tax season chaos / doc chasing</td>
+      </tr>
+      <tr>
+        <td><strong>5</strong></td>
+        <td>Hair &amp; Beauty Salons</td>
+        <td>⚡ High</td>
+        <td>Rebooking trigger</td>
+        <td class="price">£300/mo</td>
+        <td class="price">£900/mo</td>
+        <td>No-shows / empty chairs</td>
+      </tr>
+      <tr>
+        <td><strong>6</strong></td>
+        <td>Restaurants &amp; Cafés</td>
+        <td>⚡ High</td>
+        <td>Review automation</td>
+        <td class="price">£300/mo</td>
+        <td class="price">£800/mo</td>
+        <td>Zero marketing spend</td>
+      </tr>
+      <tr>
+        <td><strong>7</strong></td>
+        <td>Solicitors &amp; Law Firms</td>
+        <td>⚡ High</td>
+        <td>Enquiry chatbot</td>
+        <td class="price">£600/mo</td>
+        <td class="price">£1,400/mo</td>
+        <td>Billable time lost to admin</td>
+      </tr>
+      <tr>
+        <td><strong>8</strong></td>
+        <td>Car Garages &amp; MOT Centres</td>
+        <td>📈 Medium</td>
+        <td>MOT reminder campaign</td>
+        <td class="price">£300/mo</td>
+        <td class="price">£750/mo</td>
+        <td>Losing repeat customers</td>
+      </tr>
+    </table>
+  </div>
+
+  <div style="margin-top: 40px; padding: 24px; background: #1B2631; border-radius: 12px; color: rgba(245,240,232,0.8); font-size: 13px; line-height: 1.7;">
+    <strong style="color: var(--gold); font-family: Syne, sans-serif; letter-spacing: 1px;">RECOMMENDED STARTING SEQUENCE →</strong><br><br>
+    <strong style="color: white;">Week 1–4:</strong> Target <strong style="color: #82E0AA;">Trades</strong> first — lowest resistance, fastest ROI story, no jargon needed. One roofer or electrician as a case study unlocks the whole niche.<br>
+    <strong style="color: white;">Month 2:</strong> Layer in <strong style="color: #82E0AA;">Hair &amp; Beauty</strong> — low price point makes the yes easy. Use as volume builders (3–4 clients × £500 = £1,500–£2,000/mo baseline).<br>
+    <strong style="color: white;">Month 3+:</strong> Go upmarket to <strong style="color: #82E0AA;">Dental</strong> and <strong style="color: #82E0AA;">Solicitors</strong> — bigger contracts, stickier relationships, less price sensitivity.<br>
+    <strong style="color: white;">Always:</strong> Get one case study per niche with numbers. That data is your best sales tool in any subsequent pitch.
+  </div>
+
+</main>
+
+<script>
+  function toggleCard(id) {
+    const card = document.getElementById(id);
+    card.classList.toggle('open');
+  }
+
+  function filterNiches(impact, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.niche-card').forEach(card => {
+      if (impact === 'all' || card.dataset.impact === impact) {
+        card.classList.remove('hidden');
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+  }
+</script>
+</body>
+</html>

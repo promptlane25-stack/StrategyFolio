@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Consultancy — Ipswich Niche Strategy v2</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0D0D0D;
+    --paper: #F5F0E8;
+    --accent: #E84545;
+    --gold: #C9A84C;
+    --muted: #7A7267;
+    --card: #FFFFFF;
+    --border: #E0D8CC;
+    --green: #2D6A4F;
+    --amber: #D4840A;
+    --red: #C0392B;
+    --tier1: #1B4332;
+    --tier2: #1A5276;
+    --tier3: #7D6608;
+    --purple: #6C3483;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); min-height: 100vh; }
+
+  header {
+    background: var(--ink); color: var(--paper);
+    padding: 48px 40px 36px; position: relative; overflow: hidden;
+  }
+  header::before {
+    content: ''; position: absolute; top: -60px; right: -60px;
+    width: 280px; height: 280px; border-radius: 50%;
+    border: 2px solid rgba(201,168,76,0.2);
+  }
+  header::after {
+    content: ''; position: absolute; bottom: -40px; left: 200px;
+    width: 160px; height: 160px; border-radius: 50%;
+    border: 1px solid rgba(232,69,69,0.3);
+  }
+  .header-label { font-family: 'Syne', sans-serif; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+  header h1 { font-family: 'Syne', sans-serif; font-size: clamp(28px, 5vw, 48px); font-weight: 800; line-height: 1.1; margin-bottom: 16px; }
+  header h1 span { color: var(--accent); }
+  header p { font-size: 15px; color: rgba(245,240,232,0.7); max-width: 560px; line-height: 1.6; }
+  .header-meta { display: flex; gap: 32px; margin-top: 28px; flex-wrap: wrap; }
+  .meta-item { display: flex; flex-direction: column; gap: 2px; }
+  .meta-item .label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
+  .meta-item .value { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; }
+
+  .filters {
+    padding: 20px 40px; background: var(--ink);
+    border-top: 1px solid rgba(255,255,255,0.08);
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .filter-btn {
+    background: transparent; border: 1px solid rgba(245,240,232,0.2);
+    color: rgba(245,240,232,0.6); padding: 6px 16px; border-radius: 100px;
+    font-family: 'DM Sans', sans-serif; font-size: 13px; cursor: pointer; transition: all 0.2s;
+  }
+  .filter-btn:hover, .filter-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
+
+  main { max-width: 1240px; margin: 0 auto; padding: 48px 40px; }
+
+  .section-label {
+    font-family: 'Syne', sans-serif; font-size: 11px; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 24px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* BUILDER MATRIX */
+  .builder-matrix {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 48px;
+  }
+  .matrix-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .matrix-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .matrix-card.easiest::before { background: #2D6A4F; }
+  .matrix-card.moderate::before { background: #D4840A; }
+  .matrix-card.complex::before { background: #C0392B; }
+  .matrix-rank { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; }
+  .matrix-niche { font-size: 12px; font-weight: 600; margin: 4px 0 8px; }
+  .matrix-hours { font-size: 11px; color: var(--muted); }
+  .matrix-build-badge {
+    display: inline-block; padding: 2px 8px; border-radius: 100px;
+    font-size: 10px; font-weight: 600; margin-top: 6px;
+  }
+  .easiest .matrix-build-badge { background: #D5F5E3; color: #1E8449; }
+  .moderate .matrix-build-badge { background: #FEF9E7; color: #9A7D0A; }
+  .complex .matrix-build-badge { background: #FDEDEC; color: #C0392B; }
+
+  /* CARDS */
+  .niche-grid { display: flex; flex-direction: column; gap: 24px; }
+  .niche-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 12px; overflow: hidden; transition: box-shadow 0.2s;
+  }
+  .niche-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
+  .niche-card.hidden { display: none; }
+
+  .card-header {
+    padding: 22px 28px 18px;
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 16px; border-bottom: 1px solid var(--border);
+    cursor: pointer; user-select: none;
+  }
+  .card-left { display: flex; align-items: flex-start; gap: 16px; flex: 1; }
+  .rank-badge {
+    width: 44px; height: 44px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 800;
+    flex-shrink: 0; color: white;
+  }
+  .rank-1 { background: var(--tier1); }
+  .rank-2 { background: var(--tier2); }
+  .rank-3 { background: var(--tier3); }
+  .rank-4 { background: #6C3483; }
+  .rank-5 { background: #7B241C; }
+  .rank-6 { background: #1A5276; }
+  .rank-7 { background: #0E6251; }
+  .rank-8 { background: #4D5656; }
+
+  .niche-title { font-family: 'Syne', sans-serif; font-size: 19px; font-weight: 700; margin-bottom: 4px; }
+  .niche-subtitle { font-size: 13px; color: var(--muted); }
+
+  .card-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+  .impact-badge { padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; }
+  .impact-very-high { background: #D5F5E3; color: #1E8449; }
+  .impact-high { background: #D6EAF8; color: #1A5276; }
+  .impact-medium { background: #FEF9E7; color: #9A7D0A; }
+  .build-badge-header { padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 600; }
+  .build-easy { background: #D5F5E3; color: #1E8449; }
+  .build-moderate { background: #FEF9E7; color: #9A7D0A; }
+  .build-complex { background: #FDEDEC; color: #C0392B; }
+  .revenue-preview { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: var(--green); }
+  .toggle-icon { font-size: 20px; color: var(--muted); margin-left: 8px; transition: transform 0.3s; flex-shrink: 0; }
+  .niche-card.open .toggle-icon { transform: rotate(180deg); }
+
+  .card-body { display: none; padding: 28px; }
+  .niche-card.open .card-body { display: block; }
+
+  /* TAB SYSTEM INSIDE CARD */
+  .card-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 24px; }
+  .card-tab {
+    padding: 10px 20px; font-size: 13px; font-weight: 600; cursor: pointer;
+    border-bottom: 2px solid transparent; color: var(--muted); transition: all 0.2s;
+    background: none; border-top: none; border-left: none; border-right: none;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .card-tab.active { color: var(--ink); border-bottom-color: var(--accent); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .body-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 24px; margin-bottom: 24px;
+  }
+  @media (max-width: 700px) { .body-grid { grid-template-columns: 1fr; } }
+
+  .body-section h4 {
+    font-family: 'Syne', sans-serif; font-size: 11px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 12px;
+  }
+
+  .improvements-list { list-style: none; }
+  .improvements-list li { display: flex; gap: 10px; margin-bottom: 10px; font-size: 14px; line-height: 1.5; }
+  .improvements-list li .dot {
+    width: 20px; height: 20px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; flex-shrink: 0; margin-top: 1px;
+  }
+  .dot-green { background: #D5F5E3; color: #1E8449; }
+  .dot-blue { background: #D6EAF8; color: #1A5276; }
+  .dot-amber { background: #FEF9E7; color: #9A7D0A; }
+
+  .pricing-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .pricing-table th {
+    background: var(--ink); color: var(--paper); padding: 10px 14px;
+    text-align: left; font-family: 'Syne', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 1px;
+  }
+  .pricing-table td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+  .pricing-table tr:last-child td { border-bottom: none; }
+  .pricing-table tr:nth-child(even) td { background: #FAFAF8; }
+  .price { font-family: 'Syne', sans-serif; font-weight: 700; color: var(--green); }
+
+  .value-bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; font-size: 13px; }
+  .value-bar-label { width: 160px; flex-shrink: 0; }
+  .value-bar-track { flex: 1; height: 8px; background: var(--border); border-radius: 100px; overflow: hidden; }
+  .value-bar-fill { height: 100%; border-radius: 100px; background: var(--green); }
+  .value-bar-pct { width: 36px; text-align: right; font-weight: 600; font-size: 12px; color: var(--green); }
+
+  .pitch-hook {
+    background: var(--ink); color: var(--paper); border-radius: 8px;
+    padding: 16px 20px; font-size: 14px; line-height: 1.6; margin-top: 20px; position: relative;
+  }
+  .pitch-hook::before {
+    content: '💬 PITCH HOOK'; display: block;
+    font-family: 'Syne', sans-serif; font-size: 10px; letter-spacing: 2px;
+    color: var(--gold); margin-bottom: 8px;
+  }
+
+  /* BUILD COMPLEXITY TAB */
+  .build-overview {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 12px; margin-bottom: 24px;
+  }
+  @media (max-width: 600px) { .build-overview { grid-template-columns: 1fr 1fr; } }
+  .build-stat {
+    background: #F8F6F0; border-radius: 8px; padding: 14px 16px;
+  }
+  .build-stat .bs-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .build-stat .bs-value { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; }
+  .bs-green { color: var(--green); }
+  .bs-amber { color: var(--amber); }
+  .bs-red { color: var(--red); }
+  .bs-purple { color: var(--purple); }
+
+  .build-items-list { list-style: none; margin-bottom: 20px; }
+  .build-items-list li {
+    display: flex; gap: 12px; padding: 12px 0;
+    border-bottom: 1px solid var(--border); font-size: 13px; line-height: 1.5;
+  }
+  .build-items-list li:last-child { border-bottom: none; }
+  .build-task-name { font-weight: 600; font-size: 13px; margin-bottom: 2px; }
+  .build-task-meta { font-size: 12px; color: var(--muted); }
+  .complexity-pill {
+    display: inline-block; padding: 2px 10px; border-radius: 100px;
+    font-size: 11px; font-weight: 600; white-space: nowrap; flex-shrink: 0; height: fit-content;
+  }
+  .cp-easy { background: #D5F5E3; color: #1E8449; }
+  .cp-moderate { background: #FEF9E7; color: #9A7D0A; }
+  .cp-hard { background: #FDEDEC; color: #C0392B; }
+
+  .tools-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px; margin-bottom: 20px;
+  }
+  .tool-card {
+    border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px;
+  }
+  .tool-name { font-weight: 600; font-size: 13px; margin-bottom: 2px; }
+  .tool-type { font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+  .tool-cost { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; }
+  .cost-free { color: var(--green); }
+  .cost-paid { color: var(--amber); }
+  .cost-varies { color: var(--purple); }
+
+  .build-note {
+    background: #EDE7F6; border-radius: 8px; padding: 14px 16px;
+    font-size: 13px; line-height: 1.6; color: #4A235A;
+  }
+  .build-note strong { display: block; margin-bottom: 4px; color: #6C3483; font-family: 'Syne', sans-serif; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+
+  /* SUMMARY STRIP */
+  .summary-strip {
+    background: var(--ink); border-radius: 12px; padding: 32px; margin-bottom: 40px;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 24px;
+  }
+  .strip-item { text-align: center; }
+  .strip-item .s-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: rgba(245,240,232,0.5); margin-bottom: 6px; }
+  .strip-item .s-value { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; color: var(--paper); }
+  .strip-item .s-value span { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-label">AI Consultancy · Ipswich Market · v2 — incl. Build Complexity</div>
+  <h1>Target Niches, Revenue &amp;<br><span>Build Playbook</span></h1>
+  <p>Now includes: build complexity, hours required, tools, subscriptions &amp; monthly costs for every service — so you know exactly what to build first.</p>
+  <div class="header-meta">
+    <div class="meta-item"><span class="label">Niches Ranked</span><span class="value">8</span></div>
+    <div class="meta-item"><span class="label">Revenue Ceiling</span><span class="value">£12,800+/mo</span></div>
+    <div class="meta-item"><span class="label">Easiest First Build</span><span class="value">Hair &amp; Beauty</span></div>
+    <div class="meta-item"><span class="label">Quickest to Launch</span><span class="value">4–6 hrs</span></div>
+  </div>
+</header>
+
+<div class="filters">
+  <button class="filter-btn active" onclick="filterNiches('all', this)">All Niches</button>
+  <button class="filter-btn" onclick="filterNiches('very-high', this)">🔥 Very High Impact</button>
+  <button class="filter-btn" onclick="filterNiches('high', this)">⚡ High Impact</button>
+  <button class="filter-btn" onclick="filterNiches('medium', this)">📈 Medium Impact</button>
+  <button class="filter-btn" onclick="filterByBuild('easy', this)">🟢 Easiest to Build</button>
+  <button class="filter-btn" onclick="filterByBuild('moderate', this)">🟡 Moderate Build</button>
+  <button class="filter-btn" onclick="filterByBuild('complex', this)">🔴 Complex Build</button>
+</div>
+
+<main>
+
+  <!-- BUILDER PRIORITY MATRIX -->
+  <div class="section-label">Builder Priority Matrix — Sorted by Easiest to Build First</div>
+  <div class="builder-matrix">
+    <div class="matrix-card easiest">
+      <div class="matrix-rank">#1</div>
+      <div class="matrix-niche">Hair &amp; Beauty</div>
+      <div class="matrix-hours">⏱ 4–6 hrs to first client</div>
+      <div class="matrix-build-badge">🟢 Easiest</div>
+    </div>
+    <div class="matrix-card easiest">
+      <div class="matrix-rank">#2</div>
+      <div class="matrix-niche">Restaurants &amp; Cafés</div>
+      <div class="matrix-hours">⏱ 5–8 hrs to first client</div>
+      <div class="matrix-build-badge">🟢 Easiest</div>
+    </div>
+    <div class="matrix-card easiest">
+      <div class="matrix-rank">#3</div>
+      <div class="matrix-niche">Car Garages</div>
+      <div class="matrix-hours">⏱ 5–8 hrs to first client</div>
+      <div class="matrix-build-badge">🟢 Easiest</div>
+    </div>
+    <div class="matrix-card moderate">
+      <div class="matrix-rank">#4</div>
+      <div class="matrix-niche">Trades</div>
+      <div class="matrix-hours">⏱ 8–14 hrs to first client</div>
+      <div class="matrix-build-badge">🟡 Moderate</div>
+    </div>
+    <div class="matrix-card moderate">
+      <div class="matrix-rank">#5</div>
+      <div class="matrix-niche">Accountants</div>
+      <div class="matrix-hours">⏱ 8–12 hrs to first client</div>
+      <div class="matrix-build-badge">🟡 Moderate</div>
+    </div>
+    <div class="matrix-card moderate">
+      <div class="matrix-rank">#6</div>
+      <div class="matrix-niche">Estate Agents</div>
+      <div class="matrix-hours">⏱ 10–16 hrs to first client</div>
+      <div class="matrix-build-badge">🟡 Moderate</div>
+    </div>
+    <div class="matrix-card complex">
+      <div class="matrix-rank">#7</div>
+      <div class="matrix-niche">Dental / Clinics</div>
+      <div class="matrix-hours">⏱ 14–20 hrs to first client</div>
+      <div class="matrix-build-badge">🔴 Complex</div>
+    </div>
+    <div class="matrix-card complex">
+      <div class="matrix-rank">#8</div>
+      <div class="matrix-niche">Solicitors</div>
+      <div class="matrix-hours">⏱ 16–24 hrs to first client</div>
+      <div class="matrix-build-badge">🔴 Complex</div>
+    </div>
+  </div>
+
+  <div class="summary-strip">
+    <div class="strip-item"><div class="s-label">Lowest Entry Price</div><div class="s-value"><span>£</span>300/mo</div></div>
+    <div class="strip-item"><div class="s-label">Avg Retainer Per Client</div><div class="s-value"><span>£</span>900/mo</div></div>
+    <div class="strip-item"><div class="s-label">Core Tool Stack Cost</div><div class="s-value"><span>~£</span>80/mo</div></div>
+    <div class="strip-item"><div class="s-label">Fastest First Build</div><div class="s-value">4–6<span>hrs</span></div></div>
+    <div class="strip-item"><div class="s-label">Avg ROI to Client</div><div class="s-value">4–8<span>×</span></div></div>
+  </div>
+
+  <div class="section-label">All Niches — Click to Expand · Use Tabs for Impact vs Build View</div>
+
+  <div class="niche-grid">
+
+    <!-- ===== CARD 1: TRADES ===== -->
+    <div class="niche-card" data-impact="very-high" data-build="moderate" id="card-1">
+      <div class="card-header" onclick="toggleCard('card-1')">
+        <div class="card-left">
+          <div class="rank-badge rank-1">1</div>
+          <div>
+            <div class="niche-title">Trades — Roofers, Electricians, Plumbers, Heating Engineers</div>
+            <div class="niche-subtitle">High-ticket, quote-driven, terrible at follow-up. Perfect AI prey.</div>
+          </div>
+        </div>
+        <div class="card-right">
+          <span class="impact-badge impact-very-high">🔥 Very High Impact</span>
+          <span class="build-badge-header build-moderate">🟡 Moderate Build · 8–14 hrs</span>
+          <span class="revenue-preview">£600–£1,400/mo</span>
+          <span class="toggle-icon">▼</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-tabs">
+          <button class="card-tab active" onclick="switchTab(event,'card-1','impact')">📈 Impact &amp; Pricing</button>
+          <button class="card-tab" onclick="switchTab(event,'card-1','build')">🔧 How to Build It</button>
+        </div>
+
+        <!-- IMPACT TAB -->
+        <div class="tab-panel active" data-panel="card-1-impact">
+          <div class="body-grid">
+            <div class="body-section">
+              <h4>AI Improvements You Can Deliver</h4>
+              <ul class="improvements-list">
+                <li><span class="dot dot-green">✓</span><span><strong>Instant Quote-Request Responder</strong> — AI chatbot on their site captures job details and sends a holding reply within 60 seconds, 24/7.</span></li>
+                <li><span class="dot dot-green">✓</span><span><strong>Automated Follow-Up Sequences</strong> — if quote not accepted in 3 days, AI sends a nudge. Converts 15–25% more quotes.</span></li>
+                <li><span class="dot dot-green">✓</span><span><strong>Google Review Automation</strong> — post-job SMS/email trigger asking for a review. Reviews = local SEO = more inbound.</span></li>
+                <li><span class="dot dot-blue">✓</span><span><strong>Job Completion Emails</strong> — branded, professional email with warranty info and referral ask.</span></li>
+                <li><span class="dot dot-amber">✓</span><span><strong>AI Local SEO Content</strong> — monthly blog posts targeting "roofer in Ipswich", "emergency plumber Suffolk".</span></li>
+              </ul>
+            </div>
+            <div class="body-section">
+              <h4>Business Value to the Client</h4>
+              <div class="value-bar-row"><span class="value-bar-label">Lead capture rate</span><div class="value-bar-track"><div class="value-bar-fill" style="width:85%"></div></div><span class="value-bar-pct">+85%</span></div>
+              <div class="value-bar-row"><span class="value-bar-label">Quote conversion</span><div class="value-bar-track"><div class="value-bar-fill" style="width:70%"></div></div><span class="value-bar-pct">+70%</span></div>
+              <div class="value-bar-row"><span class="value-bar-label">Google reviews</span><div class="value-bar-track"><div class="value-bar-fill" style="width:90%"></div></div><span class="value-bar-pct">+90%</span></div>
+              <div class="value-bar-row"><span class="value-bar-label">Time saved/week</span><div class="value-bar-track"><div class="value-bar-fill" style="width:60%"></div></div><span class="value-bar-pct">5–8h</span></div>
+              <br>
+              <table class="pricing-table">
+                <tr><th>Package</th><th>What's Included</th><th>Your Price</th></tr>
+                <tr><td>Starter</td><td>AI chatbot + review automation</td><td class="price">£400/mo</td></tr>
+                <tr><td>Growth</td><td>+ follow-up sequences + SEO content</td><td class="price">£900/mo</td></tr>
+                <tr><td>Full Stack</td><td>All above + monthly reporting</td><td class="price">£1,400/mo</td></tr>
+              </table>
+            </div>
+          </div>
+          <div class="pitch-hook">"You're losing 3–5 jobs a week to voicemail. An AI that responds to every enquiry in under 60 seconds — even at 11pm — will pay for itself with the first extra job it captures. For a roofer averaging £800/job, that's one saved lead = one month's fee back in your pocket."</div>
+        </div>
+
+        <!-- BUILD TAB -->
+        <div class="tab-panel" data-panel="card-1-build">
+          <div class="build-overview">
+            <div class="build-stat"><div class="bs-label">Build Complexity</div><div class="bs-value bs-amber">Moderate</div></div>
+            <div class="build-stat"><div class="bs-label">First Client Setup</div><div class="bs-value bs-amber">8–14 hrs</div></div>
+            <div class="build-stat"><div class="bs-label">Ongoing Per Client</div><div class="bs-value bs-green">2–3 hrs/mo</div></div>
+            <div class="build-stat"><div class="bs-label">Tool Stack Cost</div><div class="bs-value bs-amber">~£65/mo</div></div>
+            <div class="build-stat"><div class="bs-label">Coding Required</div><div class="bs-value bs-green">None</div></div>
+            <div class="build-stat"><div class="bs-label">Hardest Part</div><div class="bs-value bs-red" style="font-size:14px">Chatbot training</div></div>
+          </div>
+          <h4 style="font-family:Syne,sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">Per-Service Build Breakdown</h4>
+          <ul class="build-items-list">
+            <li>
+              <span class="complexity-pill cp-easy">Easy · 1–2 hrs</span>
+              <div><div class="build-task-name">Google Review Automation</div><div class="build-task-meta">Zapier or Make: trigger on job completion → send SMS/email via Twilio or MailerLite. Template is reusable across all clients.</div></div>
+            </li>
+            <li>
+              <span class="complexity-pill cp-easy">Easy · 1–2 hrs</span>
+              <div><div class="build-task-name">Job Completion Email</div><div class="build-task-meta">Branded email template in MailerLite/Brevo. Trigger manually or via form submission. No automation needed initially.</div></div>
+            </li>
+            <li>
+              <span class="complexity-pill cp-moderate">Moderate · 3–4 hrs</span>
+              <div><div class="build-task-name">Quote Follow-Up Sequence</div><div class="build-task-meta">3-email drip in MailerLite. Needs a simple CRM tag system to mark quotes as "sent". Client must log quotes — or use a form.</div></div>
+            </li>
+            <li>
+              <span class="complexity-pill cp-moderate">Moderate · 3–5 hrs</span>
+              <div><div class="build-task-name">AI Enquiry Chatbot</div><div class="build-task-meta">Tidio or Voiceflow embedded on client's site. Train on FAQs, job types, service area. Needs someone to hand off to (email/WhatsApp). Key challenge: client must share their existing enquiry process.</div></div>
+            </li>
+            <li>
+              <span class="complexity-pill cp-moderate">Moderate · 2–3 hrs/mo</span>
+              <div><div class="build-task-name">AI Local SEO Blog Posts</div><div class="build-task-meta">Use Claude or ChatGPT to draft 2x posts/mo targeting local search terms. Post to their WordPress/Wix. Ongoing monthly task — template once, reuse structure.</div></div>
+            </li>
+          </ul>
+          <h4 style="font-family:Syne,sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">Tools &amp; Subscriptions</h4>
+          <div class="tools-grid">
+            <div class="tool-card"><div class="tool-name">Make (Integromat)</div><div class="tool-type">Automation platform</div><div class="tool-cost cost-paid">£9/mo (Core)</div></div>
+            <div class="tool-card"><div class="tool-name">MailerLite</div><div class="tool-type">Email sequences</div><div class="tool-cost cost-free">Free up to 1,000</div></div>
+            <div class="tool-card"><div class="tool-name">Tidio</div><div class="tool-type">AI chatbot widget</div><div class="tool-cost cost-paid">£19/mo/client</div></div>
+            <div class="tool-card"><div class="tool-name">Twilio</div><div class="tool-type">SMS sending</div><div class="tool-cost cost-varies">~£0.04/SMS</div></div>
+            <div class="tool-card"><div class="tool-name">Claude API / ChatGPT</div><div class="tool-type">SEO content writing</div><div class="tool-cost cost-paid">£15–20/mo</div></div>
+            <div class="tool-card"><div class="tool-name">Google Business</div><div class="tool-type">Review &amp; SEO profile</div><div class="tool-cost cost-free">Free</div></div>
+          </div>
+          <div class="build-note"><strong>💡 Builder Tip</strong>Build the review automation and job completion email first — these take 2 hours total and are immediately impressive to the client. The chatbot is the hardest part; save it for month 2 once you've won their trust.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CARD 2: DENTAL ===== -->
+    <div class="niche-card" data-impact="very-high" data-build="complex" id="card-2">
+      <div class="card-header" onclick="toggleCard('card-2')">
+        <div class="card-left">
+          <div class="rank-badge rank-2">2</div>
+          <div>
+            <div class="niche-title">Dental Practices &amp; Private Clinics</div>
+            <div class="niche-subtitle">High revenue per patient, high no-show rates, massive recall opportunity.</div>
+          </div>
+        </div>
+        <div class="card-right">
+          <span class="impact-badge impact-very-high">🔥 Very High Impact</span>
+          <span class="build-badge-header build-complex">🔴 Complex Build · 14–20 hrs</span>
+          <span class="revenue-preview">£800–£1,800/mo</span>
+          <span class="toggle-icon">▼</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-tabs">
+          <button class="card-tab active" onclick="switchTab(event,'card-2','impact')">📈 Impact &amp; Pricing</button>
+          <button class="card-tab" onclick="switchTab(event,'card-2','build')">🔧 How to Build It</button>
+        </div>
+        <div class="tab-panel active" data-panel="card-2-impact">
+          <div class="body-grid">
+            <div class="body-section">
+              <h4>AI Improvements You Can Deliver</h4>
+              <ul class="improvements-list">
+                <li><span class="dot dot-green">✓</span><span><strong>Patient Recall Automation</strong> — AI emails/SMS patients due for a check-up. Recovering 5 lapsed patients/month = £2,000+ revenue for them.</span></li>
+                <li><span class="dot dot-green">✓</span><span><strong>No-Show Reduction Sequences</strong> — 48hr, 24hr, 2hr reminders that can confirm/reschedule automatically. Cuts no-shows 30–40%.</span></li>
+                <li><span class="dot dot-green">✓</span><span><strong>Treatment Upsell Triggers</strong> — after a hygienist visit, AI sends info about whitening or Invisalign.</span></li>
+                <li><span class="dot dot-blue">✓</span><span><strong>New Patient Onboarding Flow</strong> — automated welcome sequence with forms, what to expect, parking info.</span></li>
+                <li><span class="dot dot-amber">✓</span><span><strong>"Near Me" SEO + Google Business</strong> — "private dentist Ipswich" is high-value search traffic.</span></li>
+              </ul>
+            </div>
+            <div class="body-section">
+              <h4>Business Value to the Client</h4>
+              <div class="value-bar-row"><span class="value-bar-label">Recall revenue</span><div class="value-bar-track"><div class="value-bar-fill" style="width:90%"></div></div><span class="value-bar-pct">+90%</span></div>
+              <div class="value-bar-row"><span class="value-bar-label">No-show reduction</span><div class="value-bar-track"><div class="value-bar-fill" style="width:75%"></div></div><span class="value-bar-pct">−35%</span></div>
+              <div class="value-bar-row"><span class="value-bar-label">Upsell conversions</span><div class="value-bar-track"><div class="value-bar-fill" style="width:55%"></div></div><span class="value-bar-pct">+55%</span></div>
+              <div class="value-bar-row"><span class="value-bar-label">Admin time saved</span><div class="value-bar-track"><div class="value-bar-fill" style="width:65%"></div></div><span class="value-bar-pct">6–10h</span></div>
+              <br>
+              <table class="pricing-table">
+                <tr><th>Package</th><th>What's Included</th><th>Your Price</th></tr>
+                <tr><td>Recall Engine</td><td>Patient recall + no-show automation</td><td class="price">£600/mo</td></tr>
+                <tr><td>Growth</td><td>+ upsell flows + new patient onboarding</td><td class="price">£1,200/mo</td></tr>
+                <tr><td>Premium</td><td>All above + SEO + monthly analytics</td><td class="price">£1,800/mo</td></tr>
+              </table>
+            </div>
+          </div>
+          <div class="pitch-hook">"Every empty chair in a dental practice costs £150–£400 per hour. AI appointment reminders alone cut no-shows by a third — and our patient recall system quietly brings back lapsed patients every month on autopilot, without your receptionist lifting a finger."</div>
+        </div>
+        <div class="tab-panel" data-panel="card-2-build">
+          <div class="build-overview">
+            <div class="build-stat"><div class="bs-label">Build Complexity</div><div class="bs-value bs-red">Complex</div></div>
+            <div class="build-stat"><div class="bs-label">First Client Setup</div><div class="bs-value bs-red">14–20 hrs</div></div>
+            <div class="build-stat"><div class="bs-label">Ongoing Per Client</div><div class="bs-value bs-amber">3–5 hrs/mo</div></div>
+            <div class="build-stat"><div class="bs-label">Tool Stack Cost</div><div class="bs-value bs-red">~£90/mo</div></div>
+            <div class="build-stat"><div class="bs-label">Coding Required</div><div class="bs-value bs-amber">Minimal</div></div>
+            <div class="build-stat"><div class="bs-label">Hardest Part</div><div class="bs-value bs-red" style="font-size:13px">PMS integration</div></div>
+          </div>
+          <h4 style="font-family:Syne,sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">Per-Service Build Breakdown</h4>
+          <ul class="build-items-list">
+            <li>
+              <span class="complexity-pill cp-moderate">Moderate · 3–4 hrs</span>
+              <div><div class="build-task-name">No-Show Reminder Sequences</div><div class="build-task-meta">MailerLite/Brevo drip: 48hr, 24hr, 2hr reminders. Needs booking data exported from their system (Dentally, SOE, or similar) to trigger correctly — the export process is the tricky bit.</div></div>
+            </li>
+            <li>
+              <span class="complexity-pill cp-hard">Hard · 5–8 hrs</span>
+              <div><div class="build-task-name">Patient Recall Automation</div><div class="build-task-meta">Requires access to their practice management software (PMS). Most dental PMS (Dentally, SOE) have no API — you'll need CSV exports from the practice on a schedule, then automate email/SMS from that. Plan: monthly CSV → Make → MailerLite. Takes coordination with their admin.</div></div>
+            </li>
+            <li>
+              <span class="complexity-pill cp-moderate">Moderate · 2–3 hrs</span>
+              <div><div class="build-task-name">New Patient Onboarding Flow</div><div class="build-task-meta">5-email welcome sequence in MailerLite. Triggered by new patient form submission (Typeform → Make → MailerLite). Straightforward once the template is built.</div></div>
+            </li>
+            <li>
+              <span class="complexity-pill cp-moderate">Moderate · 2–3 hrs</span>
+              <div><div class="build-task-name">Treatment Upsell Emails</div><div class="build-task-meta">Tagged email sequence triggered by treatment type. Needs the practice to tag patients by treatment in their system or flag them in a form. Claude writes the copy; MailerLite sends it.</div></div>
+            </li>
+            <li>
+              <span class="complexity-pill cp-moderate">Moderate · 3–4 hrs setup + ongoing</span>
+              <div><div class="build-task-name">Local SEO &amp; Google Business</div><div class="build-task-meta">Optimise Google Business profile, set up weekly automated posts via Google Business API or Buffer. Write monthly blog content with Claude targeting "private dentist Ipswich" etc.</div></div>
+            </li>
+          </ul>
+          <h4 style="font-family:Syne,sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">Tools &amp; Subscriptions</h4>
+          <div class="tools-grid">
+            <div class="tool-card"><div class="tool-name">Make (Integromat)</div><div class="tool-type">Automation engine</div><div class="tool-cost cost-paid">£9–18/mo</div></div>
+            <div class="tool-card"><div class="tool-name">MailerLite / Brevo</div><div class="tool-type">Email sequences</div><div class="tool-cost cost-free">Free–£15/mo</div></div>
+            <div class="tool-card"><div class="tool-name">Twilio / TextMagic</div><div class="tool-type">SMS reminders</div><div class="tool-cost cost-varies">~£0.04–0.07/SMS</div></div>
+            <div class="tool-card"><div class="tool-name">Typeform</div><div class="tool-type">New patient forms</div><div class="tool-cost cost-paid">£25/mo</div></div>
+            <div class="tool-card"><div class="tool-name">Claude API</div><div class="tool-type">Content writing</div><div class="tool-cost cost-paid">~£15/mo</div></div>
+            <div class="tool-card"><div class="tool-name">Google Business API</div><div class="tool-type">SEO posts</div><div class="tool-cost cost-free">Free</div></div>
+          </div>
+          <div class="build-note"><strong>⚠️ Builder Warning</strong>The big complexity here is data access. Dental practices are protective of patient data (rightly — GDPR). Start by offering the no-show reminders and onboarding flow only — these don't touch existing patient data. Once trust is established, propose the recall automation using exported CSVs they control.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CARD 3: ESTATE AGENTS ===== -->
+    <div class="niche-card" data-impact="very-high" data-build="moderate" id="card-3">
+      <div class="card-header" onclick="toggleCard('card-3')">
+        <div class="card-left">
+          <div class="rank-badge rank-3">3</div>
+          <div>
+            <div class="niche-title">Estate &amp; Letting Agents</div>
+            <div class="niche-subtitle">Drowning in admin. AI slashes hours and improves landlord/buyer experience.</div>
+          </div>
+        </div>
+        <div class="card-right">
+          <span class="impact-badge impact-very-high">🔥 Very High Impact</span>
+          <span class="build-badge-header build-moderate">🟡 Moderate Build · 10–16 hrs</span>
+          <span class="revenue-preview">£700–£1,500/mo</span>
+          <span class="toggle-icon">▼</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-tabs">
+          <button class="card-tab active" onclick="switchTab(event,'card-3','impact')">📈 Impact &amp; Pricing</button>
+          <button class="card-tab" onclick="switchTab(event,'card-3','build')">🔧 How to Build It</button>
+        </div>
+        <div class="tab-panel active" data-panel="card-3-impact">
+          <div class="body-grid">
+            <div class="body-section">
+              <h4>AI Improvements You Can Deliver</h4>
+              <ul class="improvements-list">
+                <li><span class="dot dot-green">✓</span><span><strong>AI Property Listing Writer</strong> — takes basic details, outputs polished Rightmove/Zoopla descriptions instantly. Saves 2–3 hrs per listing.</span></li>
+                <li><span class="dot dot-green">✓</span><span><strong>Buyer/Tenant Nurture Sequences</strong> — auto-emails new properties to registered buyers matching their criteria.</span></li>
+                <li><span class="dot dot-green">✓</span><span><strong>Landlord Monthly Report Automation</strong> — AI compiles statements into a monthly PDF, sent automatically.</span></li>
+                <li><span class="dot dot-blue">✓</span><span><strong>Viewing Confirmation &amp; Reminder Bot</strong> — cuts viewing no-shows, confirms times, sends directions automatically.</span></li>
+                <li><span class="dot dot-amber">✓</span><span><strong>Valuation Request Chatbot</strong> — captures leads from their website 24/7, qualifies them, books a valuation slot.</span></li>
+              </ul>
+            </div>
+            <div class="body-section">
+              <h4>Business Value to the Client</h4>
+              <div class="value-bar-row"><span class="value-bar-label">Admin time saved</span><div class="value-bar-track"><div class="value-bar-fill" style="width:80%"></div></div><span class="value-bar-pct">8–12h</span></div>
+              <div class="value-bar-row"><span class="value-bar-label">Lead response speed</span><div class="value-bar-track"><div class="value-bar-fill" style="width:95%"></div></div><span class="value-bar-pct">+95%</span></div>
+              <div class="value-bar-row"><span class="value-bar-label">Landlord retention</span><div class="value-bar-track"><div class="value-bar-fill" style="width:60%"></div></div><span class="value-bar-pct">+60%</span></div>
+              <div class="value-bar-row"><span class="value-bar-label">Listing quality</span><div class="value-bar-track"><div class="value-bar-fill" style="width:70%"></div></div><span class="value-bar-pct">+70%</span></div>
+              <br>
+              <table class="pricing-table">
+                <tr><th>Package</th><th>What's Included</th><th>Your Price</th></tr>
+                <tr><td>Starter</td><td>AI listing writer + viewing bot</td><td class="price">£500/mo</td></tr>
+                <tr><td>Growth</td><td>+ nurture sequences + landlord reports</td><td class="price">£1,000/mo</td></tr>
+                <tr><td>Full Stack</td><td>All above + chatbot + analytics</td><td class="price">£1,500/mo</td></tr>
+              </table>
+            </div>
+          </div>
+          <div class="pitch-hook">"Your negotiators are spending 3 hours a day writing property descriptions and chasing viewings. We automate all of that — so they spend those hours winning instructions instead. One extra listing per month pays for everything."</div>
+        </div>
+        <div class="tab-panel" data-panel="card-3-build">
+          <div class="build-overview">
+            <div class="build-stat"><div class="bs-label">Build Complexity</div><div class="bs-value bs-amber">Moderate</div></div>
+            <div class="build-stat"><div class="bs-label">First Client Setup</div><div class="bs-value bs-amber">10–16 hrs</div></div>
+            <div class="build-stat"><div class="bs-label">Ongoing Per Client</div><div class="bs-value bs-green">2–4 hrs/mo</div></div>
+            <div class="build-stat"><div class="bs-label">Tool Stack Cost</div><div class="bs-value bs-amber">~£60/mo</div></div>
+            <div class="build-stat"><div class="bs-label">Coding Required</div><div class="bs-value bs-green">None</div></div>
+            <div class="build-stat"><div class="bs-label">Hardest Part</div><div class="bs-value bs-amber" style="font-size:13px">PDF report generation</div></div>
+          </div>
+          <ul class="build-items-list">
+            <li><span class="complexity-pill cp-easy">Easy · 1–2 hrs</span><div><div class="build-task-name">AI Property Listing Writer</div><div class="build-task-meta">Build a Claude/ChatGPT prompt template. Agent fills in a Google Form (bedrooms, features, location, style). Make automation passes it to Claude API → outputs formatted listing copy → emails it back. One-time build, reused per listing.</div></div></li>
+            <li><span class="complexity-pill cp-easy">Easy · 1–2 hrs</span><div><div class="build-task-name">Viewing Confirmation &amp; Reminder</div><div class="build-task-meta">When agent logs a viewing in their calendar/sheet, Make triggers an email + SMS to the applicant with time, address, Google Maps link. Built on Google Sheets + Make + MailerLite/Twilio.</div></div></li>
+            <li><span class="complexity-pill cp-moderate">Moderate · 3–5 hrs</span><div><div class="build-task-name">Buyer/Tenant Nurture Sequence</div><div class="build-task-meta">New listing added to Google Sheet → Make checks registered buyer criteria → triggers targeted email to matching contacts. Requires a clean contacts list from the agent. Matching logic is the complexity.</div></div></li>
+            <li><span class="complexity-pill cp-moderate">Moderate · 4–6 hrs</span><div><div class="build-task-name">Landlord Monthly Report PDF</div><div class="build-task-meta">Make pulls data from a Google Sheet (rent received, maintenance, occupancy) → passes to a PDF template (DocuPilot or Carbone) → emails to each landlord automatically. Template build is the main effort.</div></div></li>
+            <li><span class="complexity-pill cp-moderate">Moderate · 3–4 hrs</span><div><div class="build-task-name">Valuation Chatbot</div><div class="build-task-meta">Tidio or Voiceflow on their website. Captures: property type, bedrooms, current situation. Sends lead to agent via email + adds to CRM/sheet. Straightforward to configure.</div></div></li>
+          </ul>
+          <h4 style="font-family:Syne,sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">Tools &amp; Subscriptions</h4>
+          <div class="tools-grid">
+            <div class="tool-card"><div class="tool-name">Make (Integromat)</div><div class="tool-type">Automation</div><div class="tool-cost cost-paid">£9–18/mo</div></div>
+            <div class="tool-card"><div class="tool-name">Claude API</div><div class="tool-type">Listing copy generation</div><div class="tool-cost cost-paid">~£15/mo</div></div>
+            <div class="tool-card"><div class="tool-name">DocuPilot / Carbone</div><div class="tool-type">PDF report generation</div><div class="tool-cost cost-paid">£19–29/mo</div></div>
+            <div class="tool-card"><div class="tool-name">Tidio</div><div class="tool-type">Valuation chatbot</div><div class="tool-cost cost-paid">£19/mo/client</div></div>
+            <div class="tool-card"><div class="tool-name">MailerLite</div><div class="tool-type">Email sequences</div><div class="tool-cost cost-free">Free–£10/mo</div></div>
+            <div class="tool-card"><div class="tool-name">Twilio</div><div class="tool-type">SMS confirmations</div><div class="tool-cost cost-varies">~£0.04/SMS</div></div>
+          </div>
+          <div class="build-note"><strong>💡 Builder Tip</strong>The listing writer is the killer demo feature — build it first, show it in the sales meeting. Paste in basic property details, hit go, and show them a polished listing in 10 seconds. It sells itself instantly and takes you about 90 minutes to build.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CARD 4: ACCOUNTANTS ===== -->
+    <div class="niche-card" data-impact="high" data-build="moderate" id="card-4">
+      <div class="card-header" onclick="toggleCard('card-4')">
+        <div class="card-left">
+          <div class="rank-badge rank-4">4</div>
+          <div>
+            <div class="niche-title">Accountants &amp; Bookkeepers</div>
+            <div class="niche-subtitle">Seasonal pressure, poor client comms, huge automation potential.</div>
+          </div>
+        </div>
+        <div class="card-right">
+          <span class="impact-badge impact-high">⚡ High Impact</span>
+          <span class="build-badge-header build-moderate">🟡 Moderate Build · 8–12 hrs</span>
+          <span class="revenue-preview">£600–£1,200/mo</span>
+          <span class="toggle-icon">▼</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-tabs">
+          <button class="card-tab active" onclick="switchTab(event,'card-4','impact')">📈 Impact &amp; Pricing</button>
+          <button class="card-tab" onclick="switchTab(event,'card-4','build')">🔧 How to Build It</button>
+        </div>
+        <div class="tab-panel active" data-panel="card-4-impact">
+          <div class="body-grid">
+            <div class="body-section">
+              <h4>AI Improvements You Can Deliver</h4>
+              <ul class="improvements-list">
+                <li><span class="dot dot-green">✓</span><span><strong>Tax Deadline Reminder Sequences</strong> — automated email/SMS campaigns to all clients weeks before self-assessment or VAT deadlines.</span></li>
+                <li><span class="dot dot-green">✓</span><span><strong>Document Chasing Automation</strong> — AI sends polite follow-ups requesting missing payslips, receipts, bank statements.</span></li>
+                <li><span class="dot dot-blue">✓</span><span><strong>Client Onboarding Flow</strong> — new client welcome pack, checklist, and portal setup sent automatically.</span></li>
+                <li><span class="dot dot-blue">✓</span><span><strong>AI Newsletter / Content</strong> — monthly budget/tax update email, written by AI and reviewed by partner.</span></li>
+                <li><span class="dot dot-amber">✓</span><span><strong>Local SEO for services</strong> — "accountant Ipswich small business" is a high-intent, underserved search.</span></li>
+              </ul>
+            </div>
+            <div class="body-section">
+              <h4>Business Value to the Client</h4>
+              <div class="value-bar-row"><span class="value-bar-label">Admin time saved</span><div class="value-bar-track"><div class="value-bar-fill" style="width:75%"></div></div><span class="value-bar-pct">6–10h</span></div>
+              <div class="value-bar-row"><span class="value-bar-label">Client satisfaction</span><div class="value-bar-track"><div class="value-bar-fill" style="width:65%"></div></div><span class="value-bar-pct">+65%</span></div>
+              <div class="value-bar-row"><span class="value-bar-label">Late filings avoided</span><div class="value-bar-track"><div class="value-bar-fill" style="width:80%"></div></div><span class="value-bar-pct">−80%</span></div>
+              <div class="value-bar-row"><span class="value-bar-label">New client referrals</span><div class="value-bar-track"><div class="value-bar-fill" style="width:50%"></div></div><span class="value-bar-pct">+50%</span></div>
+              <br>
+              <table class="pricing-table">
+                <tr><th>Package</th><th>What's Included</th><th>Your Price</th></tr>
+                <tr><td>Core</td><td>Deadline reminders + doc chasing</td><td class="price">£400/mo</td></tr>
+                <tr><td>Growth</td><td>+ onboarding + newsletter</td><td class="price">£800/mo</td></tr>
+                <tr><td>Premium</td><td>All above + SEO + chatbot</td><td class="price">£1,200/mo</td></tr>
+              </table>
+            </div>
+          </div>
+          <div class="pitch-hook">"Your team spends January and July in chaos because clients submit documents at the last minute. Our AI sends automated nudges weeks in advance — so you get everything early, avoid rushed work, and free up 8 hours a week your team is wasting on chasing calls."</div>
+        </div>
+        <div class="tab-panel" data-panel="card-4-build">
+          <div class="build-overview">
+            <div class="build-stat"><div class="bs-label">Build Complexity</div><div class="bs-value bs-amber">Moderate</div></div>
+            <div class="build-stat"><div class="bs-label">First Client Setup</div><div class="bs-value bs-amber">8–12 hrs</div></div>
+            <div class="build-stat"><div class="bs-label">Ongoing Per Client</div><div class="bs-value bs-green">2–3 hrs/mo</div></div>
+            <div class="build-stat"><div class="bs-label">Tool Stack Cost</div><div class="bs-value bs-amber">~£50/mo</div></div>
+            <div class="build-stat"><div class="bs-label">Coding Required</div><div class="bs-value bs-green">None</div></div>
+            <div class="build-stat"><div class="bs-label">Hardest Part</div><div class="bs-value bs-amber" style="font-size:13px">Client data list setup</div></div>
+          </div>
+          <ul class="build-items-list">
+            <li><span class="complexity-pill cp-easy">Easy · 2–3 hrs</span><div><div class="build-task-name">Tax Deadline Reminder Campaign</div><div class="build-task-meta">MailerLite campaign with scheduled send dates (31 Jan, 7 Apr, etc). Client provides CSV of client emails. You segment by deadline type, build 3 email templates. Completely reusable year to year.</div></div></li>
+            <li><span class="complexity-pill cp-easy">Easy · 1–2 hrs</span><div><div class="build-task-name">Document Chasing Sequence</div><div class="build-task-meta">3-step automated email sequence: Day 1 request → Day 5 nudge → Day 10 urgent. Triggered when accountant adds client to a "needs docs" tag in MailerLite. Zero coding.</div></div></li>
+            <li><span class="complexity-pill cp-easy">Easy · 1–2 hrs</span><div><div class="build-task-name">New Client Onboarding Flow</div><div class="build-task-meta">5-email welcome sequence in MailerLite. Write once, activate per new client. Attach a Typeform for info gathering. Simplest build in this niche.</div></div></li>
+            <li><span class="complexity-pill cp-moderate">Moderate · 2–3 hrs/mo ongoing</span><div><div class="build-task-name">AI Monthly Newsletter</div><div class="build-task-meta">Use Claude to draft a tax/finance update email each month. Partner reviews and approves. You schedule and send via MailerLite. Ongoing content work — charge monthly for it.</div></div></li>
+            <li><span class="complexity-pill cp-moderate">Moderate · 3–4 hrs + ongoing</span><div><div class="build-task-name">Local SEO Blog Content</div><div class="build-task-meta">Claude-drafted articles targeting "small business accountant Ipswich" etc. Post to their website. 2 posts/month. Straightforward but requires website access.</div></div></li>
+          </ul>
+          <h4 style="font-family:Syne,sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">Tools &amp; Subscriptions</h4>
+          <div class="tools-grid">
+            <div class="tool-card"><div class="tool-name">MailerLite</div><div class="tool-type">Email automation</div><div class="tool-cost cost-free">Free up to 1,000</div></div>
+            <div class="tool-card"><div class="tool-name">Typeform</div><div class="tool-type">Client intake forms</div><div class="tool-cost cost-paid">£25/mo</div></div>
+            <div class="tool-card"><div class="tool-name">Claude API / ChatGPT</div><div class="tool-type">Newsletter writing</div><div class="tool-cost cost-paid">£15–20/mo</div></div>
+            <div class="tool-card"><div class="tool-name">Make</div><div class="tool-type">Trigger automation</div><div class="tool-cost cost-paid">£9/mo</div></div>
+            <div class="tool-card"><div class="tool-name">WordPress/Wix</div><div class="tool-type">Blog posting</div><div class="tool-cost cost-free">Client's existing</div></div>
+          </div>
+          <div class="build-note"><strong>💡 Builder Tip</strong>The deadline reminder campaign is so fast to build and so obviously useful that you can demo it in the first meeting. Bring a mock version showing 3 emails scheduled around Jan 31. This is probably the easiest "wow moment" of any niche.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CARD 5: HAIR & BEAUTY ===== -->
+    <div class="niche-card" data-impact="high" data-build="easy" id="card-5">
+      <div class="card-header" onclick="toggleCard('card-5')">
+        <div class="card-left">
+          <div class="rank-badge rank-5">5</div>
+          <div>
+            <div class="niche-title">Hair Salons, Beauty &amp; Aesthetics</div>
+            <div class="niche-subtitle">Repeat-booking gold. No-shows are a profit killer. AI fixes both.</div>
+          </div>
+        </div>
+        <div class="card-right">
+          <span class="impact-badge impact-high">⚡ High Impact</span>
+          <span class="build-badge-header build-easy">🟢 Easiest Build · 4–6 hrs</span>
+          <span class="revenue-preview">£400–£900/mo</span>
+          <span class="toggle-icon">▼</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-tabs">
+          <button class="card-tab active" onclick="switchTab(event,'card-5','impact')">📈 Impact &amp; Pricing</button>
+          <button class="card-tab" onclick="switchTab(event,'card-5','build')">🔧 How to Build It</button>
+        </div>
+        <div class="tab-panel active" data-panel="card-5-impact">
+          <div class="body-grid">
+            <div class="body-section">
+              <h4>AI Improvements You Can Deliver</h4>
+              <ul class="improvements-list">
+                <li><span class="dot dot-green">✓</span><span><strong>6-Week Rebooking Trigger</strong> — automated "time to rebook?" message at the right interval for each service type.</span></li>
+                <li><span class="dot dot-green">✓</span><span><strong>No-Show Reduction Reminders</strong> — 48hr and 2hr reminders with a link to cancel/reschedule. Cuts no-shows by 30%+.</span></li>
+                <li><span class="dot dot-blue">✓</span><span><strong>Lapsed Client Reactivation</strong> — AI identifies clients not seen in 3+ months and sends a personalised win-back offer.</span></li>
+                <li><span class="dot dot-blue">✓</span><span><strong>AI Social Content Generator</strong> — weekly before/after captions, treatment spotlights for Instagram/Facebook.</span></li>
+                <li><span class="dot dot-amber">✓</span><span><strong>Post-Treatment Product Upsell</strong> — personalised aftercare email recommending products used in salon.</span></li>
+              </ul>
+            </div>
+            <div class="body-section">
+              <h4>Business Value to the Client</h4>
+              <div class="value-bar-row"><span class="value-bar-label">Repeat bookings</span><div class="value-bar-track"><div class="value-bar-fill" style="width:80%"></div></div><span class="value-bar-pct">+80%</span></div>
+              <div class="value-bar-row"><span class="value-bar-label">No-show rate</span><div class="value-bar-track"><div class="value-bar-fill" style="width:70%"></div></div><span class="value-bar-pct">−30%</span></div>
+              <div class="value-bar-row"><span class="value-bar-label">Revenue per client</span><div class="value-bar-track"><div class="value-bar-fill" style="width:55%"></div></div><span class="value-bar-pct">+55%</span></div>
+              <div class="value-bar-row"><span class="value-bar-label">Social engagement</span><div class="value-bar-track"><div class="value-bar-fill" style="width:60%"></div></div><span class="value-bar-pct">+60%</span></div>
+              <br>
+              <table class="pricing-table">
+                <tr><th>Package</th><th>What's Included</th><th>Your Price</th></tr>
+                <tr><td>Essentials</td><td>Rebooking + no-show reminders</td><td class="price">£300/mo</td></tr>
+                <tr><td>Growth</td><td>+ lapsed reactivation + social content</td><td class="price">£600/mo</td></tr>
+                <tr><td>Full Stack</td><td>All above + upsells + analytics</td><td class="price">£900/mo</td></tr>
+              </table>
+            </div>
+          </div>
+          <div class="pitch-hook">"A salon with 200 active clients losing just 2 no-shows a week is losing £6,000+ a year in revenue. Our system cuts that in half — and the rebooking trigger alone typically fills £1,500–£2,000 of empty diary space every month."</div>
+        </div>
+        <div class="tab-panel" data-panel="card-5-build">
+          <div class="build-overview">
+            <div class="build-stat"><div class="bs-label">Build Complexity</div><div class="bs-value bs-green">Easy</div></div>
+            <div class="build-stat"><div class="bs-label">First Client Setup</div><div class="bs-value bs-green">4–6 hrs</div></div>
+            <div class="build-stat"><div class="bs-label">Ongoing Per Client</div><div class="bs-value bs-green">1–2 hrs/mo</div></div>
+            <div class="build-stat"><div class="bs-label">Tool Stack Cost</div><div class="bs-value bs-green">~£30/mo</div></div>
+            <div class="build-stat"><div class="bs-label">Coding Required</div><div class="bs-value bs-green">Zero</div></div>
+            <div class="build-stat"><div class="bs-label">Hardest Part</div><div class="bs-value bs-green" style="font-size:13px">Getting client list</div></div>
+          </div>
+          <ul class="build-items-list">
+            <li><span class="complexity-pill cp-easy">Easy · 1 hr</span><div><div class="build-task-name">No-Show Reminder Sequence</div><div class="build-task-meta">2 emails in MailerLite: 48hr before + 2hr before. Triggered when booking is confirmed. If they use Fresha or Timely (common salon booking apps) these have built-in reminder tools — you just configure them. Zero build if they have Fresha.</div></div></li>
+            <li><span class="complexity-pill cp-easy">Easy · 1–2 hrs</span><div><div class="build-task-name">6-Week Rebooking Trigger</div><div class="build-task-meta">Single automated email sent 6 weeks after last appointment (tag in MailerLite after each visit). Template: "We miss you — ready for your next appointment?" with a booking link. Reusable across all salon clients.</div></div></li>
+            <li><span class="complexity-pill cp-easy">Easy · 1 hr</span><div><div class="build-task-name">Lapsed Client Reactivation</div><div class="build-task-meta">Export contacts not visited in 90+ days from booking system (or Google Sheet log). Add to a MailerLite segment. Send a win-back email with a small offer. Monthly task — 30 mins ongoing.</div></div></li>
+            <li><span class="complexity-pill cp-easy">Easy · 1–2 hrs/mo ongoing</span><div><div class="build-task-name">AI Social Content</div><div class="build-task-meta">Use Claude or ChatGPT to generate 8–12 Instagram captions/month. Salon sends you photos; you write the copy + schedule via Buffer or Later. Very quick once you have a prompt template.</div></div></li>
+            <li><span class="complexity-pill cp-easy">Easy · 30 mins</span><div><div class="build-task-name">Product Upsell Email</div><div class="build-task-meta">Post-treatment email triggered by service type tag. E.g., "colour treatment" tag → email recommending purple shampoo + leave-in conditioner. Write 3–4 templates and you're done.</div></div></li>
+          </ul>
+          <h4 style="font-family:Syne,sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">Tools &amp; Subscriptions</h4>
+          <div class="tools-grid">
+            <div class="tool-card"><div class="tool-name">MailerLite</div><div class="tool-type">Email sequences</div><div class="tool-cost cost-free">Free up to 1,000</div></div>
+            <div class="tool-card"><div class="tool-name">Fresha / Timely</div><div class="tool-type">Booking system (client's)</div><div class="tool-cost cost-free">Client already has it</div></div>
+            <div class="tool-card"><div class="tool-name">Buffer / Later</div><div class="tool-type">Social scheduling</div><div class="tool-cost cost-free">Free tier works</div></div>
+            <div class="tool-card"><div class="tool-name">Claude / ChatGPT</div><div class="tool-type">Caption writing</div><div class="tool-cost cost-paid">£20/mo</div></div>
+            <div class="tool-card"><div class="tool-name">Make (optional)</div><div class="tool-type">Trigger automation</div><div class="tool-cost cost-free">Free tier fine</div></div>
+          </div>
+          <div class="build-note"><strong>🟢 START HERE — This is your first client build</strong>This is the fastest path to a paying client and a case study. Most salons already use Fresha — which has built-in reminders you just need to configure. Your real value-add is the rebooking sequence, lapsed reactivation, and social content. Total setup: a Saturday morning. Charge £300–£400/mo and stack 3–4 salon clients for a solid base retainer.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CARD 6: RESTAURANTS ===== -->
+    <div class="niche-card" data-impact="high" data-build="easy" id="card-6">
+      <div class="card-header" onclick="toggleCard('card-6')">
+        <div class="card-left">
+          <div class="rank-badge rank-6">6</div>
+          <div>
+            <div class="niche-title">Restaurants, Cafés &amp; Takeaways</div>
+            <div class="niche-subtitle">High footfall, weak digital presence, desperate for repeat customers.</div>
+          </div>
+        </div>
+        <div class="card-right">
+          <span class="impact-badge impact-high">⚡ High Impact</span>
+          <span class="build-badge-header build-easy">🟢 Easy Build · 5–8 hrs</span>
+          <span class="revenue-preview">£350–£800/mo</span>
+          <span class="toggle-icon">▼</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-tabs">
+          <button class="card-tab active" onclick="switchTab(event,'card-6','impact')">📈 Impact &amp; Pricing</button>
+          <button class="card-tab" onclick="switchTab(event,'card-6','build')">🔧 How to Build It</button>
+        </div>
+        <div class="tab-panel active" data-panel="card-6-impact">
+          <div class="body-grid">
+            <div class="body-section">
+              <h4>AI Improvements You Can Deliver</h4>
+              <ul class="improvements-list">
+                <li><span class="dot dot-green">✓</span><span><strong>Post-Visit Review Request</strong> — 2 hours after dining, AI sends an SMS: "Hope you enjoyed it — a quick Google review means the world to us."</span></li>
+                <li><span class="dot dot-green">✓</span><span><strong>AI Social Media Content</strong> — daily food imagery captions, seasonal specials. Owner uploads photos; AI handles the copy.</span></li>
+                <li><span class="dot dot-blue">✓</span><span><strong>Booking Confirmation &amp; Reminder Flow</strong> — reduces table no-shows with automated confirmation + 24hr reminder.</span></li>
+                <li><span class="dot dot-blue">✓</span><span><strong>Loyalty Re-engagement Emails</strong> — "We miss you!" campaign to customers not visited in 6 weeks, with an offer.</span></li>
+                <li><span class="dot dot-amber">✓</span><span><strong>Google Business SEO</strong> — optimised profile, weekly post automation, menu updates.</span></li>
+              </ul>
+            </div>
+            <div class="body-section">
+              <h4>Business Value to the Client</h4>
+              <div class="value-bar-row"><span class="value-bar-label">Google reviews</span><div class="value-bar-track"><div class="value-bar-fill" style="width:90%"></div></div><span class="value-bar-pct">+90%</span></div>
+              <div class="value-bar-row"><span class="value-bar-label">Return visit rate</span><div class="value-bar-track"><div class="value-bar-fill" style="width:65%"></div></div><span class="value-bar-pct">+65%</span></div>
+              <div class="value-bar-row"><span class="value-bar-label">Social following</span><div class="value-bar-track"><div class="value-bar-fill" style="width:55%"></div></div><span class="value-bar-pct">+55%</span></div>
+              <div class="value-bar-row"><span class="value-bar-label">No-show rate</span><div class="value-bar-track"><div class="value-bar-fill" style="width:50%"></div></div><span class="value-bar-pct">−50%</span></div>
+              <br>
+              <table class="pricing-table">
+                <tr><th>Package</th><th>What's Included</th><th>Your Price</th></tr>
+                <tr><td>Visibility</td><td>Review automation + Google SEO</td><td class="price">£300/mo</td></tr>
+                <tr><td>Growth</td><td>+ social content + booking flows</td><td class="price">£550/mo</td></tr>
+                <tr><td>Full Stack</td><td>All above + loyalty campaigns</td><td class="price">£800/mo</td></tr>
+              </table>
+            </div>
+          </div>
+          <div class="pitch-hook">"You're spending £0 on marketing but relying on people finding you on Google. We make sure they do — and once they visit, our system brings them back. A restaurant getting just 10% more repeat visits is worth £15,000+ a year in extra revenue."</div>
+        </div>
+        <div class="tab-panel" data-panel="card-6-build">
+          <div class="build-overview">
+            <div class="build-stat"><div class="bs-label">Build Complexity</div><div class="bs-value bs-green">Easy</div></div>
+            <div class="build-stat"><div class="bs-label">First Client Setup</div><div class="bs-value bs-green">5–8 hrs</div></div>
+            <div class="build-stat"><div class="bs-label">Ongoing Per Client</div><div class="bs-value bs-green">1–2 hrs/mo</div></div>
+            <div class="build-stat"><div class="bs-label">Tool Stack Cost</div><div class="bs-value bs-green">~£30/mo</div></div>
+            <div class="build-stat"><div class="bs-label">Coding Required</div><div class="bs-value bs-green">Zero</div></div>
+            <div class="build-stat"><div class="bs-label">Hardest Part</div><div class="bs-value bs-green" style="font-size:13px">Getting customer emails</div></div>
+          </div>
+          <ul class="build-items-list">
+            <li><span class="complexity-pill cp-easy">Easy · 1 hr</span><div><div class="build-task-name">Review Request SMS/Email</div><div class="build-task-meta">Zap or Make scenario: owner ticks a box in a Google Sheet after service → triggers Twilio SMS to customer 2 hours later with Google review link. Sheet is the "CRM". Takes 1 hour to set up.</div></div></li>
+            <li><span class="complexity-pill cp-easy">Easy · 1 hr setup + 1–2 hrs/mo</span><div><div class="build-task-name">AI Social Media Content</div><div class="build-task-meta">Owner sends 4–5 food photos per week via WhatsApp. You write 4–5 captions using Claude (5 mins). Schedule via Buffer. Very low effort ongoing — but feels high-value to the restaurant.</div></div></li>
+            <li><span class="complexity-pill cp-easy">Easy · 1–2 hrs</span><div><div class="build-task-name">Booking Confirmation &amp; Reminder</div><div class="build-task-meta">If they use OpenTable or ResDiary, reminders are built in — configure them. If they take bookings by email/phone, set up a simple MailerLite triggered email when they log a booking in a Google Sheet.</div></div></li>
+            <li><span class="complexity-pill cp-easy">Easy · 1 hr setup + monthly</span><div><div class="build-task-name">Loyalty Re-engagement Campaign</div><div class="build-task-meta">Monthly email blast to the customer list: "Haven't seen you in a while — here's 10% off your next visit." Write once, update monthly. Requires them to have some email list (help them build one if not).</div></div></li>
+            <li><span class="complexity-pill cp-easy">Easy · 2 hrs setup</span><div><div class="build-task-name">Google Business Optimisation + Weekly Posts</div><div class="build-task-meta">Claim/optimise their Google Business profile. Use Make + Google Business API to schedule 1 post/week automatically (special, new dish, etc). Claude writes the copy from a template.</div></div></li>
+          </ul>
+          <h4 style="font-family:Syne,sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">Tools &amp; Subscriptions</h4>
+          <div class="tools-grid">
+            <div class="tool-card"><div class="tool-name">Make / Zapier</div><div class="tool-type">Automation</div><div class="tool-cost cost-free">Free tier fine</div></div>
+            <div class="tool-card"><div class="tool-name">Twilio</div><div class="tool-type">Review request SMS</div><div class="tool-cost cost-varies">~£0.04/SMS</div></div>
+            <div class="tool-card"><div class="tool-name">MailerLite</div><div class="tool-type">Email campaigns</div><div class="tool-cost cost-free">Free up to 1,000</div></div>
+            <div class="tool-card"><div class="tool-name">Buffer</div><div class="tool-type">Social scheduling</div><div class="tool-cost cost-free">Free tier fine</div></div>
+            <div class="tool-card"><div class="tool-name">Claude / ChatGPT</div><div class="tool-type">Caption + copy</div><div class="tool-cost cost-paid">£20/mo</div></div>
+            <div class="tool-card"><div class="tool-name">Google Business</div><div class="tool-type">SEO + posts</div><div class="tool-cost cost-free">Free</div></div>
+          </div>
+          <div class="build-note"><strong>💡 Builder Tip</strong>The review SMS is the fastest win and the easiest to demonstrate. Show them: "Every time you complete a table, this sends them a text 2 hours later asking for a Google review." Restaurants with 50–100 covers a week could go from 30 reviews to 300 in 3 months. That alone justifies the fee.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CARD 7: SOLICITORS ===== -->
+    <div class="niche-card" data-impact="high" data-build="complex" id="card-7">
+      <div class="card-header" onclick="toggleCard('card-7')">
+        <div class="card-left">
+          <div class="rank-badge rank-7">7</div>
+          <div>
+            <div class="niche-title">Solicitors &amp; Small Law Firms</div>
+            <div class="niche-subtitle">Premium fees, low digital presence, poor client communication flows.</div>
+          </div>
+        </div>
+        <div class="card-right">
+          <span class="impact-badge impact-high">⚡ High Impact</span>
+          <span class="build-badge-header build-complex">🔴 Complex Build · 16–24 hrs</span>
+          <span class="revenue-preview">£700–£1,400/mo</span>
+          <span class="toggle-icon">▼</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-tabs">
+          <button class="card-tab active" onclick="switchTab(event,'card-7','impact')">📈 Impact &amp; Pricing</button>
+          <button class="card-tab" onclick="switchTab(event,'card-7','build')">🔧 How to Build It</button>
+        </div>
+        <div class="tab-panel active" data-panel="card-7-impact">
+          <div class="body-grid">
+            <div class="body-section">
+              <h4>AI Improvements You Can Deliver</h4>
+              <ul class="improvements-list">
+                <li><span class="dot dot-green">✓</span><span><strong>Enquiry Response Chatbot</strong> — captures out-of-hours leads, qualifies by practice area, books a consultation automatically.</span></li>
+                <li><span class="dot dot-green">✓</span><span><strong>Case Milestone Client Updates</strong> — automated emails at key stages so clients stop calling to ask "where are we?"</span></li>
+                <li><span class="dot dot-blue">✓</span><span><strong>Document Chasing Workflow</strong> — automated nudges when clients haven't returned signed docs within 48hrs.</span></li>
+                <li><span class="dot dot-blue">✓</span><span><strong>AI Legal Blog for SEO</strong> — hyper-local legal content drives organic enquiries.</span></li>
+                <li><span class="dot dot-amber">✓</span><span><strong>Billing Reminder Automation</strong> — polite automated billing reminders reduce debtor days significantly.</span></li>
+              </ul>
+            </div>
+            <div class="body-section">
+              <h4>Business Value to the Client</h4>
+              <div class="value-bar-row"><span class="value-bar-label">Out-of-hours leads</span><div class="value-bar-track"><div class="value-bar-fill" style="width:85%"></div></div><span class="value-bar-pct">+85%</span></div>
+              <div class="value-bar-row"><span class="value-bar-label">Client satisfaction</span><div class="value-bar-track"><div class="value-bar-fill" style="width:70%"></div></div><span class="value-bar-pct">+70%</span></div>
+              <div class="value-bar-row"><span class="value-bar-label">Admin load</span><div class="value-bar-track"><div class="value-bar-fill" style="width:65%"></div></div><span class="value-bar-pct">−65%</span></div>
+              <div class="value-bar-row"><span class="value-bar-label">Debtor days</span><div class="value-bar-track"><div class="value-bar-fill" style="width:55%"></div></div><span class="value-bar-pct">−55%</span></div>
+              <br>
+              <table class="pricing-table">
+                <tr><th>Package</th><th>What's Included</th><th>Your Price</th></tr>
+                <tr><td>Core Comms</td><td>Chatbot + case update automation</td><td class="price">£600/mo</td></tr>
+                <tr><td>Growth</td><td>+ doc chasing + billing reminders</td><td class="price">£1,000/mo</td></tr>
+                <tr><td>Authority</td><td>All above + AI blog SEO</td><td class="price">£1,400/mo</td></tr>
+              </table>
+            </div>
+          </div>
+          <div class="pitch-hook">"Your fee earners are spending 90 minutes a day answering 'where are we up to?' calls from clients. We automate those updates so clients are proactively informed at every stage — your team gets that time back to do billable work instead."</div>
+        </div>
+        <div class="tab-panel" data-panel="card-7-build">
+          <div class="build-overview">
+            <div class="build-stat"><div class="bs-label">Build Complexity</div><div class="bs-value bs-red">Complex</div></div>
+            <div class="build-stat"><div class="bs-label">First Client Setup</div><div class="bs-value bs-red">16–24 hrs</div></div>
+            <div class="build-stat"><div class="bs-label">Ongoing Per Client</div><div class="bs-value bs-amber">3–5 hrs/mo</div></div>
+            <div class="build-stat"><div class="bs-label">Tool Stack Cost</div><div class="bs-value bs-amber">~£70/mo</div></div>
+            <div class="build-stat"><div class="bs-label">Coding Required</div><div class="bs-value bs-amber">Minimal</div></div>
+            <div class="build-stat"><div class="bs-label">Hardest Part</div><div class="bs-value bs-red" style="font-size:13px">Case stage tracking</div></div>
+          </div>
+          <ul class="build-items-list">
+            <li><span class="complexity-pill cp-hard">Hard · 6–8 hrs</span><div><div class="build-task-name">Case Milestone Update System</div><div class="build-task-meta">The key challenge: you need a way to know when a case hits a milestone. Options: (a) solicitor updates a Google Sheet manually → Make triggers email to client, or (b) integrate with their case management system (Clio, LEAP) if it has an API. Option (a) is more realistic for small firms. Needs careful template design per practice area (conveyancing milestones ≠ family law milestones).</div></div></li>
+            <li><span class="complexity-pill cp-moderate">Moderate · 4–6 hrs</span><div><div class="build-task-name">Enquiry Chatbot</div><div class="build-task-meta">Voiceflow or Tidio chatbot. Trained on practice areas, FAQs, fee structures (if they'll share them). Captures name, contact, matter type → email to duty solicitor + CRM entry. Needs careful GDPR wording upfront.</div></div></li>
+            <li><span class="complexity-pill cp-easy">Easy · 2–3 hrs</span><div><div class="build-task-name">Document Chasing Sequence</div><div class="build-task-meta">Same as accountants: 3-step email sequence tagged manually. Very straightforward. Solicitor marks a client as "docs needed" → 3 automated chasing emails over 10 days.</div></div></li>
+            <li><span class="complexity-pill cp-easy">Easy · 2 hrs</span><div><div class="build-task-name">Billing Reminder Automation</div><div class="build-task-meta">Invoice sent → Make watches for payment in Xero/QuickBooks → if unpaid after 7 days, sends a polite reminder email. Requires access to their accounting tool. Xero has a Make integration.</div></div></li>
+            <li><span class="complexity-pill cp-moderate">Moderate · 3–5 hrs setup + ongoing</span><div><div class="build-task-name">AI Legal Blog / SEO Content</div><div class="build-task-meta">Claude drafts 2 hyper-local articles/month ("What happens if I miss a mortgage payment in Suffolk?"). Partner reviews. Post to WordPress. Standard content workflow — same as other niches.</div></div></li>
+          </ul>
+          <h4 style="font-family:Syne,sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">Tools &amp; Subscriptions</h4>
+          <div class="tools-grid">
+            <div class="tool-card"><div class="tool-name">Make (Integromat)</div><div class="tool-type">Automation engine</div><div class="tool-cost cost-paid">£18/mo</div></div>
+            <div class="tool-card"><div class="tool-name">Voiceflow / Tidio</div><div class="tool-type">Enquiry chatbot</div><div class="tool-cost cost-paid">£19–39/mo</div></div>
+            <div class="tool-card"><div class="tool-name">MailerLite / Brevo</div><div class="tool-type">Email sequences</div><div class="tool-cost cost-free">Free–£15/mo</div></div>
+            <div class="tool-card"><div class="tool-name">Xero / QuickBooks</div><div class="tool-type">Billing triggers</div><div class="tool-cost cost-free">Client's existing</div></div>
+            <div class="tool-card"><div class="tool-name">Claude API</div><div class="tool-type">Blog content</div><div class="tool-cost cost-paid">~£15/mo</div></div>
+          </div>
+          <div class="build-note"><strong>⚠️ Do This Niche Last</strong>Solicitors are the highest value but hardest sell and hardest build. They are risk-averse, slow to decide, and their processes are complex. Come here once you have 2–3 case studies from simpler niches. The doc chasing sequence and billing reminder are the easy wins — lead with those, then upsell the full system.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CARD 8: CAR GARAGES ===== -->
+    <div class="niche-card" data-impact="medium" data-build="easy" id="card-8">
+      <div class="card-header" onclick="toggleCard('card-8')">
+        <div class="card-left">
+          <div class="rank-badge rank-8">8</div>
+          <div>
+            <div class="niche-title">MOT Centres &amp; Car Garages</div>
+            <div class="niche-subtitle">Recurring revenue model with predictable service triggers. Very automatable.</div>
+          </div>
+        </div>
+        <div class="card-right">
+          <span class="impact-badge impact-medium">📈 Medium Impact</span>
+          <span class="build-badge-header build-easy">🟢 Easy Build · 5–8 hrs</span>
+          <span class="revenue-preview">£350–£750/mo</span>
+          <span class="toggle-icon">▼</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-tabs">
+          <button class="card-tab active" onclick="switchTab(event,'card-8','impact')">📈 Impact &amp; Pricing</button>
+          <button class="card-tab" onclick="switchTab(event,'card-8','build')">🔧 How to Build It</button>
+        </div>
+        <div class="tab-panel active" data-panel="card-8-impact">
+          <div class="body-grid">
+            <div class="body-section">
+              <h4>AI Improvements You Can Deliver</h4>
+              <ul class="improvements-list">
+                <li><span class="dot dot-green">✓</span><span><strong>MOT Due Reminder Campaign</strong> — 6 weeks before their MOT, AI sends personalised email + SMS. Fills the diary before customers go elsewhere.</span></li>
+                <li><span class="dot dot-green">✓</span><span><strong>Vehicle Ready SMS</strong> — automated "your car is ready for collection" notification. Small but customers love it.</span></li>
+                <li><span class="dot dot-blue">✓</span><span><strong>Annual Service Trigger</strong> — 11 months after a service, AI prompts customers to rebook.</span></li>
+                <li><span class="dot dot-blue">✓</span><span><strong>Post-Service Review Request</strong> — builds Google reviews which drive "mechanic near me" traffic.</span></li>
+                <li><span class="dot dot-amber">✓</span><span><strong>Local "Near Me" SEO</strong> — high-intent searches that smaller garages lose to chains.</span></li>
+              </ul>
+            </div>
+            <div class="body-section">
+              <h4>Business Value to the Client</h4>
+              <div class="value-bar-row"><span class="value-bar-label">MOT rebooking rate</span><div class="value-bar-track"><div class="value-bar-fill" style="width:75%"></div></div><span class="value-bar-pct">+75%</span></div>
+              <div class="value-bar-row"><span class="value-bar-label">Customer retention</span><div class="value-bar-track"><div class="value-bar-fill" style="width:65%"></div></div><span class="value-bar-pct">+65%</span></div>
+              <div class="value-bar-row"><span class="value-bar-label">Google reviews</span><div class="value-bar-track"><div class="value-bar-fill" style="width:80%"></div></div><span class="value-bar-pct">+80%</span></div>
+              <div class="value-bar-row"><span class="value-bar-label">Inbound calls saved</span><div class="value-bar-track"><div class="value-bar-fill" style="width:50%"></div></div><span class="value-bar-pct">−50%</span></div>
+              <br>
+              <table class="pricing-table">
+                <tr><th>Package</th><th>What's Included</th><th>Your Price</th></tr>
+                <tr><td>Recall</td><td>MOT reminders + service triggers</td><td class="price">£300/mo</td></tr>
+                <tr><td>Growth</td><td>+ review automation + SMS flows</td><td class="price">£500/mo</td></tr>
+                <tr><td>Full Stack</td><td>All above + local SEO</td><td class="price">£750/mo</td></tr>
+              </table>
+            </div>
+          </div>
+          <div class="pitch-hook">"A garage with 400 customers doing annual services is sitting on a goldmine of recurring revenue — but only if they remember to contact those customers first. Our AI does it automatically, 365 days a year, before your customer even thinks about going to Kwik Fit."</div>
+        </div>
+        <div class="tab-panel" data-panel="card-8-build">
+          <div class="build-overview">
+            <div class="build-stat"><div class="bs-label">Build Complexity</div><div class="bs-value bs-green">Easy</div></div>
+            <div class="build-stat"><div class="bs-label">First Client Setup</div><div class="bs-value bs-green">5–8 hrs</div></div>
+            <div class="build-stat"><div class="bs-label">Ongoing Per Client</div><div class="bs-value bs-green">1–2 hrs/mo</div></div>
+            <div class="build-stat"><div class="bs-label">Tool Stack Cost</div><div class="bs-value bs-green">~£30/mo</div></div>
+            <div class="build-stat"><div class="bs-label">Coding Required</div><div class="bs-value bs-green">Zero</div></div>
+            <div class="build-stat"><div class="bs-label">Hardest Part</div><div class="bs-value bs-green" style="font-size:13px">Getting MOT date data</div></div>
+          </div>
+          <ul class="build-items-list">
+            <li><span class="complexity-pill cp-easy">Easy · 2–3 hrs</span><div><div class="build-task-name">MOT Due Reminder</div><div class="build-task-meta">Garage exports customer list with MOT due dates from their garage management software (GMS) or manually from a spreadsheet. Make watches the sheet daily and triggers an email + SMS when MOT is 6 weeks away. Template is reusable. Key step: help them export or create their customer data list — often stored in their GMS software.</div></div></li>
+            <li><span class="complexity-pill cp-easy">Easy · 30 mins</span><div><div class="build-task-name">Vehicle Ready SMS</div><div class="build-task-meta">When mechanic marks job as "complete" in a Google Sheet, Make fires a Twilio SMS to the customer. Simplest automation possible — 30 minutes including testing.</div></div></li>
+            <li><span class="complexity-pill cp-easy">Easy · 1 hr</span><div><div class="build-task-name">Annual Service Trigger</div><div class="build-task-meta">Same as MOT reminder but triggered 11 months after last service date. Same spreadsheet, same Make scenario — just a different trigger window and email template. Build once, copy for both.</div></div></li>
+            <li><span class="complexity-pill cp-easy">Easy · 30 mins</span><div><div class="build-task-name">Post-Service Review Request</div><div class="build-task-meta">Add a step to the "job complete" Make scenario: 2 hours after vehicle ready SMS → send a review request email/SMS. Zero extra setup once the first automation is running.</div></div></li>
+            <li><span class="complexity-pill cp-moderate">Moderate · 2–3 hrs + ongoing</span><div><div class="build-task-name">Local SEO Content</div><div class="build-task-meta">2 Claude-written blog posts/month targeting local search terms. Post to their site. Same template-driven workflow as other niches.</div></div></li>
+          </ul>
+          <h4 style="font-family:Syne,sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">Tools &amp; Subscriptions</h4>
+          <div class="tools-grid">
+            <div class="tool-card"><div class="tool-name">Make (Integromat)</div><div class="tool-type">Trigger automation</div><div class="tool-cost cost-free">Free tier fine</div></div>
+            <div class="tool-card"><div class="tool-name">Twilio</div><div class="tool-type">SMS — ready + reminders</div><div class="tool-cost cost-varies">~£0.04/SMS</div></div>
+            <div class="tool-card"><div class="tool-name">MailerLite</div><div class="tool-type">Email sequences</div><div class="tool-cost cost-free">Free up to 1,000</div></div>
+            <div class="tool-card"><div class="tool-name">Google Sheets</div><div class="tool-type">Customer/job tracking</div><div class="tool-cost cost-free">Free</div></div>
+            <div class="tool-card"><div class="tool-name">Claude / ChatGPT</div><div class="tool-type">SEO blog writing</div><div class="tool-cost cost-paid">£20/mo</div></div>
+          </div>
+          <div class="build-note"><strong>💡 Builder Tip</strong>The vehicle ready SMS is the "wow moment" for garages — they've never automated anything like this. Build it first in the demo, show it firing in real time from a Google Sheet tick. The whole system runs on £5/mo in SMS costs and a free Make account. Very easy to justify the retainer.</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end niche-grid -->
+
+  <!-- QUICK REFERENCE TABLE -->
+  <div style="margin-top: 56px;">
+    <div class="section-label">Master Reference — Impact × Build Complexity × Revenue</div>
+    <div style="overflow-x:auto;">
+    <table class="pricing-table" style="width:100%;min-width:800px;">
+      <tr>
+        <th>#</th><th>Niche</th><th>Impact</th><th>Build</th><th>Hours (First)</th><th>Monthly Tool Cost</th><th>Starter Price</th><th>Premium Price</th><th>Start Order</th>
+      </tr>
+      <tr><td><strong>5</strong></td><td>Hair &amp; Beauty</td><td>⚡ High</td><td>🟢 Easy</td><td>4–6 hrs</td><td>~£30</td><td class="price">£300</td><td class="price">£900</td><td><strong style="color:#2D6A4F">① First</strong></td></tr>
+      <tr><td><strong>6</strong></td><td>Restaurants &amp; Cafés</td><td>⚡ High</td><td>🟢 Easy</td><td>5–8 hrs</td><td>~£30</td><td class="price">£300</td><td class="price">£800</td><td><strong style="color:#2D6A4F">② First</strong></td></tr>
+      <tr><td><strong>8</strong></td><td>Car Garages</td><td>📈 Medium</td><td>🟢 Easy</td><td>5–8 hrs</td><td>~£30</td><td class="price">£300</td><td class="price">£750</td><td><strong style="color:#2D6A4F">③ First</strong></td></tr>
+      <tr><td><strong>4</strong></td><td>Accountants</td><td>⚡ High</td><td>🟡 Moderate</td><td>8–12 hrs</td><td>~£50</td><td class="price">£400</td><td class="price">£1,200</td><td><strong style="color:#D4840A">④ Month 2</strong></td></tr>
+      <tr><td><strong>1</strong></td><td>Trades</td><td>🔥 Very High</td><td>🟡 Moderate</td><td>8–14 hrs</td><td>~£65</td><td class="price">£400</td><td class="price">£1,400</td><td><strong style="color:#D4840A">⑤ Month 2</strong></td></tr>
+      <tr><td><strong>3</strong></td><td>Estate Agents</td><td>🔥 Very High</td><td>🟡 Moderate</td><td>10–16 hrs</td><td>~£60</td><td class="price">£500</td><td class="price">£1,500</td><td><strong style="color:#D4840A">⑥ Month 2–3</strong></td></tr>
+      <tr><td><strong>2</strong></td><td>Dental / Clinics</td><td>🔥 Very High</td><td>🔴 Complex</td><td>14–20 hrs</td><td>~£90</td><td class="price">£600</td><td class="price">£1,800</td><td><strong style="color:#C0392B">⑦ Month 3+</strong></td></tr>
+      <tr><td><strong>7</strong></td><td>Solicitors</td><td>⚡ High</td><td>🔴 Complex</td><td>16–24 hrs</td><td>~£70</td><td class="price">£600</td><td class="price">£1,400</td><td><strong style="color:#C0392B">⑧ Month 3+</strong></td></tr>
+    </table>
+    </div>
+  </div>
+
+  <div style="margin-top: 40px; padding: 24px; background: #1B2631; border-radius: 12px; color: rgba(245,240,232,0.8); font-size: 13px; line-height: 1.8;">
+    <strong style="color: var(--gold); font-family: Syne, sans-serif; letter-spacing: 1px;">YOUR CORE TOOL STACK (buy once, use across all clients)</strong><br><br>
+    <strong style="color: white;">Make (Core plan) — £9/mo</strong> · The backbone of all automation. One account, multiple client scenarios.<br>
+    <strong style="color: white;">MailerLite (Growing Business) — Free–£15/mo</strong> · Email sequences for every niche. Free up to 1,000 subscribers.<br>
+    <strong style="color: white;">Twilio — Pay-as-you-go, ~£0.04/SMS</strong> · SMS for reminders, review requests, vehicle ready notifications.<br>
+    <strong style="color: white;">Claude Pro or API — ~£18/mo</strong> · Content writing, chatbot training, SEO blogs across all niches.<br>
+    <strong style="color: white;">Tidio (for chatbots) — £19/mo per client</strong> · Pass this cost through to the client or bundle into your fee.<br>
+    <strong style="color: white;">Buffer (Free tier) — £0</strong> · Social scheduling for restaurants and beauty salons.<br>
+    <br>
+    <strong style="color: var(--gold);">Total core stack before client-specific tools: ~£50–80/mo</strong> — your only overhead across all clients.
+  </div>
+
+</main>
+
+<script>
+  function toggleCard(id) {
+    document.getElementById(id).classList.toggle('open');
+  }
+
+  function switchTab(event, cardId, panel) {
+    const card = document.getElementById(cardId);
+    card.querySelectorAll('.card-tab').forEach(t => t.classList.remove('active'));
+    card.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    event.target.classList.add('active');
+    card.querySelector(`[data-panel="${cardId}-${panel}"]`).classList.add('active');
+  }
+
+  function filterNiches(impact, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.niche-card').forEach(card => {
+      card.classList.toggle('hidden', impact !== 'all' && card.dataset.impact !== impact);
+    });
+  }
+
+  function filterByBuild(build, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.niche-card').forEach(card => {
+      card.classList.toggle('hidden', card.dataset.build !== build);
+    });
+  }
+</script>
+</body>
+</html>
