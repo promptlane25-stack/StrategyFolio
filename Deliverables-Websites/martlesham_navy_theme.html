@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Martlesham Service Centre — MOT testing, car servicing and repairs in Ipswich, Suffolk. Family-run garage serving Martlesham Heath, Woodbridge, Kesgrave and Rushmere. Book online today.">
+<meta name="keywords" content="MOT Ipswich, car service Ipswich, garage Martlesham Heath, MOT Woodbridge, car repair Ipswich Suffolk, MOT test near me">
+<title>Martlesham Service Centre | MOT, Servicing &amp; Repairs — Ipswich</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:    #1c2237;
+    --navy2:   #252d45;
+    --blue:    #149ddd;
+    --blue2:   #1087c0;
+    --blue3:   #e8f5fc;
+    --white:   #ffffff;
+    --grey:    #f9f9f9;
+    --text:    #444444;
+    --text2:   #666666;
+    --border:  #e8e8e8;
+    --dark:    #2c2c2c;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Open Sans', sans-serif; color: var(--text); background: var(--white); overflow-x: hidden; }
+
+  /* ── TOPBAR ── */
+  .topbar {
+    background: var(--navy2);
+    color: rgba(255,255,255,0.7);
+    font-size: 13px;
+    padding: 9px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .topbar a { color: rgba(255,255,255,0.85); text-decoration: none; transition: color 0.2s; }
+  .topbar a:hover { color: var(--blue); }
+  .topbar-left { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .topbar-item { display: flex; align-items: center; gap: 6px; }
+  .topbar-item .dot { width: 8px; height: 8px; background: #4CAF50; border-radius: 50%; display: inline-block; }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--navy);
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 65px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.3);
+  }
+  .nav-logo {
+    font-family: 'Raleway', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--white);
+    text-decoration: none;
+    letter-spacing: 0.5px;
+  }
+  .nav-logo span { color: var(--blue); }
+  .nav-links { display: flex; gap: 4px; list-style: none; align-items: center; }
+  .nav-links a {
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 14px;
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); background: rgba(255,255,255,0.07); }
+  .nav-links .nav-cta {
+    background: var(--blue);
+    color: var(--white) !important;
+    padding: 8px 18px;
+    border-radius: 4px;
+    font-weight: 600;
+    margin-left: 8px;
+  }
+  .nav-links .nav-cta:hover { background: var(--blue2) !important; }
+  .nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+  .nav-toggle span { display: block; width: 24px; height: 2px; background: white; border-radius: 2px; transition: all 0.3s; }
+
+  /* ── HERO ── */
+  #hero {
+    background: var(--navy);
+    padding: 80px 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 520px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    gap: 60px;
+    max-width: 100%;
+  }
+  #hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(20,157,221,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-content { position: relative; z-index: 2; max-width: 600px; }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(20,157,221,0.15);
+    border: 1px solid rgba(20,157,221,0.3);
+    color: var(--blue);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 24px;
+  }
+  .hero-title {
+    font-family: 'Raleway', sans-serif;
+    font-size: clamp(32px, 5vw, 54px);
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+  .hero-title em { color: var(--blue); font-style: normal; }
+  .hero-sub {
+    font-size: 16px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.7;
+    margin-bottom: 32px;
+    font-weight: 300;
+    max-width: 480px;
+  }
+  .hero-sub strong { color: rgba(255,255,255,0.9); font-weight: 600; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 40px; }
+  .btn-primary {
+    background: var(--blue);
+    color: white;
+    padding: 14px 28px;
+    border-radius: 4px;
+    font-size: 15px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-block;
+    font-family: 'Raleway', sans-serif;
+  }
+  .btn-primary:hover { background: var(--blue2); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(20,157,221,0.35); }
+  .btn-ghost {
+    background: transparent;
+    color: rgba(255,255,255,0.85);
+    padding: 14px 28px;
+    border-radius: 4px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1.5px solid rgba(255,255,255,0.3);
+    transition: all 0.2s;
+    display: inline-block;
+    font-family: 'Raleway', sans-serif;
+  }
+  .btn-ghost:hover { border-color: rgba(255,255,255,0.7); color: white; }
+  .hero-stats { display: flex; gap: 36px; }
+  .hero-stat-num { font-family: 'Raleway', sans-serif; font-size: 30px; font-weight: 800; color: var(--blue); }
+  .hero-stat-num span { font-size: 18px; }
+  .hero-stat-label { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+  .hero-image {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+  .hero-image img { width: 100%; height: 400px; object-fit: cover; display: block; }
+  .hero-image-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(28,34,55,0.7) 0%, transparent 50%);
+  }
+  .hero-badge {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    background: rgba(28,34,55,0.92);
+    border: 1px solid rgba(20,157,221,0.3);
+    border-radius: 8px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .hb-icon { font-size: 28px; }
+  .hb-text { flex: 1; }
+  .hb-title { font-family: 'Raleway', sans-serif; font-size: 14px; font-weight: 700; color: white; margin-bottom: 2px; }
+  .hb-sub { font-size: 12px; color: rgba(255,255,255,0.55); }
+  .hb-num { font-family: 'Raleway', sans-serif; font-size: 18px; font-weight: 800; color: var(--blue); }
+
+  /* ── TRUST BAR ── */
+  .trust-bar {
+    background: var(--blue);
+    padding: 16px 40px;
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: white;
+    white-space: nowrap;
+  }
+  .trust-icon { font-size: 16px; }
+
+  /* ── SHARED SECTION STYLES ── */
+  section { padding: 72px 40px; }
+  .container { max-width: 1200px; margin: 0 auto; }
+  .section-tag {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--blue);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-tag::before { content: ''; width: 30px; height: 2px; background: var(--blue); }
+  .section-title {
+    font-family: 'Raleway', sans-serif;
+    font-size: clamp(26px, 4vw, 38px);
+    font-weight: 800;
+    color: var(--dark);
+    margin-bottom: 14px;
+    line-height: 1.2;
+  }
+  .section-sub {
+    font-size: 15px;
+    color: var(--text2);
+    max-width: 580px;
+    line-height: 1.7;
+    margin-bottom: 48px;
+    font-weight: 300;
+  }
+
+  /* ── SERVICES ── */
+  #services { background: var(--white); }
+  .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .service-card {
+    background: var(--grey);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 32px 28px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--blue);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+  }
+  .service-card:hover { border-color: var(--blue); transform: translateY(-4px); box-shadow: 0 12px 32px rgba(20,157,221,0.12); background: var(--white); }
+  .service-card:hover::before { transform: scaleX(1); }
+  .service-icon { font-size: 36px; margin-bottom: 16px; display: block; }
+  .service-num { font-family: 'Raleway', sans-serif; font-size: 11px; font-weight: 700; color: var(--blue); letter-spacing: 2px; margin-bottom: 8px; }
+  .service-name { font-family: 'Raleway', sans-serif; font-size: 18px; font-weight: 700; color: var(--dark); margin-bottom: 10px; }
+  .service-desc { font-size: 14px; color: var(--text2); line-height: 1.6; font-weight: 300; }
+
+  /* ── PRICING ── */
+  #pricing { background: var(--grey); }
+  .pricing-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .price-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .price-card:hover { box-shadow: 0 8px 28px rgba(20,157,221,0.15); transform: translateY(-4px); }
+  .price-card.featured { border-color: var(--blue); }
+  .price-header {
+    background: var(--navy);
+    padding: 24px 20px;
+    text-align: center;
+  }
+  .price-card.featured .price-header { background: var(--blue); }
+  .price-label { font-family: 'Raleway', sans-serif; font-size: 16px; font-weight: 700; color: white; margin-bottom: 8px; }
+  .price-amount {
+    font-family: 'Raleway', sans-serif;
+    font-size: 40px;
+    font-weight: 800;
+    color: white;
+    line-height: 1;
+  }
+  .price-amount sup { font-size: 20px; vertical-align: super; }
+  .price-from { font-size: 12px; color: rgba(255,255,255,0.65); margin-top: 4px; }
+  .price-body { padding: 24px 20px; }
+  .price-features { list-style: none; margin-bottom: 20px; }
+  .price-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--text);
+  }
+  .price-feature:last-child { border-bottom: none; }
+  .price-feature::before { content: '✓'; color: var(--blue); font-weight: 700; flex-shrink: 0; }
+  .price-cta {
+    display: block;
+    text-align: center;
+    background: var(--blue);
+    color: white;
+    padding: 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    transition: background 0.2s;
+    font-family: 'Raleway', sans-serif;
+  }
+  .price-cta:hover { background: var(--blue2); }
+
+  /* ── ABOUT ── */
+  #about { background: var(--white); }
+  .about-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+  .about-image { position: relative; border-radius: 8px; overflow: hidden; }
+  .about-image img { width: 100%; height: 380px; object-fit: cover; display: block; border-radius: 8px; }
+  .about-badge-box {
+    position: absolute;
+    bottom: -24px; right: -24px;
+    background: var(--blue);
+    color: white;
+    border-radius: 8px;
+    padding: 20px 24px;
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(20,157,221,0.35);
+  }
+  .abb-num { font-family: 'Raleway', sans-serif; font-size: 40px; font-weight: 800; line-height: 1; }
+  .abb-text { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; opacity: 0.85; }
+  .about-content h2 { font-family: 'Raleway', sans-serif; font-size: 32px; font-weight: 800; color: var(--dark); margin-bottom: 20px; line-height: 1.2; }
+  .about-content p { font-size: 15px; color: var(--text2); line-height: 1.8; margin-bottom: 16px; font-weight: 300; }
+  .about-features { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 28px; }
+  .about-feat {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 16px; background: var(--grey); border-radius: 6px;
+    border-left: 3px solid var(--blue);
+  }
+  .af-icon { font-size: 22px; flex-shrink: 0; }
+  .af-label { font-weight: 700; font-size: 14px; color: var(--dark); margin-bottom: 2px; font-family: 'Raleway', sans-serif; }
+  .af-sub { font-size: 12px; color: var(--text2); }
+  .about-areas { margin-top: 32px; padding: 20px 24px; background: var(--blue3); border-radius: 8px; border: 1px solid rgba(20,157,221,0.2); }
+  .areas-title { font-family: 'Raleway', sans-serif; font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 10px; }
+  .areas-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .area-tag { background: var(--white); border: 1px solid rgba(20,157,221,0.3); color: var(--navy); padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 600; }
+
+  /* ── BOOKING ── */
+  #booking { background: var(--grey); }
+  .booking-layout { display: grid; grid-template-columns: 1fr 1.6fr; gap: 56px; align-items: start; }
+  .booking-info h3 { font-family: 'Raleway', sans-serif; font-size: 22px; font-weight: 800; color: var(--dark); margin-bottom: 20px; }
+  .booking-points { list-style: none; margin-bottom: 28px; }
+  .booking-point { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); align-items: flex-start; font-size: 14px; color: var(--text); }
+  .booking-point:last-child { border-bottom: none; }
+  .bp-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .booking-call { background: var(--navy); color: white; border-radius: 8px; padding: 20px 24px; }
+  .bc-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 4px; }
+  .bc-num { font-family: 'Raleway', sans-serif; font-size: 22px; font-weight: 800; color: var(--blue); margin-bottom: 2px; }
+  .bc-num a { color: var(--blue); text-decoration: none; }
+  .bc-hours { font-size: 12px; color: rgba(255,255,255,0.5); }
+  .calendly-wrapper { background: var(--white); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; min-height: 600px; }
+  /* Fallback form */
+  .booking-fallback { padding: 32px; }
+  .form-note { background: var(--blue3); border: 1px solid rgba(20,157,221,0.25); border-radius: 6px; padding: 14px 16px; font-size: 13px; color: var(--navy); margin-bottom: 24px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .form-group { margin-bottom: 16px; }
+  .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--dark); margin-bottom: 6px; }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; padding: 10px 14px; border: 1px solid var(--border);
+    border-radius: 4px; font-size: 14px; font-family: 'Open Sans', sans-serif;
+    color: var(--text); background: var(--white); transition: border-color 0.2s;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(20,157,221,0.1); }
+  .form-group textarea { height: 100px; resize: vertical; }
+  .form-submit { width: 100%; background: var(--blue); color: white; border: none; padding: 14px; border-radius: 4px; font-size: 15px; font-weight: 700; cursor: pointer; font-family: 'Raleway', sans-serif; transition: background 0.2s; }
+  .form-submit:hover { background: var(--blue2); }
+
+  /* ── TESTIMONIALS ── */
+  #testimonials { background: var(--navy); }
+  #testimonials .section-tag { color: var(--blue); }
+  #testimonials .section-tag::before { background: var(--blue); }
+  #testimonials .section-title { color: var(--white); }
+  #testimonials .section-sub { color: rgba(255,255,255,0.5); }
+  .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .review-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 24px;
+    transition: all 0.3s;
+  }
+  .review-card:hover { background: rgba(255,255,255,0.09); border-color: rgba(20,157,221,0.4); }
+  .review-stars { color: #F5A623; font-size: 16px; margin-bottom: 12px; }
+  .review-text { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.7; margin-bottom: 16px; font-weight: 300; font-style: italic; }
+  .review-author { font-family: 'Raleway', sans-serif; font-weight: 700; color: white; font-size: 14px; margin-bottom: 4px; }
+  .review-link { font-size: 12px; color: var(--blue); text-decoration: none; font-weight: 600; }
+  .review-link:hover { text-decoration: underline; }
+  .reviews-cta { text-align: center; margin-top: 40px; }
+  .reviews-cta p { color: rgba(255,255,255,0.6); font-size: 15px; margin-bottom: 16px; }
+
+  /* ── FAQ ── */
+  #faq { background: var(--white); }
+  .faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .faq-item {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--white);
+  }
+  .faq-q {
+    padding: 18px 20px;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--dark);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    user-select: none;
+    font-family: 'Raleway', sans-serif;
+  }
+  .faq-q::after { content: '+'; font-size: 20px; color: var(--blue); font-weight: 400; flex-shrink: 0; transition: transform 0.2s; }
+  .faq-item.open .faq-q::after { transform: rotate(45deg); }
+  .faq-item.open .faq-q { color: var(--blue); }
+  .faq-a { display: none; padding: 0 20px 18px; font-size: 14px; color: var(--text2); line-height: 1.7; border-top: 1px solid var(--border); padding-top: 14px; font-weight: 300; }
+  .faq-item.open .faq-a { display: block; }
+
+  /* ── GALLERY ── */
+  #gallery { background: var(--grey); }
+  .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .gallery-item { border-radius: 6px; overflow: hidden; aspect-ratio: 4/3; }
+  .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; display: block; }
+  .gallery-item:hover img { transform: scale(1.06); }
+
+  /* ── CONTACT + MAP ── */
+  #contact { background: var(--white); }
+  .contact-layout { display: grid; grid-template-columns: 1fr 1.4fr; gap: 56px; margin-top: 48px; }
+  .contact-cards { display: flex; flex-direction: column; gap: 16px; }
+  .contact-card {
+    background: var(--grey);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 22px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    transition: border-color 0.2s;
+  }
+  .contact-card:hover { border-color: var(--blue); }
+  .cc-icon { font-size: 24px; flex-shrink: 0; }
+  .cc-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--blue); margin-bottom: 3px; }
+  .cc-value { font-size: 15px; font-weight: 600; color: var(--dark); }
+  .cc-value a { color: var(--dark); text-decoration: none; }
+  .cc-value a:hover { color: var(--blue); }
+  .cc-sub { font-size: 12px; color: var(--text2); margin-top: 2px; }
+  .map-wrap { border-radius: 8px; overflow: hidden; height: 320px; border: 1px solid var(--border); }
+  .map-wrap iframe { width: 100%; height: 100%; border: none; display: block; }
+  .directions-note {
+    margin-top: 14px;
+    background: var(--blue3);
+    border-left: 3px solid var(--blue);
+    border-radius: 0 6px 6px 0;
+    padding: 14px 16px;
+    font-size: 13px;
+    color: var(--navy);
+    line-height: 1.6;
+  }
+  .map-cta { margin-top: 14px; }
+  .btn-directions {
+    display: inline-block;
+    background: var(--navy);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    font-family: 'Raleway', sans-serif;
+    transition: background 0.2s;
+  }
+  .btn-directions:hover { background: var(--blue); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--navy2);
+    color: rgba(255,255,255,0.55);
+    padding: 48px 40px 28px;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto 36px;
+  }
+  .footer-logo { font-family: 'Raleway', sans-serif; font-size: 20px; font-weight: 800; color: white; margin-bottom: 12px; }
+  .footer-logo span { color: var(--blue); }
+  .footer-about { font-size: 13px; line-height: 1.7; margin-bottom: 18px; }
+  .footer-contact a { color: var(--blue); text-decoration: none; font-size: 20px; font-weight: 800; font-family: 'Raleway', sans-serif; }
+  .footer-col h4 { font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.85); margin-bottom: 14px; }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .footer-links a { color: rgba(255,255,255,0.45); text-decoration: none; font-size: 13px; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--blue); }
+  .footer-bottom {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 12px;
+  }
+  .whatsapp-float {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    width: 54px;
+    height: 54px;
+    background: #25D366;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    box-shadow: 0 4px 16px rgba(37,211,102,0.4);
+    z-index: 200;
+    text-decoration: none;
+    transition: transform 0.2s;
+  }
+  .whatsapp-float:hover { transform: scale(1.1); }
+
+  /* ── RESPONSIVE ── */
+  @media(max-width:960px){
+    #hero { grid-template-columns: 1fr; padding: 60px 24px; gap: 40px; }
+    .hero-image { display: none; }
+    .services-grid { grid-template-columns: 1fr 1fr; }
+    .pricing-grid { grid-template-columns: 1fr 1fr; }
+    .about-layout { grid-template-columns: 1fr; }
+    .about-image { display: none; }
+    .booking-layout { grid-template-columns: 1fr; }
+    .reviews-grid { grid-template-columns: 1fr 1fr; }
+    .faq-grid { grid-template-columns: 1fr; }
+    .gallery-grid { grid-template-columns: repeat(2,1fr); }
+    .contact-layout { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    section { padding: 56px 24px; }
+    .topbar,.trust-bar { padding-left: 24px; padding-right: 24px; }
+    nav { padding: 0 24px; }
+    .nav-links { display: none; }
+    .nav-links.open {
+      display: flex; flex-direction: column; position: absolute;
+      top: 65px; left: 0; right: 0;
+      background: var(--navy); padding: 16px 24px; gap: 4px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .nav-toggle { display: flex; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+  @media(max-width:600px){
+    .services-grid { grid-template-columns: 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .reviews-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .hero-actions { flex-direction: column; }
+    .gallery-grid { grid-template-columns: repeat(2,1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="topbar-item"><span class="dot"></span> Mon–Fri &nbsp;8:00am – 5:30pm</div>
+    <div class="topbar-item">📍 Unit 20 Betts Avenue, Martlesham Heath, Ipswich IP5 3RH</div>
+  </div>
+  <div class="topbar-item">
+    <a href="tel:+441473631111">📞 01473 631111</a>
+    &nbsp;|&nbsp;
+    <a href="mailto:info@martleshamservicecentre.co.uk">✉ info@martleshamservicecentre.co.uk</a>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo">Martlesham <span>Service Centre</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about">About Us</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#pricing">Prices</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#contact">Directions</a></li>
+    <li><a href="#booking" class="nav-cta">Book Online</a></li>
+  </ul>
+  <div class="nav-toggle" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow">Ipswich &amp; Suffolk · Family Run Since 1999</div>
+    <h1 class="hero-title">MOT Testing,<br>Servicing &amp; <em>Repairs</em><br>You Can Trust</h1>
+    <p class="hero-sub">A family-run garage serving Martlesham Heath, Woodbridge, Kesgrave and all of Ipswich for over 25 years. <strong>Qualified technicians, honest advice, fair prices.</strong></p>
+    <div class="hero-actions">
+      <a href="#booking" class="btn-primary">Book Online Now</a>
+      <a href="tel:+441473631111" class="btn-ghost">📞 Call 01473 631111</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="hero-stat-num">25<span>+</span></div><div class="hero-stat-label">Years in Business</div></div>
+      <div><div class="hero-stat-num">45<span>+</span></div><div class="hero-stat-label">Years Combined Experience</div></div>
+      <div><div class="hero-stat-num"><span>£</span>54</div><div class="hero-stat-label">MOT from £54.85</div></div>
+    </div>
+  </div>
+  <div class="hero-image">
+    <img src="http://www.martleshamservicecentre.co.uk/images/workshop1.jpg" alt="Martlesham Service Centre workshop" loading="eager">
+    <div class="hero-image-overlay"></div>
+    <div class="hero-badge">
+      <div class="hb-icon">📅</div>
+      <div class="hb-text">
+        <div class="hb-title">Book Online — Any Time</div>
+        <div class="hb-sub">Instant confirmation · No callback needed</div>
+      </div>
+      <div class="hb-num">24/7</div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-item"><span class="trust-icon">🏆</span> 25+ Years in Business</div>
+  <div class="trust-item"><span class="trust-icon">👨‍👩‍👧</span> Family-Run Garage</div>
+  <div class="trust-item"><span class="trust-icon">🔁</span> Free MOT Re-test</div>
+  <div class="trust-item"><span class="trust-icon">🚗</span> Courtesy Car Available</div>
+  <div class="trust-item"><span class="trust-icon">🔧</span> All Makes &amp; Models</div>
+  <div class="trust-item"><span class="trust-icon">💳</span> All Cards Accepted</div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <div class="section-tag">What We Do</div>
+    <h2 class="section-title">Complete Car Care Under One Roof</h2>
+    <p class="section-sub">From a routine MOT to a full engine diagnostic — our qualified technicians handle every aspect of your vehicle. Free quotes on all work.</p>
+    <div class="services-grid">
+      <div class="service-card">
+        <span class="service-icon">🔍</span>
+        <div class="service-num">01</div>
+        <div class="service-name">MOT Testing</div>
+        <div class="service-desc">While-you-wait MOT from £54.85. Free re-test if your vehicle fails. Courtesy car available. Book your slot online in seconds.</div>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">⚙️</span>
+        <div class="service-num">02</div>
+        <div class="service-name">Car Servicing</div>
+        <div class="service-desc">Interim services from £95, full services from £165. All manufacturer-approved checks by qualified technicians.</div>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🛠️</span>
+        <div class="service-num">03</div>
+        <div class="service-name">Repairs</div>
+        <div class="service-desc">All aspects of vehicle repair — brakes, clutches, exhausts, suspension, tyres and more. Free quotations on all work.</div>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">💻</span>
+        <div class="service-num">04</div>
+        <div class="service-name">Diagnostics</div>
+        <div class="service-desc">Latest diagnostic equipment to quickly identify warning lights, electrical faults and engine issues across all makes.</div>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">❄️</span>
+        <div class="service-num">05</div>
+        <div class="service-name">Air Conditioning</div>
+        <div class="service-desc">Air con regas from just £35. Recommended every 2 years. Carried out while you wait. Improves efficiency and air quality.</div>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🚛</span>
+        <div class="service-num">06</div>
+        <div class="service-name">Recovery</div>
+        <div class="service-desc">Broken down locally? We can collect your vehicle and bring it straight to our workshop. Call us and we'll sort you out.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="container">
+    <div class="section-tag">Our Prices</div>
+    <h2 class="section-title">Transparent Pricing — No Surprises</h2>
+    <p class="section-sub">Prices valid from 2025. We accept all major credit cards, cash and BACS bank transfer.</p>
+    <div class="pricing-grid">
+      <div class="price-card featured">
+        <div class="price-header">
+          <div class="price-label">MOT Test</div>
+          <div class="price-amount"><sup>£</sup>54<span style="font-size:22px;">.85</span></div>
+          <div class="price-from">inc. VAT</div>
+        </div>
+        <div class="price-body">
+          <ul class="price-features">
+            <li class="price-feature">While you wait</li>
+            <li class="price-feature">Free re-test if fails</li>
+            <li class="price-feature">Courtesy car available</li>
+            <li class="price-feature">Price inclusive of VAT</li>
+          </ul>
+          <a href="#booking" class="price-cta">Book Now</a>
+        </div>
+      </div>
+      <div class="price-card">
+        <div class="price-header">
+          <div class="price-label">Interim Service</div>
+          <div class="price-amount">From <sup>£</sup>95</div>
+          <div class="price-from">excl. VAT</div>
+        </div>
+        <div class="price-body">
+          <ul class="price-features">
+            <li class="price-feature">6 month inspection</li>
+            <li class="price-feature">Oil &amp; filter change</li>
+            <li class="price-feature">Safety checks</li>
+            <li class="price-feature">Price exc. VAT</li>
+          </ul>
+          <a href="#booking" class="price-cta">Book Now</a>
+        </div>
+      </div>
+      <div class="price-card">
+        <div class="price-header">
+          <div class="price-label">Full Service</div>
+          <div class="price-amount">From <sup>£</sup>165</div>
+          <div class="price-from">excl. VAT</div>
+        </div>
+        <div class="price-body">
+          <ul class="price-features">
+            <li class="price-feature">12 month inspection</li>
+            <li class="price-feature">All interim items</li>
+            <li class="price-feature">Air filter change</li>
+            <li class="price-feature">Price exc. VAT</li>
+          </ul>
+          <a href="#booking" class="price-cta">Book Now</a>
+        </div>
+      </div>
+      <div class="price-card">
+        <div class="price-header">
+          <div class="price-label">Air Con Regas</div>
+          <div class="price-amount">From <sup>£</sup>35</div>
+          <div class="price-from">excl. VAT</div>
+        </div>
+        <div class="price-body">
+          <ul class="price-features">
+            <li class="price-feature">While you wait</li>
+            <li class="price-feature">Recommended every 2 yrs</li>
+            <li class="price-feature">Improves air quality</li>
+            <li class="price-feature">All systems supported</li>
+          </ul>
+          <a href="#booking" class="price-cta">Book Now</a>
+        </div>
+      </div>
+    </div>
+    <p style="text-align:center;font-size:13px;color:var(--text2);margin-top:20px;">All prices correct as of 2025. Call us for a free quote on any repair work — <a href="tel:+441473631111" style="color:var(--blue);font-weight:600;">01473 631111</a></p>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-layout">
+      <div class="about-image">
+        <img src="http://www.martleshamservicecentre.co.uk/images/msc.jpg" alt="Martlesham Service Centre team">
+        <div class="about-badge-box">
+          <div class="abb-num">25+</div>
+          <div class="abb-text">Years<br>Serving<br>Ipswich</div>
+        </div>
+      </div>
+      <div class="about-content">
+        <div class="section-tag">About Us</div>
+        <h2>A Family Business Built on Trust</h2>
+        <p>Martlesham Service Centre is a family-run garage based in Martlesham Heath, Ipswich. Father, son and daughter run the business together — between them, over <strong>45 years of experience</strong> in the motor industry.</p>
+        <p>We've been serving drivers across Ipswich, Woodbridge, Kesgrave, Rushmere and the surrounding villages since we opened. Our reputation is built on one thing: treating every customer the way we'd want to be treated ourselves.</p>
+        <p>No jargon, no unnecessary upsells, no surprises on the invoice. Just honest, quality work from people who genuinely care.</p>
+        <div class="about-features">
+          <div class="about-feat">
+            <div class="af-icon">🎓</div>
+            <div><div class="af-label">Qualified Technicians</div><div class="af-sub">All staff fully qualified</div></div>
+          </div>
+          <div class="about-feat">
+            <div class="af-icon">💬</div>
+            <div><div class="af-label">Honest Advice</div><div class="af-sub">We tell you what's needed — and what isn't</div></div>
+          </div>
+          <div class="about-feat">
+            <div class="af-icon">🚗</div>
+            <div><div class="af-label">Courtesy Car</div><div class="af-sub">Available while we work on yours</div></div>
+          </div>
+          <div class="about-feat">
+            <div class="af-icon">🏠</div>
+            <div><div class="af-label">Collection Service</div><div class="af-sub">We can collect from home or work</div></div>
+          </div>
+        </div>
+        <div class="about-areas">
+          <div class="areas-title">📍 Areas We Serve</div>
+          <div class="areas-tags">
+            <span class="area-tag">Martlesham Heath</span>
+            <span class="area-tag">Ipswich</span>
+            <span class="area-tag">Woodbridge</span>
+            <span class="area-tag">Kesgrave</span>
+            <span class="area-tag">Rushmere St Andrew</span>
+            <span class="area-tag">Felixstowe</span>
+            <span class="area-tag">Stowmarket</span>
+            <span class="area-tag">Suffolk</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section id="booking">
+  <div class="container">
+    <div class="section-tag">Online Booking</div>
+    <h2 class="section-title">Book Your Slot in 60 Seconds</h2>
+    <p class="section-sub">Choose your service, pick a time that suits you — instant confirmation sent straight to your phone. No need to call during business hours.</p>
+    <div class="booking-layout">
+      <div class="booking-info">
+        <h3>Why Book Online?</h3>
+        <ul class="booking-points">
+          <li class="booking-point"><span class="bp-icon">⚡</span>Instant confirmation — no waiting for a callback</li>
+          <li class="booking-point"><span class="bp-icon">📅</span>See real available slots in our diary</li>
+          <li class="booking-point"><span class="bp-icon">🔔</span>Automatic reminder sent 24hrs before your appointment</li>
+          <li class="booking-point"><span class="bp-icon">🔄</span>Reschedule or cancel anytime with one click</li>
+          <li class="booking-point"><span class="bp-icon">📱</span>Works on any phone, tablet or computer</li>
+        </ul>
+        <div class="booking-call">
+          <div class="bc-label">Can't find a slot? Prefer to call?</div>
+          <div class="bc-num"><a href="tel:+441473631111">01473 631111</a></div>
+          <div class="bc-hours">Mon–Fri · 8:00am – 5:30pm</div>
+        </div>
+      </div>
+      <div class="calendly-wrapper">
+        <!-- Calendly inline widget — replace YOUR_CALENDLY_USERNAME with actual username -->
+        <div class="calendly-inline-widget"
+          data-url="https://calendly.com/YOUR_CALENDLY_USERNAME?hide_gdpr_banner=1&primary_color=149ddd"
+          style="min-width:320px;height:650px;">
+        </div>
+        <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+        <!-- FALLBACK FORM — shown if Calendly not yet configured -->
+        <div id="fallbackForm" class="booking-fallback" style="display:none;">
+          <div class="form-note">📋 Fill in your details and we'll confirm your appointment by phone or email within 2 hours during business hours.</div>
+          <form action="https://formspree.io/f/info@martleshamservicecentre.co.uk" method="POST">
+            <div class="form-row">
+              <div class="form-group"><label>Your Name *</label><input type="text" name="name" placeholder="John Smith" required></div>
+              <div class="form-group"><label>Phone Number *</label><input type="tel" name="phone" placeholder="07700 900000" required></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label>Email Address</label><input type="email" name="email" placeholder="john@example.com"></div>
+              <div class="form-group"><label>Vehicle Reg *</label><input type="text" name="vehicle_reg" placeholder="AB12 CDE" required></div>
+            </div>
+            <div class="form-group">
+              <label>Service Required *</label>
+              <select name="service" required>
+                <option value="">Please select...</option>
+                <option>MOT Test</option>
+                <option>Interim Service</option>
+                <option>Full Service</option>
+                <option>Air Con Re-gas</option>
+                <option>Repairs / Diagnostics</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Preferred Date &amp; Time</label><input type="text" name="preferred_date" placeholder="e.g. Monday morning, any day next week"></div>
+            <div class="form-group"><label>Additional Notes</label><textarea name="notes" placeholder="Tell us anything useful about the vehicle..."></textarea></div>
+            <input type="hidden" name="_subject" value="New Booking Request — Martlesham Service Centre">
+            <button type="submit" class="form-submit">Send Booking Request →</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="container">
+    <div class="section-tag">Customer Reviews</div>
+    <h2 class="section-title">What Our Customers Say</h2>
+    <p class="section-sub">Don't take our word for it — here's what real customers have said on Google.</p>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Always great service. Recommend this place when people talk about MOT, repair or a service. Friendly people have helped more than I expected."</p>
+        <div class="review-author">Tim</div>
+        <a href="https://goo.gl/maps/D3zi6wACphzJziDV6" target="_blank" class="review-link">View on Google →</a>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"This is the only garage that I have not had a problem with! Friendly, family orientated. Fair price for work carried out."</p>
+        <div class="review-author">Jonathan Fenn</div>
+        <a href="https://goo.gl/maps/hG1N6G3YJ59xTpRr8" target="_blank" class="review-link">View on Google →</a>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Saved my daughter a fortune on a misdiagnosed fault from another garage. Great service and price."</p>
+        <div class="review-author">Floydbarney Hughes</div>
+        <a href="https://g.co/kgs/iW9SoT" target="_blank" class="review-link">View on Google →</a>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"I was able to book in a last minute MOT with a designated time to drop off, and was all done within the hour. Excellent customer service!"</p>
+        <div class="review-author">Lauren Parish</div>
+        <a href="https://g.co/kgs/9eRhQy" target="_blank" class="review-link">View on Google →</a>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"My car broke down and they collected it from my home, repaired it and had it back on the road within half a day — all at a very reasonable cost."</p>
+        <div class="review-author">Sharon F.</div>
+        <a href="https://www.google.com/maps/place/Martlesham+Service+Centre" target="_blank" class="review-link">View on Google →</a>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Good service at fair prices. Wouldn't go anywhere else for my MOT and servicing. Highly recommended to anyone in Ipswich."</p>
+        <div class="review-author">Carol Goates</div>
+        <a href="https://g.co/kgs/cCG55Z" target="_blank" class="review-link">View on Google →</a>
+      </div>
+    </div>
+    <div class="reviews-cta">
+      <p>Happy with our service? Leave us a review and help other drivers find us.</p>
+      <a href="https://goo.gl/maps/D3zi6wACphzJziDV6" target="_blank" class="btn-primary">Leave a Google Review ★</a>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <div class="section-tag">FAQ</div>
+    <h2 class="section-title">Common Questions</h2>
+    <p class="section-sub">Answers to the things customers ask us most.</p>
+    <div class="faq-grid">
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">Can you collect my vehicle from home or work?</div>
+        <div class="faq-a">Yes — just let us know when you make your booking and we'll arrange a collection time that suits you. Available locally around Martlesham Heath and Ipswich.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">How long does an MOT take?</div>
+        <div class="faq-a">A standard MOT takes approximately 45–60 minutes. We carry them out while you wait, so you're welcome to stay in our waiting area or we have a courtesy car available.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">My vehicle is undriveable — how do I get it to you?</div>
+        <div class="faq-a">We can recover your vehicle to our workshop. Just give us a call on 01473 631111 and we'll organise collection as quickly as possible.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">What happens if my car fails its MOT?</div>
+        <div class="faq-a">We offer a free re-test if your vehicle fails. We'll clearly explain what needs to be fixed, give you a written quote, and only proceed with repairs once you've approved the work.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">What payment methods do you accept?</div>
+        <div class="faq-a">We accept all major credit and debit cards, cash, and bank transfer by BACS.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">Is a courtesy car available?</div>
+        <div class="faq-a">Yes — a courtesy car is available while we work on your vehicle. Please let us know when booking so we can arrange this for you in advance.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">Do you work on all makes and models?</div>
+        <div class="faq-a">Yes, we work on all makes and models of cars and light vehicles. Our technicians are qualified to handle everything from routine servicing to complex diagnostics.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">Can I get a free quote for repair work?</div>
+        <div class="faq-a">Absolutely — we offer free quotations on all repair work. Call us on 01473 631111 or use the online booking form to describe the issue and we'll get back to you promptly.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="container">
+    <div class="section-tag">Gallery</div>
+    <h2 class="section-title">Our Workshop &amp; Team</h2>
+    <p class="section-sub">Take a look at our facilities and the team who keep Ipswich's cars on the road.</p>
+    <div class="gallery-grid">
+      <div class="gallery-item"><img src="http://www.martleshamservicecentre.co.uk/images/workshop1.jpg" alt="Workshop 1" loading="lazy"></div>
+      <div class="gallery-item"><img src="http://www.martleshamservicecentre.co.uk/images/workshop2.jpg" alt="Workshop 2" loading="lazy"></div>
+      <div class="gallery-item"><img src="http://www.martleshamservicecentre.co.uk/images/workshop3.jpg" alt="Workshop 3" loading="lazy"></div>
+      <div class="gallery-item"><img src="http://www.martleshamservicecentre.co.uk/images/reception.jpg" alt="Reception" loading="lazy"></div>
+      <div class="gallery-item"><img src="http://www.martleshamservicecentre.co.uk/images/vehicle_repair.jpg" alt="Vehicle repair" loading="lazy"></div>
+      <div class="gallery-item"><img src="http://www.martleshamservicecentre.co.uk/images/sponsored_car.jpg" alt="Sponsored car" loading="lazy"></div>
+      <div class="gallery-item"><img src="http://www.martleshamservicecentre.co.uk/images/msc.jpg" alt="Team" loading="lazy"></div>
+      <div class="gallery-item"><img src="http://www.martleshamservicecentre.co.uk/images/car_park.jpg" alt="Car park" loading="lazy"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT + MAP -->
+<section id="contact">
+  <div class="container">
+    <div class="section-tag">Find Us</div>
+    <h2 class="section-title">Get in Touch &amp; Directions</h2>
+    <div class="contact-layout">
+      <div class="contact-cards">
+        <div class="contact-card">
+          <div class="cc-icon">📍</div>
+          <div>
+            <div class="cc-label">Address</div>
+            <div class="cc-value">Unit 20, Betts Avenue<br>Martlesham Heath, Ipswich<br>Suffolk IP5 3RH</div>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="cc-icon">📞</div>
+          <div>
+            <div class="cc-label">Phone</div>
+            <div class="cc-value"><a href="tel:+441473631111">01473 631111</a></div>
+            <div class="cc-sub">Mon–Fri 8:00am – 5:30pm</div>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="cc-icon">✉️</div>
+          <div>
+            <div class="cc-label">Email</div>
+            <div class="cc-value"><a href="mailto:info@martleshamservicecentre.co.uk">info@martleshamservicecentre.co.uk</a></div>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="cc-icon">🕐</div>
+          <div>
+            <div class="cc-label">Opening Hours</div>
+            <div class="cc-value">Monday – Friday</div>
+            <div class="cc-sub">8:00am – 5:30pm · Closed weekends</div>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="cc-icon">💬</div>
+          <div>
+            <div class="cc-label">WhatsApp</div>
+            <div class="cc-value"><a href="https://wa.me/441473631111" target="_blank">Message us on WhatsApp</a></div>
+            <div class="cc-sub">Quick questions welcome</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="map-wrap">
+          <iframe src="https://maps.google.com/maps?q=Martlesham+Service+Centre,+Unit+20+Betts+Avenue,+Martlesham+Heath,+Ipswich+IP5+3RH&output=embed&z=16"
+            allowfullscreen loading="lazy"
+            title="Martlesham Service Centre location map">
+          </iframe>
+        </div>
+        <div class="directions-note">
+          <strong>By Car:</strong> Take the A12 north of Ipswich. At Martlesham Heath take the BT roundabout. Exit left into Gloucester Road, then turn right into Betts Avenue. We're on the right-hand side.
+        </div>
+        <div class="map-cta">
+          <a href="https://www.google.com/maps/dir/?api=1&destination=Martlesham+Service+Centre,+Unit+20+Betts+Avenue,+Martlesham+Heath,+Ipswich+IP5+3RH" target="_blank" class="btn-directions">
+            Get Directions on Google Maps →
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">Martlesham <span>Service Centre</span></div>
+      <div class="footer-about">Family-run garage serving Ipswich, Martlesham Heath, Woodbridge, Kesgrave and Suffolk since 1999. Qualified technicians, honest prices, genuine care.</div>
+      <div class="footer-contact"><a href="tel:+441473631111">01473 631111</a></div>
+    </div>
+    <div>
+      <h4>Services</h4>
+      <ul class="footer-links">
+        <li><a href="#services">MOT Testing</a></li>
+        <li><a href="#services">Car Servicing</a></li>
+        <li><a href="#services">Vehicle Repairs</a></li>
+        <li><a href="#services">Diagnostics</a></li>
+        <li><a href="#services">Air Conditioning</a></li>
+        <li><a href="#services">Recovery</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Information</h4>
+      <ul class="footer-links">
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#pricing">Prices</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+        <li><a href="#contact">Directions</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Book &amp; Contact</h4>
+      <ul class="footer-links">
+        <li><a href="#booking">Book Online</a></li>
+        <li><a href="tel:+441473631111">01473 631111</a></li>
+        <li><a href="mailto:info@martleshamservicecentre.co.uk">Email Us</a></li>
+        <li><a href="https://wa.me/441473631111" target="_blank">WhatsApp</a></li>
+        <li><a href="https://goo.gl/maps/D3zi6wACphzJziDV6" target="_blank">Leave a Review</a></li>
+      </ul>
+      <div style="margin-top:18px;font-size:13px;line-height:1.7;">
+        Unit 20, Betts Avenue<br>
+        Martlesham Heath<br>
+        Ipswich, Suffolk IP5 3RH
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2025 Martlesham Service Centre Ltd. All rights reserved.</div>
+    <div>MOT · Servicing · Repairs · Ipswich · Suffolk</div>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/441473631111" class="whatsapp-float" target="_blank" title="WhatsApp us">💬</a>
+
+<script>
+  function toggleNav() {
+    document.getElementById('navLinks').classList.toggle('open');
+  }
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
+  });
+  function toggleFaq(el) {
+    el.classList.toggle('open');
+  }
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').style.boxShadow = window.scrollY > 10
+      ? '0 4px 20px rgba(0,0,0,0.4)' : '0 2px 15px rgba(0,0,0,0.3)';
+  });
+  // Show fallback if Calendly fails to load
+  setTimeout(() => {
+    const widget = document.querySelector('.calendly-inline-widget');
+    const fallback = document.getElementById('fallbackForm');
+    if (widget && widget.offsetHeight < 100) {
+      widget.style.display = 'none';
+      if (fallback) fallback.style.display = 'block';
+    }
+  }, 4000);
+</script>
+</body>
+</html>
