@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polka Photography | One-Pager Presentation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,700&family=Inter+Tight:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #1A1A1A;
+            --text-color: #FDFCF8;
+            --accent-color: #D4AF37;
+            --muted-text: #999;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter Tight', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.5;
+        }
+
+        h1, h2, h3 { font-family: 'Fraunces', serif; }
+
+        .wrapper { max-width: 900px; margin: 0 auto; padding: 80px 40px; }
+
+        header { margin-bottom: 80px; text-align: center; }
+        .logo { font-size: 2.5rem; font-weight: 700; color: var(--accent-color); margin-bottom: 10px; }
+        .tagline { font-size: 1.1rem; color: var(--muted-text); text-transform: uppercase; letter-spacing: 3px; }
+
+        .main-img { width: 100%; height: 500px; object-fit: cover; margin-bottom: 60px; filter: grayscale(20%); }
+
+        .content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-bottom: 80px; }
+        .section h2 { font-size: 2rem; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+
+        .service-list { list-style: none; }
+        .service-list li { padding: 10px 0; border-bottom: 1px solid #292929; display: flex; justify-content: space-between; }
+        .service-list li span:last-child { color: var(--accent-color); font-weight: 600; }
+
+        footer { text-align: center; border-top: 1px solid #333; padding-top: 40px; margin-top: 80px; }
+        .cta-btn {
+            display: inline-block; padding: 15px 40px; border: 1px solid var(--accent-color);
+            color: var(--accent-color); text-decoration: none; text-transform: uppercase; letter-spacing: 2px;
+            transition: 0.3s;
+        }
+        .cta-btn:hover { background-color: var(--accent-color); color: #111; }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <div class="logo">Polka.</div>
+            <div class="tagline">Photography & Visual Art</div>
+        </header>
+        <img src="hero.png" alt="Photography Cover" class="main-img">
+        <div class="content-grid">
+            <div class="section">
+                <h2>The Philosophy</h2>
+                <p>We capture life as it unfolds, ensuring every frame feels authentic and deeply personal. Minimal intervention, maximum impact.</p>
+            </div>
+            <div class="section">
+                <h2>Services</h2>
+                <ul class="service-list">
+                    <li><span>Portrait Session</span> <span>From £450</span></li>
+                    <li><span>Editorial/Brand</span> <span>From £1,200</span></li>
+                    <li><span>Full Wedding Day</span> <span>From £3,500</span></li>
+                </ul>
+            </div>
+        </div>
+        <footer>
+            <div style="margin-bottom: 20px;">hello@polka.photography</div>
+            <a href="#" class="cta-btn">Start Your Project</a>
+        </footer>
+    </div>
+</body>
+</html>
