@@ -507,5 +507,175 @@
 
   <p class="footer">Prepared for Martlesham Service Centre · Salman · Growth Consultant · Ipswich &amp; Suffolk</p>
 </div>
+  <!-- 
+  ============================================================
+  SALMAN'S HTML TRACKER — Paste this snippet into your HTML
+  Place just before </body> on every page you want to track
+  
+  SETUP: Replace YOUR_APPS_SCRIPT_URL with your deployed 
+  Google Apps Script Web App URL
+  ============================================================
+-->
+<script>
+(function() {
+  // ─── CONFIG ───────────────────────────────────────────────
+  var TRACKER_URL = "YOUR_APPS_SCRIPT_URL"; // 👈 Replace this
+  var DOC_NAME    = "Martlesham Proposal";   // 👈 Change per document
+  // ──────────────────────────────────────────────────────────
+
+  var sessionId = Math.random().toString(36).substr(2, 9) + Date.now();
+  var startTime = Date.now();
+  var maxScroll  = 0;
+  var clickCount = 0;
+  var sent       = false;
+
+  // Detect browser & OS
+  function getBrowser() {
+    var ua = navigator.userAgent;
+    if (ua.includes("Edg/"))     return "Edge";
+    if (ua.includes("Chrome"))   return "Chrome";
+    if (ua.includes("Firefox"))  return "Firefox";
+    if (ua.includes("Safari"))   return "Safari";
+    if (ua.includes("Opera"))    return "Opera";
+    return "Other";
+  }
+
+  function getOS() {
+    var ua = navigator.userAgent;
+    if (ua.includes("Windows")) return "Windows";
+    if (ua.includes("Mac"))     return "macOS";
+    if (ua.includes("iPhone"))  return "iOS";
+    if (ua.includes("Android")) return "Android";
+    if (ua.includes("Linux"))   return "Linux";
+    return "Other";
+  }
+
+  function getDevice() {
+    var ua = navigator.userAgent;
+    if (/Mobi|Android|iPhone/i.test(ua)) return "Mobile";
+    if (/iPad|Tablet/i.test(ua))         return "Tablet";
+    return "Desktop";
+  }
+
+  function hashString(str) {
+    var hash = 0;
+    for (var i = 0; i < str.length; i++) {
+      hash = ((hash << 5) - hash) + str.charCodeAt(i);
+      hash = hash & hash;
+    }
+    return Math.abs(hash).toString(16);
+  }
+
+  // Get geo (free IP API, no key needed)
+  function getGeo(callback) {
+    var img = new Image();
+    var done = false;
+
+    // Try ipapi.co
+    fetch("https://ipapi.co/json/", { mode: "cors" })
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        if (!done) {
+          done = true;
+          callback({
+            country: d.country_name || "unknown",
+            city:    d.city || "unknown",
+            ipHash:  hashString(d.ip || "0")
+          });
+        }
+      })
+      .catch(function() {
+        if (!done) {
+          done = true;
+          callback({ country: "unknown", city: "unknown", ipHash: "unknown" });
+        }
+      });
+  }
+
+  // Send visit event
+  function sendVisit(geo) {
+    var params = new URLSearchParams({
+      action:    "visit",
+      page:      window.location.href,
+      docName:   DOC_NAME,
+      referrer:  document.referrer || "direct",
+      country:   geo.country,
+      city:      geo.city,
+      ipHash:    geo.ipHash,
+      device:    getDevice(),
+      browser:   getBrowser(),
+      os:        getOS(),
+      screen:    screen.width + "x" + screen.height,
+      sessionId: sessionId
+    });
+
+    // Use sendBeacon for reliability, fallback to img pixel
+    var url = TRACKER_URL + "?" + params.toString();
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon(url);
+    } else {
+      new Image().src = url;
+    }
+  }
+
+  // Send engagement event
+  function sendEngagement(event) {
+    if (sent) return;
+    sent = true;
+
+    var timeOnPage = Math.round((Date.now() - startTime) / 1000);
+    var params = new URLSearchParams({
+      action:      "engagement",
+      page:        window.location.href,
+      docName:     DOC_NAME,
+      sessionId:   sessionId,
+      timeOnPage:  timeOnPage,
+      scrollDepth: maxScroll,
+      clicks:      clickCount,
+      event:       event
+    });
+
+    var url = TRACKER_URL + "?" + params.toString();
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon(url);
+    } else {
+      new Image().src = url;
+    }
+  }
+
+  // Track scroll depth
+  window.addEventListener("scroll", function() {
+    var scrolled = Math.round(
+      ((window.scrollY + window.innerHeight) / document.documentElement.scrollHeight) * 100
+    );
+    if (scrolled > maxScroll) maxScroll = Math.min(scrolled, 100);
+  });
+
+  // Track clicks
+  document.addEventListener("click", function() {
+    clickCount++;
+  });
+
+  // Send engagement on page leave
+  window.addEventListener("beforeunload", function() {
+    sendEngagement("exit");
+  });
+
+  // Also send after 30 minutes as a heartbeat
+  setTimeout(function() {
+    if (!sent) {
+      sent = false; // allow re-send
+      sendEngagement("heartbeat");
+      sent = false;
+    }
+  }, 30 * 60 * 1000);
+
+  // Fire visit on load
+  window.addEventListener("load", function() {
+    getGeo(sendVisit);
+  });
+
+})();
+</script>
 </body>
 </html>
