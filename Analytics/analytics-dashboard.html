@@ -14,8 +14,7 @@ header{display:flex;align-items:flex-start;justify-content:space-between;margin-
 h1{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
 .sub{color:var(--muted);font-size:0.75rem;margin-top:0.25rem;text-transform:uppercase;letter-spacing:0.05em;}
 .controls{display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;}
-input,select,button{font-family:'DM Mono',monospace;font-size:0.8rem;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:0.5rem 0.75rem;border-radius:6px;outline:none;}
-input{width:380px;}
+select,button{font-family:'DM Mono',monospace;font-size:0.8rem;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:0.5rem 0.75rem;border-radius:6px;outline:none;}
 button{background:var(--accent);color:#fff;border:none;cursor:pointer;padding:0.5rem 1.25rem;font-weight:500;}
 button:disabled{opacity:0.4;cursor:not-allowed;}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:1rem;margin-bottom:2rem;}
@@ -33,7 +32,7 @@ td{padding:0.7rem 1rem;font-size:0.78rem;border-bottom:1px solid rgba(30,30,46,0
 tr:last-child td{border:none;}
 tr:hover td{background:rgba(124,106,247,0.04);}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
-@media(max-width:700px){.two{grid-template-columns:1fr;}input{width:100%;}}
+@media(max-width:700px){.two{grid-template-columns:1fr;}}
 .mrow{display:flex;justify-content:space-between;padding:0.6rem 1rem;border-bottom:1px solid rgba(30,30,46,0.4);font-size:0.78rem;}
 .mrow:last-child{border:none;}
 .empty{text-align:center;padding:3rem;color:var(--muted);font-size:0.8rem;}
@@ -41,6 +40,8 @@ tr:hover td{background:rgba(124,106,247,0.04);}
 .tag-desktop{background:rgba(124,106,247,0.15);color:var(--accent);}
 .tag-mobile{background:rgba(249,115,22,0.15);color:var(--accent2);}
 .tag-tablet{background:rgba(34,211,165,0.15);color:var(--accent3);}
+.tag-self{background:rgba(107,107,128,0.2);color:var(--muted);}
+.tag-client{background:rgba(34,211,165,0.15);color:var(--accent3);font-weight:700;}
 .sbar{display:inline-flex;align-items:center;gap:0.4rem;font-size:0.75rem;}
 .str{width:55px;height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
 .sfl{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent3));border-radius:2px;}
@@ -48,6 +49,8 @@ tr:hover td{background:rgba(124,106,247,0.04);}
 .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent3);margin-right:6px;}
 .spin{display:inline-block;width:13px;height:13px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:sp 0.7s linear infinite;vertical-align:middle;margin-right:0.4rem;}
 @keyframes sp{to{transform:rotate(360deg);}}
+.filter-row{display:flex;gap:0.75rem;padding:0.75rem 1.5rem;border-bottom:1px solid var(--border);flex-wrap:wrap;align-items:center;font-size:0.75rem;color:var(--muted);}
+.filter-row select{font-size:0.75rem;padding:0.3rem 0.5rem;}
 </style>
 </head>
 <body>
@@ -55,22 +58,29 @@ tr:hover td{background:rgba(124,106,247,0.04);}
   <header>
     <div><h1>Client Analytics</h1><div class="sub">StrategyFolio &middot; Salman AI Consultancy</div></div>
     <div class="controls">
-      <select id="filterDoc"><option value="">All Documents</option></select>
-      <button id="btn" onclick="loadAll()">Refresh</button>
+      <button id="btn" onclick="loadAll()">&#8635; Refresh</button>
     </div>
   </header>
+
   <div class="grid">
-    <div class="card"><div class="label">Total Opens</div><div class="val" id="v1">--</div><div class="hint">All time</div></div>
-    <div class="card"><div class="label">Unique Sessions</div><div class="val" id="v2">--</div><div class="hint">Unique visitors</div></div>
-    <div class="card"><div class="label">Avg Time on Page</div><div class="val" id="v3">--</div><div class="hint">Per session</div></div>
-    <div class="card"><div class="label">Avg Scroll Depth</div><div class="val" id="v4">--</div><div class="hint">% of page read</div></div>
-    <div class="card"><div class="label">Top Country</div><div class="val" id="v5" style="font-size:1.1rem">--</div><div class="hint">Most visits</div></div>
-    <div class="card"><div class="label">Last Opened</div><div class="val" id="v6" style="font-size:0.95rem">--</div><div class="hint">Most recent</div></div>
+    <div class="card"><div class="label">Client Opens</div><div class="val" id="v1">--</div><div class="hint">Excluding self</div></div>
+    <div class="card"><div class="label">Total Opens</div><div class="val" id="v1b">--</div><div class="hint">Including self</div></div>
+    <div class="card"><div class="label">Avg Time on Page</div><div class="val" id="v3">--</div><div class="hint">Clients only</div></div>
+    <div class="card"><div class="label">Avg Scroll Depth</div><div class="val" id="v4">--</div><div class="hint">Clients only</div></div>
+    <div class="card"><div class="label">Top Country</div><div class="val" id="v5" style="font-size:1.1rem">--</div><div class="hint">Clients only</div></div>
+    <div class="card"><div class="label">Last Client Open</div><div class="val" id="v6" style="font-size:0.9rem">--</div><div class="hint">Most recent</div></div>
   </div>
+
   <div class="box">
-    <div class="bhead"><span><span class="dot"></span>Recent Opens</span><span class="badge" id="vc">0 records</span></div>
+    <div class="bhead"><span><span class="dot"></span>All Visits</span><span class="badge" id="vc">0 records</span></div>
+    <div class="filter-row">
+      Filter by:
+      <select id="filterType" onchange="applyFilters()"><option value="">Self + Client</option><option value="Client">Client only</option><option value="Self">Self only</option></select>
+      <select id="filterDoc" onchange="applyFilters()"><option value="">All Documents</option></select>
+    </div>
     <div id="vt"><div class="empty">Loading...</div></div>
   </div>
+
   <div class="two">
     <div class="box">
       <div class="bhead"><span>Engagement Log</span><span class="badge" id="ec">0 records</span></div>
@@ -82,17 +92,14 @@ tr:hover td{background:rgba(124,106,247,0.04);}
     </div>
   </div>
 </div>
+
 <script>
 var URL = 'https://script.google.com/macros/s/AKfycbwkRFXfGZAhlGZlv7Wqw1u3FPPP2-20Znf3N7w1jepxctkmWNVMLbBV4cyUHJrKCaT0tA/exec';
 var vRows = [], eRows = [];
 
 function jsonp(url, cb) {
   var name = 'cb_' + Math.random().toString(36).substr(2,8);
-  window[name] = function(data) {
-    delete window[name];
-    document.head.removeChild(s);
-    cb(data);
-  };
+  window[name] = function(data) { delete window[name]; document.head.removeChild(s); cb(data); };
   var s = document.createElement('script');
   s.src = url + '&callback=' + name;
   s.onerror = function() { cb({status:'error',rows:[]}); };
@@ -104,9 +111,22 @@ function loadAll() {
   btn.disabled = true;
   btn.innerHTML = '<span class="spin"></span>Loading...';
   var done = 0;
-  function finish() { if(++done===2){ btn.disabled=false; btn.textContent='Refresh'; renderAll(); } }
-  jsonp(URL + '?action=getData&sheet=Visits', function(d){ vRows = d.rows||[]; finish(); });
-  jsonp(URL + '?action=getData&sheet=Engagement', function(d){ eRows = d.rows||[]; finish(); });
+  function finish() {
+    if(++done===2){ btn.disabled=false; btn.innerHTML='&#8635; Refresh'; renderAll(); }
+  }
+  jsonp(URL + '?action=getData&sheet=Visits', function(d){ vRows=d.rows||[]; finish(); });
+  jsonp(URL + '?action=getData&sheet=Engagement', function(d){ eRows=d.rows||[]; finish(); });
+}
+
+function applyFilters() { renderVisits(); }
+
+function getFilteredRows() {
+  var data = vRows.slice(1).reverse();
+  var typeFilter = document.getElementById('filterType').value;
+  var docFilter = document.getElementById('filterDoc').value;
+  if(typeFilter) data = data.filter(function(r){ return (r[12]||'Client') === typeFilter; });
+  if(docFilter) data = data.filter(function(r){ return r[2] === docFilter; });
+  return data;
 }
 
 function renderAll() {
@@ -114,18 +134,19 @@ function renderAll() {
 }
 
 function renderVisits() {
-  var data = vRows.slice(1).reverse();
-  var filter = document.getElementById('filterDoc').value;
-  if(filter) data = data.filter(function(r){return r[2]===filter;});
+  var data = getFilteredRows();
   document.getElementById('vc').textContent = data.length + ' records';
-  if(!data.length){document.getElementById('vt').innerHTML='<div class="empty">No visits yet. Open one of your tracked pages.</div>';return;}
-  var h='<table><thead><tr><th>Time</th><th>Document</th><th>Location</th><th>Device</th><th>Browser</th><th>OS</th><th>Referrer</th></tr></thead><tbody>';
+  if(!data.length){ document.getElementById('vt').innerHTML='<div class="empty">No visits match your filter.</div>'; return; }
+  var h='<table><thead><tr><th>Time</th><th>Document</th><th>Visitor</th><th>Location</th><th>Device</th><th>Browser</th><th>Referrer</th></tr></thead><tbody>';
   data.slice(0,50).forEach(function(r){
     var dt=r[0]?new Date(r[0]).toLocaleString('en-GB'):'--';
     var loc=[r[4],r[5]].filter(Boolean).join(', ')||'unknown';
     var dev=(r[6]||'').toLowerCase();
+    var vtype=r[12]||'Client';
     var ref=r[3]==='direct'?'<em style="color:var(--muted)">direct</em>':(r[3]||'--');
-    h+='<tr><td>'+dt+'</td><td style="font-weight:500">'+(r[2]||'--')+'</td><td>'+loc+'</td><td><span class="tag tag-'+dev+'">'+(dev||'--')+'</span></td><td>'+(r[7]||'--')+'</td><td>'+(r[8]||'--')+'</td><td style="font-size:0.7rem;color:var(--muted)">'+ref+'</td></tr>';
+    h+='<tr><td>'+dt+'</td><td style="font-weight:500">'+(r[2]||'--')+'</td>';
+    h+='<td><span class="tag tag-'+vtype.toLowerCase()+'">'+vtype+'</span></td>';
+    h+='<td>'+loc+'</td><td><span class="tag tag-'+dev+'">'+(dev||'--')+'</span></td><td>'+(r[7]||'--')+'</td><td style="font-size:0.7rem;color:var(--muted)">'+ref+'</td></tr>';
   });
   document.getElementById('vt').innerHTML=h+'</tbody></table>';
 }
@@ -133,7 +154,7 @@ function renderVisits() {
 function renderEngagement() {
   var data = eRows.slice(1).reverse().slice(0,25);
   document.getElementById('ec').textContent = data.length + ' records';
-  if(!data.length){document.getElementById('et').innerHTML='<div class="empty">No engagement data yet.</div>';return;}
+  if(!data.length){ document.getElementById('et').innerHTML='<div class="empty">No engagement data yet.</div>'; return; }
   var h='<table><thead><tr><th>Time</th><th>Document</th><th>Time on Page</th><th>Scroll</th><th>Clicks</th></tr></thead><tbody>';
   data.forEach(function(r){
     var s=parseInt(r[4])||0, sc=parseInt(r[5])||0;
@@ -144,26 +165,41 @@ function renderEngagement() {
 }
 
 function renderStats() {
-  var v=vRows.slice(1), e=eRows.slice(1);
-  document.getElementById('v1').textContent=v.length;
-  document.getElementById('v2').textContent=new Set(v.map(function(r){return r[10];})).size;
+  var all = vRows.slice(1);
+  var clients = all.filter(function(r){ return (r[12]||'Client') === 'Client'; });
+  var e = eRows.slice(1);
+
+  document.getElementById('v1').textContent = clients.length;
+  document.getElementById('v1b').textContent = all.length;
+
   var times=e.map(function(r){return parseInt(r[4]);}).filter(Boolean);
   var avg=times.length?Math.round(times.reduce(function(a,b){return a+b;},0)/times.length):0;
   document.getElementById('v3').textContent=avg>=60?Math.floor(avg/60)+'m '+(avg%60)+'s':avg+'s';
+
   var sc=e.map(function(r){return parseInt(r[5]);}).filter(Boolean);
   document.getElementById('v4').textContent=(sc.length?Math.round(sc.reduce(function(a,b){return a+b;},0)/sc.length):0)+'%';
-  var cc={};v.forEach(function(r){var c=r[4]||'?';cc[c]=(cc[c]||0)+1;});
+
+  var cc={};
+  clients.forEach(function(r){var c=r[4]||'?';cc[c]=(cc[c]||0)+1;});
   var top=Object.entries(cc).sort(function(a,b){return b[1]-a[1];})[0];
   document.getElementById('v5').textContent=top?top[0]:'--';
-  if(v.length){var d=new Date(v[v.length-1][0]);document.getElementById('v6').textContent=d.toLocaleDateString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});}
+
+  var lastClient = clients[clients.length-1];
+  if(lastClient && lastClient[0]){
+    var d=new Date(lastClient[0]);
+    document.getElementById('v6').textContent=d.toLocaleDateString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+  }
 }
 
 function renderDevices() {
-  var v=vRows.slice(1);
-  var dd={};v.forEach(function(r){var d=r[6]||'unknown';dd[d]=(dd[d]||0)+1;});
-  var tot=v.length||1;
-  var h=Object.entries(dd).sort(function(a,b){return b[1]-a[1];}).map(function(e){return '<div class="mrow"><span style="color:var(--muted)">'+e[0]+'</span><span>'+e[1]+' <small style="color:var(--muted)">('+Math.round(e[1]/tot*100)+'%)</small></span></div>';}).join('');
-  document.getElementById('db').innerHTML=h||'<div class="empty">--</div>';
+  var clients = vRows.slice(1).filter(function(r){ return (r[12]||'Client')==='Client'; });
+  var dd={};
+  clients.forEach(function(r){var d=r[6]||'unknown';dd[d]=(dd[d]||0)+1;});
+  var tot=clients.length||1;
+  var h=Object.entries(dd).sort(function(a,b){return b[1]-a[1];}).map(function(e){
+    return '<div class="mrow"><span style="color:var(--muted)">'+e[0]+'</span><span>'+e[1]+' <small style="color:var(--muted)">('+Math.round(e[1]/tot*100)+'%)</small></span></div>';
+  }).join('');
+  document.getElementById('db').innerHTML=h||'<div class="empty">No client visits yet</div>';
 }
 
 function populateFilter() {
