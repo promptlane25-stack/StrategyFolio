@@ -16,6 +16,12 @@ ALLOWED_EXTENSIONS = {'.html', '.md'}
 # Add new top-level folders here if you create them.
 SECTIONS = [
     {
+        "folder": "Analytics",
+        "title": "Analytics",
+        "color": "c-indigo",
+        "icon": "&#128202;",
+    },
+    {
         "folder": "Business Operations",
         "title": "Business Operations",
         "color": "c-purple",
@@ -97,6 +103,8 @@ body { font-family: system-ui, -apple-system, sans-serif; background: #f5f4f0; c
 .c-amber .file-dot { background: #BA7517; }
 .c-green .section-icon { background: #E2F5E1; color: #1A6B18; }
 .c-green .file-dot { background: #2E9E2A; }
+.c-indigo .section-icon { background: #EEEDFE; color: #4338CA; }
+.c-indigo .file-dot { background: #6366F1; }
 .subsection-label { font-size: 11px; font-weight: 600; color: #aaa; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.75rem 1.25rem 0.3rem; }
 .footer { max-width: 860px; margin: 2rem auto 0; font-size: 12px; color: #aaa; text-align: center; }
 """
