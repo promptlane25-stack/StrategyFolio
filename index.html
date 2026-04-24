@@ -6,150 +6,101 @@
   <title>StrategyFolio</title>
   <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background: #f0f2f5;
     color: #1a1a2e;
     min-height: 100vh;
   }
-
   .page-header {
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
     padding: 40px 24px 36px;
     text-align: center;
     color: #fff;
   }
-  .page-header h1 {
-    font-size: 2rem;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .page-header p {
-    margin-top: 8px;
-    font-size: 0.9rem;
-    color: rgba(255,255,255,0.5);
-    letter-spacing: 0.3px;
-  }
+  .page-header h1 { font-size: 2rem; font-weight: 700; letter-spacing: -0.5px; display: inline-flex; align-items: center; gap: 12px; }
+  .page-header p { margin-top: 8px; font-size: 0.9rem; color: rgba(255,255,255,0.5); }
+  .container { max-width: 780px; margin: 0 auto; padding: 32px 20px 60px; }
 
-  .container {
-    max-width: 780px;
-    margin: 0 auto;
-    padding: 32px 20px 60px;
-  }
-
-  /* ── Drag state ── */
+  /* Card */
   .section-wrap {
     margin-bottom: 10px;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
     transition: box-shadow 0.2s, transform 0.15s, opacity 0.15s;
-    cursor: default;
   }
   .section-wrap:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.12), 0 6px 20px rgba(0,0,0,0.07); }
-  .section-wrap.dragging { opacity: 0.45; transform: scale(0.98); box-shadow: none; }
-  .section-wrap.drag-over { box-shadow: 0 0 0 2px #4f46e5, 0 6px 24px rgba(79,70,229,0.18); transform: scale(1.01); }
+  .section-wrap.dragging { opacity: 0.4; transform: scale(0.98); box-shadow: none; }
+  .section-wrap.drag-over { box-shadow: 0 0 0 2px #4f46e5, 0 6px 24px rgba(79,70,229,0.2); }
 
-  details { display: block; }
+  /* card-inner: handle + details side by side */
+  .card-inner { display: flex; align-items: stretch; border-radius: 12px; overflow: hidden; }
 
-  summary {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 15px 18px;
-    cursor: pointer;
-    list-style: none;
-    user-select: none;
-    border-radius: 12px;
-    transition: filter 0.15s;
-  }
-  summary::-webkit-details-marker { display: none; }
-  details[open] summary { border-radius: 12px 12px 0 0; }
-  summary:hover { filter: brightness(0.97); }
-
-  /* Drag handle */
+  /* Drag handle sits OUTSIDE <details> so summary doesn't swallow it */
   .drag-handle {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 20px;
+    width: 32px;
     flex-shrink: 0;
     cursor: grab;
-    color: #aaa;
-    font-size: 1.1rem;
-    line-height: 1;
-    padding: 2px 0;
-    transition: color 0.15s;
+    color: #bbb;
+    font-size: 1rem;
+    letter-spacing: -1px;
+    transition: color 0.15s, background 0.15s;
+    border-right: 1px solid rgba(0,0,0,0.06);
+    user-select: none;
   }
+  .drag-handle:hover { color: #777; }
   .drag-handle:active { cursor: grabbing; }
-  .section-wrap:hover .drag-handle { color: #888; }
+
+  details { flex: 1; min-width: 0; }
+
+  summary {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    transition: filter 0.15s;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary:hover { filter: brightness(0.97); }
 
   .section-icon {
-    font-size: 1.2rem;
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px;
-    background: rgba(255,255,255,0.55);
-    flex-shrink: 0;
+    font-size: 1.2rem; width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 8px; flex-shrink: 0;
   }
   .section-title { font-size: 0.95rem; font-weight: 600; flex: 1; color: #1a1a2e; }
-  .section-count {
-    font-size: 0.75rem;
-    font-weight: 600;
-    padding: 3px 10px;
-    border-radius: 99px;
-    flex-shrink: 0;
-  }
-  .chevron {
-    width: 16px; height: 16px;
-    stroke: #666; stroke-width: 2.5; fill: none;
-    flex-shrink: 0;
-    transition: transform 0.25s ease;
-  }
+  .section-count { font-size: 0.75rem; font-weight: 600; padding: 3px 10px; border-radius: 99px; flex-shrink: 0; }
+  .chevron { width: 16px; height: 16px; stroke: #666; stroke-width: 2.5; fill: none; flex-shrink: 0; transition: transform 0.25s; }
   details[open] .chevron { transform: rotate(180deg); }
 
-  .file-list {
-    background: #fff;
-    padding: 8px 12px 12px 12px;
-    border-radius: 0 0 12px 12px;
-  }
+  .file-list { background: #fff; padding: 8px 12px 12px 40px; }
   .file-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 10px;
-    border-radius: 8px;
-    text-decoration: none;
-    color: #2d2d3d;
-    font-size: 0.875rem;
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 10px; border-radius: 8px;
+    text-decoration: none; color: #2d2d3d; font-size: 0.875rem;
     transition: background 0.12s;
   }
   .file-row:hover { background: #f5f7fa; color: #1a1a2e; }
   .file-icon { font-size: 0.95rem; width: 24px; text-align: center; flex-shrink: 0; opacity: 0.75; }
   .file-name { flex: 1; word-break: break-word; }
-
-  .sub-label {
-    font-size: 0.72rem; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.07em;
-    color: #999; padding: 10px 10px 4px 10px;
-  }
+  .sub-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #999; padding: 10px 10px 4px 10px; }
   .empty { color: #bbb; font-size: 0.85rem; font-style: italic; padding: 8px 10px; }
 
-  /* Colour themes */
-  .c-indigo summary { background: #eef2ff; }
-  .c-purple summary { background: #f5f3ff; }
-  .c-green  summary { background: #f0fdf4; }
-  .c-teal   summary { background: #f0fdfa; }
-  .c-amber  summary { background: #fffbeb; }
-  .c-blue   summary { background: #eff6ff; }
-  .c-coral  summary { background: #fff1f2; }
+  /* Colour themes — applied to .card-inner so handle inherits bg */
+  .c-indigo .card-inner { background: #eef2ff; }
+  .c-purple .card-inner { background: #f5f3ff; }
+  .c-green  .card-inner { background: #f0fdf4; }
+  .c-teal   .card-inner { background: #f0fdfa; }
+  .c-amber  .card-inner { background: #fffbeb; }
+  .c-blue   .card-inner { background: #eff6ff; }
+  .c-coral  .card-inner { background: #fff1f2; }
 
   .c-indigo .section-icon { background: rgba(79,70,229,0.12); }
   .c-purple .section-icon { background: rgba(124,58,237,0.12); }
@@ -184,48 +135,53 @@
   <div class="container">
     <div id="sections-container">
 <div class="section-wrap c-indigo" data-id="Analytics">
-  <details>
-    <summary>
-      <span class="drag-handle" title="Drag to reorder">&#8942;&#8942;</span>
-      <span class="section-icon">&#128202;</span>
-      <span class="section-title">Analytics</span>
-      <span class="section-count">4 files</span>
-      <svg class="chevron" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"/></svg>
-    </summary>
-    <div class="file-list">
+  <div class="card-inner">
+    <div class="drag-handle" title="Drag to reorder">&#8942;&#8942;</div>
+    <details>
+      <summary>
+        <span class="section-icon">&#128202;</span>
+        <span class="section-title">Analytics</span>
+        <span class="section-count">4 files</span>
+        <svg class="chevron" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
+      <div class="file-list">
 <a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Analytics/analytics-dashboard-enhanced_new.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">analytics-dashboard-enhanced_new.html</span></a>
 <a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Analytics/analytics-dashboard-v2.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">analytics-dashboard-v2.html</span></a>
 <a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Analytics/analytics-dashboard.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">analytics-dashboard.html</span></a>
 <a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Analytics/README.md" target="_blank"><span class="file-icon">&#128196;</span><span class="file-name">README.md</span></a>
-    </div>
-  </details>
+      </div>
+    </details>
+  </div>
 </div>
 <div class="section-wrap c-purple" data-id="Business-Operations">
-  <details>
-    <summary>
-      <span class="drag-handle" title="Drag to reorder">&#8942;&#8942;</span>
-      <span class="section-icon">&#9881;</span>
-      <span class="section-title">Business Operations</span>
-      <span class="section-count">3 files</span>
-      <svg class="chevron" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"/></svg>
-    </summary>
-    <div class="file-list">
+  <div class="card-inner">
+    <div class="drag-handle" title="Drag to reorder">&#8942;&#8942;</div>
+    <details>
+      <summary>
+        <span class="section-icon">&#9881;</span>
+        <span class="section-title">Business Operations</span>
+        <span class="section-count">3 files</span>
+        <svg class="chevron" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
+      <div class="file-list">
 <a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Business%20Operations/ai_consultancy_operations_manual.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">ai_consultancy_operations_manual.html</span></a>
 <a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Business%20Operations/ipswich-ai-agency-plan.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">ipswich-ai-agency-plan.html</span></a>
 <a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Business%20Operations/project-command-centre.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">project-command-centre.html</span></a>
-    </div>
-  </details>
+      </div>
+    </details>
+  </div>
 </div>
 <div class="section-wrap c-green" data-id="Clients">
-  <details>
-    <summary>
-      <span class="drag-handle" title="Drag to reorder">&#8942;&#8942;</span>
-      <span class="section-icon">&#129309;</span>
-      <span class="section-title">Clients</span>
-      <span class="section-count">5 files</span>
-      <svg class="chevron" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"/></svg>
-    </summary>
-    <div class="file-list">
+  <div class="card-inner">
+    <div class="drag-handle" title="Drag to reorder">&#8942;&#8942;</div>
+    <details>
+      <summary>
+        <span class="section-icon">&#129309;</span>
+        <span class="section-title">Clients</span>
+        <span class="section-count">5 files</span>
+        <svg class="chevron" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
+      <div class="file-list">
 <div class="sub-label">Martlesham Service Centre</div>
 <a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Clients/Martlesham%20Service%20Centre/%20martlesham%20-%20What%20I%20can%20do%20for%20you.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name"> martlesham - What I can do for you.html</span></a>
 <a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Clients/Martlesham%20Service%20Centre/martleshamsc-one-pager.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">martleshamsc-one-pager.html</span></a>
@@ -233,162 +189,179 @@
 <a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Clients/Martlesham%20Service%20Centre/martleshamservicecentre_withoutimagesonGithub.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">martleshamservicecentre_withoutimagesonGithub.html</span></a>
 <div class="sub-label">Polka Dot Photography</div>
 <a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Clients/Polka%20Dot%20Photography/Polka%20Dot%20-%20What%20I%20can%20do%20for%20you.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">Polka Dot - What I can do for you.html</span></a>
-    </div>
-  </details>
+      </div>
+    </details>
+  </div>
 </div>
 <div class="section-wrap c-teal" data-id="Deliverables---Guides-and-Handovers">
-  <details>
-    <summary>
-      <span class="drag-handle" title="Drag to reorder">&#8942;&#8942;</span>
-      <span class="section-icon">&#128196;</span>
-      <span class="section-title">Deliverables — Guides &amp; Handovers</span>
-      <span class="section-count">1 files</span>
-      <svg class="chevron" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"/></svg>
-    </summary>
-    <div class="file-list">
+  <div class="card-inner">
+    <div class="drag-handle" title="Drag to reorder">&#8942;&#8942;</div>
+    <details>
+      <summary>
+        <span class="section-icon">&#128196;</span>
+        <span class="section-title">Deliverables — Guides &amp; Handovers</span>
+        <span class="section-count">1 files</span>
+        <svg class="chevron" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
+      <div class="file-list">
 <a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Deliverables%20-%20Guides%20%26%20Handovers/martlesham_handover_guide.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">martlesham_handover_guide.html</span></a>
-    </div>
-  </details>
+      </div>
+    </details>
+  </div>
 </div>
 <div class="section-wrap c-amber" data-id="Deliverables---Proposals-and-Pricing">
-  <details>
-    <summary>
-      <span class="drag-handle" title="Drag to reorder">&#8942;&#8942;</span>
-      <span class="section-icon">&#128176;</span>
-      <span class="section-title">Deliverables — Proposals &amp; Pricing</span>
-      <span class="section-count">2 files</span>
-      <svg class="chevron" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"/></svg>
-    </summary>
-    <div class="file-list">
+  <div class="card-inner">
+    <div class="drag-handle" title="Drag to reorder">&#8942;&#8942;</div>
+    <details>
+      <summary>
+        <span class="section-icon">&#128176;</span>
+        <span class="section-title">Deliverables — Proposals &amp; Pricing</span>
+        <span class="section-count">2 files</span>
+        <svg class="chevron" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
+      <div class="file-list">
 <a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Deliverables%20-%20Proposals%20%26%20Pricing/ai_consultancy_pricing.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">ai_consultancy_pricing.html</span></a>
 <a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Deliverables%20-%20Proposals%20%26%20Pricing/ai_consultancy_pricing_v2.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">ai_consultancy_pricing_v2.html</span></a>
-    </div>
-  </details>
+      </div>
+    </details>
+  </div>
 </div>
 <div class="section-wrap c-blue" data-id="Deliverables-Websites">
-  <details>
-    <summary>
-      <span class="drag-handle" title="Drag to reorder">&#8942;&#8942;</span>
-      <span class="section-icon">&#127760;</span>
-      <span class="section-title">Deliverables — Websites</span>
-      <span class="section-count">4 files</span>
-      <svg class="chevron" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"/></svg>
-    </summary>
-    <div class="file-list">
+  <div class="card-inner">
+    <div class="drag-handle" title="Drag to reorder">&#8942;&#8942;</div>
+    <details>
+      <summary>
+        <span class="section-icon">&#127760;</span>
+        <span class="section-title">Deliverables — Websites</span>
+        <span class="section-count">4 files</span>
+        <svg class="chevron" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
+      <div class="file-list">
 <a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Deliverables-Websites/martlesham_navy_theme.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">martlesham_navy_theme.html</span></a>
 <a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Deliverables-Websites/martlesham_PUBLISHABLE.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">martlesham_PUBLISHABLE.html</span></a>
 <a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Deliverables-Websites/martlesham_service_centre.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">martlesham_service_centre.html</span></a>
 <a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Deliverables-Websites/martlesham_service_centre_final.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">martlesham_service_centre_final.html</span></a>
-    </div>
-  </details>
+      </div>
+    </details>
+  </div>
 </div>
 <div class="section-wrap c-coral" data-id="Marketing-and-Outreach">
-  <details>
-    <summary>
-      <span class="drag-handle" title="Drag to reorder">&#8942;&#8942;</span>
-      <span class="section-icon">&#128227;</span>
-      <span class="section-title">Marketing &amp; Outreach</span>
-      <span class="section-count">3 files</span>
-      <svg class="chevron" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"/></svg>
-    </summary>
-    <div class="file-list">
+  <div class="card-inner">
+    <div class="drag-handle" title="Drag to reorder">&#8942;&#8942;</div>
+    <details>
+      <summary>
+        <span class="section-icon">&#128227;</span>
+        <span class="section-title">Marketing &amp; Outreach</span>
+        <span class="section-count">3 files</span>
+        <svg class="chevron" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
+      <div class="file-list">
 <a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Marketing%20%26%20Outreach/comparison_onepager.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">comparison_onepager.html</span></a>
 <a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Marketing%20%26%20Outreach/martlesham-one-pager.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">martlesham-one-pager.html</span></a>
 <a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Marketing%20%26%20Outreach/martlesham-outreach-playbook.md" target="_blank"><span class="file-icon">&#128196;</span><span class="file-name">martlesham-outreach-playbook.md</span></a>
-    </div>
-  </details>
+      </div>
+    </details>
+  </div>
 </div>
 <div class="section-wrap c-teal" data-id="Prospects-and-Sales">
-  <details>
-    <summary>
-      <span class="drag-handle" title="Drag to reorder">&#8942;&#8942;</span>
-      <span class="section-icon">&#127919;</span>
-      <span class="section-title">Prospects &amp; Sales</span>
-      <span class="section-count">5 files</span>
-      <svg class="chevron" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"/></svg>
-    </summary>
-    <div class="file-list">
+  <div class="card-inner">
+    <div class="drag-handle" title="Drag to reorder">&#8942;&#8942;</div>
+    <details>
+      <summary>
+        <span class="section-icon">&#127919;</span>
+        <span class="section-title">Prospects &amp; Sales</span>
+        <span class="section-count">5 files</span>
+        <svg class="chevron" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
+      <div class="file-list">
 <a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Prospects%20%26%20Sales/ipswich_ai_niche_guide.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">ipswich_ai_niche_guide.html</span></a>
 <a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Prospects%20%26%20Sales/ipswich_ai_niche_guide_v2.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">ipswich_ai_niche_guide_v2.html</span></a>
 <a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Prospects%20%26%20Sales/ipswich_ai_niche_guide_v3.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">ipswich_ai_niche_guide_v3.html</span></a>
 <a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Prospects%20%26%20Sales/ipswich_prospect_hitlist.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">ipswich_prospect_hitlist.html</span></a>
 <a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Prospects%20%26%20Sales/sales_script.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">sales_script.html</span></a>
-    </div>
-  </details>
+      </div>
+    </details>
+  </div>
 </div>
     </div>
   </div>
   <script>
 (function () {
-  const STORE_KEY = 'sf-order';
-  const container = document.getElementById('sections-container');
+  var STORE_KEY = 'sf-order';
+  var container = document.getElementById('sections-container');
+  var dragged = null;
 
-  // ── Restore saved order ──────────────────────────────────────────────
+  function saveOrder() {
+    var ids = Array.from(container.querySelectorAll('.section-wrap')).map(function(el){ return el.dataset.id; });
+    localStorage.setItem(STORE_KEY, JSON.stringify(ids));
+  }
+
   function restoreOrder() {
-    const saved = JSON.parse(localStorage.getItem(STORE_KEY) || 'null');
+    var saved = JSON.parse(localStorage.getItem(STORE_KEY) || 'null');
     if (!saved || !Array.isArray(saved)) return;
-    saved.forEach(id => {
-      const el = container.querySelector('[data-id="' + id + '"]');
+    saved.forEach(function(id) {
+      var el = container.querySelector('[data-id="' + id + '"]');
       if (el) container.appendChild(el);
     });
   }
 
-  // ── Save current order ───────────────────────────────────────────────
-  function saveOrder() {
-    const ids = [...container.querySelectorAll('.section-wrap')].map(el => el.dataset.id);
-    localStorage.setItem(STORE_KEY, JSON.stringify(ids));
-  }
-
-  // ── Drag & Drop ──────────────────────────────────────────────────────
-  let dragged = null;
-
-  container.addEventListener('dragstart', e => {
-    const wrap = e.target.closest('.section-wrap');
-    if (!wrap) return;
-    // Only allow drag when the handle is the origin
-    if (!e.target.closest('.drag-handle')) { e.preventDefault(); return; }
-    dragged = wrap;
-    setTimeout(() => wrap.classList.add('dragging'), 0);
-    e.dataTransfer.effectAllowed = 'move';
+  // Attach drag events directly to each handle
+  container.querySelectorAll('.drag-handle').forEach(function(handle) {
+    handle.addEventListener('mousedown', function(e) {
+      // Enable draggable only when handle is pressed
+      var wrap = handle.closest('.section-wrap');
+      if (wrap) wrap.setAttribute('draggable', 'true');
+    });
   });
 
-  container.addEventListener('dragend', () => {
-    if (dragged) { dragged.classList.remove('dragging'); dragged = null; }
-    container.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+  container.addEventListener('dragstart', function(e) {
+    var wrap = e.target.closest('.section-wrap');
+    if (!wrap) return;
+    dragged = wrap;
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', wrap.dataset.id);
+    setTimeout(function() { wrap.classList.add('dragging'); }, 0);
+  });
+
+  container.addEventListener('dragend', function(e) {
+    if (dragged) {
+      dragged.classList.remove('dragging');
+      dragged.setAttribute('draggable', 'false');
+      dragged = null;
+    }
+    container.querySelectorAll('.drag-over').forEach(function(el){ el.classList.remove('drag-over'); });
     saveOrder();
   });
 
-  container.addEventListener('dragover', e => {
+  container.addEventListener('dragover', function(e) {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
-    const target = e.target.closest('.section-wrap');
+    var target = e.target.closest('.section-wrap');
     if (!target || target === dragged) return;
-    container.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+    container.querySelectorAll('.drag-over').forEach(function(el){ el.classList.remove('drag-over'); });
     target.classList.add('drag-over');
-    // Insert before or after based on mouse Y
-    const rect = target.getBoundingClientRect();
-    const mid  = rect.top + rect.height / 2;
-    if (e.clientY < mid) {
+    var rect = target.getBoundingClientRect();
+    if (e.clientY < rect.top + rect.height / 2) {
       container.insertBefore(dragged, target);
     } else {
       container.insertBefore(dragged, target.nextSibling);
     }
   });
 
-  container.addEventListener('dragleave', e => {
-    const target = e.target.closest('.section-wrap');
+  container.addEventListener('dragleave', function(e) {
+    var target = e.target.closest('.section-wrap');
     if (target) target.classList.remove('drag-over');
   });
 
-  container.addEventListener('drop', e => {
+  container.addEventListener('drop', function(e) {
     e.preventDefault();
-    container.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+    container.querySelectorAll('.drag-over').forEach(function(el){ el.classList.remove('drag-over'); });
     saveOrder();
   });
 
-  // Make handles trigger drag on parent
-  container.querySelectorAll('.section-wrap').forEach(wrap => {
-    wrap.setAttribute('draggable', 'true');
+  // Initially not draggable — only becomes draggable on handle mousedown
+  container.querySelectorAll('.section-wrap').forEach(function(wrap) {
+    wrap.setAttribute('draggable', 'false');
   });
 
   restoreOrder();
