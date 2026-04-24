@@ -17,150 +17,101 @@ SECTIONS = [
 
 CSS = """
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background: #f0f2f5;
     color: #1a1a2e;
     min-height: 100vh;
   }
-
   .page-header {
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
     padding: 40px 24px 36px;
     text-align: center;
     color: #fff;
   }
-  .page-header h1 {
-    font-size: 2rem;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .page-header p {
-    margin-top: 8px;
-    font-size: 0.9rem;
-    color: rgba(255,255,255,0.5);
-    letter-spacing: 0.3px;
-  }
+  .page-header h1 { font-size: 2rem; font-weight: 700; letter-spacing: -0.5px; display: inline-flex; align-items: center; gap: 12px; }
+  .page-header p { margin-top: 8px; font-size: 0.9rem; color: rgba(255,255,255,0.5); }
+  .container { max-width: 780px; margin: 0 auto; padding: 32px 20px 60px; }
 
-  .container {
-    max-width: 780px;
-    margin: 0 auto;
-    padding: 32px 20px 60px;
-  }
-
-  /* ── Drag state ── */
+  /* Card */
   .section-wrap {
     margin-bottom: 10px;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
     transition: box-shadow 0.2s, transform 0.15s, opacity 0.15s;
-    cursor: default;
   }
   .section-wrap:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.12), 0 6px 20px rgba(0,0,0,0.07); }
-  .section-wrap.dragging { opacity: 0.45; transform: scale(0.98); box-shadow: none; }
-  .section-wrap.drag-over { box-shadow: 0 0 0 2px #4f46e5, 0 6px 24px rgba(79,70,229,0.18); transform: scale(1.01); }
+  .section-wrap.dragging { opacity: 0.4; transform: scale(0.98); box-shadow: none; }
+  .section-wrap.drag-over { box-shadow: 0 0 0 2px #4f46e5, 0 6px 24px rgba(79,70,229,0.2); }
 
-  details { display: block; }
+  /* card-inner: handle + details side by side */
+  .card-inner { display: flex; align-items: stretch; border-radius: 12px; overflow: hidden; }
 
-  summary {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 15px 18px;
-    cursor: pointer;
-    list-style: none;
-    user-select: none;
-    border-radius: 12px;
-    transition: filter 0.15s;
-  }
-  summary::-webkit-details-marker { display: none; }
-  details[open] summary { border-radius: 12px 12px 0 0; }
-  summary:hover { filter: brightness(0.97); }
-
-  /* Drag handle */
+  /* Drag handle sits OUTSIDE <details> so summary doesn't swallow it */
   .drag-handle {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 20px;
+    width: 32px;
     flex-shrink: 0;
     cursor: grab;
-    color: #aaa;
-    font-size: 1.1rem;
-    line-height: 1;
-    padding: 2px 0;
-    transition: color 0.15s;
+    color: #bbb;
+    font-size: 1rem;
+    letter-spacing: -1px;
+    transition: color 0.15s, background 0.15s;
+    border-right: 1px solid rgba(0,0,0,0.06);
+    user-select: none;
   }
+  .drag-handle:hover { color: #777; }
   .drag-handle:active { cursor: grabbing; }
-  .section-wrap:hover .drag-handle { color: #888; }
+
+  details { flex: 1; min-width: 0; }
+
+  summary {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    transition: filter 0.15s;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary:hover { filter: brightness(0.97); }
 
   .section-icon {
-    font-size: 1.2rem;
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px;
-    background: rgba(255,255,255,0.55);
-    flex-shrink: 0;
+    font-size: 1.2rem; width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 8px; flex-shrink: 0;
   }
   .section-title { font-size: 0.95rem; font-weight: 600; flex: 1; color: #1a1a2e; }
-  .section-count {
-    font-size: 0.75rem;
-    font-weight: 600;
-    padding: 3px 10px;
-    border-radius: 99px;
-    flex-shrink: 0;
-  }
-  .chevron {
-    width: 16px; height: 16px;
-    stroke: #666; stroke-width: 2.5; fill: none;
-    flex-shrink: 0;
-    transition: transform 0.25s ease;
-  }
+  .section-count { font-size: 0.75rem; font-weight: 600; padding: 3px 10px; border-radius: 99px; flex-shrink: 0; }
+  .chevron { width: 16px; height: 16px; stroke: #666; stroke-width: 2.5; fill: none; flex-shrink: 0; transition: transform 0.25s; }
   details[open] .chevron { transform: rotate(180deg); }
 
-  .file-list {
-    background: #fff;
-    padding: 8px 12px 12px 12px;
-    border-radius: 0 0 12px 12px;
-  }
+  .file-list { background: #fff; padding: 8px 12px 12px 40px; }
   .file-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 10px;
-    border-radius: 8px;
-    text-decoration: none;
-    color: #2d2d3d;
-    font-size: 0.875rem;
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 10px; border-radius: 8px;
+    text-decoration: none; color: #2d2d3d; font-size: 0.875rem;
     transition: background 0.12s;
   }
   .file-row:hover { background: #f5f7fa; color: #1a1a2e; }
   .file-icon { font-size: 0.95rem; width: 24px; text-align: center; flex-shrink: 0; opacity: 0.75; }
   .file-name { flex: 1; word-break: break-word; }
-
-  .sub-label {
-    font-size: 0.72rem; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 0.07em;
-    color: #999; padding: 10px 10px 4px 10px;
-  }
+  .sub-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #999; padding: 10px 10px 4px 10px; }
   .empty { color: #bbb; font-size: 0.85rem; font-style: italic; padding: 8px 10px; }
 
-  /* Colour themes */
-  .c-indigo summary { background: #eef2ff; }
-  .c-purple summary { background: #f5f3ff; }
-  .c-green  summary { background: #f0fdf4; }
-  .c-teal   summary { background: #f0fdfa; }
-  .c-amber  summary { background: #fffbeb; }
-  .c-blue   summary { background: #eff6ff; }
-  .c-coral  summary { background: #fff1f2; }
+  /* Colour themes — applied to .card-inner so handle inherits bg */
+  .c-indigo .card-inner { background: #eef2ff; }
+  .c-purple .card-inner { background: #f5f3ff; }
+  .c-green  .card-inner { background: #f0fdf4; }
+  .c-teal   .card-inner { background: #f0fdfa; }
+  .c-amber  .card-inner { background: #fffbeb; }
+  .c-blue   .card-inner { background: #eff6ff; }
+  .c-coral  .card-inner { background: #fff1f2; }
 
   .c-indigo .section-icon { background: rgba(79,70,229,0.12); }
   .c-purple .section-icon { background: rgba(124,58,237,0.12); }
@@ -189,75 +140,81 @@ CSS = """
 
 JS = """
 (function () {
-  const STORE_KEY = 'sf-order';
-  const container = document.getElementById('sections-container');
+  var STORE_KEY = 'sf-order';
+  var container = document.getElementById('sections-container');
+  var dragged = null;
 
-  // ── Restore saved order ──────────────────────────────────────────────
+  function saveOrder() {
+    var ids = Array.from(container.querySelectorAll('.section-wrap')).map(function(el){ return el.dataset.id; });
+    localStorage.setItem(STORE_KEY, JSON.stringify(ids));
+  }
+
   function restoreOrder() {
-    const saved = JSON.parse(localStorage.getItem(STORE_KEY) || 'null');
+    var saved = JSON.parse(localStorage.getItem(STORE_KEY) || 'null');
     if (!saved || !Array.isArray(saved)) return;
-    saved.forEach(id => {
-      const el = container.querySelector('[data-id="' + id + '"]');
+    saved.forEach(function(id) {
+      var el = container.querySelector('[data-id="' + id + '"]');
       if (el) container.appendChild(el);
     });
   }
 
-  // ── Save current order ───────────────────────────────────────────────
-  function saveOrder() {
-    const ids = [...container.querySelectorAll('.section-wrap')].map(el => el.dataset.id);
-    localStorage.setItem(STORE_KEY, JSON.stringify(ids));
-  }
-
-  // ── Drag & Drop ──────────────────────────────────────────────────────
-  let dragged = null;
-
-  container.addEventListener('dragstart', e => {
-    const wrap = e.target.closest('.section-wrap');
-    if (!wrap) return;
-    // Only allow drag when the handle is the origin
-    if (!e.target.closest('.drag-handle')) { e.preventDefault(); return; }
-    dragged = wrap;
-    setTimeout(() => wrap.classList.add('dragging'), 0);
-    e.dataTransfer.effectAllowed = 'move';
+  // Attach drag events directly to each handle
+  container.querySelectorAll('.drag-handle').forEach(function(handle) {
+    handle.addEventListener('mousedown', function(e) {
+      // Enable draggable only when handle is pressed
+      var wrap = handle.closest('.section-wrap');
+      if (wrap) wrap.setAttribute('draggable', 'true');
+    });
   });
 
-  container.addEventListener('dragend', () => {
-    if (dragged) { dragged.classList.remove('dragging'); dragged = null; }
-    container.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+  container.addEventListener('dragstart', function(e) {
+    var wrap = e.target.closest('.section-wrap');
+    if (!wrap) return;
+    dragged = wrap;
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', wrap.dataset.id);
+    setTimeout(function() { wrap.classList.add('dragging'); }, 0);
+  });
+
+  container.addEventListener('dragend', function(e) {
+    if (dragged) {
+      dragged.classList.remove('dragging');
+      dragged.setAttribute('draggable', 'false');
+      dragged = null;
+    }
+    container.querySelectorAll('.drag-over').forEach(function(el){ el.classList.remove('drag-over'); });
     saveOrder();
   });
 
-  container.addEventListener('dragover', e => {
+  container.addEventListener('dragover', function(e) {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
-    const target = e.target.closest('.section-wrap');
+    var target = e.target.closest('.section-wrap');
     if (!target || target === dragged) return;
-    container.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+    container.querySelectorAll('.drag-over').forEach(function(el){ el.classList.remove('drag-over'); });
     target.classList.add('drag-over');
-    // Insert before or after based on mouse Y
-    const rect = target.getBoundingClientRect();
-    const mid  = rect.top + rect.height / 2;
-    if (e.clientY < mid) {
+    var rect = target.getBoundingClientRect();
+    if (e.clientY < rect.top + rect.height / 2) {
       container.insertBefore(dragged, target);
     } else {
       container.insertBefore(dragged, target.nextSibling);
     }
   });
 
-  container.addEventListener('dragleave', e => {
-    const target = e.target.closest('.section-wrap');
+  container.addEventListener('dragleave', function(e) {
+    var target = e.target.closest('.section-wrap');
     if (target) target.classList.remove('drag-over');
   });
 
-  container.addEventListener('drop', e => {
+  container.addEventListener('drop', function(e) {
     e.preventDefault();
-    container.querySelectorAll('.drag-over').forEach(el => el.classList.remove('drag-over'));
+    container.querySelectorAll('.drag-over').forEach(function(el){ el.classList.remove('drag-over'); });
     saveOrder();
   });
 
-  // Make handles trigger drag on parent
-  container.querySelectorAll('.section-wrap').forEach(wrap => {
-    wrap.setAttribute('draggable', 'true');
+  // Initially not draggable — only becomes draggable on handle mousedown
+  container.querySelectorAll('.section-wrap').forEach(function(wrap) {
+    wrap.setAttribute('draggable', 'false');
   });
 
   restoreOrder();
@@ -265,7 +222,7 @@ JS = """
 """
 
 CHEVRON = '<svg class="chevron" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"/></svg>'
-HANDLE  = '<span class="drag-handle" title="Drag to reorder">&#8942;&#8942;</span>'
+HANDLE  = '<div class="drag-handle" title="Drag to reorder">&#8942;&#8942;</div>'
 BASE_URL = "https://github.com/promptlane25-stack/StrategyFolio/blob/main/"
 
 def file_icon(name):
@@ -279,16 +236,12 @@ def file_icon(name):
 def list_files(rel_dir):
     full = os.path.join(REPO_ROOT, rel_dir)
     if not os.path.isdir(full): return []
-    return sorted(
-        [f for f in os.listdir(full) if not f.startswith(".") and os.path.isfile(os.path.join(full, f))],
-        key=str.lower)
+    return sorted([f for f in os.listdir(full) if not f.startswith(".") and os.path.isfile(os.path.join(full, f))], key=str.lower)
 
 def list_subdirs(rel_dir):
     full = os.path.join(REPO_ROOT, rel_dir)
     if not os.path.isdir(full): return []
-    return sorted(
-        [d for d in os.listdir(full) if not d.startswith(".") and os.path.isdir(os.path.join(full, d))],
-        key=str.lower)
+    return sorted([d for d in os.listdir(full) if not d.startswith(".") and os.path.isdir(os.path.join(full, d))], key=str.lower)
 
 def file_link(rel_dir, filename):
     path = BASE_URL + urllib.parse.quote(rel_dir + "/" + filename, safe="/")
@@ -312,18 +265,20 @@ def render_section(s):
     inner = "\n".join(rows)
     safe_id = rel.replace(" ", "-").replace("&", "and")
     return f"""<div class="section-wrap {color}" data-id="{safe_id}">
-  <details>
-    <summary>
-      {HANDLE}
-      <span class="section-icon">{icon}</span>
-      <span class="section-title">{title}</span>
-      <span class="section-count">{count} files</span>
-      {CHEVRON}
-    </summary>
-    <div class="file-list">
+  <div class="card-inner">
+    {HANDLE}
+    <details>
+      <summary>
+        <span class="section-icon">{icon}</span>
+        <span class="section-title">{title}</span>
+        <span class="section-count">{count} files</span>
+        {CHEVRON}
+      </summary>
+      <div class="file-list">
 {inner}
-    </div>
-  </details>
+      </div>
+    </details>
+  </div>
 </div>"""
 
 def generate():
