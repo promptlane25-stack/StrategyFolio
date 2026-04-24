@@ -5,179 +5,310 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>StrategyFolio</title>
   <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f8f9fa; color: #333; padding: 24px; }
-  h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: 20px; color: #1a1a2e; }
-  .sections { display: flex; flex-direction: column; gap: 10px; max-width: 900px; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  /* colour themes */
-  .c-indigo details { border-left: 4px solid #4f46e5; }
-  .c-indigo summary { background: #eef2ff; }
-  .c-indigo summary:hover { background: #e0e7ff; }
-  .c-purple details { border-left: 4px solid #7c3aed; }
-  .c-purple summary { background: #f5f3ff; }
-  .c-purple summary:hover { background: #ede9fe; }
-  .c-green  details { border-left: 4px solid #16a34a; }
-  .c-green  summary { background: #f0fdf4; }
-  .c-green  summary:hover { background: #dcfce7; }
-  .c-teal   details { border-left: 4px solid #0d9488; }
-  .c-teal   summary { background: #f0fdfa; }
-  .c-teal   summary:hover { background: #ccfbf1; }
-  .c-amber  details { border-left: 4px solid #d97706; }
-  .c-amber  summary { background: #fffbeb; }
-  .c-amber  summary:hover { background: #fef3c7; }
-  .c-blue   details { border-left: 4px solid #2563eb; }
-  .c-blue   summary { background: #eff6ff; }
-  .c-blue   summary:hover { background: #dbeafe; }
-  .c-coral  details { border-left: 4px solid #e11d48; }
-  .c-coral  summary { background: #fff1f2; }
-  .c-coral  summary:hover { background: #ffe4e6; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #f0f2f5;
+    color: #1a1a2e;
+    min-height: 100vh;
+    padding: 0;
+  }
 
-  details { border-radius: 8px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+  /* ── Page header ── */
+  .page-header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+    padding: 40px 24px 36px;
+    text-align: center;
+    color: #fff;
+  }
+  .page-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .page-header p {
+    margin-top: 8px;
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 0.4px;
+  }
+
+  /* ── Container ── */
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 32px 20px 60px;
+  }
+
+  /* ── Section cards ── */
+  .section-wrap {
+    margin-bottom: 10px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+    transition: box-shadow 0.2s;
+  }
+  .section-wrap:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.12), 0 6px 20px rgba(0,0,0,0.07); }
+
+  details { display: block; }
+
+  /* ── Summary row ── */
   summary {
-    display: flex; align-items: center; gap: 10px;
-    padding: 12px 16px; cursor: pointer; list-style: none;
-    user-select: none; transition: background .15s;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 15px 18px;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    border-radius: 12px;
+    transition: filter 0.15s;
   }
   summary::-webkit-details-marker { display: none; }
-  .section-icon { font-size: 1.3rem; flex-shrink: 0; }
-  .section-title { font-weight: 600; font-size: .95rem; flex: 1; }
-  .section-count { font-size: .8rem; color: #666; background: rgba(0,0,0,.07); padding: 2px 8px; border-radius: 99px; }
-  .chevron { width: 18px; height: 18px; stroke: #555; stroke-width: 2.5; fill: none; transition: transform .25s; flex-shrink: 0; }
+  details[open] summary { border-radius: 12px 12px 0 0; }
+  summary:hover { filter: brightness(0.97); }
+
+  .section-icon {
+    font-size: 1.25rem;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.55);
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    flex: 1;
+    color: #1a1a2e;
+  }
+  .section-count {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #555;
+    background: rgba(0,0,0,0.08);
+    padding: 3px 10px;
+    border-radius: 99px;
+    flex-shrink: 0;
+  }
+  .chevron {
+    width: 16px;
+    height: 16px;
+    stroke: #666;
+    stroke-width: 2.5;
+    fill: none;
+    flex-shrink: 0;
+    transition: transform 0.25s ease;
+  }
   details[open] .chevron { transform: rotate(180deg); }
-  .file-list { padding: 8px 16px 12px 16px; background: #fff; display: flex; flex-direction: column; gap: 4px; }
-  .file-row { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 6px; text-decoration: none; color: #222; font-size: .88rem; transition: background .1s; }
-  .file-row:hover { background: #f1f5f9; }
-  .file-icon { font-size: 1rem; }
-  .sub-label { font-size: .75rem; color: #888; margin-top: 8px; margin-bottom: 2px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
-  .empty { color: #aaa; font-size: .85rem; font-style: italic; padding: 4px 0; }
+
+  /* ── File list ── */
+  .file-list {
+    background: #fff;
+    padding: 8px 12px 12px 12px;
+    border-radius: 0 0 12px 12px;
+  }
+  .file-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #2d2d3d;
+    font-size: 0.875rem;
+    transition: background 0.12s;
+    line-height: 1.3;
+  }
+  .file-row:hover { background: #f5f7fa; color: #1a1a2e; }
+  .file-icon {
+    font-size: 0.95rem;
+    width: 24px;
+    text-align: center;
+    flex-shrink: 0;
+    opacity: 0.75;
+  }
+  .file-name { flex: 1; word-break: break-word; }
+
+  .sub-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: #999;
+    padding: 10px 10px 4px 10px;
+  }
+  .empty { color: #bbb; font-size: 0.85rem; font-style: italic; padding: 8px 10px; }
+
+  /* ── Colour themes ── */
+  .c-indigo summary { background: #eef2ff; }
+  .c-purple summary { background: #f5f3ff; }
+  .c-green  summary { background: #f0fdf4; }
+  .c-teal   summary { background: #f0fdfa; }
+  .c-amber  summary { background: #fffbeb; }
+  .c-blue   summary { background: #eff6ff; }
+  .c-coral  summary { background: #fff1f2; }
+
+  .c-indigo .section-icon { background: rgba(79, 70, 229, 0.12); }
+  .c-purple .section-icon { background: rgba(124, 58, 237, 0.12); }
+  .c-green  .section-icon { background: rgba(22, 163, 74, 0.12); }
+  .c-teal   .section-icon { background: rgba(13, 148, 136, 0.12); }
+  .c-amber  .section-icon { background: rgba(217, 119, 6, 0.12); }
+  .c-blue   .section-icon { background: rgba(37, 99, 235, 0.12); }
+  .c-coral  .section-icon { background: rgba(225, 29, 72, 0.12); }
+
+  .c-indigo .section-count { background: rgba(79, 70, 229, 0.1); color: #4338ca; }
+  .c-purple .section-count { background: rgba(124, 58, 237, 0.1); color: #6d28d9; }
+  .c-green  .section-count { background: rgba(22, 163, 74, 0.1); color: #15803d; }
+  .c-teal   .section-count { background: rgba(13, 148, 136, 0.1); color: #0f766e; }
+  .c-amber  .section-count { background: rgba(217, 119, 6, 0.1); color: #b45309; }
+  .c-blue   .section-count { background: rgba(37, 99, 235, 0.1); color: #1d4ed8; }
+  .c-coral  .section-count { background: rgba(225, 29, 72, 0.1); color: #be123c; }
+
+  .c-indigo .file-list { border-top: 2px solid #e0e7ff; }
+  .c-purple .file-list { border-top: 2px solid #ede9fe; }
+  .c-green  .file-list { border-top: 2px solid #dcfce7; }
+  .c-teal   .file-list { border-top: 2px solid #ccfbf1; }
+  .c-amber  .file-list { border-top: 2px solid #fef3c7; }
+  .c-blue   .file-list { border-top: 2px solid #dbeafe; }
+  .c-coral  .file-list { border-top: 2px solid #ffe4e6; }
 </style>
 </head>
 <body>
-  <h1>&#128196; StrategyFolio</h1>
-  <div class="sections">
-<div class="c-indigo">
+  <header class="page-header">
+    <h1>&#128196; StrategyFolio</h1>
+    <p>Click any section to expand &mdash; multiple sections can be open at once</p>
+  </header>
+  <div class="container">
+<div class="section-wrap c-indigo">
   <details>
     <summary>
       <span class="section-icon">&#128202;</span>
       <span class="section-title">Analytics</span>
-      <span class="section-count">4</span>
+      <span class="section-count">4 files</span>
       <svg class="chevron" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"/></svg>
     </summary>
     <div class="file-list">
-<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Analytics/analytics-dashboard-enhanced_new.html" target="_blank"><span class="file-icon">&#127760;</span>analytics-dashboard-enhanced_new.html</a>
-<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Analytics/analytics-dashboard-v2.html" target="_blank"><span class="file-icon">&#127760;</span>analytics-dashboard-v2.html</a>
-<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Analytics/analytics-dashboard.html" target="_blank"><span class="file-icon">&#127760;</span>analytics-dashboard.html</a>
-<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Analytics/README.md" target="_blank"><span class="file-icon">&#128196;</span>README.md</a>
+<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Analytics/analytics-dashboard-enhanced_new.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">analytics-dashboard-enhanced_new.html</span></a>
+<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Analytics/analytics-dashboard-v2.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">analytics-dashboard-v2.html</span></a>
+<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Analytics/analytics-dashboard.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">analytics-dashboard.html</span></a>
+<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Analytics/README.md" target="_blank"><span class="file-icon">&#128196;</span><span class="file-name">README.md</span></a>
     </div>
   </details>
 </div>
-<div class="c-purple">
+<div class="section-wrap c-purple">
   <details>
     <summary>
       <span class="section-icon">&#9881;</span>
       <span class="section-title">Business Operations</span>
-      <span class="section-count">3</span>
+      <span class="section-count">3 files</span>
       <svg class="chevron" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"/></svg>
     </summary>
     <div class="file-list">
-<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Business%20Operations/ai_consultancy_operations_manual.html" target="_blank"><span class="file-icon">&#127760;</span>ai_consultancy_operations_manual.html</a>
-<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Business%20Operations/ipswich-ai-agency-plan.html" target="_blank"><span class="file-icon">&#127760;</span>ipswich-ai-agency-plan.html</a>
-<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Business%20Operations/project-command-centre.html" target="_blank"><span class="file-icon">&#127760;</span>project-command-centre.html</a>
+<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Business%20Operations/ai_consultancy_operations_manual.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">ai_consultancy_operations_manual.html</span></a>
+<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Business%20Operations/ipswich-ai-agency-plan.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">ipswich-ai-agency-plan.html</span></a>
+<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Business%20Operations/project-command-centre.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">project-command-centre.html</span></a>
     </div>
   </details>
 </div>
-<div class="c-green">
+<div class="section-wrap c-green">
   <details>
     <summary>
       <span class="section-icon">&#129309;</span>
       <span class="section-title">Clients</span>
-      <span class="section-count">5</span>
+      <span class="section-count">5 files</span>
       <svg class="chevron" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"/></svg>
     </summary>
     <div class="file-list">
 <div class="sub-label">Martlesham Service Centre</div>
-<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Clients/Martlesham%20Service%20Centre/%20martlesham%20-%20What%20I%20can%20do%20for%20you.html" target="_blank"><span class="file-icon">&#127760;</span> martlesham - What I can do for you.html</a>
-<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Clients/Martlesham%20Service%20Centre/martleshamsc-one-pager.html" target="_blank"><span class="file-icon">&#127760;</span>martleshamsc-one-pager.html</a>
-<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Clients/Martlesham%20Service%20Centre/martleshamservicecentre.html" target="_blank"><span class="file-icon">&#127760;</span>martleshamservicecentre.html</a>
-<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Clients/Martlesham%20Service%20Centre/martleshamservicecentre_withoutimagesonGithub.html" target="_blank"><span class="file-icon">&#127760;</span>martleshamservicecentre_withoutimagesonGithub.html</a>
+<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Clients/Martlesham%20Service%20Centre/%20martlesham%20-%20What%20I%20can%20do%20for%20you.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name"> martlesham - What I can do for you.html</span></a>
+<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Clients/Martlesham%20Service%20Centre/martleshamsc-one-pager.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">martleshamsc-one-pager.html</span></a>
+<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Clients/Martlesham%20Service%20Centre/martleshamservicecentre.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">martleshamservicecentre.html</span></a>
+<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Clients/Martlesham%20Service%20Centre/martleshamservicecentre_withoutimagesonGithub.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">martleshamservicecentre_withoutimagesonGithub.html</span></a>
 <div class="sub-label">Polka Dot Photography</div>
-<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Clients/Polka%20Dot%20Photography/Polka%20Dot%20-%20What%20I%20can%20do%20for%20you.html" target="_blank"><span class="file-icon">&#127760;</span>Polka Dot - What I can do for you.html</a>
+<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Clients/Polka%20Dot%20Photography/Polka%20Dot%20-%20What%20I%20can%20do%20for%20you.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">Polka Dot - What I can do for you.html</span></a>
     </div>
   </details>
 </div>
-<div class="c-teal">
+<div class="section-wrap c-teal">
   <details>
     <summary>
       <span class="section-icon">&#128196;</span>
       <span class="section-title">Deliverables — Guides &amp; Handovers</span>
-      <span class="section-count">1</span>
+      <span class="section-count">1 files</span>
       <svg class="chevron" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"/></svg>
     </summary>
     <div class="file-list">
-<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Deliverables%20-%20Guides%20%26%20Handovers/martlesham_handover_guide.html" target="_blank"><span class="file-icon">&#127760;</span>martlesham_handover_guide.html</a>
+<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Deliverables%20-%20Guides%20%26%20Handovers/martlesham_handover_guide.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">martlesham_handover_guide.html</span></a>
     </div>
   </details>
 </div>
-<div class="c-amber">
+<div class="section-wrap c-amber">
   <details>
     <summary>
       <span class="section-icon">&#128176;</span>
       <span class="section-title">Deliverables — Proposals &amp; Pricing</span>
-      <span class="section-count">2</span>
+      <span class="section-count">2 files</span>
       <svg class="chevron" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"/></svg>
     </summary>
     <div class="file-list">
-<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Deliverables%20-%20Proposals%20%26%20Pricing/ai_consultancy_pricing.html" target="_blank"><span class="file-icon">&#127760;</span>ai_consultancy_pricing.html</a>
-<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Deliverables%20-%20Proposals%20%26%20Pricing/ai_consultancy_pricing_v2.html" target="_blank"><span class="file-icon">&#127760;</span>ai_consultancy_pricing_v2.html</a>
+<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Deliverables%20-%20Proposals%20%26%20Pricing/ai_consultancy_pricing.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">ai_consultancy_pricing.html</span></a>
+<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Deliverables%20-%20Proposals%20%26%20Pricing/ai_consultancy_pricing_v2.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">ai_consultancy_pricing_v2.html</span></a>
     </div>
   </details>
 </div>
-<div class="c-blue">
+<div class="section-wrap c-blue">
   <details>
     <summary>
       <span class="section-icon">&#127760;</span>
       <span class="section-title">Deliverables — Websites</span>
-      <span class="section-count">4</span>
+      <span class="section-count">4 files</span>
       <svg class="chevron" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"/></svg>
     </summary>
     <div class="file-list">
-<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Deliverables-Websites/martlesham_navy_theme.html" target="_blank"><span class="file-icon">&#127760;</span>martlesham_navy_theme.html</a>
-<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Deliverables-Websites/martlesham_PUBLISHABLE.html" target="_blank"><span class="file-icon">&#127760;</span>martlesham_PUBLISHABLE.html</a>
-<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Deliverables-Websites/martlesham_service_centre.html" target="_blank"><span class="file-icon">&#127760;</span>martlesham_service_centre.html</a>
-<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Deliverables-Websites/martlesham_service_centre_final.html" target="_blank"><span class="file-icon">&#127760;</span>martlesham_service_centre_final.html</a>
+<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Deliverables-Websites/martlesham_navy_theme.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">martlesham_navy_theme.html</span></a>
+<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Deliverables-Websites/martlesham_PUBLISHABLE.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">martlesham_PUBLISHABLE.html</span></a>
+<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Deliverables-Websites/martlesham_service_centre.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">martlesham_service_centre.html</span></a>
+<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Deliverables-Websites/martlesham_service_centre_final.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">martlesham_service_centre_final.html</span></a>
     </div>
   </details>
 </div>
-<div class="c-coral">
+<div class="section-wrap c-coral">
   <details>
     <summary>
       <span class="section-icon">&#128227;</span>
       <span class="section-title">Marketing &amp; Outreach</span>
-      <span class="section-count">3</span>
+      <span class="section-count">3 files</span>
       <svg class="chevron" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"/></svg>
     </summary>
     <div class="file-list">
-<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Marketing%20%26%20Outreach/comparison_onepager.html" target="_blank"><span class="file-icon">&#127760;</span>comparison_onepager.html</a>
-<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Marketing%20%26%20Outreach/martlesham-one-pager.html" target="_blank"><span class="file-icon">&#127760;</span>martlesham-one-pager.html</a>
-<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Marketing%20%26%20Outreach/martlesham-outreach-playbook.md" target="_blank"><span class="file-icon">&#128196;</span>martlesham-outreach-playbook.md</a>
+<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Marketing%20%26%20Outreach/comparison_onepager.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">comparison_onepager.html</span></a>
+<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Marketing%20%26%20Outreach/martlesham-one-pager.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">martlesham-one-pager.html</span></a>
+<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Marketing%20%26%20Outreach/martlesham-outreach-playbook.md" target="_blank"><span class="file-icon">&#128196;</span><span class="file-name">martlesham-outreach-playbook.md</span></a>
     </div>
   </details>
 </div>
-<div class="c-teal">
+<div class="section-wrap c-teal">
   <details>
     <summary>
       <span class="section-icon">&#127919;</span>
       <span class="section-title">Prospects &amp; Sales</span>
-      <span class="section-count">5</span>
+      <span class="section-count">5 files</span>
       <svg class="chevron" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"/></svg>
     </summary>
     <div class="file-list">
-<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Prospects%20%26%20Sales/ipswich_ai_niche_guide.html" target="_blank"><span class="file-icon">&#127760;</span>ipswich_ai_niche_guide.html</a>
-<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Prospects%20%26%20Sales/ipswich_ai_niche_guide_v2.html" target="_blank"><span class="file-icon">&#127760;</span>ipswich_ai_niche_guide_v2.html</a>
-<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Prospects%20%26%20Sales/ipswich_ai_niche_guide_v3.html" target="_blank"><span class="file-icon">&#127760;</span>ipswich_ai_niche_guide_v3.html</a>
-<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Prospects%20%26%20Sales/ipswich_prospect_hitlist.html" target="_blank"><span class="file-icon">&#127760;</span>ipswich_prospect_hitlist.html</a>
-<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Prospects%20%26%20Sales/sales_script.html" target="_blank"><span class="file-icon">&#127760;</span>sales_script.html</a>
+<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Prospects%20%26%20Sales/ipswich_ai_niche_guide.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">ipswich_ai_niche_guide.html</span></a>
+<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Prospects%20%26%20Sales/ipswich_ai_niche_guide_v2.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">ipswich_ai_niche_guide_v2.html</span></a>
+<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Prospects%20%26%20Sales/ipswich_ai_niche_guide_v3.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">ipswich_ai_niche_guide_v3.html</span></a>
+<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Prospects%20%26%20Sales/ipswich_prospect_hitlist.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">ipswich_prospect_hitlist.html</span></a>
+<a class="file-row" href="https://github.com/promptlane25-stack/StrategyFolio/blob/main/Prospects%20%26%20Sales/sales_script.html" target="_blank"><span class="file-icon">&#127760;</span><span class="file-name">sales_script.html</span></a>
     </div>
   </details>
 </div>
