@@ -123,13 +123,13 @@ JS = """
       locks.delete(id);
       wrap.classList.remove('locked');
       link.href = wrap.dataset.blobUrl;
-      btn.textContent = '\ud83d\udd13';
+      btn.textContent = '🔓';
       btn.title = 'Mark as client-ready';
     } else {
       locks.add(id);
       wrap.classList.add('locked');
       link.href = wrap.dataset.viewUrl;
-      btn.textContent = '\ud83d\udd12';
+      btn.textContent = '🔒';
       btn.title = 'Locked — click to unlock';
     }
     saveLocks(locks);
@@ -143,7 +143,7 @@ JS = """
       wrap.classList.add('locked');
       wrap.querySelector('.file-row').href = wrap.dataset.viewUrl;
       var btn = wrap.querySelector('.lock-btn');
-      if (btn) { btn.textContent = '\ud83d\udd12'; btn.title = 'Locked — click to unlock'; }
+      if (btn) { btn.textContent = '🔒'; btn.title = 'Locked — click to unlock'; }
     });
     updateCounter(locks.size);
   }
