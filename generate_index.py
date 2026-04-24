@@ -1,259 +1,169 @@
 #!/usr/bin/env python3
-"""
-generate_index.py — Auto-generates index.html for StrategyFolio.
-Runs automatically via GitHub Actions on every push, or manually anytime.
-"""
+"""Auto-generates index.html for StrategyFolio with collapsible sections."""
+import os, urllib.parse
 
-import os
-from pathlib import Path
-from urllib.parse import quote
-import html
+REPO_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-REPO_ROOT = Path(__file__).parent
-ALLOWED_EXTENSIONS = {'.html', '.md'}
-
-# Section config — defines order, colour, icon, and display title.
-# Add new top-level folders here if you create them.
 SECTIONS = [
-    {
-        "folder": "Analytics",
-        "title": "Analytics",
-        "color": "c-indigo",
-        "icon": "&#128202;",
-    },
-    {
-        "folder": "Business Operations",
-        "title": "Business Operations",
-        "color": "c-purple",
-        "icon": "&#9881;",
-    },
-    {
-        "folder": "Clients",
-        "title": "Clients",
-        "color": "c-green",
-        "icon": "&#129309;",
-        "subfolders": True,   # Each subfolder = one client subsection
-    },
-    {
-        "folder": "Deliverables - Guides & Handovers",
-        "title": "Deliverables — Guides &amp; Handovers",
-        "color": "c-teal",
-        "icon": "&#128196;",
-    },
-    {
-        "folder": "Deliverables - Proposals & Pricing",
-        "title": "Deliverables — Proposals &amp; Pricing",
-        "color": "c-amber",
-        "icon": "&#128176;",
-    },
-    {
-        "folder": "Deliverables-Websites",
-        "title": "Deliverables — Websites",
-        "color": "c-blue",
-        "icon": "&#127760;",
-    },
-    {
-        "folder": "Marketing & Outreach",
-        "title": "Marketing &amp; Outreach",
-        "color": "c-coral",
-        "icon": "&#128227;",
-    },
-    {
-        "folder": "Prospects & Sales",
-        "title": "Prospects &amp; Sales",
-        "color": "c-teal",
-        "icon": "&#127919;",
-    },
+    {"icon": "&#128202;", "color": "c-indigo", "title": "Analytics",                              "dir": "Analytics",                          "subsections": False},
+    {"icon": "&#9881;",   "color": "c-purple", "title": "Business Operations",                    "dir": "Business Operations",                "subsections": False},
+    {"icon": "&#129309;", "color": "c-green",  "title": "Clients",                                "dir": "Clients",                            "subsections": True},
+    {"icon": "&#128196;", "color": "c-teal",   "title": "Deliverables \u2014 Guides &amp; Handovers", "dir": "Deliverables - Guides & Handovers",  "subsections": False},
+    {"icon": "&#128176;", "color": "c-amber",  "title": "Deliverables \u2014 Proposals &amp; Pricing","dir": "Deliverables - Proposals & Pricing", "subsections": False},
+    {"icon": "&#127760;", "color": "c-blue",   "title": "Deliverables \u2014 Websites",              "dir": "Deliverables-Websites",              "subsections": False},
+    {"icon": "&#128227;", "color": "c-coral",  "title": "Marketing &amp; Outreach",               "dir": "Marketing & Outreach",               "subsections": False},
+    {"icon": "&#127919;", "color": "c-teal",   "title": "Prospects &amp; Sales",                  "dir": "Prospects & Sales",                  "subsections": False},
 ]
 
-# Words to keep uppercase in display names
-UPPERCASE_WORDS = {"ai", "sc", "html", "md", "seo", "crm", "uk", "v2", "v3", "v4", "v5", "v9"}
-
 CSS = """
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: system-ui, -apple-system, sans-serif; background: #f5f4f0; color: #1a1a1a; padding: 2rem 1rem; }
-.header { max-width: 860px; margin: 0 auto 2.5rem; }
-.header h1 { font-size: 28px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px; }
-.header p { font-size: 14px; color: #666; }
-.grid { max-width: 860px; margin: 0 auto; display: grid; gap: 1.5rem; }
-.section { background: #fff; border-radius: 12px; border: 0.5px solid #ddd; overflow: hidden; }
-.section-header { padding: 1rem 1.25rem; border-bottom: 0.5px solid #eee; display: flex; align-items: center; gap: 10px; }
-.section-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
-.section-title { font-size: 15px; font-weight: 500; color: #1a1a1a; }
-.section-count { font-size: 12px; color: #999; margin-left: auto; }
-.file-list { padding: 0.5rem 0; }
-.file-item { display: flex; align-items: center; gap: 10px; padding: 0.65rem 1.25rem; text-decoration: none; color: #1a1a1a; transition: background 0.15s; border-bottom: 0.5px solid #f0f0f0; }
-.file-item:last-child { border-bottom: none; }
-.file-item:hover { background: #f8f7f4; }
-.file-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-.file-name { font-size: 14px; flex: 1; }
-.file-tag { font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 500; }
-.tag-live { background: #eaf3de; color: #3b6d11; }
-.tag-md { background: #f1efe8; color: #5f5e5a; }
-.arrow { font-size: 12px; color: #bbb; }
-.c-purple .section-icon { background: #EEEDFE; color: #534AB7; }
-.c-purple .file-dot { background: #7F77DD; }
-.c-teal .section-icon { background: #E1F5EE; color: #0F6E56; }
-.c-teal .file-dot { background: #1D9E75; }
-.c-blue .section-icon { background: #E6F1FB; color: #185FA5; }
-.c-blue .file-dot { background: #378ADD; }
-.c-coral .section-icon { background: #FAECE7; color: #993C1D; }
-.c-coral .file-dot { background: #D85A30; }
-.c-amber .section-icon { background: #FAEEDA; color: #854F0B; }
-.c-amber .file-dot { background: #BA7517; }
-.c-green .section-icon { background: #E2F5E1; color: #1A6B18; }
-.c-green .file-dot { background: #2E9E2A; }
-.c-indigo .section-icon { background: #EEEDFE; color: #4338CA; }
-.c-indigo .file-dot { background: #6366F1; }
-.subsection-label { font-size: 11px; font-weight: 600; color: #aaa; text-transform: uppercase; letter-spacing: 0.06em; padding: 0.75rem 1.25rem 0.3rem; }
-.footer { max-width: 860px; margin: 2rem auto 0; font-size: 12px; color: #aaa; text-align: center; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f8f9fa; color: #333; padding: 24px; }
+  h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: 20px; color: #1a1a2e; }
+  .sections { display: flex; flex-direction: column; gap: 10px; max-width: 900px; }
+
+  /* colour themes */
+  .c-indigo details { border-left: 4px solid #4f46e5; }
+  .c-indigo summary { background: #eef2ff; }
+  .c-indigo summary:hover { background: #e0e7ff; }
+  .c-purple details { border-left: 4px solid #7c3aed; }
+  .c-purple summary { background: #f5f3ff; }
+  .c-purple summary:hover { background: #ede9fe; }
+  .c-green  details { border-left: 4px solid #16a34a; }
+  .c-green  summary { background: #f0fdf4; }
+  .c-green  summary:hover { background: #dcfce7; }
+  .c-teal   details { border-left: 4px solid #0d9488; }
+  .c-teal   summary { background: #f0fdfa; }
+  .c-teal   summary:hover { background: #ccfbf1; }
+  .c-amber  details { border-left: 4px solid #d97706; }
+  .c-amber  summary { background: #fffbeb; }
+  .c-amber  summary:hover { background: #fef3c7; }
+  .c-blue   details { border-left: 4px solid #2563eb; }
+  .c-blue   summary { background: #eff6ff; }
+  .c-blue   summary:hover { background: #dbeafe; }
+  .c-coral  details { border-left: 4px solid #e11d48; }
+  .c-coral  summary { background: #fff1f2; }
+  .c-coral  summary:hover { background: #ffe4e6; }
+
+  details { border-radius: 8px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+  summary {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 16px; cursor: pointer; list-style: none;
+    user-select: none; transition: background .15s;
+  }
+  summary::-webkit-details-marker { display: none; }
+  .section-icon { font-size: 1.3rem; flex-shrink: 0; }
+  .section-title { font-weight: 600; font-size: .95rem; flex: 1; }
+  .section-count { font-size: .8rem; color: #666; background: rgba(0,0,0,.07); padding: 2px 8px; border-radius: 99px; }
+  .chevron { width: 18px; height: 18px; stroke: #555; stroke-width: 2.5; fill: none; transition: transform .25s; flex-shrink: 0; }
+  details[open] .chevron { transform: rotate(180deg); }
+  .file-list { padding: 8px 16px 12px 16px; background: #fff; display: flex; flex-direction: column; gap: 4px; }
+  .file-row { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 6px; text-decoration: none; color: #222; font-size: .88rem; transition: background .1s; }
+  .file-row:hover { background: #f1f5f9; }
+  .file-icon { font-size: 1rem; }
+  .sub-label { font-size: .75rem; color: #888; margin-top: 8px; margin-bottom: 2px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
+  .empty { color: #aaa; font-size: .85rem; font-style: italic; padding: 4px 0; }
 """
 
+CHEVRON = '<svg class="chevron" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"/></svg>'
 
-def make_display_name(filename: str) -> str:
-    """Convert a filename into a readable display name."""
-    stem = Path(filename).stem
-    # " - " becomes " — "
-    stem = stem.replace(" - ", " — ")
-    # Underscores and remaining hyphens become spaces
-    stem = stem.replace("_", " ").replace("-", " ")
-    # Title-case each word, then fix known uppercase words
-    words = []
-    for word in stem.split():
-        if word.lower() in UPPERCASE_WORDS:
-            words.append(word.upper())
-        else:
-            words.append(word.capitalize())
-    return " ".join(words)
+BASE_URL = "https://github.com/promptlane25-stack/StrategyFolio/blob/main/"
 
+def file_icon(name):
+    ext = name.rsplit(".", 1)[-1].lower() if "." in name else ""
+    icons = {"pdf": "&#128196;", "xlsx": "&#128202;", "xls": "&#128202;",
+             "docx": "&#128196;", "doc": "&#128196;", "pptx": "&#127916;",
+             "png": "&#128444;", "jpg": "&#128444;", "jpeg": "&#128444;",
+             "html": "&#127760;", "md": "&#128196;", "csv": "&#128202;"}
+    return icons.get(ext, "&#128196;")
 
-def encode_path(path: str) -> str:
-    """URL-encode a relative file path, preserving forward slashes."""
-    return "/".join(quote(part) for part in path.split("/"))
-
-
-def get_tag(filename: str) -> str:
-    ext = Path(filename).suffix.lower()
-    if ext == ".md":
-        return '<span class="file-tag tag-md">MD</span>'
-    return '<span class="file-tag tag-live">HTML</span>'
-
-
-def list_files(folder: Path) -> list[str]:
-    """Return sorted list of allowed files directly inside a folder."""
-    if not folder.exists():
+def list_files(rel_dir):
+    full = os.path.join(REPO_ROOT, rel_dir)
+    if not os.path.isdir(full):
         return []
     return sorted(
-        f.name for f in folder.iterdir()
-        if f.is_file() and f.suffix.lower() in ALLOWED_EXTENSIONS
+        [f for f in os.listdir(full) if not f.startswith(".") and os.path.isfile(os.path.join(full, f))],
+        key=str.lower
     )
 
-
-def render_file_item(rel_path: str, display_name: str, filename: str) -> str:
-    encoded = encode_path(rel_path)
-    tag = get_tag(filename)
-    return (
-        f'      <a class="file-item" href="{encoded}" target="_blank">'
-        f'<div class="file-dot"></div>'
-        f'<span class="file-name">{html.escape(display_name)}</span>'
-        f'{tag}'
-        f'<span class="arrow">&#8599;</span></a>\n'
+def list_subdirs(rel_dir):
+    full = os.path.join(REPO_ROOT, rel_dir)
+    if not os.path.isdir(full):
+        return []
+    return sorted(
+        [d for d in os.listdir(full) if not d.startswith(".") and os.path.isdir(os.path.join(full, d))],
+        key=str.lower
     )
 
+def file_link(rel_dir, filename):
+    path = BASE_URL + urllib.parse.quote(rel_dir + "/" + filename, safe="/")
+    icon = file_icon(filename)
+    return f'<a class="file-row" href="{path}" target="_blank"><span class="file-icon">{icon}</span>{filename}</a>'
 
-def render_section(section: dict) -> str:
-    folder_name = section["folder"]
-    folder_path = REPO_ROOT / folder_name
-    color = section["color"]
-    icon = section["icon"]
-    title = section["title"]
-    use_subfolders = section.get("subfolders", False)
+def render_section(s):
+    rel = s["dir"]
+    color = s["color"]
+    title = s["title"]
+    icon = s["icon"]
 
-    lines = []
-    file_count = 0
-
-    if use_subfolders:
-        # Each direct subfolder is a client — list its files under a subsection label
-        if not folder_path.exists():
-            return ""
-        subfolders = sorted(
-            d for d in folder_path.iterdir() if d.is_dir()
-        )
-        client_blocks = []
-        for sub in subfolders:
-            files = list_files(sub)
-            if not files:
-                continue
-            block = f'      <div class="subsection-label">{html.escape(sub.name)}</div>\n'
-            for fname in files:
-                rel = f"{folder_name}/{sub.name}/{fname}"
-                block += render_file_item(rel, make_display_name(fname), fname)
-                file_count += 1
-            client_blocks.append(block)
-        file_items = "".join(client_blocks)
+    rows = []
+    if s["subsections"]:
+        # top-level files first
+        for f in list_files(rel):
+            rows.append(file_link(rel, f))
+        # then sub-folders
+        for sub in list_subdirs(rel):
+            rows.append(f'<div class="sub-label">{sub}</div>')
+            sub_rel = rel + "/" + sub
+            sub_files = list_files(sub_rel)
+            if sub_files:
+                for f in sub_files:
+                    rows.append(file_link(sub_rel, f))
+            else:
+                rows.append('<div class="empty">No files</div>')
     else:
-        files = list_files(folder_path)
-        file_count = len(files)
-        file_items = ""
-        for fname in files:
-            rel = f"{folder_name}/{fname}"
-            file_items += render_file_item(rel, make_display_name(fname), fname)
+        for f in list_files(rel):
+            rows.append(file_link(rel, f))
 
-    if file_count == 0:
-        return ""
+    count = sum(1 for r in rows if 'file-row' in r)
+    if not rows:
+        rows.append('<div class="empty">No files found</div>')
 
-    count_label = f"{file_count} file{'s' if file_count != 1 else ''}"
-
-    lines.append(f'  <!-- {folder_name} -->\n')
-    lines.append(f'  <div class="section {color}">\n')
-    lines.append(f'    <div class="section-header">\n')
-    lines.append(f'      <div class="section-icon">{icon}</div>\n')
-    lines.append(f'      <span class="section-title">{title}</span>\n')
-    lines.append(f'      <span class="section-count">{count_label}</span>\n')
-    lines.append(f'    </div>\n')
-    lines.append(f'    <div class="file-list">\n')
-    lines.append(file_items)
-    lines.append(f'    </div>\n')
-    lines.append(f'  </div>\n')
-
-    return "".join(lines)
-
+    inner = "\n".join(rows)
+    return f"""<div class="{color}">
+  <details>
+    <summary>
+      <span class="section-icon">{icon}</span>
+      <span class="section-title">{title}</span>
+      <span class="section-count">{count}</span>
+      {CHEVRON}
+    </summary>
+    <div class="file-list">
+{inner}
+    </div>
+  </details>
+</div>"""
 
 def generate():
-    sections_html = "\n".join(
-        s for section in SECTIONS if (s := render_section(section))
-    )
-
-    page = f"""<!DOCTYPE html>
+    sections_html = "\n".join(render_section(s) for s in SECTIONS)
+    html = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>StrategyFolio — Salman's AI Consultancy Hub</title>
-<style>
-{CSS.strip()}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StrategyFolio</title>
+  <style>{CSS}</style>
 </head>
 <body>
-<div class="header">
-  <h1>StrategyFolio</h1>
-  <p>Salman's AI Consultancy — all live pages in one place</p>
-</div>
-<div class="grid">
-
+  <h1>&#128196; StrategyFolio</h1>
+  <div class="sections">
 {sections_html}
-</div>
-<div class="footer">
-  StrategyFolio — promptlane25-stack — auto-generated
-</div>
+  </div>
 </body>
-</html>
-"""
-
-    output = REPO_ROOT / "index.html"
-    output.write_text(page, encoding="utf-8")
-    print(f"✅ index.html updated — {sum(1 for s in SECTIONS if (REPO_ROOT / s['folder']).exists())} sections written.")
-
+</html>"""
+    out = os.path.join(REPO_ROOT, "index.html")
+    with open(out, "w", encoding="utf-8") as fh:
+        fh.write(html)
+    print(f"Written {out}")
 
 if __name__ == "__main__":
     generate()
