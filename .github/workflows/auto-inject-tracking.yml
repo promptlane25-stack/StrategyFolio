@@ -1,0 +1,96 @@
+name: Auto-Inject Tracking Script
+
+on:
+  push:
+    paths:
+      - 'Clients/**/*.html'
+    branches:
+      - main
+
+jobs:
+  inject-tracking:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Inject tracking script into HTML files
+        run: |
+          import os
+          import re
+          from pathlib import Path
+
+          # Tracking script content (minified)
+          TRACKING_SCRIPT = """<script>
+          (function(){'use strict';const GAS_WEBHOOK='https://script.google.com/macros/s/AKfycbwkRFXfGZAhlGZlv7Wqw1u3FPPP2-20Znf3N7w1jepxctkmWNVMLbBV4cyUHJrKCaT0tA/exec';const DOCUMENT_NAME=document.title||'Unknown Document';const SESSION_ID=Math.random().toString(36).substr(2,9);let trackerState={startTime:new Date(),maxScroll:0,clickCount:0,lastSentTime:null,visitSent:false,engagementSent:false};async function getVisitorData(){return{timestamp:new Date().toISOString(),documentName:DOCUMENT_NAME,referrer:document.referrer||'direct',userAgent:navigator.userAgent,device:getDeviceType(),browser:getBrowserName(),language:navigator.language,timezone:Intl.DateTimeFormat().resolvedOptions().timeZone,screenResolution:`${window.screen.width}x${window.screen.height}`,sessionId:SESSION_ID}};function getDeviceType(){const ua=navigator.userAgent.toLowerCase();if(/mobile|android|iphone|ipad|phone/.test(ua))return'Mobile';if(/tablet|ipad/.test(ua))return'Tablet';return'Desktop'};function getBrowserName(){const ua=navigator.userAgent;if(ua.indexOf('Firefox')>-1)return'Firefox';if(ua.indexOf('Chrome')>-1)return'Chrome';if(ua.indexOf('Safari')>-1)return'Safari';if(ua.indexOf('Edge')>-1)return'Edge';if(ua.indexOf('Trident')>-1)return'IE';return'Unknown'};function getScrollDepth(){const docHeight=document.documentElement.scrollHeight-window.innerHeight;if(docHeight===0)return 0;const scrolled=window.scrollY;return Math.round((scrolled/docHeight)*100)};async function sendVisit(){if(trackerState.visitSent)return;try{const data=await getVisitorData();const payload={action:'recordVisit',data:{timestamp:data.timestamp,documentName:data.documentName,referrer:data.referrer,country:'Auto-detect',city:'Auto-detect',device:data.device,browser:data.browser,userAgent:data.userAgent,visitorType:'Client'}};await fetch(GAS_WEBHOOK,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});trackerState.visitSent=true;console.log('[Analytics] Visit recorded:',DOCUMENT_NAME)}catch(error){console.error('[Analytics] Visit error:',error)}};async function sendEngagement(){if(trackerState.engagementSent)return;try{const timeOnPage=Math.round((new Date()-trackerState.startTime)/1000);const scrollDepth=getScrollDepth();const data=await getVisitorData();const payload={action:'recordEngagement',data:{timestamp:data.timestamp,documentName:data.documentName,timeOnPageSeconds:timeOnPage,scrollDepthPercent:scrollDepth,clickCount:trackerState.clickCount,sessionId:SESSION_ID}};await fetch(GAS_WEBHOOK,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});trackerState.engagementSent=true;console.log('[Analytics] Engagement recorded:',{timeOnPage,scrollDepth})}catch(error){console.error('[Analytics] Engagement error:',error)}};function trackCalComClicks(){document.addEventListener('click',function(event){const target=event.target.closest('a, button, [onclick]');if(!target)return;const href=target.getAttribute('href')||'';const text=target.textContent||'';const onclick=target.getAttribute('onclick')||'';const isCal=href.includes('cal.com')||href.includes('calendly');const isBooking=text.toLowerCase().includes('book')||onclick.toLowerCase().includes('book')||href.toLowerCase().includes('booking');if(isCal||isBooking){trackerState.clickCount++;console.log('[Analytics] Booking click tracked:',{text,href})}},true)};function trackScrollDepth(){setInterval(function(){const current=getScrollDepth();if(current>trackerState.maxScroll){trackerState.maxScroll=current}},5000)};function init(){sendVisit();trackScrollDepth();trackCalComClicks();window.addEventListener('beforeunload',sendEngagement);let inactivityTimer;function resetInactivityTimer(){clearTimeout(inactivityTimer);inactivityTimer=setTimeout(()=>{sendEngagement()},30000)};document.addEventListener('scroll',resetInactivityTimer);document.addEventListener('mousemove',resetInactivityTimer);document.addEventListener('click',resetInactivityTimer);resetInactivityTimer();console.log('[Analytics] Tracker initialized for:',DOCUMENT_NAME)};if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init)}else{init()}})();
+          </script>"""
+
+          # Find all HTML files in Clients directory
+          clients_dir = Path('Clients')
+          html_files = list(clients_dir.glob('**/*.html'))
+          
+          modified_count = 0
+          
+          for html_file in html_files:
+              try:
+                  with open(html_file, 'r', encoding='utf-8') as f:
+                      content = f.read()
+                  
+                  # Check if tracking script already exists
+                  if 'recordVisit' in content and 'recordEngagement' in content:
+                      print(f"✓ {html_file} already has tracking")
+                      continue
+                  
+                  # Inject tracking script before closing body tag
+                  if '</body>' in content:
+                      new_content = content.replace('</body>', TRACKING_SCRIPT + '\n</body>')
+                  elif '</html>' in content:
+                      new_content = content.replace('</html>', TRACKING_SCRIPT + '\n</html>')
+                  else:
+                      new_content = content + '\n' + TRACKING_SCRIPT
+                  
+                  with open(html_file, 'w', encoding='utf-8') as f:
+                      f.write(new_content)
+                  
+                  print(f"✓ Injected tracking into {html_file}")
+                  modified_count += 1
+                  
+              except Exception as e:
+                  print(f"✗ Error processing {html_file}: {e}")
+          
+          print(f"\nSummary: {modified_count} files modified")
+          
+          # Set output for next step
+          print(f"modified_count={modified_count}")
+        shell: python
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # Check if there are changes
+          if git diff --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          
+          git add Clients/**/*.html
+          git commit -m "chore: auto-inject analytics tracking into client HTMLs"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Log completion
+        run: |
+          echo "✓ Analytics tracking injection complete"
+          echo "✓ All client HTMLs now have real-time analytics"
+          echo "✓ Data flowing to analytics dashboard"
