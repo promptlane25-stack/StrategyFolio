@@ -6,6 +6,7 @@ on:
       - 'Clients/**/*.html'
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   inject-tracking:
