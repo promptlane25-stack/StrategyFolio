@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StrategyFolio — Client Analytics</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0f;--surface:#111118;--border:#1e1e2e;--accent:#7c6af7;--accent2:#f97316;--accent3:#22d3a5;--text:#e8e8f0;--muted:#6b6b80;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'DM Mono',monospace;min-height:100vh;padding:2rem;}
+.wrap{max-width:1200px;margin:0 auto;}
+header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:2.5rem;flex-wrap:wrap;gap:1rem;}
+h1{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.sub{color:var(--muted);font-size:0.75rem;margin-top:0.25rem;text-transform:uppercase;letter-spacing:0.05em;}
+.controls{display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center;}
+select,button{font-family:'DM Mono',monospace;font-size:0.8rem;background:var(--surface);border:1px solid var(--border);color:var(--text);padding:0.5rem 0.75rem;border-radius:6px;outline:none;}
+button{background:var(--accent);color:#fff;border:none;cursor:pointer;padding:0.5rem 1.25rem;font-weight:500;}
+button:disabled{opacity:0.4;cursor:not-allowed;}
+.btn-self{background:#1e1e2e;color:var(--muted);border:1px solid var(--border);}
+.btn-self:hover{background:rgba(107,107,128,0.25);color:var(--text);}
+.btn-client{background:rgba(34,211,165,0.12);color:var(--accent3);border:1px solid rgba(34,211,165,0.3);}
+.btn-client:hover{background:rgba(34,211,165,0.2);}
+.btn-hidden{display:none!important;}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:1rem;margin-bottom:2rem;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.25rem;position:relative;overflow:hidden;}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent3));}
+.label{font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;}
+.val{font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:800;}
+.hint{font-size:0.7rem;color:var(--muted);margin-top:0.2rem;}
+.box{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:1.5rem;}
+.bhead{padding:1rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;}
+.bsub{font-size:0.65rem;color:var(--muted);font-family:'DM Mono',monospace;font-weight:400;margin-top:0.15rem;}
+.badge{font-size:0.65rem;background:var(--border);color:var(--muted);padding:0.2rem 0.5rem;border-radius:20px;}
+table{width:100%;border-collapse:collapse;}
+th{padding:0.7rem 1rem;text-align:left;font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;border-bottom:1px solid var(--border);}
+td{padding:0.7rem 1rem;font-size:0.78rem;border-bottom:1px solid rgba(30,30,46,0.4);}
+tr:last-child td{border:none;}
+tr:hover td{background:rgba(124,106,247,0.04);}
+tr.row-selected td{background:rgba(124,106,247,0.08)!important;}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+@media(max-width:700px){.two{grid-template-columns:1fr;}}
+.mrow{display:flex;justify-content:space-between;padding:0.6rem 1rem;border-bottom:1px solid rgba(30,30,46,0.4);font-size:0.78rem;}
+.mrow:last-child{border:none;}
+.empty{text-align:center;padding:3rem;color:var(--muted);font-size:0.8rem;}
+.tag{display:inline-block;padding:0.1rem 0.45rem;border-radius:4px;font-size:0.65rem;font-weight:500;}
+.tag-desktop{background:rgba(124,106,247,0.15);color:var(--accent);}
+.tag-mobile{background:rgba(249,115,22,0.15);color:var(--accent2);}
+.tag-tablet{background:rgba(34,211,165,0.15);color:var(--accent3);}
+.tag-self{background:rgba(107,107,128,0.2);color:var(--muted);}
+.tag-client{background:rgba(34,211,165,0.15);color:var(--accent3);font-weight:700;}
+.tag-new{background:rgba(34,211,165,0.12);color:var(--accent3);}
+.tag-returning{background:rgba(249,115,22,0.15);color:var(--accent2);font-weight:700;}
+.sbar{display:inline-flex;align-items:center;gap:0.4rem;font-size:0.75rem;}
+.str{width:55px;height:4px;background:var(--border);border-radius:2px;overflow:hidden;}
+.sfl{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent3));border-radius:2px;}
+.tbadge{background:rgba(34,211,165,0.1);color:var(--accent3);padding:0.1rem 0.4rem;border-radius:4px;font-size:0.7rem;}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent3);margin-right:6px;}
+.spin{display:inline-block;width:13px;height:13px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:sp 0.7s linear infinite;vertical-align:middle;margin-right:0.4rem;}
+@keyframes sp{to{transform:rotate(360deg);}}
+.filter-row{display:flex;gap:0.75rem;padding:0.75rem 1.5rem;border-bottom:1px solid var(--border);flex-wrap:wrap;align-items:center;font-size:0.75rem;color:var(--muted);}
+.filter-row select{font-size:0.75rem;padding:0.3rem 0.5rem;}
+.filter-row button{font-size:0.72rem;padding:0.3rem 0.8rem;}
+.sel-count{font-size:0.72rem;color:var(--muted);margin-left:auto;}
+input[type=checkbox]{width:14px;height:14px;accent-color:var(--accent);cursor:pointer;flex-shrink:0;}
+th.cb-col,td.cb-col{width:36px;padding:0.7rem 0.5rem 0.7rem 1rem;}
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(80px);background:var(--surface);border:1px solid var(--border);color:var(--text);padding:0.6rem 1.2rem;border-radius:8px;font-size:0.78rem;opacity:0;transition:all 0.3s;z-index:999;pointer-events:none;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast.success{border-color:rgba(34,211,165,0.4);color:var(--accent3);}
+.toast.neutral{border-color:rgba(107,107,128,0.4);color:var(--muted);}
+.fp-banner{display:none;margin:0.5rem 1.5rem 0.75rem;padding:0.6rem 0.9rem;background:rgba(124,106,247,0.07);border:1px solid rgba(124,106,247,0.2);border-radius:6px;font-size:0.7rem;color:var(--muted);line-height:1.6;}
+.fp-banner code{color:var(--accent);background:rgba(124,106,247,0.1);padding:0.05rem 0.3rem;border-radius:3px;font-family:'DM Mono',monospace;}
+/* Doc scroll rows */
+.doc-row{padding:0.75rem 1rem;border-bottom:1px solid rgba(30,30,46,0.4);}
+.doc-row:last-child{border:none;}
+.doc-name{font-size:0.75rem;font-weight:500;margin-bottom:0.35rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;}
+.doc-meta{display:flex;align-items:center;gap:0.5rem;}
+.doc-bar-wrap{flex:1;height:3px;background:var(--border);border-radius:2px;overflow:hidden;}
+.doc-bar-fill{height:100%;border-radius:2px;}
+.doc-pct{font-family:'Syne',sans-serif;font-size:0.85rem;font-weight:700;min-width:38px;text-align:right;}
+.doc-count{font-size:0.65rem;color:var(--muted);min-width:50px;text-align:right;}
+/* Time of day rows */
+.tod-row{padding:0.65rem 1rem;border-bottom:1px solid rgba(30,30,46,0.4);}
+.tod-row:last-child{border:none;}
+.tod-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.3rem;}
+.tod-label{font-size:0.75rem;}
+.tod-label.top{color:var(--accent3);font-weight:600;}
+.tod-stat{font-size:0.68rem;color:var(--muted);}
+.tod-bar-wrap{height:3px;background:var(--border);border-radius:2px;overflow:hidden;}
+.tod-bar-fill{height:100%;border-radius:2px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div><h1>Client Analytics</h1><div class="sub">StrategyFolio &middot; Salman AI Consultancy</div></div>
+    <div class="controls">
+      <label style="font-size:0.72rem;color:var(--muted);display:flex;align-items:center;gap:0.4rem;">
+        Time stats:
+        <select id="statsFilter" onchange="renderStats()" style="font-size:0.72rem;padding:0.3rem 0.5rem;">
+          <option value="Client" selected>Client only</option>
+          <option value="">Self + Client</option>
+          <option value="Self">Self only</option>
+        </select>
+      </label>
+      <button id="btn" onclick="loadAll()">&#8635; Refresh</button>
+    </div>
+  </header>
+
+  <!-- Top stat cards -->
+  <div class="grid">
+    <div class="card"><div class="label">Client Opens</div><div class="val" id="v1">--</div><div class="hint">Excluding self</div></div>
+    <div class="card"><div class="label">Total Opens</div><div class="val" id="v1b">--</div><div class="hint">Including self</div></div>
+    <div class="card"><div class="label">Avg Time on Page</div><div class="val" id="v3">--</div><div class="hint" id="v3hint">Clients only</div></div>
+    <div class="card"><div class="label">Avg Scroll Depth</div><div class="val" id="v4">--</div><div class="hint" id="v4hint">Clients only</div></div>
+    <div class="card"><div class="label">Top Country</div><div class="val" id="v5" style="font-size:1.1rem">--</div><div class="hint">Clients only</div></div>
+    <div class="card"><div class="label">Last Client Open</div><div class="val" id="v6" style="font-size:0.9rem">--</div><div class="hint">Most recent</div></div>
+  </div>
+
+  <!-- Visits table -->
+  <div class="box">
+    <div class="bhead"><span><span class="dot"></span>All Visits</span><span class="badge" id="vc">0 records</span></div>
+    <div class="filter-row">
+      Filter:
+      <select id="filterType" onchange="applyFilters()">
+        <option value="Client" selected>Client only</option>
+        <option value="">Self + Client</option>
+        <option value="Self">Self only</option>
+      </select>
+      <select id="filterDoc" onchange="applyFilters()"><option value="">All Documents</option></select>
+      <button id="btnMarkSelf" class="btn-self btn-hidden" onclick="markSelected('Self')">&#128100; Mark as Self</button>
+      <button id="btnMarkClient" class="btn-client btn-hidden" onclick="markSelected('Client')">&#10003; Mark as Client</button>
+      <span id="selCount" class="sel-count btn-hidden">0 selected</span>
+    </div>
+    <div class="fp-banner" id="fpBanner"></div>
+    <div id="vt"><div class="empty">Loading...</div></div>
+  </div>
+
+  <!-- Row 1: Engagement + Device -->
+  <div class="two">
+    <div class="box">
+      <div class="bhead"><span>Engagement Log</span><span class="badge" id="ec">0 records</span></div>
+      <div id="et"><div class="empty">--</div></div>
+    </div>
+    <div class="box">
+      <div class="bhead">Device Breakdown</div>
+      <div id="db"><div class="empty">--</div></div>
+    </div>
+  </div>
+
+  <!-- Row 2: Scroll by Doc + Time of Day -->
+  <div class="two">
+    <div class="box">
+      <div class="bhead">
+        <div>
+          Scroll Depth by Document
+          <div class="bsub">Avg % scrolled per doc — shows which docs get read</div>
+        </div>
+      </div>
+      <div id="scrollByDoc"><div class="empty">--</div></div>
+    </div>
+    <div class="box">
+      <div class="bhead">
+        <div>
+          Time of Day
+          <div class="bsub">When clients open your docs</div>
+        </div>
+      </div>
+      <div id="timeOfDay"><div class="empty">--</div></div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+var GAS_URL = 'https://script.google.com/macros/s/AKfycbwkRFXfGZAhlGZlv7Wqw1u3FPPP2-20Znf3N7w1jepxctkmWNVMLbBV4cyUHJrKCaT0tA/exec';
+var vRows = [], eRows = [];
+
+// ── Fingerprint system ───────────────────────────────────────────────────────
+// Add your own fingerprints here to persist Self tagging across all browsers
+// Format: 'Country|City|Device|Browser'  e.g. 'United Kingdom|London|desktop|Chrome'
+var HARDCODED_SELF_FP = [
+  'United Kingdom|Shadwell|Mobile|Safari'
+];
+
+// Add fingerprints here to permanently force Client classification
+// (overrides sheet data and self fingerprints)
+var HARDCODED_CLIENT_FP = [];
+
+var LS_SELF   = 'sf_selfFP';
+var LS_CLIENT = 'sf_clientFP';
+
+function loadFP(key) {
+  try { return new Set(JSON.parse(localStorage.getItem(key) || '[]')); } catch(e) { return new Set(); }
+}
+function saveFP(key, set) {
+  try { localStorage.setItem(key, JSON.stringify([...set])); } catch(e) {}
+}
+
+var selfFP   = loadFP(LS_SELF);
+var clientFP = loadFP(LS_CLIENT);
+HARDCODED_SELF_FP.forEach(function(fp){ selfFP.add(fp); });
+HARDCODED_CLIENT_FP.forEach(function(fp){ clientFP.add(fp); });
+
+function getFingerprint(r) {
+  return [r[4]||'', r[5]||'', r[6]||'', r[7]||''].join('|');
+}
+function resolveType(r) {
+  var fp = getFingerprint(r);
+  if (clientFP.has(fp)) return 'Client';
+  if (selfFP.has(fp))   return 'Self';
+  return r[12] || 'Client';
+}
+function applyOverrides() {
+  vRows.slice(1).forEach(function(r) { r[12] = resolveType(r); });
+}
+
+// ── Returning visitor detection ──────────────────────────────────────────────
+// Returns a map of fingerprint → visit count (client visits only)
+function buildReturnMap() {
+  var map = {};
+  vRows.slice(1).forEach(function(r) {
+    if (r[12] !== 'Client') return;
+    var fp = getFingerprint(r);
+    map[fp] = (map[fp] || 0) + 1;
+  });
+  return map;
+}
+
+// ── Toast ────────────────────────────────────────────────────────────────────
+var toastTimer;
+function showToast(msg, type) {
+  var el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast show ' + (type || '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function(){ el.className = 'toast'; }, 2800);
+}
+
+// ── JSONP loader ─────────────────────────────────────────────────────────────
+function jsonp(url, cb) {
+  var name = 'cb_' + Math.random().toString(36).substr(2, 8);
+  window[name] = function(data) { delete window[name]; document.head.removeChild(s); cb(data); };
+  var s = document.createElement('script');
+  s.src = url + '&callback=' + name;
+  s.onerror = function() { cb({ status: 'error', rows: [] }); };
+  document.head.appendChild(s);
+}
+function loadAll() {
+  var btn = document.getElementById('btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spin"></span>Loading...';
+  var done = 0;
+  function finish() {
+    if (++done === 2) {
+      btn.disabled = false;
+      btn.innerHTML = '&#8635; Refresh';
+      applyOverrides();
+      renderAll();
+    }
+  }
+  jsonp(GAS_URL + '?action=getData&sheet=Visits',     function(d){ vRows = d.rows || []; finish(); });
+  jsonp(GAS_URL + '?action=getData&sheet=Engagement', function(d){ eRows = d.rows || []; finish(); });
+}
+
+// ── Filters ──────────────────────────────────────────────────────────────────
+function applyFilters() { clearSelection(); renderVisits(); }
+function getFilteredRows() {
+  var data = vRows.slice(1).reverse();
+  var typeFilter = document.getElementById('filterType').value;
+  var docFilter  = document.getElementById('filterDoc').value;
+  if (typeFilter) data = data.filter(function(r){ return r[12] === typeFilter; });
+  if (docFilter)  data = data.filter(function(r){ return r[2]  === docFilter;  });
+  return data;
+}
+function renderAll() {
+  renderVisits(); renderEngagement(); renderStats(); renderDevices();
+  renderScrollByDoc(); renderTimeOfDay(); populateFilter();
+}
+
+// ── Visits table ─────────────────────────────────────────────────────────────
+function renderVisits() {
+  var data = getFilteredRows();
+  document.getElementById('vc').textContent = data.length + ' records';
+  if (!data.length) {
+    document.getElementById('vt').innerHTML = '<div class="empty">No visits match your filter.</div>';
+    return;
+  }
+  var returnMap = buildReturnMap();
+  var h = '<table><thead><tr>'
+    + '<th class="cb-col"><input type="checkbox" id="chkAll" onchange="toggleAll(this)"></th>'
+    + '<th>Time</th><th>Document</th><th>Visitor</th><th>Location</th><th>Device</th><th>Browser</th><th>Referrer</th>'
+    + '</tr></thead><tbody>';
+  data.slice(0, 50).forEach(function(r) {
+    var dt    = r[0] ? new Date(r[0]).toLocaleString('en-GB') : '--';
+    var loc   = [r[4], r[5]].filter(Boolean).join(', ') || 'unknown';
+    var dev   = (r[6] || '').toLowerCase();
+    var vtype = r[12] || 'Client';
+    var ref   = r[3] === 'direct'
+      ? '<em style="color:var(--muted)">direct</em>'
+      : (r[3] || '--');
+    var fp    = getFingerprint(r).replace(/"/g, '&quot;');
+
+    // Visitor tag: Self / Returning / New
+    var visitorTag;
+    if (vtype === 'Self') {
+      visitorTag = '<span class="tag tag-self">Self</span>';
+    } else if (returnMap[getFingerprint(r)] > 1) {
+      visitorTag = '<span class="tag tag-returning">&#8635; Returning</span>';
+    } else {
+      visitorTag = '<span class="tag tag-new">New</span>';
+    }
+
+    h += '<tr data-fp="' + fp + '" data-type="' + vtype + '" onclick="rowClick(this,event)">'
+      + '<td class="cb-col"><input type="checkbox" class="row-cb" data-fp="' + fp + '" onchange="cbChange(this)" onclick="event.stopPropagation()"></td>'
+      + '<td>' + dt + '</td>'
+      + '<td style="font-weight:500">' + (r[2] || '--') + '</td>'
+      + '<td>' + visitorTag + '</td>'
+      + '<td>' + loc + '</td>'
+      + '<td><span class="tag tag-' + dev + '">' + (dev || '--') + '</span></td>'
+      + '<td>' + (r[7] || '--') + '</td>'
+      + '<td style="font-size:0.7rem;color:var(--muted)">' + ref + '</td>'
+      + '</tr>';
+  });
+  document.getElementById('vt').innerHTML = h + '</tbody></table>';
+  updateMarkButtons();
+}
+
+// ── Selection ─────────────────────────────────────────────────────────────────
+function rowClick(tr, e) {
+  if (e.target.type === 'checkbox') return;
+  var cb = tr.querySelector('.row-cb');
+  cb.checked = !cb.checked;
+  cbChange(cb);
+}
+function cbChange(cb) {
+  cb.closest('tr').classList.toggle('row-selected', cb.checked);
+  updateMarkButtons();
+}
+function toggleAll(master) {
+  document.querySelectorAll('.row-cb').forEach(function(cb){
+    cb.checked = master.checked;
+    cb.closest('tr').classList.toggle('row-selected', master.checked);
+  });
+  updateMarkButtons();
+}
+function clearSelection() {
+  document.querySelectorAll('.row-cb').forEach(function(cb){
+    cb.checked = false;
+    cb.closest('tr').classList.remove('row-selected');
+  });
+  var ca = document.getElementById('chkAll');
+  if (ca) ca.checked = false;
+  updateMarkButtons();
+}
+function getSelectedRows() {
+  return Array.from(document.querySelectorAll('.row-cb:checked'));
+}
+function updateMarkButtons() {
+  var sel      = getSelectedRows();
+  var count    = sel.length;
+  var hasSelf   = sel.some(function(cb){ return cb.closest('tr').dataset.type === 'Self'; });
+  var hasClient = sel.some(function(cb){ return cb.closest('tr').dataset.type === 'Client'; });
+  var btnSelf   = document.getElementById('btnMarkSelf');
+  var btnClient = document.getElementById('btnMarkClient');
+  var selCount  = document.getElementById('selCount');
+  if (count === 0) {
+    btnSelf.classList.add('btn-hidden');
+    btnClient.classList.add('btn-hidden');
+    selCount.classList.add('btn-hidden');
+  } else {
+    selCount.classList.remove('btn-hidden');
+    selCount.textContent = count + ' selected';
+    hasClient ? btnSelf.classList.remove('btn-hidden')   : btnSelf.classList.add('btn-hidden');
+    hasSelf   ? btnClient.classList.remove('btn-hidden') : btnClient.classList.add('btn-hidden');
+  }
+}
+
+// ── Mark as Self / Client ─────────────────────────────────────────────────────
+function markSelected(targetType) {
+  var sel = getSelectedRows();
+  if (!sel.length) return;
+  var fps = [...new Set(sel.map(function(cb){ return cb.dataset.fp; }))];
+  if (targetType === 'Self') {
+    fps.forEach(function(fp){ selfFP.add(fp); clientFP.delete(fp); });
+    saveFP(LS_SELF, selfFP); saveFP(LS_CLIENT, clientFP);
+    showFPBanner(fps, 'self');
+    showToast('✓ Marked as Self — pattern saved', 'neutral');
+  } else {
+    fps.forEach(function(fp){ clientFP.add(fp); selfFP.delete(fp); });
+    saveFP(LS_SELF, selfFP); saveFP(LS_CLIENT, clientFP);
+    showFPBanner(fps, 'client');
+    showToast('✓ Marked as Client — pattern saved', 'success');
+  }
+  applyOverrides();
+  renderAll();
+}
+function showFPBanner(fps, type) {
+  var banner   = document.getElementById('fpBanner');
+  var isSelf   = type === 'self';
+  var label    = isSelf ? 'Saved as Self fingerprint' : 'Saved as Client fingerprint';
+  var arrName  = isSelf ? 'HARDCODED_SELF_FP' : 'HARDCODED_CLIENT_FP';
+  banner.innerHTML = '<strong style="color:var(--text)">' + label + '</strong> — to make this permanent across all browsers, add to <code>' + arrName + '</code> in the HTML:<br>'
+    + fps.map(function(fp){ return '<code>\'' + fp + '\'</code>'; }).join(', ');
+  banner.style.display = 'block';
+}
+
+// ── Stats ─────────────────────────────────────────────────────────────────────
+// Cross-reference engagement rows with visit rows by rounding timestamps to the
+// nearest minute — this lets us tag engagement sessions as Self or Client even
+// though the engagement sheet has no type column of its own.
+function buildEngagementTypeMap() {
+  var map = {}; // 'YYYY-MM-DDTHH:MM' → 'Client' | 'Self'
+  vRows.slice(1).forEach(function(r) {
+    if (!r[0]) return;
+    var key = roundToMinute(r[0]);
+    // Client wins over Self if both appear in the same minute
+    if (!map[key] || r[12] === 'Client') map[key] = r[12] || 'Client';
+  });
+  return map;
+}
+function roundToMinute(ts) {
+  var d = new Date(ts);
+  d.setSeconds(0, 0);
+  return d.toISOString().slice(0, 16); // 'YYYY-MM-DDTHH:MM'
+}
+function filterEngagement(typeFilter) {
+  var typeMap = buildEngagementTypeMap();
+  return eRows.slice(1).filter(function(r) {
+    if (!typeFilter) return true; // Self + Client — no filter
+    if (!r[0]) return typeFilter === 'Client'; // unknown → treat as Client
+    var key = roundToMinute(r[0]);
+    var t   = typeMap[key] || 'Client'; // unmapped → assume Client
+    return t === typeFilter;
+  });
+}
+
+function renderStats() {
+  var all     = vRows.slice(1);
+  var clients = all.filter(function(r){ return r[12] === 'Client'; });
+
+  document.getElementById('v1').textContent  = clients.length;
+  document.getElementById('v1b').textContent = all.length;
+
+  // Time & scroll filtered by statsFilter
+  var statsFilter = (document.getElementById('statsFilter') || {}).value;
+  if (statsFilter === undefined) statsFilter = 'Client';
+  var e = filterEngagement(statsFilter);
+
+  var hintLabel = statsFilter === 'Client' ? 'Clients only'
+                : statsFilter === 'Self'   ? 'Self only'
+                :                            'All sessions';
+  document.getElementById('v3hint').textContent = hintLabel;
+  document.getElementById('v4hint').textContent = hintLabel;
+
+  var times = e.map(function(r){ return parseInt(r[4]); }).filter(Boolean);
+  var avg   = times.length ? Math.round(times.reduce(function(a,b){ return a+b; }, 0) / times.length) : 0;
+  document.getElementById('v3').textContent = avg >= 60 ? Math.floor(avg/60) + 'm ' + (avg%60) + 's' : avg + 's';
+
+  var sc = e.map(function(r){ return parseInt(r[5]); }).filter(Boolean);
+  document.getElementById('v4').textContent = (sc.length ? Math.round(sc.reduce(function(a,b){ return a+b; }, 0) / sc.length) : 0) + '%';
+
+  var cc = {};
+  clients.forEach(function(r){ var c = r[4]||'?'; cc[c] = (cc[c]||0) + 1; });
+  var top = Object.entries(cc).sort(function(a,b){ return b[1]-a[1]; })[0];
+  document.getElementById('v5').textContent = top ? top[0] : '--';
+
+  var lastClient = clients[clients.length - 1];
+  if (lastClient && lastClient[0]) {
+    var d = new Date(lastClient[0]);
+    document.getElementById('v6').textContent = d.toLocaleDateString('en-GB', {day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+  }
+}
+
+// ── Engagement log ────────────────────────────────────────────────────────────
+function renderEngagement() {
+  var data = eRows.slice(1).reverse().slice(0, 25);
+  document.getElementById('ec').textContent = data.length + ' records';
+  if (!data.length) { document.getElementById('et').innerHTML = '<div class="empty">No engagement data yet.</div>'; return; }
+  var h = '<table><thead><tr><th>Time</th><th>Document</th><th>Time on Page</th><th>Scroll</th><th>Clicks</th></tr></thead><tbody>';
+  data.forEach(function(r){
+    var s  = parseInt(r[4])||0, sc = parseInt(r[5])||0;
+    var t  = s >= 60 ? Math.floor(s/60) + 'm ' + (s%60) + 's' : s + 's';
+    h += '<tr>'
+      + '<td>' + (r[0] ? new Date(r[0]).toLocaleString('en-GB') : '--') + '</td>'
+      + '<td style="font-weight:500">' + (r[3]||'--') + '</td>'
+      + '<td><span class="tbadge">' + t + '</span></td>'
+      + '<td><div class="sbar"><div class="str"><div class="sfl" style="width:' + sc + '%"></div></div>' + sc + '%</div></td>'
+      + '<td>' + (r[6]||0) + '</td>'
+      + '</tr>';
+  });
+  document.getElementById('et').innerHTML = h + '</tbody></table>';
+}
+
+// ── Device breakdown ──────────────────────────────────────────────────────────
+function renderDevices() {
+  var clients = vRows.slice(1).filter(function(r){ return r[12] === 'Client'; });
+  var dd = {};
+  clients.forEach(function(r){ var d = r[6]||'unknown'; dd[d] = (dd[d]||0) + 1; });
+  var tot = clients.length || 1;
+  var h = Object.entries(dd).sort(function(a,b){ return b[1]-a[1]; }).map(function(e){
+    return '<div class="mrow">'
+      + '<span style="color:var(--muted)">' + e[0] + '</span>'
+      + '<span>' + e[1] + ' <small style="color:var(--muted)">(' + Math.round(e[1]/tot*100) + '%)</small></span>'
+      + '</div>';
+  }).join('');
+  document.getElementById('db').innerHTML = h || '<div class="empty">No client visits yet</div>';
+}
+
+// ── Scroll depth by document ──────────────────────────────────────────────────
+function renderScrollByDoc() {
+  var data = eRows.slice(1);
+  if (!data.length) { document.getElementById('scrollByDoc').innerHTML = '<div class="empty">No engagement data yet.</div>'; return; }
+  var docScroll = {}, docCount = {};
+  data.forEach(function(r){
+    var doc = r[3], sc = parseInt(r[5]);
+    if (doc && !isNaN(sc)) {
+      docScroll[doc] = (docScroll[doc]||0) + sc;
+      docCount[doc]  = (docCount[doc]||0) + 1;
+    }
+  });
+  var entries = Object.keys(docScroll).map(function(doc){
+    return { doc: doc, avg: Math.round(docScroll[doc] / docCount[doc]), count: docCount[doc] };
+  }).sort(function(a,b){ return b.avg - a.avg; });
+
+  var h = entries.map(function(e){
+    // Color: green ≥75%, purple ≥50%, orange below
+    var color = e.avg >= 75 ? 'var(--accent3)' : e.avg >= 50 ? 'var(--accent)' : 'var(--accent2)';
+    var label = e.avg >= 75 ? '🔥 Hot read' : e.avg >= 50 ? 'Good read' : 'Skimmed';
+    var shortName = e.doc.length > 38 ? e.doc.slice(0, 38) + '…' : e.doc;
+    return '<div class="doc-row">'
+      + '<div class="doc-name" title="' + e.doc + '">' + shortName + '</div>'
+      + '<div class="doc-meta">'
+      + '<div class="doc-bar-wrap"><div class="doc-bar-fill" style="width:' + e.avg + '%;background:' + color + '"></div></div>'
+      + '<span class="doc-pct" style="color:' + color + '">' + e.avg + '%</span>'
+      + '<span class="doc-count">' + e.count + ' visit' + (e.count !== 1 ? 's' : '') + '</span>'
+      + '<span style="font-size:0.62rem;color:var(--muted);min-width:55px;text-align:right">' + label + '</span>'
+      + '</div>'
+      + '</div>';
+  }).join('');
+  document.getElementById('scrollByDoc').innerHTML = h;
+}
+
+// ── Time of day ───────────────────────────────────────────────────────────────
+function renderTimeOfDay() {
+  var clients = vRows.slice(1).filter(function(r){ return r[12] === 'Client' && r[0]; });
+  var slots = { Morning: 0, Afternoon: 0, Evening: 0, Night: 0 };
+  var icons = { Morning: '🌅 Morning', Afternoon: '☀️ Afternoon', Evening: '🌆 Evening', Night: '🌙 Night' };
+  var ranges = { Morning: '6am–12pm', Afternoon: '12–5pm', Evening: '5–9pm', Night: '9pm–6am' };
+  clients.forEach(function(r){
+    var h = new Date(r[0]).getHours();
+    if      (h >= 6  && h < 12) slots.Morning++;
+    else if (h >= 12 && h < 17) slots.Afternoon++;
+    else if (h >= 17 && h < 21) slots.Evening++;
+    else                         slots.Night++;
+  });
+  var total  = clients.length || 1;
+  var maxVal = Math.max(slots.Morning, slots.Afternoon, slots.Evening, slots.Night);
+  var h = Object.entries(slots).map(function(e){
+    var isTop = e[1] === maxVal && e[1] > 0;
+    var pct   = Math.round(e[1] / total * 100);
+    var color = isTop ? 'var(--accent3)' : 'var(--accent)';
+    return '<div class="tod-row">'
+      + '<div class="tod-head">'
+      + '<span class="tod-label' + (isTop ? ' top' : '') + '">' + icons[e[0]] + (isTop ? ' ★' : '') + '</span>'
+      + '<span class="tod-stat">' + e[1] + ' opens · ' + pct + '%</span>'
+      + '</div>'
+      + '<div style="display:flex;align-items:center;gap:0.5rem">'
+      + '<div class="tod-bar-wrap" style="flex:1"><div class="tod-bar-fill" style="width:' + pct + '%;background:' + color + '"></div></div>'
+      + '<span style="font-size:0.62rem;color:var(--muted);min-width:55px;text-align:right">' + ranges[e[0]] + '</span>'
+      + '</div>'
+      + '</div>';
+  }).join('');
+  document.getElementById('timeOfDay').innerHTML = h || '<div class="empty">No client visits yet.</div>';
+}
+
+// ── Filter population ─────────────────────────────────────────────────────────
+function populateFilter() {
+  var docs = [...new Set(vRows.slice(1).map(function(r){ return r[2]; }).filter(Boolean))];
+  var sel  = document.getElementById('filterDoc');
+  var cur  = sel.value;
+  sel.innerHTML = '<option value="">All Documents</option>';
+  docs.forEach(function(d){
+    var o = document.createElement('option');
+    o.value = d; o.textContent = d;
+    if (d === cur) o.selected = true;
+    sel.appendChild(o);
+  });
+}
+
+window.onload = loadAll;
+</script>
+</body>
+</html>
