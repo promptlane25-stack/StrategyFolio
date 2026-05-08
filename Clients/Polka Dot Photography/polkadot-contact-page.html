@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact - Polka Dot Photography</title>
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=swap" rel="stylesheet"/>
+  <!-- Cal.com Embed SDK -->
+  <script>
+    (function(C,A,L){let p=function(a,ar){a.q.push(ar);};let d=C.document;C.Cal=C.Cal||function(){let cal=C.Cal;let ar=arguments;if(!cal.loaded){cal.ns={};cal.q=cal.q||[];d.head.appendChild(d.createElement("script")).src=A;cal.loaded=true;}if(ar[0]===L){const api=function(){p(api,arguments);};const namespace=ar[1];api.q=api.q||[];if(typeof namespace==="string"){cal.ns[namespace]=cal.ns[namespace]||api;p(cal.ns[namespace],ar);p(cal,["-a",namespace,ar])}else p(cal,ar);return;}p(cal,ar);};})(window,"https://app.cal.com/embed/embed.js","init");
+    Cal("init", { origin: "https://app.cal.com" });
+    Cal("ui", {
+      theme: "light",
+      styles: { branding: { brandColor: "#928763" } },
+      hideEventTypeDetails: false
+    });
+  </script>
+  <style>
+
+    /* ─── Reset ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    /* ─── Design tokens (extracted directly from live site) ─── */
+    :root {
+      --white:      #ffffff;
+      --bg:         #ffffff;
+      --ink:        #2d2d2d;
+      --ink-mid:    #373737;
+      --ink-light:  #6b6b6b;
+      --gold:       #928763;       /* rgb(146,135,99)  — exact button colour */
+      --gold-dk:    #7a7050;
+      --footer-bg:  #363331;       /* rgb(54,51,49)    — exact footer dark */
+      --border:     #e0dbd4;
+      --field-bg:   #ffffff;
+      --label-ls:   3px;
+    }
+
+    body {
+      font-family: 'Spectral', serif;
+      background: var(--bg);
+      color: var(--ink-mid);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* ═══════════════════════════════
+       NAV  (exact replica)
+    ═══════════════════════════════ */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      background: var(--white);
+      border-bottom: 1px solid #f0ece6;
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 40px;
+      height: 160px;
+      position: relative;
+      max-width: 960px; margin: 0 auto;
+    }
+    /* Left nav group */
+    .nav-left {
+      display: flex; align-items: center; gap: 36px;
+      position: absolute; left: 40px;
+    }
+    /* Right nav group */
+    .nav-right {
+      display: flex; align-items: center; gap: 36px;
+      position: absolute; right: 40px;
+    }
+    .nav-link {
+      font-family: 'Spectral', serif;
+      font-size: 12px; font-weight: 400;
+      letter-spacing: var(--label-ls);
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-link:hover,
+    .nav-link.active { color: var(--gold); }
+    /* Logo centred */
+    .nav-logo {
+      display: block;
+      text-decoration: none;
+    }
+    .nav-logo img {
+      height: 120px; width: auto;
+      display: block;
+    }
+    /* Mobile hamburger */
+    .nav-hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer;
+      padding: 4px; position: absolute; right: 20px;
+    }
+    .nav-hamburger span {
+      display: block; width: 22px; height: 1.5px;
+      background: var(--ink);
+      transition: .3s;
+    }
+    .nav-mobile {
+      display: none; flex-direction: column; align-items: center;
+      gap: 0; background: var(--white);
+      border-top: 1px solid var(--border);
+    }
+    .nav-mobile.open { display: flex; }
+    .nav-mobile .nav-link {
+      padding: 14px 0; width: 100%; text-align: center;
+      border-bottom: 1px solid #f5f2ee;
+    }
+    @media (max-width: 900px) {
+      .nav-left, .nav-right { display: none; }
+      .nav-hamburger { display: flex; }
+    }
+
+    /* ═══════════════════════════════
+       HERO BANNER  (exact replica)
+    ═══════════════════════════════ */
+    .hero {
+      margin-top: 160px; /* nav height — matches live site */
+      width: 100%;
+      height: 574px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: 52% 67%;
+      display: block;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,.18);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hero-title {
+      font-family: 'Spectral', serif;
+      font-size: clamp(42px, 6vw, 64px);
+      font-weight: 300;
+      font-style: normal;
+      color: #ffffff;
+      letter-spacing: 2px;
+      text-align: center;
+    }
+
+    /* ═══════════════════════════════
+       CONTACT SECTION  (exact replica)
+    ═══════════════════════════════ */
+    .contact-section {
+      max-width: 1100px; margin: 0 auto;
+      padding: 80px 40px 80px;
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 80px;
+      align-items: start;
+    }
+    @media (max-width: 800px) {
+      .contact-section { grid-template-columns: 1fr; gap: 48px; padding: 56px 24px; }
+    }
+
+    /* Left: text */
+    .contact-text h2 {
+      font-family: 'Spectral', serif;
+      font-size: clamp(24px, 3.5vw, 34px);
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.3;
+      margin-bottom: 24px;
+    }
+    .contact-text p {
+      font-family: 'Spectral', serif;
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--ink-light);
+      line-height: 1.85;
+      margin-bottom: 14px;
+    }
+    .contact-text p:last-child { margin-bottom: 0; }
+    .contact-text .spam-note {
+      font-weight: 400;
+      color: var(--ink);
+    }
+
+    /* Right: form — exact Pixieset styling */
+    .contact-form { display: flex; flex-direction: column; gap: 0; }
+
+    .form-field {
+      display: flex; flex-direction: column;
+      margin-bottom: 24px;
+    }
+    .form-field:last-of-type { margin-bottom: 0; }
+
+    .form-label {
+      font-family: 'Spectral', serif;
+      font-size: 12px; font-weight: 400;
+      letter-spacing: var(--label-ls);
+      text-transform: uppercase;
+      color: var(--ink);
+      margin-bottom: 8px;
+      display: block;
+    }
+    .form-label .req { color: var(--ink); }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      font-family: 'Spectral', serif;
+      font-size: 14px; font-weight: 300;
+      color: var(--ink);
+      background: var(--field-bg);
+      border: none;
+      border-bottom: 1px solid #ccc;
+      padding: 10px 0;
+      outline: none;
+      width: 100%;
+      transition: border-color .2s;
+      appearance: none; -webkit-appearance: none;
+      border-radius: 0;
+    }
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      border-bottom-color: var(--gold);
+    }
+    .form-select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23928763' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 4px center;
+      padding-right: 24px;
+      cursor: pointer;
+    }
+    .form-select option { font-size: 14px; }
+    .form-textarea {
+      resize: vertical;
+      min-height: 120px;
+      padding: 10px 0;
+      border: none;
+      border-bottom: 1px solid #ccc;
+    }
+
+    /* Submit button — exact match */
+    .form-submit {
+      display: inline-block;
+      margin-top: 32px;
+      background: var(--gold);
+      color: #ffffff;
+      font-family: 'Spectral', serif;
+      font-size: 12px; font-weight: 400;
+      letter-spacing: var(--label-ls);
+      text-transform: uppercase;
+      padding: 14px 30px;
+      border: none; border-radius: 0;
+      cursor: pointer;
+      transition: background .2s;
+      align-self: flex-start;
+    }
+    .form-submit:hover { background: var(--gold-dk); }
+
+    /* ═══════════════════════════════
+       BOOKING DIVIDER
+    ═══════════════════════════════ */
+    .booking-divider {
+      max-width: 1100px; margin: 0 auto;
+      padding: 0 40px;
+      display: flex; align-items: center; gap: 24px;
+    }
+    .booking-divider hr {
+      flex: 1; border: none;
+      border-top: 1px solid var(--border);
+    }
+    .booking-divider-text {
+      font-family: 'Spectral', serif;
+      font-size: 11px; font-weight: 400;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    @media (max-width: 600px) {
+      .booking-divider { padding: 0 24px; }
+      .booking-divider-text { font-size: 10px; letter-spacing: 2px; white-space: normal; text-align: center; }
+    }
+
+    /* ═══════════════════════════════
+       BOOKING SECTION
+    ═══════════════════════════════ */
+    .booking-section {
+      max-width: 1100px; margin: 0 auto;
+      padding: 56px 40px 80px;
+    }
+    @media (max-width: 600px) { .booking-section { padding: 40px 24px 64px; } }
+
+    .booking-intro {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .booking-intro h3 {
+      font-family: 'Spectral', serif;
+      font-size: clamp(26px, 3.5vw, 40px);
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 14px;
+    }
+    .booking-intro h3 em { font-style: italic; }
+    .booking-intro p {
+      font-family: 'Spectral', serif;
+      font-size: 14px; font-weight: 300;
+      color: var(--ink-light);
+      max-width: 480px; margin: 0 auto;
+      line-height: 1.85;
+    }
+
+    /* Trust row */
+    .booking-trust {
+      display: flex; justify-content: center; gap: 36px;
+      flex-wrap: wrap; margin-bottom: 48px;
+    }
+    .booking-trust-item {
+      display: flex; align-items: center; gap: 8px;
+      font-family: 'Spectral', serif;
+      font-size: 11px; font-weight: 400;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: #999;
+    }
+    .bt-dot {
+      width: 4px; height: 4px;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+
+    /* ── Session Cards (3-column grid) ── */
+    .session-cards-wrap {
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    /* Dark header band — matches footer colour */
+    .session-cards-header {
+      background: var(--footer-bg);
+      padding: 22px 36px;
+      display: flex; align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .sch-left-title {
+      font-family: 'Spectral', serif;
+      font-size: 12px; font-weight: 400;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: #ffffff; margin-bottom: 4px;
+    }
+    .sch-left-sub {
+      font-family: 'Spectral', serif;
+      font-size: 12px; font-weight: 300; font-style: italic;
+      color: rgba(255,255,255,.45);
+    }
+    .sch-right {
+      display: flex; gap: 18px; flex-wrap: wrap;
+    }
+    .sch-perk {
+      display: flex; align-items: center; gap: 6px;
+      font-family: 'Spectral', serif;
+      font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+      color: rgba(255,255,255,.4);
+    }
+    .sch-perk-dot { width: 3px; height: 3px; background: var(--gold); flex-shrink: 0; }
+
+    /* Card grid */
+    .session-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      background: #f5f3ef;
+      gap: 1px; /* gap is the border between cards */
+    }
+    @media (max-width: 760px) {
+      .session-cards-grid { grid-template-columns: 1fr; }
+    }
+    @media (min-width: 761px) and (max-width: 1000px) {
+      .session-cards-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    .session-card {
+      background: #ffffff;
+      padding: 36px 32px 32px;
+      display: flex; flex-direction: column;
+      position: relative;
+      transition: box-shadow .2s;
+    }
+    .session-card:hover { box-shadow: inset 0 0 0 1px var(--gold); }
+
+    /* Gold top accent line */
+    .session-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--gold);
+    }
+
+    .sc-icon {
+      font-size: 1.8rem;
+      margin-bottom: 18px;
+      line-height: 1;
+    }
+
+    .sc-name {
+      font-family: 'Spectral', serif;
+      font-size: 18px; font-weight: 400;
+      color: var(--ink);
+      letter-spacing: .5px;
+      margin-bottom: 10px;
+    }
+
+    .sc-desc {
+      font-family: 'Spectral', serif;
+      font-size: 13px; font-weight: 300; font-style: italic;
+      color: var(--ink-light);
+      line-height: 1.75;
+      margin-bottom: 20px;
+      flex: 1; /* push price + button to bottom */
+    }
+
+    .sc-includes {
+      list-style: none;
+      margin-bottom: 20px;
+    }
+    .sc-includes li {
+      font-family: 'Spectral', serif;
+      font-size: 12px; font-weight: 300;
+      color: var(--ink-light);
+      padding: 5px 0;
+      border-bottom: 1px solid #f0ece6;
+      display: flex; align-items: center; gap: 8px;
+      letter-spacing: .3px;
+    }
+    .sc-includes li:last-child { border-bottom: none; }
+    .sc-includes li::before {
+      content: '';
+      display: block; width: 4px; height: 4px;
+      background: var(--gold); flex-shrink: 0;
+    }
+
+    .sc-price-row {
+      display: flex; align-items: baseline; gap: 4px;
+      margin-bottom: 20px;
+    }
+    .sc-price-from {
+      font-family: 'Spectral', serif;
+      font-size: 11px; font-weight: 300;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--ink-light);
+    }
+    .sc-price {
+      font-family: 'Spectral', serif;
+      font-size: 26px; font-weight: 400;
+      color: var(--ink);
+      letter-spacing: -0.5px;
+    }
+
+    /* Book Now button — exact site style */
+    .sc-btn {
+      display: block; width: 100%;
+      background: var(--gold);
+      color: #ffffff;
+      font-family: 'Spectral', serif;
+      font-size: 11px; font-weight: 400;
+      letter-spacing: 3px; text-transform: uppercase;
+      padding: 13px 20px;
+      border: none; border-radius: 0;
+      cursor: pointer; text-align: center;
+      text-decoration: none;
+      transition: background .2s;
+    }
+    .sc-btn:hover { background: var(--gold-dk); }
+
+    /* Footer note below cards */
+    .session-cards-note {
+      background: #f5f3ef;
+      border-top: 1px solid var(--border);
+      padding: 12px 24px;
+      text-align: center;
+      font-family: 'Spectral', serif;
+      font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+      color: #a09890;
+    }
+
+    /* ═══════════════════════════════
+       FOOTER  (exact replica)
+    ═══════════════════════════════ */
+    .site-footer {
+      background: var(--footer-bg);
+      padding: 48px 40px 24px;
+    }
+    .footer-nav {
+      display: flex; justify-content: center;
+      gap: 36px; flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .footer-nav a {
+      font-family: 'Spectral', serif;
+      font-size: 12px; font-weight: 400;
+      letter-spacing: var(--label-ls);
+      text-transform: uppercase;
+      color: rgba(255,255,255,.65);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .footer-nav a:hover { color: var(--gold); }
+    .footer-divider {
+      width: 60px; height: 1px;
+      background: rgba(255,255,255,.15);
+      margin: 0 auto 20px;
+    }
+    .footer-copy {
+      text-align: center;
+      font-family: 'Spectral', serif;
+      font-size: 12px; font-weight: 300;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: rgba(255,255,255,.3);
+    }
+    .footer-instagram {
+      display: flex; justify-content: center;
+      margin-bottom: 20px;
+    }
+    .footer-instagram a {
+      color: rgba(255,255,255,.4);
+      font-size: 20px; text-decoration: none;
+      transition: color .2s;
+    }
+    .footer-instagram a:hover { color: var(--gold); }
+
+    /* ═══════════════════════════════
+       CHAT WIDGET  (ManyChat-style)
+       All prefixed pdp- to avoid conflicts
+    ═══════════════════════════════ */
+    .pdp-chat-widget {
+      position: fixed; bottom: 24px; right: 24px; z-index: 9999;
+      display: flex; flex-direction: column; align-items: flex-end; gap: 12px;
+      font-family: 'Spectral', serif;
+    }
+    .pdp-chat-panel {
+      width: 340px; background: #fff;
+      border: 1px solid var(--border);
+      box-shadow: 0 12px 48px rgba(0,0,0,.14);
+      overflow: hidden; display: none;
+      flex-direction: column; max-height: 480px;
+    }
+    .pdp-chat-panel.pdp-open { display: flex; }
+    .pdp-chat-head {
+      background: var(--footer-bg);
+      padding: 15px 18px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .pdp-chat-av {
+      width: 38px; height: 38px;
+      background: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .72rem; font-weight: 400; letter-spacing: 1px;
+      color: white; text-transform: uppercase;
+      flex-shrink: 0; position: relative;
+    }
+    .pdp-chat-online {
+      position: absolute; bottom: 1px; right: 1px;
+      width: 8px; height: 8px; background: #6fcf97;
+      border: 2px solid var(--footer-bg);
+    }
+    .pdp-chat-head-name {
+      font-size: 11px; font-weight: 400;
+      letter-spacing: 2px; text-transform: uppercase; color: #fff;
+    }
+    .pdp-chat-head-status {
+      font-size: 11px; font-weight: 300; font-style: italic;
+      color: rgba(255,255,255,.4); margin-top: 2px;
+    }
+    .pdp-chat-close {
+      margin-left: auto; background: none; border: none;
+      color: rgba(255,255,255,.35); font-size: 15px;
+      cursor: pointer; padding: 2px; transition: color .2s;
+    }
+    .pdp-chat-close:hover { color: #fff; }
+    .pdp-chat-msgs {
+      flex: 1; overflow-y: auto; padding: 14px;
+      display: flex; flex-direction: column; gap: 10px;
+      background: #faf9f7;
+    }
+    .pdp-chat-msgs::-webkit-scrollbar { width: 3px; }
+    .pdp-chat-msgs::-webkit-scrollbar-thumb { background: var(--border); }
+    .pdp-msg { display: flex; gap: 8px; align-items: flex-end; }
+    .pdp-msg.pdp-bot { flex-direction: row; }
+    .pdp-msg.pdp-user { flex-direction: row-reverse; }
+    .pdp-msg-av {
+      width: 24px; height: 24px; background: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .6rem; color: white; flex-shrink: 0;
+      letter-spacing: .5px; text-transform: uppercase;
+    }
+    .pdp-bubble {
+      max-width: 74%; padding: 9px 13px;
+      font-size: 13px; font-weight: 300; line-height: 1.6;
+    }
+    .pdp-msg.pdp-bot .pdp-bubble {
+      background: #fff; color: var(--ink);
+      border: 1px solid #e8e4de;
+    }
+    .pdp-msg.pdp-user .pdp-bubble {
+      background: var(--gold); color: white;
+    }
+    .pdp-msg-time {
+      text-align: center; font-size: 10px;
+      letter-spacing: 1.5px; text-transform: uppercase; color: #b0a898;
+    }
+    .pdp-qr-row {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      padding: 8px 14px 6px; background: #faf9f7;
+    }
+    .pdp-qr {
+      background: #fff; color: #6b6b6b;
+      border: 1px solid #d4cfc6; padding: 5px 11px;
+      font-family: 'Spectral', serif; font-size: 11px;
+      font-weight: 400; letter-spacing: 1.5px; text-transform: uppercase;
+      cursor: pointer; transition: .2s; border-radius: 0;
+    }
+    .pdp-qr:hover { border-color: var(--gold); color: var(--gold); background: #fdf9f4; }
+    .pdp-chat-input-row {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 13px;
+      border-top: 1px solid #e8e4de; background: #fff;
+    }
+    .pdp-chat-input {
+      flex: 1; border: none; border-bottom: 1px solid #d4cfc6;
+      padding: 7px 0; font-family: 'Spectral', serif;
+      font-size: 13px; font-weight: 300; color: var(--ink);
+      background: transparent; outline: none; border-radius: 0;
+      transition: border-color .2s;
+    }
+    .pdp-chat-input:focus { border-bottom-color: var(--gold); }
+    .pdp-chat-send {
+      width: 32px; height: 32px; background: var(--gold);
+      border: none; color: white; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; transition: background .2s; flex-shrink: 0;
+    }
+    .pdp-chat-send:hover { background: var(--gold-dk); }
+    .pdp-chat-powered {
+      text-align: center; padding: 6px; background: #fff;
+      border-top: 1px solid #e8e4de; font-size: 10px;
+      letter-spacing: 1.5px; text-transform: uppercase; color: #b0a898;
+    }
+    /* Bubble trigger button */
+    .pdp-chat-btn {
+      width: 52px; height: 52px; background: var(--gold);
+      border: none; cursor: pointer; position: relative;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.25rem; color: white;
+      box-shadow: 0 6px 24px rgba(146,135,99,.42);
+      transition: background .2s, transform .15s;
+    }
+    .pdp-chat-btn:hover { background: var(--gold-dk); transform: scale(1.05); }
+    .pdp-chat-notif {
+      position: absolute; top: -3px; right: -3px;
+      width: 16px; height: 16px; background: #c0392b; color: white;
+      font-size: 9px; font-family: sans-serif; font-weight: 700;
+      display: none; align-items: center; justify-content: center;
+      border: 2px solid white;
+    }
+    /* Typing dots */
+    .pdp-typing {
+      display: flex; align-items: center; gap: 4px;
+      padding: 8px 11px; background: #fff; border: 1px solid #e8e4de; width: fit-content;
+    }
+    .pdp-typing span {
+      width: 5px; height: 5px; background: var(--gold);
+      animation: pdpDot .7s infinite;
+    }
+    .pdp-typing span:nth-child(2) { animation-delay: .15s; }
+    .pdp-typing span:nth-child(3) { animation-delay: .3s; }
+    @keyframes pdpDot {
+      0%,100% { transform:translateY(0); opacity:.4; }
+      50%      { transform:translateY(-4px); opacity:1; }
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════
+     NAVIGATION
+═══════════════════════════════ -->
+<nav class="nav" id="siteNav">
+  <div class="nav-inner">
+    <!-- Left links -->
+    <div class="nav-left">
+      <a href="https://polkadotphotographyipswich.mypixieset.com/" class="nav-link">Home</a>
+      <a href="https://polkadotphotographyipswich.mypixieset.com/about/" class="nav-link">About</a>
+      <a href="https://polkadotphotographyipswich.mypixieset.com/portfolio/" class="nav-link">Sessions</a>
+    </div>
+    <!-- Centred logo -->
+    <a href="https://polkadotphotographyipswich.mypixieset.com/" class="nav-logo">
+      <img
+        src="https://images-pw.pixieset.com/profile/6612/2659f8cc1bee491f421f457fb5f4c0e78ef7cf70e2d89540d220bd212e5d57e0.jpg"
+        alt="Polka Dot Photography"
+      />
+    </a>
+    <!-- Right links -->
+    <div class="nav-right">
+      <a href="https://polkadotphotographyipswich.mypixieset.com/testimonials/" class="nav-link">Testimonials</a>
+      <a href="https://polkadotphotographyipswich.mypixieset.com/contact/" class="nav-link active">Contact</a>
+    </div>
+    <!-- Mobile hamburger -->
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <!-- Mobile menu -->
+  <div class="nav-mobile" id="mobileMenu">
+    <a href="https://polkadotphotographyipswich.mypixieset.com/" class="nav-link">Home</a>
+    <a href="https://polkadotphotographyipswich.mypixieset.com/about/" class="nav-link">About</a>
+    <a href="https://polkadotphotographyipswich.mypixieset.com/portfolio/" class="nav-link">Sessions</a>
+    <a href="https://polkadotphotographyipswich.mypixieset.com/testimonials/" class="nav-link">Testimonials</a>
+    <a href="https://polkadotphotographyipswich.mypixieset.com/contact/" class="nav-link active">Contact</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════
+     HERO BANNER  (exact replica)
+═══════════════════════════════ -->
+<section class="hero">
+  <img
+    class="hero-img"
+    src="https://images-pw.pixieset.com/elementfield/26jnK3/154A8465copy3x-c065b038-2500.jpg"
+    alt="Contact Me"
+  />
+  <div class="hero-overlay">
+    <h1 class="hero-title">Contact Me</h1>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════
+     BOOKING SECTION — session cards
+═══════════════════════════════ -->
+<section class="booking-section">
+
+  <div class="booking-intro">
+    <h3>Book Your Session <em>Online</em></h3>
+    <p>Choose your session below and book instantly — no emails, no waiting. Confirmed in seconds.</p>
+  </div>
+
+  <div class="booking-trust">
+    <div class="booking-trust-item"><span class="bt-dot"></span> Instant confirmation</div>
+    <div class="booking-trust-item"><span class="bt-dot"></span> No deposit required</div>
+    <div class="booking-trust-item"><span class="bt-dot"></span> Free cancellation 48hrs+</div>
+    <div class="booking-trust-item"><span class="bt-dot"></span> Prep guide sent automatically</div>
+  </div>
+
+  <div class="session-cards-wrap">
+
+    <!-- Dark header band -->
+    <div class="session-cards-header">
+      <div>
+        <div class="sch-left-title">Polka Dot Photography</div>
+        <div class="sch-left-sub">Ipswich, Suffolk · Studio &amp; Location Sessions</div>
+      </div>
+      <div class="sch-right">
+        <div class="sch-perk"><span class="sch-perk-dot"></span>Secure &amp; instant</div>
+        <div class="sch-perk"><span class="sch-perk-dot"></span>All session types</div>
+        <div class="sch-perk"><span class="sch-perk-dot"></span>Powered by Cal.com</div>
+      </div>
+    </div>
+
+    <!-- 3 session cards -->
+    <div class="session-cards-grid">
+
+      <!-- Card 1: Maternity -->
+      <div class="session-card">
+        <div class="sc-icon">🌸</div>
+        <div class="sc-name">Maternity Session</div>
+        <div class="sc-desc">Celebrate this magical chapter with a beautiful, relaxed studio portrait session — capturing you and your growing family.</div>
+        <ul class="sc-includes">
+          <li>60–90 minute studio session</li>
+          <li>Professional styling guidance</li>
+          <li>30+ edited digital images</li>
+          <li>Private online gallery</li>
+        </ul>
+        <div class="sc-price-row">
+          <span class="sc-price-from">From</span>
+          <span class="sc-price">£225</span>
+        </div>
+        <!-- ⚡ Swap martleshamsc/mot with Marta's real Cal.com slug when live -->
+        <button class="sc-btn" onclick="Cal('modal',{calLink:'martleshamsc/mot',config:{layout:'month_view'}})">Book Now</button>
+      </div>
+
+      <!-- Card 2: Boudoir -->
+      <div class="session-card">
+        <div class="sc-icon">✨</div>
+        <div class="sc-name">Boudoir Session</div>
+        <div class="sc-desc">An empowering, elegant experience in a private, relaxed studio — designed to make you feel confident and beautiful.</div>
+        <ul class="sc-includes">
+          <li>Up to 2 hour studio session</li>
+          <li>Hair &amp; makeup guidance</li>
+          <li>40+ edited digital images</li>
+          <li>Private online gallery</li>
+        </ul>
+        <div class="sc-price-row">
+          <span class="sc-price-from">From</span>
+          <span class="sc-price">£225</span>
+        </div>
+        <!-- ⚡ Swap martleshamsc/fullservice with Marta's real Cal.com slug when live -->
+        <button class="sc-btn" onclick="Cal('modal',{calLink:'martleshamsc/fullservice',config:{layout:'month_view'}})">Book Now</button>
+      </div>
+
+      <!-- Card 3: Portrait & Family -->
+      <div class="session-card">
+        <div class="sc-icon">🏡</div>
+        <div class="sc-name">Portrait &amp; Family</div>
+        <div class="sc-desc">Natural, authentic portraits for individuals, couples and families — shot on location or in studio, at your pace.</div>
+        <ul class="sc-includes">
+          <li>60 minute session</li>
+          <li>Studio or outdoor location</li>
+          <li>25+ edited digital images</li>
+          <li>Private online gallery</li>
+        </ul>
+        <div class="sc-price-row">
+          <span class="sc-price-from">From</span>
+          <span class="sc-price">£150</span>
+        </div>
+        <!-- ⚡ Swap martleshamsc/generalrepair with Marta's real Cal.com slug when live -->
+        <button class="sc-btn" onclick="Cal('modal',{calLink:'martleshamsc/generalrepair',config:{layout:'month_view'}})">Book Now</button>
+      </div>
+
+    </div><!-- end cards grid -->
+
+    <div class="session-cards-note">
+      🔒 &nbsp; Booking powered by Cal.com · Your details are kept private · Not sure which session? Use the chat ↘
+    </div>
+
+  </div><!-- end session-cards-wrap -->
+
+</section>
+
+<!-- ═══════════════════════════════
+     DIVIDER — transition to contact form
+═══════════════════════════════ -->
+<div class="booking-divider">
+  <hr/>
+  <span class="booking-divider-text">Or Send Us a Message</span>
+  <hr/>
+</div>
+
+<!-- ═══════════════════════════════
+     CONTACT FORM SECTION
+═══════════════════════════════ -->
+<section>
+  <div class="contact-section">
+
+    <!-- Left: text -->
+    <div class="contact-text">
+      <h2>We'd love to hear from you!</h2>
+      <p>Would you like to book a session? Have a question about the services we provide? Need to know more details about photoshoots? Not sure what type of photo shoot is right for you? Get in touch and we'll be happy to get back to you with any information.</p>
+      <p class="spam-note">Our emails may go to your SPAM MAIL so please check SPAM/JUNK folders.</p>
+    </div>
+
+    <!-- Right: form -->
+    <form class="contact-form" action="#" method="post" onsubmit="return false;">
+
+      <div class="form-field">
+        <label class="form-label" for="cf-name">Your Name <span class="req">*</span></label>
+        <input class="form-input" type="text" id="cf-name" name="name" required autocomplete="name"/>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label" for="cf-email">Email Address <span class="req">*</span></label>
+        <input class="form-input" type="email" id="cf-email" name="email" required autocomplete="email"/>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label" for="cf-heard">How Did You Hear About Me?</label>
+        <select class="form-select" id="cf-heard" name="heard">
+          <option value="" disabled selected>Select option</option>
+          <option value="facebook">Facebook Ads</option>
+          <option value="google">Google search</option>
+          <option value="friend">From a friend</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label" for="cf-message">Message</label>
+        <textarea class="form-textarea" id="cf-message" name="message" rows="5"></textarea>
+      </div>
+
+      <button type="submit" class="form-submit">Send Message</button>
+
+    </form>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════
+     FOOTER  (exact replica)
+═══════════════════════════════ -->
+<footer class="site-footer">
+  <div class="footer-instagram">
+    <a href="https://www.instagram.com/" target="_blank" aria-label="Instagram">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+        <circle cx="12" cy="12" r="4"/>
+        <circle cx="17.5" cy="6.5" r=".5" fill="currentColor" stroke="none"/>
+      </svg>
+    </a>
+  </div>
+  <nav class="footer-nav" aria-label="Footer navigation">
+    <a href="https://polkadotphotographyipswich.mypixieset.com/">Home</a>
+    <a href="https://polkadotphotographyipswich.mypixieset.com/about/">About</a>
+    <a href="https://polkadotphotographyipswich.mypixieset.com/portfolio/">Sessions</a>
+    <a href="https://polkadotphotographyipswich.mypixieset.com/testimonials/">Testimonials</a>
+    <a href="https://polkadotphotographyipswich.mypixieset.com/contact/">Contact</a>
+  </nav>
+  <div class="footer-divider"></div>
+  <p class="footer-copy">All content Copyright © 2026 Polka Dot Photography</p>
+</footer>
+
+<!-- ═══════════════════════════════
+     CHAT WIDGET  (ManyChat-style)
+     Floating bottom-right
+═══════════════════════════════ -->
+<div class="pdp-chat-widget" id="pdpWidget">
+
+  <div class="pdp-chat-panel" id="pdpPanel">
+    <div class="pdp-chat-head">
+      <div class="pdp-chat-av">pd<span class="pdp-chat-online"></span></div>
+      <div>
+        <div class="pdp-chat-head-name">Polka Dot Photography</div>
+        <div class="pdp-chat-head-status">Typically replies in minutes</div>
+      </div>
+      <button class="pdp-chat-close" onclick="pdpClose()" aria-label="Close">✕</button>
+    </div>
+
+    <div class="pdp-chat-msgs" id="pdpMsgs">
+      <div class="pdp-msg-time">Today</div>
+      <div class="pdp-msg pdp-bot">
+        <div class="pdp-msg-av">pd</div>
+        <div class="pdp-bubble">Hi there! 👋 Welcome to Polka Dot Photography. How can I help you today?</div>
+      </div>
+      <div class="pdp-msg pdp-bot">
+        <div class="pdp-msg-av">pd</div>
+        <div class="pdp-bubble">Ask me about sessions, pricing or availability — or book directly above!</div>
+      </div>
+    </div>
+
+    <div class="pdp-qr-row" id="pdpQR">
+      <button class="pdp-qr" onclick="pdpQuick(this,'pricing')">Pricing</button>
+      <button class="pdp-qr" onclick="pdpQuick(this,'booking')">How to Book</button>
+      <button class="pdp-qr" onclick="pdpQuick(this,'sessions')">Sessions</button>
+      <button class="pdp-qr" onclick="pdpQuick(this,'turnaround')">Turnaround</button>
+    </div>
+
+    <div class="pdp-chat-input-row">
+      <input class="pdp-chat-input" id="pdpInput" type="text" placeholder="Type a message…" onkeypress="if(event.key==='Enter')pdpSend()"/>
+      <button class="pdp-chat-send" onclick="pdpSend()" aria-label="Send">➤</button>
+    </div>
+    <div class="pdp-chat-powered">Powered by ManyChat</div>
+  </div>
+
+  <button class="pdp-chat-btn" id="pdpBtn" onclick="pdpToggle()" aria-label="Open chat">
+    <span id="pdpIcon">💬</span>
+    <span class="pdp-chat-notif" id="pdpNotif">1</span>
+  </button>
+
+</div>
+
+<script>
+  /* ── Mobile nav toggle ── */
+  document.getElementById('hamburger').addEventListener('click', function() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  });
+
+  /* ── Chat widget ── */
+  var pdpOpen = false;
+
+  var pdpResponses = {
+    pricing: "Here's a quick overview:\n\n· Mini Session — from £75 (30 min)\n· Portrait Session — from £150 (60 min)\n· Maternity / Boudoir — from £225\n· Family Session — from £225 (90 min)\n\nScroll up to book online instantly!",
+    booking: "It's super easy! 📅 Just use the booking calendar above — choose your session, pick a date that works, and you'll get an instant confirmation. No deposit needed.",
+    sessions: "We specialise in Maternity, Boudoir, Milestone, Portrait & Family photography — all shot with a relaxed, personal approach. Head to the Sessions page to see examples!",
+    turnaround: "Your full edited gallery is delivered within 7 days of your session — usually sooner. You'll receive a private link by email to view and download everything. 📸"
+  };
+
+  function pdpToggle() { pdpOpen ? pdpClose() : pdpOpenChat(); }
+
+  function pdpOpenChat() {
+    pdpOpen = true;
+    document.getElementById('pdpPanel').classList.add('pdp-open');
+    document.getElementById('pdpIcon').textContent = '✕';
+    document.getElementById('pdpNotif').style.display = 'none';
+  }
+
+  function pdpClose() {
+    pdpOpen = false;
+    document.getElementById('pdpPanel').classList.remove('pdp-open');
+    document.getElementById('pdpIcon').textContent = '💬';
+  }
+
+  function pdpQuick(btn, key) {
+    pdpAddUser(btn.textContent.trim());
+    document.getElementById('pdpQR').style.display = 'none';
+    pdpShowTyping(function() {
+      pdpAddBot(pdpResponses[key]);
+    });
+  }
+
+  function pdpSend() {
+    var inp = document.getElementById('pdpInput');
+    var text = inp.value.trim(); if (!text) return;
+    inp.value = ''; pdpAddUser(text);
+    var l = text.toLowerCase();
+    pdpShowTyping(function() {
+      if (l.includes('price') || l.includes('cost') || l.includes('how much')) pdpAddBot(pdpResponses.pricing);
+      else if (l.includes('book') || l.includes('appoint')) pdpAddBot(pdpResponses.booking);
+      else if (l.includes('session') || l.includes('maternity') || l.includes('boudoir') || l.includes('family')) pdpAddBot(pdpResponses.sessions);
+      else if (l.includes('long') || l.includes('wait') || l.includes('turnaround') || l.includes('deliver')) pdpAddBot(pdpResponses.turnaround);
+      else pdpAddBot("Thanks for your message! We'll get back to you very soon. In the meantime, feel free to book your session online using the calendar on this page 💛");
+    });
+  }
+
+  function pdpAddUser(text) {
+    var msgs = document.getElementById('pdpMsgs');
+    var d = document.createElement('div'); d.className = 'pdp-msg pdp-user';
+    d.innerHTML = '<div class="pdp-bubble">' + text + '</div>';
+    msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function pdpAddBot(text) {
+    var msgs = document.getElementById('pdpMsgs');
+    var tw = msgs.querySelector('.pdp-typing-wrap'); if (tw) tw.remove();
+    var d = document.createElement('div'); d.className = 'pdp-msg pdp-bot';
+    d.innerHTML = '<div class="pdp-msg-av">pd</div><div class="pdp-bubble">' + text.replace(/\n/g,'<br/>') + '</div>';
+    msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function pdpShowTyping(cb) {
+    var msgs = document.getElementById('pdpMsgs');
+    var w = document.createElement('div'); w.className = 'pdp-msg pdp-bot pdp-typing-wrap';
+    w.innerHTML = '<div class="pdp-msg-av">pd</div><div class="pdp-typing"><span></span><span></span><span></span></div>';
+    msgs.appendChild(w); msgs.scrollTop = msgs.scrollHeight;
+    setTimeout(cb, 1000 + Math.random() * 500);
+  }
+
+  /* Show notification badge after 2s */
+  setTimeout(function() {
+    if (!pdpOpen) document.getElementById('pdpNotif').style.display = 'flex';
+  }, 2000);
+</script>
+
+</body>
+</html>
