@@ -86,6 +86,7 @@ jobs:
           
           git add Clients/**/*.html
           git commit -m "chore: auto-inject analytics tracking into client HTMLs"
+          git pull --rebase origin main
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
