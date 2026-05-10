@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polkadot Photography - Chatbot Conversation Flow</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1f4e78 0%, #2d5a8c 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+            justify-content: center;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        
+        .color-entry { background: #e3f2fd; border: 2px solid #2196f3; }
+        .color-service { background: #e8f5e9; border: 2px solid #4caf50; }
+        .color-faq { background: #fff3e0; border: 2px solid #ff9800; }
+        .color-handoff { background: #f3e5f5; border: 2px solid #9c27b0; }
+        .color-error { background: #ffebee; border: 2px solid #f44336; }
+        
+        .content {
+            padding: 40px;
+            overflow-x: auto;
+        }
+        
+        .flows-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        
+        .flow-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            background: #fafafa;
+            transition: all 0.3s ease;
+        }
+        
+        .flow-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .flow-card h3 {
+            color: #1f4e78;
+            margin-bottom: 8px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .flow-type-badge {
+            display: inline-block;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 12px;
+            background: #667eea;
+            color: white;
+            margin-bottom: 12px;
+        }
+        
+        .flow-step {
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .flow-step:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .step-number {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 8px;
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            margin-left: 36px;
+        }
+        
+        .step-trigger {
+            font-size: 12px;
+            color: #666;
+            margin: 4px 0 6px 0;
+            font-style: italic;
+        }
+        
+        .step-message {
+            font-size: 13px;
+            color: #333;
+            margin: 6px 0;
+            padding: 10px;
+            background: white;
+            border-left: 3px solid #667eea;
+            border-radius: 3px;
+        }
+        
+        .step-options {
+            font-size: 12px;
+            color: #555;
+            margin: 6px 0;
+            padding: 8px;
+            background: #f5f5f5;
+            border-radius: 3px;
+        }
+        
+        .footer {
+            background: #f8f9fa;
+            padding: 20px 30px;
+            text-align: center;
+            border-top: 2px solid #e9ecef;
+            color: #666;
+            font-size: 13px;
+        }
+        
+        .service-count {
+            background: #e3f2fd;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            text-align: center;
+            border-left: 4px solid #2196f3;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+            
+            .flows-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Polkadot Photography - Complete Chatbot Conversation Flow</h1>
+            <p>All 5 services with complete conversation journeys and decision points</p>
+        </div>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color color-entry"></div>
+                <span>Entry & Default</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color color-service"></div>
+                <span>Service Flows</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color color-faq"></div>
+                <span>FAQ/Support</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color color-handoff"></div>
+                <span>Handoff to Marta</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color color-error"></div>
+                <span>Error Handling</span>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="service-count">
+                <h2 style="color: #1f4e78; margin-bottom: 8px;">✨ 5 Complete Service Flows</h2>
+                <p style="color: #666;">Newborn • Maternity • Boudoir • Milestone • Smash & Splash + Family Portrait</p>
+            </div>
+            
+            <div class="flows-grid" id="flowsGrid"></div>
+        </div>
+        
+        <div class="footer">
+            <p>📋 All 5 services fully mapped with complete conversation flows. Ready for review and deployment.</p>
+        </div>
+    </div>
+    
+    <script>
+        const flows = [
+            {
+                name: "DEFAULT REPLY",
+                type: "entry",
+                emoji: "👋",
+                steps: [
+                    {
+                        step: 1,
+                        trigger: "Customer sends any DM",
+                        message: "Hi there! 👋 Welcome to Polka Dot Photography. How can I help you today?",
+                        options: "Newborn Session | Maternity Photos | Boudoir | Milestone | Smash & Splash | Family Portrait | Talk to Marta Directly"
+                    }
+                ]
+            },
+            {
+                name: "NEWBORN SESSION",
+                type: "service",
+                emoji: "🍼",
+                steps: [
+                    {
+                        step: 1,
+                        trigger: "Customer clicks Newborn Session",
+                        message: "Wonderful! Newborn sessions are so special 🍼 When is your baby due (or already arrived)?",
+                        options: "Due soon | Baby already here"
+                    },
+                    {
+                        step: 2,
+                        trigger: "Customer replies to due date",
+                        message: "How exciting! And whereabouts are you based? We photograph in [location].",
+                        options: "Free text reply (location)"
+                    },
+                    {
+                        step: 3,
+                        trigger: "Customer replies location",
+                        message: "Perfect! Our newborn sessions start from £X. I'll let Marta know you're interested — she'll be in touch within 24 hours! Can I grab your name and email?",
+                        options: "Free text reply (contact)"
+                    }
+                ]
+            },
+            {
+                name: "MATERNITY PHOTOS",
+                type: "service",
+                emoji: "🌸",
+                steps: [
+                    {
+                        step: 1,
+                        trigger: "Customer clicks Maternity Photos",
+                        message: "How lovely! Maternity sessions capture such a magical time 🌸 How many weeks are you?",
+                        options: "Under 28 weeks | 28-32 weeks | 32+ weeks"
+                    },
+                    {
+                        step: 2,
+                        trigger: "Customer replies weeks",
+                        message: "Beautiful! Are you looking for a studio session or outdoor shoot?",
+                        options: "Studio | Outdoor | Not sure yet"
+                    },
+                    {
+                        step: 3,
+                        trigger: "Customer replies preference",
+                        message: "Marta would love to chat with you! Sessions start from £X. Can I grab your name and email so she can reach out?",
+                        options: "Free text reply (contact)"
+                    }
+                ]
+            },
+            {
+                name: "BOUDOIR",
+                type: "service",
+                emoji: "💃",
+                steps: [
+                    {
+                        step: 1,
+                        trigger: "Customer clicks Boudoir",
+                        message: "How wonderful! Our boudoir sessions are beautifully intimate. 💃 Are you looking for a solo or couples experience?",
+                        options: "Solo | Couples"
+                    },
+                    {
+                        step: 2,
+                        trigger: "Customer replies session type",
+                        message: "Gorgeous! What's your vision for this session? (Style, theme, specific mood?)",
+                        options: "Free text reply (theme/vision)"
+                    },
+                    {
+                        step: 3,
+                        trigger: "Customer replies theme",
+                        message: "Beautiful! When are you thinking of scheduling? (Upcoming dates or flexibility?)",
+                        options: "Free text reply (date preference)"
+                    },
+                    {
+                        step: 4,
+                        trigger: "Customer replies date",
+                        message: "Perfect! Just to confirm — will your partner be involved or receiving prints? (Optional detail)",
+                        options: "Free text reply (partner involvement)"
+                    }
+                ]
+            },
+            {
+                name: "MILESTONE",
+                type: "service",
+                emoji: "🎂",
+                steps: [
+                    {
+                        step: 1,
+                        trigger: "Customer clicks Milestone",
+                        message: "How special! Birthday milestone sessions are so fun! 🎂 Which birthday are you celebrating?",
+                        options: "1st Birthday | 2nd Birthday | 3rd Birthday | Other (specify)"
+                    },
+                    {
+                        step: 2,
+                        trigger: "Customer replies birthday",
+                        message: "Wonderful! What's your vision for this shoot? (Theme, cake smash style, specific ideas?)",
+                        options: "Free text reply (theme/vision)"
+                    },
+                    {
+                        step: 3,
+                        trigger: "Customer replies theme",
+                        message: "Lovely! Would you prefer studio or outdoor location?",
+                        options: "Studio | Outdoor | Not sure"
+                    },
+                    {
+                        step: 4,
+                        trigger: "Customer replies location",
+                        message: "Perfect! Our milestone sessions start from £X. Let me get your name and email so Marta can discuss your vision!",
+                        options: "Free text reply (contact)"
+                    }
+                ]
+            },
+            {
+                name: "SMASH & SPLASH",
+                type: "service",
+                emoji: "💦",
+                steps: [
+                    {
+                        step: 1,
+                        trigger: "Customer clicks Smash & Splash",
+                        message: "How fun! Smash & Splash sessions create amazing memories! 💦 How old is your little one?",
+                        options: "Free text reply (baby age/months)"
+                    },
+                    {
+                        step: 2,
+                        trigger: "Customer replies baby age",
+                        message: "Wonderful! Are you thinking indoor studio or outdoor setting?",
+                        options: "Indoor Studio | Outdoor | Not sure yet"
+                    },
+                    {
+                        step: 3,
+                        trigger: "Customer replies location",
+                        message: "Great! What type of photos/videos are you interested in?",
+                        options: "Professional photos | Video footage | Both photos & video"
+                    },
+                    {
+                        step: 4,
+                        trigger: "Customer replies output",
+                        message: "Fantastic! Will any siblings be joining in the fun?",
+                        options: "Solo baby | With siblings"
+                    },
+                    {
+                        step: 5,
+                        trigger: "Customer replies sibling info",
+                        message: "Perfect! Our Smash & Splash sessions start from £X. Can I grab your name and email?",
+                        options: "Free text reply (contact)"
+                    }
+                ]
+            },
+            {
+                name: "FAMILY PORTRAIT",
+                type: "service",
+                emoji: "📸",
+                steps: [
+                    {
+                        step: 1,
+                        trigger: "Customer clicks Family Portrait",
+                        message: "Family sessions are so much fun! 📸 How many people will be in the shoot?",
+                        options: "2-3 people | 4-5 people | 6+ people"
+                    },
+                    {
+                        step: 2,
+                        trigger: "Customer replies group size",
+                        message: "Lovely! Do you have a location in mind, or would you like suggestions?",
+                        options: "Have a location | Need suggestions | Studio please"
+                    },
+                    {
+                        step: 3,
+                        trigger: "Customer replies location",
+                        message: "Fantastic! Family sessions start from £X. Let me pass your details to Marta — what's your name and best email?",
+                        options: "Free text reply (contact)"
+                    }
+                ]
+            },
+            {
+                name: "FAQ - PRICING",
+                type: "faq",
+                emoji: "💰",
+                steps: [
+                    {
+                        step: 1,
+                        trigger: "Customer asks about price/cost/how much",
+                        message: "Great question! Our sessions vary by type — Newborn from £X, Maternity from £X, Boudoir from £X, Milestone from £X, Smash & Splash from £X, Family from £X. Would you like to know more about a specific session?",
+                        options: "Newborn | Maternity | Boudoir | Milestone | Smash & Splash | Family | Talk to Marta"
+                    }
+                ]
+            },
+            {
+                name: "FAQ - LOCATION",
+                type: "faq",
+                emoji: "📍",
+                steps: [
+                    {
+                        step: 1,
+                        trigger: "Customer asks where/location/studio",
+                        message: "We're based in [location] and shoot both in our studio and on location around [area]. Which type of shoot interests you?",
+                        options: "Studio | Outdoor | Not sure"
+                    }
+                ]
+            },
+            {
+                name: "FAQ - TURNAROUND",
+                type: "faq",
+                emoji: "⏱️",
+                steps: [
+                    {
+                        step: 1,
+                        trigger: "Customer asks when photos ready/turnaround",
+                        message: "Marta typically delivers your final edited photos within [X] weeks of your session. Would you like to book a session?",
+                        options: "Yes let's book | Tell me more"
+                    }
+                ]
+            },
+            {
+                name: "FAQ - WHAT TO WEAR",
+                type: "faq",
+                emoji: "👔",
+                steps: [
+                    {
+                        step: 1,
+                        trigger: "Customer asks what to wear",
+                        message: "Great question! Marta recommends [guidance]. She'll also send you a full preparation guide once you're booked. Ready to book?",
+                        options: "Yes let's book | Talk to Marta"
+                    }
+                ]
+            },
+            {
+                name: "HANDOFF TO MARTA",
+                type: "handoff",
+                emoji: "💛",
+                steps: [
+                    {
+                        step: 1,
+                        trigger: "Customer selects Talk to Marta or Notify Marta",
+                        message: "Of course! Marta will love to hear from you personally 💛 What's the best way to reach you?",
+                        options: "Email | Phone | WhatsApp"
+                    },
+                    {
+                        step: 2,
+                        trigger: "Customer replies contact method",
+                        message: "Perfect. What's your [email/number]? Marta will be in touch as soon as she can!",
+                        options: "Free text reply (contact details)"
+                    }
+                ]
+            },
+            {
+                name: "UNRECOGNISED",
+                type: "error",
+                emoji: "❓",
+                steps: [
+                    {
+                        step: 1,
+                        trigger: "Customer sends unmatched message",
+                        message: "Sorry, I didn't quite catch that! Here's what I can help with:",
+                        options: "Newborn Session | Maternity Photos | Boudoir | Milestone | Smash & Splash | Family | Talk to Marta"
+                    }
+                ]
+            }
+        ];
+        
+        const typeNames = {
+            entry: 'Entry Point',
+            service: 'Service Flow',
+            faq: 'FAQ/Support',
+            handoff: 'Handoff',
+            error: 'Error Handling'
+        };
+        
+        function renderFlows() {
+            const grid = document.getElementById('flowsGrid');
+            
+            flows.forEach(flow => {
+                const card = document.createElement('div');
+                card.className = 'flow-card';
+                
+                let stepsHTML = '';
+                flow.steps.forEach(step => {
+                    stepsHTML += `
+                        <div class="flow-step">
+                            <div style="display: flex; gap: 8px;">
+                                <span class="step-number">${step.step}</span>
+                                <div class="step-content" style="flex: 1;">
+                                    <div class="step-trigger"><strong>Trigger:</strong> ${step.trigger}</div>
+                                    <div class="step-message"><strong>Bot:</strong> ${step.message}</div>
+                                    <div class="step-options"><strong>Options:</strong> ${step.options}</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                card.innerHTML = `
+                    <h3>${flow.emoji} ${flow.name}</h3>
+                    <div class="flow-type-badge">${typeNames[flow.type]}</div>
+                    ${stepsHTML}
+                `;
+                
+                grid.appendChild(card);
+            });
+        }
+        
+        renderFlows();
+    </script>
+</body>
+</html>
