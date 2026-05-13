@@ -17,7 +17,7 @@ SECTIONS = [
     {"icon": "&#128227;", "color": "c-coral",   "title": "Marketing & Outreach",               "dir": "Marketing & Outreach",             "subsections": False},
     {"icon": "&#127919;", "color": "c-teal",    "title": "Prospects & Sales",                  "dir": "Prospects & Sales",                "subsections": False},
 {"icon": "&#128188;", "color": "c-orange", "title": "Projects", "dir": "Projects", "subsections": False},
-
+]
 # ── Icons ─────────────────────────────────────────────────────────────────────
 
 CHEVRON = '<svg class="chevron" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"/></svg>'
