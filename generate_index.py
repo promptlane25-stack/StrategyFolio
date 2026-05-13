@@ -10,13 +10,13 @@ BLOB_BASE  = "https://github.com/promptlane25-stack/StrategyFolio/blob/main/"
 SECTIONS = [
     {"icon": "&#128202;", "color": "c-indigo",  "title": "Analytics",                          "dir": "Analytics",                        "subsections": False},
     {"icon": "&#9881;",   "color": "c-purple",  "title": "Business Operations",                "dir": "Business Operations",              "subsections": False},
-    {"icon": "&#129309;", "color": "c-green",   "title": "Projects",                            "dir": "Clients",                          "subsections": True},
+    {"icon": "&#129309;", "color": "c-green",   "title": "Projects",                            "dir": "Projects",                          "subsections": True},
     {"icon": "&#128196;", "color": "c-teal",    "title": "Deliverables \u2014 Guides & Handovers",  "dir": "Deliverables - Guides & Handovers","subsections": False},
     {"icon": "&#128176;", "color": "c-amber",   "title": "Deliverables \u2014 Proposals & Pricing", "dir": "Deliverables - Proposals & Pricing","subsections": False},
     {"icon": "&#127760;", "color": "c-blue",    "title": "Deliverables \u2014 Websites",            "dir": "Deliverables-Websites",            "subsections": False},
     {"icon": "&#128227;", "color": "c-coral",   "title": "Marketing & Outreach",               "dir": "Marketing & Outreach",             "subsections": False},
     {"icon": "&#127919;", "color": "c-teal",    "title": "Prospects & Sales",                  "dir": "Prospects & Sales",                "subsections": False},
-{"icon": "&#128188;", "color": "c-orange", "title": "Projects", "dir": "Projects", "subsections": False},
+
 ]
 # ── Icons ─────────────────────────────────────────────────────────────────────
 
