@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>H&F Auto Services | MOT, Servicing & Repairs — Ipswich</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ─── MARTLESHAM COLOUR TOKENS ─── */
+:root {
+  --black:      #0A0A0A;
+  --charcoal:   #1A1A1A;
+  --steel:      #2C2C2C;
+  --mid:        #555;
+  --light:      #F0EDE8;
+  --white:      #FAFAF8;
+  --red:        #C8281E;
+  --red-dark:   #A01F17;
+  --red-glow:   rgba(200,40,30,0.15);
+  --border:     rgba(255,255,255,0.07);
+  --border-lt:  rgba(0,0,0,0.08);
+  --green:      #4CAF50;
+
+  --font-h: 'Barlow Condensed', sans-serif;
+  --font-b: 'Barlow', sans-serif;
+  --r: 6px;
+  --sh: 0 2px 16px rgba(0,0,0,.25);
+  --sh-lg: 0 8px 36px rgba(0,0,0,.4);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-b); background: var(--white); color: var(--charcoal); overflow-x: hidden; font-size: 15px; line-height: 1.6; }
+a { color: inherit; text-decoration: none; }
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp  { from { opacity:0; transform:translateY(28px) } to { opacity:1; transform:none } }
+@keyframes pulse   { 0%,100%{transform:scale(1)} 50%{transform:scale(1.07)} }
+@keyframes bounceY { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }
+
+.reveal { opacity:0; transform:translateY(22px); transition: opacity .6s ease, transform .6s ease; }
+.reveal.in { opacity:1; transform:none; }
+.d1{transition-delay:.08s} .d2{transition-delay:.16s} .d3{transition-delay:.24s}
+.d4{transition-delay:.32s} .d5{transition-delay:.40s} .d6{transition-delay:.48s}
+
+/* ─── TOP BAR ─── */
+.topbar {
+  background: var(--black);
+  border-bottom: 1px solid var(--border);
+  color: rgba(255,255,255,.55);
+  font-family: var(--font-b);
+  font-size: 13px;
+  font-weight: 500;
+  padding: .6rem 6%;
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 1rem; flex-wrap: wrap;
+}
+.topbar a { color: rgba(255,255,255,.55); transition: color .2s; }
+.topbar a:hover { color: var(--white); }
+.tb-left, .tb-right { display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap; }
+.tb-item { display: flex; align-items: center; gap: .4rem; }
+.open-dot::before { content: '●'; color: var(--green); font-size: 9px; margin-right: .35rem; }
+.open-dot { font-weight: 600; color: rgba(255,255,255,.7); }
+
+/* ─── NAV ─── */
+nav {
+  position: sticky; top: 0; z-index: 300;
+  background: var(--charcoal);
+  border-bottom: 2px solid var(--red);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 6%; height: 64px;
+  box-shadow: 0 2px 16px rgba(0,0,0,.4);
+}
+.nav-logo {
+  font-family: var(--font-h);
+  font-size: 22px; font-weight: 800;
+  color: var(--white);
+  display: flex; align-items: center; gap: .5rem;
+  letter-spacing: .5px;
+}
+.logo-chip {
+  background: var(--red);
+  color: #fff;
+  padding: .18rem .6rem;
+  border-radius: 4px;
+  font-size: 20px;
+  letter-spacing: .5px;
+}
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a {
+  font-family: var(--font-b);
+  font-size: 13px; font-weight: 600;
+  color: rgba(255,255,255,.6);
+  text-transform: uppercase; letter-spacing: .5px;
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--white); }
+.nav-cta {
+  background: var(--red) !important;
+  color: var(--white) !important;
+  padding: .45rem 1.2rem;
+  border-radius: 4px;
+  font-weight: 700 !important;
+  transition: background .2s, transform .15s !important;
+}
+.nav-cta:hover { background: var(--red-dark) !important; transform: translateY(-1px); }
+
+/* ─── HERO ─── */
+.hero {
+  background: var(--black);
+  min-height: 86vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative; overflow: hidden;
+}
+.hero-pattern {
+  position: absolute; inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none; z-index: 0;
+}
+.hero-glow {
+  position: absolute; width: 500px; height: 500px; border-radius: 50%;
+  background: radial-gradient(circle, var(--red-glow) 0%, transparent 65%);
+  left: -100px; top: -80px; pointer-events: none; z-index: 0;
+}
+.hero-content {
+  position: relative; z-index: 2;
+  padding: 6rem 5% 5rem 6%;
+  display: flex; flex-direction: column; justify-content: center;
+  animation: fadeUp .85s ease both;
+}
+/* Right image panel — exactly like Martlesham */
+.hero-right {
+  position: relative;
+  overflow: hidden;
+  background: var(--steel);
+}
+.hero-right img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0.45;
+  mix-blend-mode: luminosity;
+}
+.hero-right-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to right, var(--black) 0%, transparent 40%);
+}
+.hero-phone-badge {
+  position: absolute;
+  bottom: 40px; right: 40px;
+  background: var(--red);
+  color: white;
+  padding: 20px 28px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(200,40,30,0.4);
+}
+.hero-phone-badge .ph-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; opacity: .85; margin-bottom: 4px; font-family: var(--font-b); font-weight: 600; }
+.hero-phone-badge .ph-num { font-family: var(--font-h); font-size: 26px; font-weight: 800; letter-spacing: 1px; }
+.hero-phone-badge .ph-sub { font-size: 12px; opacity: .8; margin-top: 2px; font-family: var(--font-b); }
+.hero-tag {
+  display: inline-flex; align-items: center; gap: .55rem;
+  background: rgba(200,40,30,.12);
+  border: 1px solid rgba(200,40,30,.3);
+  color: rgba(255,255,255,.7);
+  font-family: var(--font-b);
+  font-size: 12px; font-weight: 600;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  padding: .35rem .9rem; border-radius: 30px;
+  margin-bottom: 1.5rem;
+}
+.hero h1 {
+  font-family: var(--font-h);
+  font-size: clamp(52px, 7vw, 88px);
+  font-weight: 900; line-height: .95;
+  color: var(--white); margin-bottom: 1.25rem;
+  letter-spacing: -1px; text-transform: uppercase;
+}
+.hero h1 em { color: var(--red); font-style: normal; }
+.hero-sub {
+  color: rgba(255,255,255,.5);
+  font-size: 18px; font-weight: 300; line-height: 1.75;
+  margin-bottom: 2.5rem; max-width: 520px;
+}
+.hero-sub strong { color: rgba(255,255,255,.9); font-weight: 500; }
+.hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: .5rem;
+  font-family: var(--font-h); font-weight: 700; font-size: 16px;
+  padding: .85rem 2rem; border-radius: 4px; letter-spacing: .5px;
+  cursor: pointer; transition: all .2s;
+  border: 2px solid transparent; text-decoration: none;
+  text-transform: uppercase;
+}
+.btn-red {
+  background: var(--red); color: #fff;
+  box-shadow: 0 4px 20px rgba(200,40,30,.35);
+}
+.btn-red:hover { background: var(--red-dark); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(200,40,30,.5); }
+.btn-outline-w {
+  background: transparent; color: rgba(255,255,255,.8);
+  border-color: rgba(255,255,255,.2);
+}
+.btn-outline-w:hover { border-color: rgba(255,255,255,.6); color: var(--white); background: rgba(255,255,255,.05); }
+
+/* Hero stats */
+.hero-stats {
+  display: flex; margin-top: 4rem;
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--border);
+  border-radius: var(--r); overflow: hidden;
+}
+.hero-stat {
+  flex: 1; text-align: center;
+  padding: 1.4rem 1rem;
+  border-right: 1px solid var(--border);
+}
+.hero-stat:last-child { border-right: none; }
+.hs-num {
+  font-family: var(--font-h); font-size: 36px; font-weight: 900;
+  color: var(--white); line-height: 1; text-transform: uppercase;
+}
+.hs-num .acc { color: var(--red); }
+.hs-label { font-size: 11px; color: rgba(255,255,255,.35); text-transform: uppercase; letter-spacing: 1.5px; margin-top: .3rem; font-weight: 600; }
+
+/* ─── TRUST STRIP ─── */
+.trust-strip {
+  background: var(--steel);
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 6%;
+  display: flex; align-items: center; justify-content: center;
+  gap: 0; flex-wrap: wrap;
+}
+.trust-item {
+  display: flex; align-items: center; gap: .5rem;
+  font-family: var(--font-b); font-size: 13px; font-weight: 600;
+  color: rgba(255,255,255,.55);
+  padding: .45rem 1.6rem;
+  border-right: 1px solid var(--border);
+  white-space: nowrap;
+}
+.trust-item:last-child { border-right: none; }
+.trust-item span:first-child { font-size: 1rem; }
+
+/* ─── SECTION SHARED ─── */
+section { padding: 5.5rem 6%; }
+.eyebrow {
+  font-family: var(--font-b); font-size: 11px; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase; color: var(--red);
+  margin-bottom: .65rem;
+}
+.sec-title {
+  font-family: var(--font-h);
+  font-size: clamp(32px, 3.5vw, 52px);
+  font-weight: 900; line-height: 1; text-transform: uppercase;
+  letter-spacing: -.5px;
+  color: var(--charcoal); margin-bottom: .85rem;
+}
+.sec-sub { font-size: 16px; font-weight: 300; color: var(--mid); line-height: 1.75; }
+.sec-head { margin-bottom: 3rem; }
+.sec-head.centre { text-align: center; }
+.sec-head.centre .sec-sub { margin: 0 auto; max-width: 520px; }
+
+/* ─── SERVICES ─── */
+.svc-bg { background: var(--light); }
+.svc-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border-lt);
+  border: 1px solid var(--border-lt);
+}
+.svc-card {
+  background: var(--white);
+  padding: 2.2rem 1.8rem;
+  position: relative; overflow: hidden;
+  transition: all .3s;
+  text-align: left;
+}
+.svc-card::after {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--red);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .3s;
+}
+.svc-card:hover { background: #faf7f4; }
+.svc-card:hover::after { transform: scaleX(1); }
+.svc-emoji-wrap {
+  width: 56px; height: 56px;
+  background: var(--light);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 0 1rem .4rem;
+  transition: background .3s, transform .3s;
+  flex-shrink: 0;
+}
+.svc-card:hover .svc-emoji-wrap { background: rgba(200,40,30,.1); transform: scale(1.06); }
+.svc-emoji { font-size: 1.8rem; display: block; line-height: 1; margin: 0; }
+.svc-num {
+  font-family: var(--font-b); font-size: 11px; font-weight: 700;
+  color: var(--red); letter-spacing: 2px; text-transform: uppercase; margin-bottom: .3rem;
+}
+.svc-name {
+  font-family: var(--font-h); font-size: 20px; font-weight: 800;
+  color: var(--charcoal); margin-bottom: .55rem; text-transform: uppercase; letter-spacing: .3px;
+}
+.svc-desc { font-size: 13px; font-weight: 400; color: var(--mid); line-height: 1.65; }
+.svc-link {
+  display: inline-flex; align-items: center; gap: .3rem;
+  font-family: var(--font-b); font-size: 13px; font-weight: 600;
+  color: var(--red); margin-top: 1rem; transition: gap .2s;
+}
+.svc-card:hover .svc-link { gap: .6rem; }
+
+/* ─── PRICING ─── */
+.price-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border-lt);
+  border: 1px solid var(--border-lt);
+}
+.price-card {
+  background: var(--white);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  transition: background .2s;
+  position: relative; overflow: hidden;
+}
+.price-card.feat { background: var(--charcoal); }
+.price-card.feat::before {
+  content: 'MOST POPULAR';
+  position: absolute; top: .9rem; right: -2.5rem;
+  background: var(--red); color: #fff;
+  font-family: var(--font-b); font-size: 9px; font-weight: 700;
+  letter-spacing: 1.5px; padding: .25rem 3rem;
+  transform: rotate(45deg);
+}
+.price-card:not(.feat):hover { background: #faf7f4; }
+.price-emoji { font-size: 2rem; display: block; margin-bottom: .9rem; }
+.price-name {
+  font-family: var(--font-b); font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 2px;
+  color: var(--mid); margin-bottom: .45rem;
+}
+.price-card.feat .price-name { color: rgba(255,255,255,.45); }
+.price-amount {
+  font-family: var(--font-h); font-size: 44px; font-weight: 900;
+  line-height: 1; color: var(--charcoal); text-transform: uppercase;
+}
+.price-card.feat .price-amount { color: var(--white); }
+.price-amount small { font-size: 14px; color: var(--mid); font-weight: 400; font-family: var(--font-b); text-transform: none; }
+.price-card.feat .price-amount small { color: rgba(255,255,255,.4); }
+.price-note { font-size: 12px; color: var(--mid); margin: .35rem 0 1.2rem; }
+.price-card.feat .price-note { color: rgba(255,255,255,.35); }
+.price-ul {
+  list-style: none; text-align: left;
+  display: flex; flex-direction: column; gap: .5rem; margin-bottom: 1.4rem;
+}
+.price-ul li {
+  font-size: 13px; color: #444;
+  display: flex; align-items: flex-start; gap: .5rem;
+}
+.price-card.feat .price-ul li { color: rgba(255,255,255,.65); }
+.price-ul li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
+.price-btn {
+  display: block; width: 100%; padding: .7rem;
+  border-radius: 4px; font-family: var(--font-h); font-weight: 700;
+  font-size: 15px; cursor: pointer; transition: all .2s; text-align: center;
+  background: var(--light); border: 1px solid var(--border-lt); color: var(--charcoal);
+  text-transform: uppercase; letter-spacing: .5px;
+}
+.price-card.feat .price-btn { background: var(--red); border-color: var(--red); color: #fff; }
+.price-card:not(.feat):hover .price-btn { background: var(--red); border-color: var(--red); color: #fff; }
+
+/* ─── WHY US (dark) ─── */
+.why-bg { background: var(--charcoal); }
+.why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; margin-top: 3rem; }
+.why-cards { display: flex; flex-direction: column; gap: .9rem; }
+.why-card {
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--border);
+  border-radius: var(--r); padding: 1.4rem;
+  display: flex; gap: 1.1rem; align-items: flex-start;
+  transition: all .3s;
+}
+.why-card:hover { background: var(--red-glow); border-color: rgba(200,40,30,.3); transform: translateX(5px); }
+.why-em { font-size: 1.8rem; flex-shrink: 0; transition: transform .3s; }
+.why-card:hover .why-em { transform: scale(1.18) rotate(-7deg); }
+.why-card-t {
+  font-family: var(--font-h); font-size: 18px; font-weight: 800;
+  color: var(--white); margin-bottom: .25rem; text-transform: uppercase; letter-spacing: .3px;
+}
+.why-card-d { font-size: 14px; font-weight: 300; color: rgba(255,255,255,.45); line-height: 1.7; }
+
+/* Reviews */
+.why-reviews { display: flex; flex-direction: column; gap: .9rem; }
+.rating-box {
+  background: var(--red);
+  border-radius: var(--r);
+  padding: 1.8rem 1.5rem; text-align: center;
+}
+.rating-big {
+  font-family: var(--font-h); font-size: 64px; font-weight: 900;
+  color: #fff; line-height: 1; text-transform: uppercase;
+}
+.rating-stars { color: rgba(255,255,255,.8); font-size: 1.1rem; letter-spacing: 3px; margin: .25rem 0; }
+.rating-caption { font-size: 11px; color: rgba(255,255,255,.6); font-weight: 600; text-transform: uppercase; letter-spacing: 2px; }
+.rev-card {
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--border);
+  border-radius: var(--r); padding: 1.35rem; transition: all .3s;
+}
+.rev-card:hover { background: rgba(255,255,255,.08); transform: translateY(-2px); }
+.rev-stars { color: #f4c430; font-size: .85rem; margin-bottom: .5rem; letter-spacing: 2px; }
+.rev-text { font-size: 14px; font-weight: 300; color: rgba(255,255,255,.55); font-style: italic; line-height: 1.7; margin-bottom: .75rem; }
+.rev-meta { display: flex; justify-content: space-between; align-items: center; }
+.rev-name { font-family: var(--font-b); font-size: 11px; font-weight: 700; color: rgba(255,255,255,.25); text-transform: uppercase; letter-spacing: 1px; }
+.rev-link { font-size: 12px; color: var(--red); font-weight: 600; transition: color .2s; }
+.rev-link:hover { color: rgba(255,255,255,.8); }
+
+/* ─── BOOKING ─── */
+.bk-bg { background: var(--light); }
+.bk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+.bk-left { text-align: left; }
+.bk-points { display: flex; flex-direction: column; gap: .8rem; margin: 1.75rem 0; }
+.bk-pt { display: flex; align-items: center; gap: .75rem; font-size: 15px; color: var(--mid); font-weight: 400; }
+.bk-pt span:first-child { font-size: 1rem; }
+.bk-services { display: flex; flex-direction: column; gap: .75rem; }
+.bk-btn {
+  display: flex; align-items: center; gap: 1rem;
+  background: var(--white); border: 1px solid var(--border-lt);
+  border-radius: var(--r); padding: 1.1rem 1.4rem;
+  cursor: pointer; transition: all .3s; width: 100%; text-align: left;
+}
+.bk-btn:hover, .bk-btn.active { border-color: var(--red); background: rgba(200,40,30,.04); }
+.bk-icon {
+  width: 42px; height: 42px; background: var(--light);
+  border-radius: 4px; display: flex; align-items: center;
+  justify-content: center; font-size: 1.2rem; transition: all .3s; flex-shrink: 0;
+}
+.bk-btn:hover .bk-icon, .bk-btn.active .bk-icon { background: var(--red); }
+.bk-label { font-family: var(--font-h); font-size: 18px; font-weight: 800; color: var(--charcoal); text-transform: uppercase; letter-spacing: .3px; }
+.bk-sub { font-size: 12px; font-weight: 400; color: var(--mid); }
+.bk-note { margin-top: 1.4rem; text-align: center; font-size: 14px; color: var(--mid); }
+.bk-note a { color: var(--red); font-weight: 600; }
+.bk-call-alt {
+  background: var(--white); border-radius: var(--r);
+  padding: 1.4rem 1.5rem; margin-top: 1.75rem;
+  border-left: 4px solid var(--red);
+  box-shadow: var(--sh);
+}
+.bca-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--mid); margin-bottom: .3rem; font-weight: 600; }
+.bca-num { font-family: var(--font-h); font-size: 24px; font-weight: 800; color: var(--charcoal); margin-bottom: .2rem; }
+.bca-num a { color: var(--charcoal); transition: color .2s; }
+.bca-num a:hover { color: var(--red); }
+.bca-hours { font-size: 12px; color: var(--mid); }
+
+/* ─── FAQ ─── */
+.faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start; margin-top: 1.5rem; }
+.faq-list { border: 1px solid var(--border-lt); border-radius: var(--r); overflow: hidden; }
+.faq-item { border-bottom: 1px solid var(--border-lt); }
+.faq-item:last-child { border-bottom: none; }
+.faq-q {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: 1.25rem 1.5rem; cursor: pointer;
+  font-family: var(--font-h); font-size: 17px; font-weight: 800;
+  background: var(--white); transition: background .2s; color: var(--charcoal);
+  text-transform: uppercase; letter-spacing: .3px;
+}
+.faq-q:hover { background: var(--light); }
+.faq-tog { font-size: 1.2rem; color: var(--red); transition: transform .3s; flex-shrink: 0; }
+.faq-item.open .faq-tog { transform: rotate(45deg); }
+.faq-a {
+  display: none; padding: 0 1.5rem 1.25rem;
+  font-size: 14px; font-weight: 300; color: var(--mid); line-height: 1.8;
+  background: var(--white);
+}
+.faq-item.open .faq-a { display: block; }
+
+/* ─── LOCATION ─── */
+.hours-tbl {
+  width: 100%; border-collapse: collapse;
+  background: var(--white); border: 1px solid var(--border-lt);
+  border-radius: var(--r); overflow: hidden; box-shadow: var(--sh);
+}
+.hours-tbl tr { border-bottom: 1px solid var(--border-lt); }
+.hours-tbl tr:last-child { border-bottom: none; }
+.hours-tbl td { padding: .9rem 1.2rem; font-size: 14px; font-weight: 400; }
+.hours-tbl td:last-child { text-align: right; font-weight: 600; color: var(--mid); }
+.hours-tbl tr.today td { color: var(--red); font-weight: 700; background: rgba(200,40,30,.05); }
+.hours-tbl tr.closed-r td { color: #bbb; }
+.today-chip {
+  font-size: 10px; background: var(--red); color: #fff;
+  padding: .1rem .4rem; border-radius: 3px; font-weight: 700;
+  margin-left: .4rem; letter-spacing: .5px;
+}
+.loc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; margin-top: 2rem; }
+.ct-stack { display: flex; flex-direction: column; gap: .8rem; }
+.ct-card {
+  display: flex; align-items: center; gap: 1rem;
+  background: var(--white); border: 1px solid var(--border-lt);
+  border-radius: var(--r); padding: 1.1rem 1.4rem; transition: all .3s;
+}
+.ct-card:hover { border-color: var(--red); transform: translateX(4px); background: rgba(200,40,30,.03); }
+.ct-icon {
+  width: 40px; height: 40px; background: var(--red);
+  border-radius: 4px; display: flex; align-items: center;
+  justify-content: center; font-size: .95rem; flex-shrink: 0;
+}
+.ct-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--mid); font-weight: 600; margin-bottom: .1rem; }
+.ct-val { font-size: 15px; font-weight: 600; color: var(--charcoal); }
+.ct-val a { color: var(--charcoal); transition: color .2s; }
+.ct-val a:hover { color: var(--red); }
+.map-btn {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .5rem;
+  background: var(--light); border: 1px solid var(--border-lt);
+  border-radius: var(--r); height: 170px; cursor: pointer;
+  transition: all .3s; margin-top: .9rem; text-decoration: none;
+}
+.map-btn:hover { border-color: var(--red); box-shadow: var(--sh); transform: translateY(-2px); }
+.map-btn span { font-size: 2.2rem; }
+.map-btn p { font-size: 14px; color: var(--red); font-weight: 600; font-family: var(--font-b); }
+
+/* ─── CTA BANNER ─── */
+.cta-wrap {
+  background: var(--black);
+  border-top: 3px solid var(--red);
+  padding: 5.5rem 6%; text-align: center; position: relative; overflow: hidden;
+}
+.cta-wrap::before { content: '🔧'; font-size: 14rem; position: absolute; opacity: .04; top: 50%; left: 6%; transform: translateY(-50%); pointer-events: none; }
+.cta-wrap::after  { content: '🚗'; font-size: 11rem; position: absolute; opacity: .04; top: 50%; right: 6%; transform: translateY(-50%); pointer-events: none; }
+.cta-wrap h2 {
+  font-family: var(--font-h); font-size: clamp(36px, 4vw, 60px);
+  font-weight: 900; color: var(--white); margin-bottom: .75rem;
+  text-transform: uppercase; letter-spacing: -.5px;
+}
+.cta-wrap h2 em { color: var(--red); font-style: normal; }
+.cta-wrap p { color: rgba(255,255,255,.45); font-size: 17px; font-weight: 300; margin: 0 auto 2.5rem; max-width: 460px; line-height: 1.75; }
+.cta-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+.btn-outline-w2 { background: transparent; color: rgba(255,255,255,.7); border-color: rgba(255,255,255,.2); }
+.btn-outline-w2:hover { border-color: rgba(255,255,255,.6); color: var(--white); background: rgba(255,255,255,.05); }
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--black);
+  border-top: 1px solid var(--border);
+  padding: 4rem 6% 0;
+  color: rgba(255,255,255,.35);
+}
+.footer-grid {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 3rem; padding-bottom: 3rem;
+  border-bottom: 1px solid var(--border);
+}
+.ft-brand {
+  font-family: var(--font-h); font-size: 24px; font-weight: 900;
+  color: var(--white); margin-bottom: .8rem;
+  display: flex; align-items: center; gap: .5rem;
+  text-transform: uppercase; letter-spacing: .5px;
+}
+.ft-chip { background: var(--red); color: #fff; padding: .18rem .6rem; border-radius: 4px; font-size: 20px; }
+.ft-desc { font-size: 13px; font-weight: 300; line-height: 1.8; color: rgba(255,255,255,.3); max-width: 280px; }
+.ft-col-title {
+  font-family: var(--font-b); font-size: 10px; font-weight: 700;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  color: rgba(255,255,255,.35); margin-bottom: 1.1rem;
+}
+.ft-links { list-style: none; display: flex; flex-direction: column; gap: .65rem; }
+.ft-links a { font-size: 13px; font-weight: 400; color: rgba(255,255,255,.4); transition: color .2s; }
+.ft-links a:hover { color: var(--white); }
+.ft-bottom {
+  padding: 1.4rem 0;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 12px; color: rgba(255,255,255,.2); flex-wrap: wrap; gap: .5rem;
+}
+.ft-bottom a { color: rgba(255,255,255,.25); transition: color .2s; }
+.ft-bottom a:hover { color: var(--white); }
+
+/* ─── BOOKING MODAL (Cal.com) ─── */
+@keyframes modalReveal { from { opacity:0; transform:translateY(30px) scale(0.98) } to { opacity:1; transform:translateY(0) scale(1) } }
+.hnf-modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; z-index:10000; align-items:center; justify-content:center; backdrop-filter:blur(12px); background:rgba(0,0,0,.88); }
+.hnf-modal.active { display:flex; animation:modalReveal .4s cubic-bezier(.4,0,.2,1); }
+.hnf-modal-content { background:#fff; width:95%; max-width:1100px; height:85vh; border-radius:16px; overflow:hidden; position:relative; box-shadow:0 40px 100px rgba(0,0,0,.6); }
+.hnf-modal-close { position:absolute; top:20px; right:24px; font-size:26px; cursor:pointer; color:var(--charcoal); z-index:100; transition:transform .2s; opacity:.45; line-height:1; }
+.hnf-modal-close:hover { opacity:1; transform:rotate(90deg); }
+.hnf-iframe { width:100%; height:100%; border:none; }
+
+/* Booking service cards */
+.bk-svc-card {
+  background: var(--white); border: 1px solid var(--border-lt);
+  border-left: 4px solid transparent;
+  border-radius: var(--r); padding: 1.5rem 1.6rem;
+  cursor: pointer; transition: all .25s ease;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  width: 100%; min-height: 84px;
+}
+.bk-svc-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,.1); border-color: var(--red); background: rgba(200,40,30,.03); }
+.bk-svc-card.mot   { border-left-color: var(--red); }
+.bk-svc-card.svc   { border-left-color: var(--steel); }
+.bk-svc-card.rep   { border-left-color: var(--mid); }
+.sc-info { display:flex; align-items:center; gap:1.1rem; }
+.sc-icon { width:52px; height:52px; background:var(--light); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.5rem; transition:all .25s; flex-shrink:0; }
+.bk-svc-card:hover .sc-icon { background:var(--red); }
+.sc-title { font-family:var(--font-h); font-size:20px; font-weight:800; color:var(--charcoal); text-transform:uppercase; letter-spacing:.3px; margin-bottom:.2rem; }
+.sc-sub { font-size:13px; color:var(--mid); }
+.sc-arrow { width:32px; height:32px; background:var(--light); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px; opacity:.4; transition:all .25s; flex-shrink:0; }
+.bk-svc-card:hover .sc-arrow { background:var(--red); color:#fff; opacity:1; }
+
+/* ─── WHATSAPP FLOAT ─── */
+.wa-btn {
+  position: fixed; bottom: 2rem; right: 2rem; z-index: 500;
+  width: 56px; height: 56px;
+  background: #25d366; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.55rem;
+  box-shadow: 0 4px 18px rgba(37,211,102,.45);
+  animation: bounceY 2.6s ease-in-out infinite;
+  transition: transform .2s;
+}
+.wa-btn:hover { transform: scale(1.1); animation: none; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 1100px) { .price-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 960px) {
+  .hero { grid-template-columns: 1fr; min-height: auto; }
+  .hero-right { display: none; }
+  .hero-content { padding: 5rem 5% 4rem; }
+  .svc-grid { grid-template-columns: repeat(2, 1fr); }
+  .why-grid, .bk-grid, .loc-grid, .faq-grid { grid-template-columns: 1fr; }
+  nav .nav-links { display: none; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 600px) {
+  section { padding: 4rem 5%; }
+  .svc-grid { grid-template-columns: 1fr; }
+  .price-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="tb-left">
+    <div class="tb-item">⏰ Mon–Fri 8:00am–5:30pm &nbsp;·&nbsp; Sat 8:00am–12:30pm</div>
+    <div class="tb-item">📍 170-172 St Helen Street, Ipswich IP4 2LH</div>
+  </div>
+  <div class="tb-right">
+  <span id="openStatus"></span>
+    <a href="tel:01473281763" class="tb-item">📞 01473 281763</a>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#hero">
+    <span class="logo-chip">H&F</span> AUTO SERVICES
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#pricing">Prices</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#contact">Find Us</a></li>
+    <li><a href="#booking" class="nav-cta">📅 Book Online</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="hero">
+  <div class="hero-pattern"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-tag">🏆 Trusted Since 1987 &nbsp;·&nbsp; Ipswich's Independent Garage</div>
+    <h1>MOT Testing,<br>Servicing &amp; <em>Repairs</em><br>You Can Trust</h1>
+    <p class="hero-sub">A local, independent garage and MOT centre serving Ipswich and surrounding areas since 1987. <strong>First class care, honest prices,</strong> and workmanship you can rely on.</p>
+    <div class="hero-btns">
+      <a href="#booking" class="btn btn-red">📅 Book Online Now</a>
+      <a href="tel:01473281763" class="btn btn-outline-w">📞 Call 01473 281763</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hs-num"><span class="counter" data-to="37">0</span><span class="acc">+</span></div>
+        <div class="hs-label">Years in Ipswich</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hs-num">4.3<span class="acc">★</span></div>
+        <div class="hs-label">Google Rating</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hs-num"><span class="counter" data-to="120">0</span><span class="acc">+</span></div>
+        <div class="hs-label">Google Reviews</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hs-num">MOT<span class="acc"> ✓</span></div>
+        <div class="hs-label">Class 4 Approved</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img src="Images/garage-workshop.jpg" alt="Garage workshop interior with cars being serviced" loading="eager">
+    <div class="hero-right-overlay"></div>
+    <div class="hero-phone-badge">
+      <div class="ph-label">Call Us Now</div>
+      <div class="ph-num"><a href="tel:01473281763" style="color:white;text-decoration:none">01473 281763</a></div>
+      <div class="ph-sub">Mon–Fri 8:00am–5:30pm</div>
+    </div>
+  </div>
+</div>
+
+<!-- TRUST STRIP -->
+<div class="trust-strip">
+  <div class="trust-item"><span>🏛️</span> Motor Ombudsman Approved</div>
+  <div class="trust-item"><span>🔗</span> Autofirst Network Member</div>
+  <div class="trust-item"><span>✅</span> Official MOT Test Centre</div>
+  <div class="trust-item"><span>🆓</span> Free Quotes on All Repairs</div>
+  <div class="trust-item"><span>📸</span> Photo &amp; Video Updates</div>
+  <div class="trust-item"><span>💳</span> All Cards Accepted</div>
+</div>
+
+<!-- SERVICES -->
+<section class="svc-bg" id="services">
+  <div class="sec-head reveal">
+    <div class="eyebrow">⚙️ What We Do</div>
+    <div class="sec-title">Complete Car Care Under One Roof</div>
+    <p class="sec-sub">From a routine MOT to faults other garages gave up on — our experienced mechanics handle it all. Free quotes on every job.</p>
+  </div>
+  <div class="svc-grid">
+    <div class="svc-card reveal d1">
+      <div class="svc-emoji-wrap"><span class="svc-emoji">🔍</span></div>
+      <div class="svc-num">01</div>
+      <div class="svc-name">MOT Testing</div>
+      <div class="svc-desc">Official MOT test centre. Fast, fairly priced, same-day slots often available. Book your slot online in seconds.</div>
+      <a href="#booking" class="svc-link">Book a slot →</a>
+    </div>
+    <div class="svc-card reveal d2">
+      <div class="svc-emoji-wrap"><span class="svc-emoji">⚙️</span></div>
+      <div class="svc-num">02</div>
+      <div class="svc-name">Car Servicing</div>
+      <div class="svc-desc">Interim and full services on all makes and models. Manufacturer-approved checks by experienced, qualified technicians.</div>
+      <a href="#booking" class="svc-link">Book a service →</a>
+    </div>
+    <div class="svc-card reveal d3">
+      <div class="svc-emoji-wrap"><span class="svc-emoji">🛠️</span></div>
+      <div class="svc-num">03</div>
+      <div class="svc-name">Car Repairs</div>
+      <div class="svc-desc">Brakes, clutches, exhausts, suspension and more. We fix faults other garages couldn't diagnose — and show you the evidence.</div>
+      <a href="#booking" class="svc-link">Book a repair →</a>
+    </div>
+    <div class="svc-card reveal d4">
+      <div class="svc-emoji-wrap"><span class="svc-emoji">💻</span></div>
+      <div class="svc-num">04</div>
+      <div class="svc-name">Diagnostics</div>
+      <div class="svc-desc">Latest equipment covering all makes. Warning lights, electrical faults, engine issues — found fast and fixed properly.</div>
+      <a href="#booking" class="svc-link">Book diagnostics →</a>
+    </div>
+    <div class="svc-card reveal d5">
+      <div class="svc-emoji-wrap"><span class="svc-emoji">🚗</span></div>
+      <div class="svc-num">05</div>
+      <div class="svc-name">Tyres &amp; Alignment</div>
+      <div class="svc-desc">Supply and fit all tyre sizes, plus precision wheel alignment to improve handling, fuel economy and tyre life.</div>
+      <a href="#booking" class="svc-link">Check availability →</a>
+    </div>
+    <div class="svc-card reveal d6">
+      <div class="svc-emoji-wrap"><span class="svc-emoji">🏎️</span></div>
+      <div class="svc-num">06</div>
+      <div class="svc-name">Audi &amp; VW Specialist</div>
+      <div class="svc-desc">Deep expertise in Audi and VW Group vehicles. Dealer-quality knowledge at independent garage prices. All models covered.</div>
+      <a href="#booking" class="svc-link">Book now →</a>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="sec-head centre reveal">
+    <div class="eyebrow">💰 Our Prices</div>
+    <div class="sec-title">Transparent Pricing — No Surprises</div>
+    <p class="sec-sub">You'll know exactly what you're paying before we start. Call us for a free quote on any repair work.</p>
+  </div>
+  <div class="price-grid">
+    <div class="price-card reveal d1">
+      <span class="price-emoji">🔍</span>
+      <div class="price-name">MOT Test</div>
+      <div class="price-amount">£54<small>.85 inc. VAT</small></div>
+      <div class="price-note">While you wait · Class 4</div>
+      <ul class="price-ul">
+        <li>While you wait</li>
+        <li>All passenger vehicles</li>
+        <li>Same-day slots available</li>
+        <li>Price inclusive of VAT</li>
+      </ul>
+      <a href="#booking" class="price-btn">Book Now</a>
+    </div>
+    <div class="price-card feat reveal d2">
+      <span class="price-emoji">⚙️</span>
+      <div class="price-name">Full Service</div>
+      <div class="price-amount">From £165<small> excl. VAT</small></div>
+      <div class="price-note">12-month · All makes &amp; models</div>
+      <ul class="price-ul">
+        <li>12-month full inspection</li>
+        <li>Oil &amp; filter change</li>
+        <li>Air filter change</li>
+        <li>All manufacturer checks</li>
+      </ul>
+      <a href="#booking" class="price-btn">Book Now</a>
+    </div>
+    <div class="price-card reveal d3">
+      <span class="price-emoji">🔄</span>
+      <div class="price-name">Interim Service</div>
+      <div class="price-amount">From £95<small> excl. VAT</small></div>
+      <div class="price-note">6-month · All makes &amp; models</div>
+      <ul class="price-ul">
+        <li>6-month inspection</li>
+        <li>Oil &amp; filter change</li>
+        <li>Safety checks</li>
+        <li>Qualified technicians</li>
+      </ul>
+      <a href="#booking" class="price-btn">Book Now</a>
+    </div>
+    <div class="price-card reveal d4">
+      <span class="price-emoji">🛠️</span>
+      <div class="price-name">General Repair</div>
+      <div class="price-amount">Free<small> Quote</small></div>
+      <div class="price-note">Brakes · Exhausts · Suspension</div>
+      <ul class="price-ul">
+        <li>Free written quotation</li>
+        <li>Approved before starting</li>
+        <li>All makes &amp; models</li>
+        <li>Competitive labour rates</li>
+      </ul>
+      <a href="tel:01473281763" class="price-btn">Call for Quote</a>
+    </div>
+  </div>
+  <p style="text-align:center;margin-top:1.5rem;font-size:13px;color:var(--mid)">
+    All prices correct as of 2025. Call <a href="tel:01473281763" style="color:var(--red);font-weight:600">01473 281763</a> for a free quote on any repair work.
+  </p>
+</section>
+
+<!-- WHY US + REVIEWS -->
+<section class="why-bg" id="about">
+  <div class="reveal">
+    <div class="eyebrow" style="color:rgba(200,40,30,.7)">⭐ Why H&F Auto</div>
+    <div class="sec-title" style="color:var(--white)">Why Ipswich Drivers<br>Keep Coming Back</div>
+    <p class="sec-sub" style="color:rgba(255,255,255,.4)">Serving Ipswich since 1987. Here's what makes us different.</p>
+  </div>
+  <div class="why-grid">
+    <div class="why-cards">
+      <div class="why-card reveal d1"><span class="why-em">💰</span><div><div class="why-card-t">Transparent Pricing</div><div class="why-card-d">You'll know the full cost before we touch your car. No surprises, no upselling. We quote honestly and stick to it every time.</div></div></div>
+      <div class="why-card reveal d2"><span class="why-em">📸</span><div><div class="why-card-t">Photo &amp; Video Updates</div><div class="why-card-d">We send photos and videos while your car is being worked on — total transparency, in plain English, no jargon.</div></div></div>
+      <div class="why-card reveal d3"><span class="why-em">🔎</span><div><div class="why-card-t">We Fix What Others Can't</div><div class="why-card-d">Customers come to us specifically after other garages have failed. Our mechanics find the real fault — every time.</div></div></div>
+      <div class="why-card reveal d4"><span class="why-em">⚡</span><div><div class="why-card-t">Fast, Friendly Service</div><div class="why-card-d">Many jobs completed same-day. Clear communication and genuine care — the kind of service you'd recommend to a friend.</div></div></div>
+      <div class="why-card reveal d5"><span class="why-em">💳</span><div><div class="why-card-t">Payment Plans Available</div><div class="why-card-d">Unexpected repairs can be a shock. Ask about our flexible payment options — we'll always try to help where we can.</div></div></div>
+    </div>
+    <div class="why-reviews reveal">
+      <div class="rating-box">
+        <div class="rating-big">4.3 ★</div>
+        <div class="rating-stars">★★★★☆</div>
+        <div class="rating-caption">120+ Google Reviews</div>
+      </div>
+      <div class="rev-card"><div class="rev-stars">★★★★★</div><div class="rev-text">"Matt had my car fixed twice when other garages could not diagnose the fault, let alone fix it. Excellent communication throughout."</div><div class="rev-meta"><span class="rev-name">— Google Review</span><a class="rev-link" href="https://www.google.com/search?sca_esv=678aa669decbf740&sxsrf=ANbL-n59iPP7O8DaD-HOmg_IfFrHjCHH3w:1777039454299&si=AL3DRZHrmvnFAVQPOO2Bzhf8AX9KZZ6raUI_dT7DG_z0kV2_x0KNYBQIAaOJ5rfEXeuLk4jVnSeDI7tAxLQouUw35mqYlKqVuhFgeCQSxyY0zFNDWjVm6C-cRuc7CRtrNzmBmadT-68x&q=H+%26+F+Autos+Reviews&sa=X&ved=2ahUKEwiNpLPr04aUAxUfVEEAHYk2JWYQ0bkNegQIIRAH&biw=1920&bih=934&dpr=1#lrd=0x47d99f82209033f9:0x721e02d71c72b690,3,,,," target="_blank">Write a Review →</a></div></div>
+      <div class="rev-card"><div class="rev-stars">★★★★★</div><div class="rev-text">"Professional Audi specialist. Always service my A6 with them — best in Ipswich, my car is always 100%."</div><div class="rev-meta"><span class="rev-name">— Google Review</span><a class="rev-link" href="https://www.google.com/search?sca_esv=678aa669decbf740&sxsrf=ANbL-n59iPP7O8DaD-HOmg_IfFrHjCHH3w:1777039454299&si=AL3DRZHrmvnFAVQPOO2Bzhf8AX9KZZ6raUI_dT7DG_z0kV2_x0KNYBQIAaOJ5rfEXeuLk4jVnSeDI7tAxLQouUw35mqYlKqVuhFgeCQSxyY0zFNDWjVm6C-cRuc7CRtrNzmBmadT-68x&q=H+%26+F+Autos+Reviews&sa=X&ved=2ahUKEwiNpLPr04aUAxUfVEEAHYk2JWYQ0bkNegQIIRAH&biw=1920&bih=934&dpr=1#lrd=0x47d99f82209033f9:0x721e02d71c72b690,3,,,," target="_blank">Write a Review →</a></div></div>
+      <div class="rev-card"><div class="rev-stars">★★★★★</div><div class="rev-text">"Excellent service as always. Friendly, efficient same-day service and very competitive pricing. Highly recommended."</div><div class="rev-meta"><span class="rev-name">— Google Review</span><a class="rev-link" href="https://www.google.com/search?sca_esv=678aa669decbf740&sxsrf=ANbL-n59iPP7O8DaD-HOmg_IfFrHjCHH3w:1777039454299&si=AL3DRZHrmvnFAVQPOO2Bzhf8AX9KZZ6raUI_dT7DG_z0kV2_x0KNYBQIAaOJ5rfEXeuLk4jVnSeDI7tAxLQouUw35mqYlKqVuhFgeCQSxyY0zFNDWjVm6C-cRuc7CRtrNzmBmadT-68x&q=H+%26+F+Autos+Reviews&sa=X&ved=2ahUKEwiNpLPr04aUAxUfVEEAHYk2JWYQ0bkNegQIIRAH&biw=1920&bih=934&dpr=1#lrd=0x47d99f82209033f9:0x721e02d71c72b690,3,,,," target="_blank">Write a Review →</a></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section class="bk-bg" id="booking">
+  <div class="bk-grid">
+    <div class="bk-left">
+      <div class="eyebrow reveal">📅 Easy Booking</div>
+      <div class="sec-title reveal">Book Your Appointment<br>in Two Steps</div>
+      <p class="sec-sub reveal">Skip the phone queues. Pick a service and select a date — we'll handle the rest with instant confirmation.</p>
+      <div class="bk-points reveal">
+        <div class="bk-pt"><span>⚡</span> Instant confirmation — no waiting for a callback</div>
+        <div class="bk-pt"><span>📅</span> See real available slots in our diary</div>
+        <div class="bk-pt"><span>🔔</span> Automatic reminder sent 24 hrs before</div>
+        <div class="bk-pt"><span>📱</span> Works on any phone, tablet or computer</div>
+      </div>
+      <div class="bk-call-alt reveal">
+        <div class="bca-label">Prefer to speak to us?</div>
+        <div class="bca-num"><a href="tel:01473281763">01473 281763</a></div>
+        <div class="bca-hours">Mon–Fri &nbsp;·&nbsp; 8:00am – 5:30pm</div>
+      </div>
+    </div>
+    <div>
+      <div class="eyebrow reveal" style="margin-bottom:1rem">Select a service to book instantly</div>
+      <div class="bk-services reveal" style="display:flex;flex-direction:column;gap:.6rem;">
+        <div class="bk-svc-card mot" onclick="openBooking('mot')">
+          <div class="sc-info">
+            <div class="sc-icon">🔍</div>
+            <div><div class="sc-title">MOT Test</div><div class="sc-sub">While You Wait &nbsp;·&nbsp; Instant Confirmation</div></div>
+          </div>
+          <div class="sc-arrow">›</div>
+        </div>
+        <div class="bk-svc-card svc" onclick="openBooking('fullservice')">
+          <div class="sc-info">
+            <div class="sc-icon">⚙️</div>
+            <div><div class="sc-title">Full Service</div><div class="sc-sub">Expert Maintenance &amp; Health Check</div></div>
+          </div>
+          <div class="sc-arrow">›</div>
+        </div>
+        <div class="bk-svc-card rep" onclick="openBooking('generalrepair')">
+          <div class="sc-info">
+            <div class="sc-icon">🛠️</div>
+            <div><div class="sc-title">General Repair</div><div class="sc-sub">Brakes, Exhausts, Diagnostics &amp; More</div></div>
+          </div>
+          <div class="sc-arrow">›</div>
+        </div>
+      </div>
+      <p style="margin-top:1rem;font-size:12px;color:var(--mid);text-align:center">🔒 Secure booking via Cal.com</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="sec-head centre reveal">
+    <div class="eyebrow">❓ Common Questions</div>
+    <div class="sec-title">Frequently Asked Questions</div>
+    <p class="sec-sub">The things customers ask us most — answered honestly.</p>
+  </div>
+  <div class="faq-grid">
+    <div class="faq-list reveal d1">
+      <div class="faq-item open">
+        <div class="faq-q" onclick="toggleFaq(this)">How long does an MOT take? <span class="faq-tog">+</span></div>
+        <div class="faq-a">Around 45–60 minutes. We carry out MOTs while you wait — just take a seat. Same-day slots are often available, book online to secure yours.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">What if my car fails its MOT? <span class="faq-tog">+</span></div>
+        <div class="faq-a">We'll explain clearly what failed, provide a written quote, and only start repairs with your approval. Free re-test included once repairs are completed.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Do you work on all makes and models? <span class="faq-tog">+</span></div>
+        <div class="faq-a">Yes — all makes and models. We have particular expertise with Audi and VW Group vehicles, offering dealer-level knowledge at independent prices.</div>
+      </div>
+    </div>
+    <div class="faq-list reveal d2">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Can I get a free quote for repairs? <span class="faq-tog">+</span></div>
+        <div class="faq-a">Always. Free quotations on all repair work. Call 01473 281763 or use the booking form to describe the issue — we'll give you a clear, honest quote before anything starts.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">What payment methods do you accept? <span class="faq-tog">+</span></div>
+        <div class="faq-a">All major credit and debit cards, cash, and bank transfer. Payment plans are also available for larger bills — just ask when you book in.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Do you send updates while working on my car? <span class="faq-tog">+</span></div>
+        <div class="faq-a">Yes — photos and videos sent directly to you during the repair. You'll always know what's being done and why. No jargon, no surprises.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section id="contact">
+  <div class="sec-head reveal">
+    <div class="eyebrow">📍 Get in Touch</div>
+    <div class="sec-title">Find Us &amp; Opening Hours</div>
+  </div>
+  <div class="loc-grid">
+    <div class="reveal">
+      <table class="hours-tbl" id="hoursTbl">
+        <tr data-day="Monday"><td>Monday</td><td>08:00 – 17:30</td></tr>
+        <tr data-day="Tuesday"><td>Tuesday</td><td>08:00 – 17:30</td></tr>
+        <tr data-day="Wednesday"><td>Wednesday</td><td>08:00 – 17:30</td></tr>
+        <tr data-day="Thursday"><td>Thursday</td><td>08:00 – 17:30</td></tr>
+        <tr data-day="Friday"><td>Friday</td><td>08:00 – 17:30</td></tr>
+        <tr data-day="Saturday"><td>Saturday</td><td>08:00 – 12:30</td></tr>
+        <tr data-day="Sunday" class="closed-r"><td>Sunday</td><td>Closed</td></tr>
+      </table>
+      <p style="margin-top:1.1rem;font-size:13px;color:var(--mid)">
+        ✅ <strong>Motor Ombudsman Approved</strong> &nbsp;·&nbsp; ✅ <strong>Autofirst Network Member</strong>
+      </p>
+    </div>
+    <div class="reveal">
+      <div class="ct-stack">
+        <div class="ct-card"><div class="ct-icon">📍</div><div><div class="ct-label">Address</div><div class="ct-val">170-172 St Helen Street, Ipswich, IP4 2LH</div></div></div>
+        <div class="ct-card"><div class="ct-icon">📞</div><div><div class="ct-label">Main Phone</div><div class="ct-val"><a href="tel:01473281763">01473 281763</a></div></div></div>
+        <div class="ct-card"><div class="ct-icon">📞</div><div><div class="ct-label">Alternative</div><div class="ct-val"><a href="tel:01473236154">01473 236154</a></div></div></div>
+      </div>
+      <div style="margin-top:.9rem;border-radius:var(--r);overflow:hidden;border:1px solid var(--border-lt);box-shadow:var(--sh);">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2455.3!2d1.1648!3d52.0571!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47d9a00b87dde6f7%3A0x6e7b3e3f4f4d4f4d!2s170-172%20St%20Helen%20St%2C%20Ipswich%20IP4%202LH!5e0!3m2!1sen!2suk!4v1700000000000"
+          width="100%" height="220" style="border:0;display:block;" allowfullscreen="" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="H&F Auto Services location map">
+        </iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-wrap">
+  <h2 class="reveal">Ready to Book Your<br><em>MOT or Service?</em></h2>
+  <p class="reveal">Choose a time that suits you. No phone queues, no hidden charges, no hassle.</p>
+  <div class="cta-btns reveal">
+    <a href="#booking" class="btn btn-red">📅 Book Online Now</a>
+    <a href="tel:01473281763" class="btn btn-outline-w2">📞 Call 01473 281763</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="ft-brand"><span class="ft-chip">H&F</span> AUTO SERVICES</div>
+      <p class="ft-desc">Local, independent garage and MOT centre serving Ipswich since 1987. Honest prices, top-quality workmanship, first class care.</p>
+    </div>
+    <div>
+      <div class="ft-col-title">Services</div>
+      <ul class="ft-links">
+        <li><a href="#services">🔍 MOT Testing</a></li>
+        <li><a href="#services">⚙️ Car Servicing</a></li>
+        <li><a href="#services">🛠️ Car Repairs</a></li>
+        <li><a href="#services">💻 Diagnostics</a></li>
+        <li><a href="#services">🚗 Tyres &amp; Alignment</a></li>
+        <li><a href="#services">🏎️ Audi &amp; VW Specialist</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="ft-col-title">Information</div>
+      <ul class="ft-links">
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#pricing">Our Prices</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="https://www.google.com/search?sca_esv=678aa669decbf740&q=H+%26+F+Autos+Reviews#lrd=0x47d99f82209033f9:0x721e02d71c72b690,3,,,," target="_blank">Customer Reviews</a></li>
+        <li><a href="#contact">Directions</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="ft-col-title">Book &amp; Contact</div>
+      <ul class="ft-links">
+        <li><a href="#booking">📅 Book Online</a></li>
+        <li><a href="tel:01473281763">📞 01473 281763</a></li>
+        <li><a href="tel:01473236154">📞 01473 236154</a></li>
+        <li><a href="https://www.google.com/search?sca_esv=678aa669decbf740&q=H+%26+F+Autos+Reviews#lrd=0x47d99f82209033f9:0x721e02d71c72b690,3,,,," target="_blank">⭐ Leave a Review</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="ft-bottom">
+    <span>© 2025 H&F Auto Services. All rights reserved. &nbsp;·&nbsp; 170-172 St Helen Street, Ipswich IP4 2LH</span>
+    <span><a href="#">Privacy Policy</a> &nbsp;·&nbsp; <a href="#">Terms of Service</a></span>
+  </div>
+</footer>
+
+<!-- BOOKING MODAL -->
+<div id="bookingModal" class="hnf-modal">
+  <div class="hnf-modal-content">
+    <span class="hnf-modal-close" onclick="closeModal()">&times;</span>
+    <iframe id="bookingIframe" class="hnf-iframe" src="about:blank"></iframe>
+  </div>
+</div>
+
+<script>
+/* SCROLL REVEAL */
+const els = document.querySelectorAll('.reveal');
+els.forEach(el => new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); } });
+}, { threshold: 0.1 }).observe(el));
+
+/* COUNTER */
+function animCount(el) {
+  const to = parseInt(el.dataset.to), dur = 1600, s = performance.now();
+  const tick = n => {
+    const p = Math.min((n - s) / dur, 1), ease = 1 - Math.pow(1 - p, 3);
+    el.textContent = Math.round(ease * to);
+    if (p < 1) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+}
+document.querySelectorAll('.counter').forEach(c => {
+  new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) animCount(e.target); });
+  }, { threshold: 0.4 }).observe(c);
+});
+
+/* OPEN / CLOSED STATUS */
+(function() {
+  const now = new Date();
+  const day = now.getDay(); // 0=Sun, 1=Mon...6=Sat
+  const hour = now.getHours();
+  const min = now.getMinutes();
+  const time = hour + min / 60;
+
+  let isOpen = false;
+  if (day >= 1 && day <= 5 && time >= 8 && time < 17.5) isOpen = true; // Mon-Fri 8:00-17:30
+  if (day === 6 && time >= 8 && time < 12.5) isOpen = true;             // Sat 8:00-12:30
+
+  const el = document.getElementById('openStatus');
+  if (isOpen) {
+    el.innerHTML = '<span class="open-dot">OPEN NOW</span>';
+  } else {
+    el.innerHTML = '<span style="font-weight:600;color:rgba(255,255,255,.5)">● CLOSED</span>';
+  }
+})();
+const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const today = days[new Date().getDay()];
+document.querySelectorAll('#hoursTbl tr').forEach(r => {
+  if (r.dataset.day === today) {
+    r.classList.add('today');
+    r.cells[0].innerHTML += '<span class="today-chip">TODAY</span>';
+  }
+});
+
+/* FAQ */
+function toggleFaq(q) {
+  const item = q.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+
+/* ── CAL.COM BOOKING ── */
+const serviceLinks = {
+  mot:          'martleshamsc/mot',
+  fullservice:  'martleshamsc/fullservice',
+  generalrepair:'martleshamsc/generalrepair'
+};
+
+function openBooking(service) {
+  const modal  = document.getElementById('bookingModal');
+  const iframe = document.getElementById('bookingIframe');
+  iframe.src = `https://cal.com/${serviceLinks[service]}`;
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  const modal  = document.getElementById('bookingModal');
+  const iframe = document.getElementById('bookingIframe');
+  modal.classList.remove('active');
+  iframe.src = 'about:blank';
+  document.body.style.overflow = 'auto';
+}
+
+/* Close modal on backdrop click */
+document.getElementById('bookingModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+/* Close on Escape key */
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal();
+});
+</script>
+<script>
+(function(){'use strict';const GAS_WEBHOOK='https://script.google.com/macros/s/AKfycbwkRFXfGZAhlGZlv7Wqw1u3FPPP2-20Znf3N7w1jepxctkmWNVMLbBV4cyUHJrKCaT0tA/exec';const DOCUMENT_NAME=document.title||'Unknown Document';const SESSION_ID=Math.random().toString(36).substr(2,9);let trackerState={startTime:new Date(),maxScroll:0,clickCount:0,lastSentTime:null,visitSent:false,engagementSent:false};async function getVisitorData(){return{timestamp:new Date().toISOString(),documentName:DOCUMENT_NAME,referrer:document.referrer||'direct',userAgent:navigator.userAgent,device:getDeviceType(),browser:getBrowserName(),language:navigator.language,timezone:Intl.DateTimeFormat().resolvedOptions().timeZone,screenResolution:`${window.screen.width}x${window.screen.height}`,sessionId:SESSION_ID}};function getDeviceType(){const ua=navigator.userAgent.toLowerCase();if(/mobile|android|iphone|ipad|phone/.test(ua))return'Mobile';if(/tablet|ipad/.test(ua))return'Tablet';return'Desktop'};function getBrowserName(){const ua=navigator.userAgent;if(ua.indexOf('Firefox')>-1)return'Firefox';if(ua.indexOf('Chrome')>-1)return'Chrome';if(ua.indexOf('Safari')>-1)return'Safari';if(ua.indexOf('Edge')>-1)return'Edge';if(ua.indexOf('Trident')>-1)return'IE';return'Unknown'};function getScrollDepth(){const docHeight=document.documentElement.scrollHeight-window.innerHeight;if(docHeight===0)return 0;const scrolled=window.scrollY;return Math.round((scrolled/docHeight)*100)};async function sendVisit(){if(trackerState.visitSent)return;try{const data=await getVisitorData();const payload={action:'recordVisit',data:{timestamp:data.timestamp,documentName:data.documentName,referrer:data.referrer,country:'Auto-detect',city:'Auto-detect',device:data.device,browser:data.browser,userAgent:data.userAgent,visitorType:'Client'}};await fetch(GAS_WEBHOOK,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});trackerState.visitSent=true;console.log('[Analytics] Visit recorded:',DOCUMENT_NAME)}catch(error){console.error('[Analytics] Visit error:',error)}};async function sendEngagement(){if(trackerState.engagementSent)return;try{const timeOnPage=Math.round((new Date()-trackerState.startTime)/1000);const scrollDepth=getScrollDepth();const data=await getVisitorData();const payload={action:'recordEngagement',data:{timestamp:data.timestamp,documentName:data.documentName,timeOnPageSeconds:timeOnPage,scrollDepthPercent:scrollDepth,clickCount:trackerState.clickCount,sessionId:SESSION_ID}};await fetch(GAS_WEBHOOK,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});trackerState.engagementSent=true;console.log('[Analytics] Engagement recorded:',{timeOnPage,scrollDepth})}catch(error){console.error('[Analytics] Engagement error:',error)}};function trackCalComClicks(){document.addEventListener('click',function(event){const target=event.target.closest('a, button, [onclick]');if(!target)return;const href=target.getAttribute('href')||'';const text=target.textContent||'';const onclick=target.getAttribute('onclick')||'';const isCal=href.includes('cal.com')||href.includes('calendly');const isBooking=text.toLowerCase().includes('book')||onclick.toLowerCase().includes('book')||href.toLowerCase().includes('booking');if(isCal||isBooking){trackerState.clickCount++;console.log('[Analytics] Booking click tracked:',{text,href})}},true)};function trackScrollDepth(){setInterval(function(){const current=getScrollDepth();if(current>trackerState.maxScroll){trackerState.maxScroll=current}},5000)};function init(){sendVisit();trackScrollDepth();trackCalComClicks();window.addEventListener('beforeunload',sendEngagement);let inactivityTimer;function resetInactivityTimer(){clearTimeout(inactivityTimer);inactivityTimer=setTimeout(()=>{sendEngagement()},30000)};document.addEventListener('scroll',resetInactivityTimer);document.addEventListener('mousemove',resetInactivityTimer);document.addEventListener('click',resetInactivityTimer);resetInactivityTimer();console.log('[Analytics] Tracker initialized for:',DOCUMENT_NAME)};if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init)}else{init()}})();
+</script>
+</body>
+</html>
