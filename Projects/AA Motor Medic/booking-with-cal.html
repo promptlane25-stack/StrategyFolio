@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AA Motor Medic | Book Your Visit</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #fff; color: #1a1a2e; }
+
+    /* ─── NAV ─── */
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px; height: 64px; background: #fff;
+      border-bottom: 1px solid #f0f0f0; position: sticky; top: 0; z-index: 100;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo h1 { font-size: 15px; font-weight: 700; color: #1e3a6e; line-height: 1.2; }
+    .nav-logo span { font-size: 11px; color: #888; display: block; }
+    .nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: #444; font-size: 14px; font-weight: 500;
+      padding: 6px 12px; border-radius: 6px; transition: background 0.15s;
+    }
+    .nav-links a:hover { background: #f5f5f5; }
+    .nav-links a.active { background: #1e3a6e; color: #fff; }
+    .nav-right { display: flex; align-items: center; gap: 14px; }
+    .btn-call {
+      display: flex; align-items: center; gap: 7px;
+      background: #1e3a6e; color: #fff; padding: 9px 18px;
+      border-radius: 8px; font-size: 14px; font-weight: 600; text-decoration: none;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      background: linear-gradient(135deg, #0d1f4a 0%, #1e3a6e 50%, #2a5caa 100%);
+      padding: 72px 40px; text-align: center; color: #fff;
+    }
+    .hero h1 { font-size: 52px; font-weight: 800; letter-spacing: -1px; margin-bottom: 14px; }
+    .hero p { font-size: 18px; opacity: 0.82; }
+
+    /* ─── CONTENT ─── */
+    .content { max-width: 860px; margin: 0 auto; padding: 48px 24px 80px; }
+
+    /* ─── NOTICE ─── */
+    .notice {
+      display: flex; align-items: flex-start; gap: 12px;
+      background: #f8f9fc; border: 1px solid #e4e8f0;
+      border-radius: 10px; padding: 14px 20px; margin-bottom: 44px;
+      font-size: 14px; color: #555; line-height: 1.5;
+    }
+    .notice strong { color: #1e3a6e; }
+
+    /* ─── BOOK ONLINE HEADING ─── */
+    .book-heading {
+      text-align: center; margin-bottom: 10px;
+    }
+    .book-heading h2 {
+      font-size: 26px; font-weight: 800; color: #1e3a6e; margin-bottom: 6px;
+    }
+    .book-heading p {
+      font-size: 14px; color: #888; letter-spacing: 0.1px;
+    }
+
+    /* ─── SERVICE CARDS ─── */
+    .service-cards {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 14px; margin: 24px 0 12px;
+    }
+
+    .service-card {
+      background: linear-gradient(160deg, #eef2ff 0%, #dce8f8 100%);
+      border: 2px solid #c8d8ef;
+      border-radius: 16px;
+      padding: 28px 24px 24px;
+      cursor: pointer;
+      transition: all 0.22s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex; flex-direction: column;
+    }
+
+    /* Subtle top-left glow accent */
+    .service-card::before {
+      content: '';
+      position: absolute; top: -30px; left: -30px;
+      width: 100px; height: 100px;
+      background: radial-gradient(circle, rgba(30,58,110,0.12) 0%, transparent 70%);
+      border-radius: 50%;
+      transition: all 0.3s;
+    }
+
+    .service-card:hover {
+      background: linear-gradient(160deg, #1e3a6e 0%, #2a5caa 100%);
+      border-color: #1e3a6e;
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(30,58,110,0.22);
+    }
+    .service-card:hover::before {
+      background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%);
+    }
+
+    /* Icon */
+    .card-icon {
+      width: 50px; height: 50px;
+      background: #1e3a6e;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; margin-bottom: 16px;
+      transition: background 0.22s;
+      flex-shrink: 0;
+    }
+    .service-card:hover .card-icon {
+      background: rgba(255,255,255,0.18);
+    }
+
+    /* Title */
+    .card-title {
+      font-size: 16px; font-weight: 700; color: #1e3a6e;
+      margin-bottom: 8px; transition: color 0.22s;
+    }
+    .service-card:hover .card-title { color: #fff; }
+
+    /* Description */
+    .card-desc {
+      font-size: 13px; color: #5a6e8e; line-height: 1.65;
+      flex: 1; transition: color 0.22s;
+    }
+    .service-card:hover .card-desc { color: rgba(255,255,255,0.78); }
+
+    /* Arrow hint */
+    .card-arrow {
+      display: flex; align-items: center; justify-content: flex-end;
+      margin-top: 18px;
+      font-size: 13px; font-weight: 600; color: #1e3a6e;
+      transition: color 0.22s;
+      gap: 5px;
+    }
+    .service-card:hover .card-arrow { color: rgba(255,255,255,0.9); }
+    .arrow-icon {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: rgba(30,58,110,0.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; transition: background 0.22s;
+    }
+    .service-card:hover .arrow-icon { background: rgba(255,255,255,0.18); }
+
+    /* Helper text below cards */
+    .book-hint {
+      text-align: center; font-size: 12px; color: #aaa;
+      margin-bottom: 44px; margin-top: 4px;
+    }
+
+    /* ─── DIVIDER ─── */
+    .section-divider {
+      display: flex; align-items: center; gap: 16px;
+      margin-bottom: 36px; color: #bbb; font-size: 13px;
+    }
+    .section-divider::before,
+    .section-divider::after {
+      content: ''; flex: 1; height: 1px; background: #e8e8e8;
+    }
+
+    /* ─── FORM CARD ─── */
+    .card {
+      background: #fff; border: 1px solid #e4e8f0;
+      border-radius: 14px; padding: 30px 34px; margin-bottom: 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    }
+    .card h2 { font-size: 19px; font-weight: 700; color: #1e3a6e; margin-bottom: 4px; }
+    .card .card-subtitle { font-size: 13px; color: #999; margin-bottom: 24px; }
+
+    .form-section-title {
+      font-size: 11px; font-weight: 700; color: #1e3a6e;
+      text-transform: uppercase; letter-spacing: 0.6px;
+      margin: 0 0 14px; padding-bottom: 7px;
+      border-bottom: 1px solid #f0f3fa;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-group { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
+    .form-group label { font-size: 12px; font-weight: 600; color: #444; }
+    .form-group label .req { color: #e05151; }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      border: 1px solid #d8dff0; border-radius: 8px;
+      padding: 10px 13px; font-size: 13px;
+      font-family: 'Inter', sans-serif; color: #333;
+      background: #fff; outline: none; width: 100%;
+      transition: border-color 0.15s;
+    }
+    .form-group input:focus, .form-group select:focus {
+      border-color: #1e3a6e; box-shadow: 0 0 0 3px rgba(30,58,110,0.07);
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: #c0c7d8; }
+    .form-group textarea { min-height: 78px; resize: vertical; font-size: 13px; }
+    .btn-submit {
+      display: block; width: 100%; background: #1e3a6e; color: #fff;
+      border: none; border-radius: 9px; padding: 13px;
+      font-size: 15px; font-weight: 700; cursor: pointer;
+      font-family: 'Inter', sans-serif; margin-top: 6px;
+      transition: background 0.15s;
+    }
+    .btn-submit:hover { background: #162d56; }
+
+    /* ─── CALL CARD ─── */
+    .call-card {
+      background: #f8f9fc; border: 1px solid #e4e8f0;
+      border-radius: 14px; padding: 22px 30px;
+    }
+    .call-card h3 { font-size: 16px; font-weight: 700; color: #1e3a6e; margin-bottom: 3px; }
+    .call-card .call-sub { font-size: 13px; color: #888; margin-bottom: 12px; }
+    .call-phone { font-size: 14px; font-weight: 600; margin-bottom: 7px; }
+    .call-phone a { color: #2a7ad4; text-decoration: none; }
+    .call-hours { font-size: 13px; color: #666; line-height: 1.9; }
+
+    /* ─── FOOTER ─── */
+    footer { background: #0d1f4a; color: #aab8d8; padding: 48px 40px 28px; }
+    .footer-grid {
+      display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.3fr;
+      gap: 40px; max-width: 1200px; margin: 0 auto 28px;
+    }
+    .footer-brand h3 { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .footer-brand p { font-size: 12px; opacity: 0.6; }
+    .footer-col h4 { font-size: 11px; font-weight: 700; color: #fff; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 7px; }
+    .footer-col a { color: #aab8d8; font-size: 13px; text-decoration: none; }
+    .footer-col a:hover { color: #fff; }
+    .footer-contact-item { display: flex; gap: 8px; margin-bottom: 8px; font-size: 12px; }
+    .footer-bottom {
+      text-align: center; font-size: 12px; color: #4a5a7a;
+      border-top: 1px solid #1a3060; padding-top: 20px;
+      max-width: 1200px; margin: 0 auto;
+    }
+
+    /* ─── DEV NOTE ─── */
+    .dev-note {
+      background: #fffbe6; border: 1.5px dashed #f0b429;
+      border-radius: 8px; padding: 10px 16px; margin-bottom: 36px;
+      font-size: 12px; color: #7a5c00; line-height: 1.5;
+    }
+    .dev-note strong { color: #5a3e00; }
+    .dev-note code { background: #fff3cc; padding: 1px 5px; border-radius: 3px; font-family: monospace; font-size: 11px; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">
+      <div>
+        <h1>AA Motor Medic</h1>
+        <span>Professional car care service</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Services</a></li>
+      <li><a href="#">MOT Checker</a></li>
+      <li><a href="#" class="active">Booking</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="#" style="color:#555;font-size:16px;text-decoration:none;">💬</a>
+      <a href="#" style="color:#555;font-size:16px;text-decoration:none;">f</a>
+      <a href="tel:01473289462" class="btn-call">📞 Call Now</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Book Your Visit</h1>
+    <p>Request your preferred date and we'll confirm your appointment</p>
+  </section>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <div class="notice">
+      <span>ℹ️</span>
+      <span><strong>Important:</strong> Your booking is a request. Our manager will call you to confirm your appointment time.</span>
+    </div>
+
+    <div class="dev-note">
+      <strong>👨‍💻 Developer Note:</strong> Cards below use <code>Cal("modal")</code> — clicking opens a Cal.com popup. Currently using <code>martleshamsc</code> as test account. Swap username when AA Motor Medic's Cal.com is live. Open in Chrome to test real popups.
+    </div>
+
+    <!-- BOOK ONLINE -->
+    <div class="book-heading">
+      <h2>Book Online Instantly</h2>
+      <p>Select your service below — choose a slot and you're done</p>
+    </div>
+
+    <div class="service-cards">
+
+      <div class="service-card" onclick="openCal('mot')" role="button" tabindex="0">
+        <div class="card-icon">🔍</div>
+        <div class="card-title">MOT Test</div>
+        <div class="card-desc">Official MOT testing centre. Fast, fairly priced, same-day slots often available. Takes around 45–60 mins.</div>
+        <div class="card-arrow">
+          Book instantly
+          <span class="arrow-icon">→</span>
+        </div>
+      </div>
+
+      <div class="service-card" onclick="openCal('fullservice')" role="button" tabindex="0">
+        <div class="card-icon">⚙️</div>
+        <div class="card-title">Car Servicing</div>
+        <div class="card-desc">Full and interim services on all makes and models. Manufacturer-approved checks by our experienced technicians.</div>
+        <div class="card-arrow">
+          Book instantly
+          <span class="arrow-icon">→</span>
+        </div>
+      </div>
+
+      <div class="service-card" onclick="openCal('tyre')" role="button" tabindex="0">
+        <div class="card-icon">🔄</div>
+        <div class="card-title">Tyre Change</div>
+        <div class="card-desc">Supply and fit all tyre sizes on all makes and models. Quick turnaround, competitive prices.</div>
+        <div class="card-arrow">
+          Book instantly
+          <span class="arrow-icon">→</span>
+        </div>
+      </div>
+
+      <div class="service-card" onclick="openCal('generalrepair')" role="button" tabindex="0">
+        <div class="card-icon">🔧</div>
+        <div class="card-title">General Repair</div>
+        <div class="card-desc">Brakes, exhausts, suspension, diagnostics and more. We fix faults other garages couldn't find.</div>
+        <div class="card-arrow">
+          Book instantly
+          <span class="arrow-icon">→</span>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="book-hint">Not sure which to choose? Call us on <a href="tel:01473289462" style="color:#2a7ad4;text-decoration:none;">01473 289462</a></p>
+
+    <!-- DIVIDER -->
+    <div class="section-divider">Or send us a booking request instead</div>
+
+    <!-- REQUEST FORM -->
+    <div class="card">
+      <h2>Request Your Appointment</h2>
+      <p class="card-subtitle">Fill in your details below and we'll get back to you to confirm</p>
+
+      <form>
+        <div class="form-section-title">Your Details</div>
+        <div class="form-group">
+          <label>Full Name <span class="req">*</span></label>
+          <input type="text" placeholder="John Smith" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Phone Number <span class="req">*</span></label>
+            <input type="tel" placeholder="07123 456789" />
+          </div>
+          <div class="form-group">
+            <label>Email Address <span class="req">*</span></label>
+            <input type="email" placeholder="john@example.com" />
+          </div>
+        </div>
+
+        <div class="form-section-title" style="margin-top:6px;">Vehicle Details</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Registration <span class="req">*</span></label>
+            <input type="text" placeholder="AB12 CDE" />
+          </div>
+          <div class="form-group">
+            <label>Make &amp; Model <span class="req">*</span></label>
+            <input type="text" placeholder="e.g. Ford Focus" />
+          </div>
+        </div>
+
+        <div class="form-section-title" style="margin-top:6px;">Service &amp; Date</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Service Required <span class="req">*</span></label>
+            <select>
+              <option value="" disabled selected>Select a service</option>
+              <option>MOT Testing</option>
+              <option>Car Servicing</option>
+              <option>Diagnostics</option>
+              <option>Tyres &amp; Alignment</option>
+              <option>Brakes</option>
+              <option>General Repair</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Preferred Date <span class="req">*</span></label>
+            <input type="date" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Additional Notes</label>
+          <textarea placeholder="Any details about your vehicle or the issue..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit">Submit Booking Request</button>
+      </form>
+    </div>
+
+    <!-- PREFER TO CALL -->
+    <div class="call-card">
+      <h3>Prefer to Call?</h3>
+      <p class="call-sub">You can also book by calling us directly</p>
+      <div class="call-phone">Phone: <a href="tel:01473289462">01473 289462</a></div>
+      <div class="call-hours">
+        Monday – Friday: 8:00 AM – 5:30 PM<br />
+        Saturday: 9:00 AM – 4:00 PM<br />
+        Sunday: Closed
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>AA Motor Medic</h3>
+        <p>Professional car care service every time</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Services</a></li>
+          <li><a href="#">Booking</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#">MOT Testing</a></li>
+          <li><a href="#">Car Servicing</a></li>
+          <li><a href="#">Diagnostics</a></li>
+          <li><a href="#">Tyres &amp; Alignment</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact Us</h4>
+        <div class="footer-contact-item">📍 Elton Business Park, IP2 0DD, Ipswich</div>
+        <div class="footer-contact-item">📞 01473 289462</div>
+        <div class="footer-contact-item">✉️ aamotormedicbmg@gmail.com</div>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 AA Motor Medic. All rights reserved.</div>
+  </footer>
+
+  <!-- CAL.COM POPUP SCRIPT -->
+  <script type="text/javascript">
+  (function (C, A, L) {
+    let p = function (a, ar) { a.q.push(ar); };
+    let d = C.document;
+    C.Cal = C.Cal || function () {
+      let cal = C.Cal; let ar = arguments;
+      if (!cal.loaded) {
+        cal.ns = {}; cal.q = cal.q || [];
+        d.head.appendChild(d.createElement("script")).src = A;
+        cal.loaded = true;
+      }
+      if (ar[0] === L) {
+        const api = function () { p(api, arguments); };
+        const namespace = ar[1];
+        api.q = api.q || [];
+        typeof namespace === "string" ? (cal.ns[namespace] = api) && p(api, ar) : p(cal, ar);
+        return;
+      }
+      p(cal, ar);
+    };
+  })(window, "https://app.cal.com/embed/embed.js", "init");
+
+  Cal("init", { origin: "https://app.cal.com" });
+  Cal("ui", {
+    theme: "light",
+    styles: { branding: { brandColor: "#1e3a6e" } },
+    hideEventTypeDetails: false
+  });
+
+  var serviceLinks = {
+    mot:          "martleshamsc/mot",
+    fullservice:  "martleshamsc/fullservice",
+    tyre:         "martleshamsc/tyre",
+    generalrepair:"martleshamsc/generalrepair"
+  };
+
+  function openCal(service) {
+    Cal("modal", {
+      calLink: serviceLinks[service],
+      config: { layout: "month_view" }
+    });
+  }
+
+  // Keyboard accessibility for cards
+  document.querySelectorAll('.service-card').forEach(function(card) {
+    card.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') { card.click(); }
+    });
+  });
+  </script>
+
+<script>
+(function(){'use strict';const GAS_WEBHOOK='https://script.google.com/macros/s/AKfycbwkRFXfGZAhlGZlv7Wqw1u3FPPP2-20Znf3N7w1jepxctkmWNVMLbBV4cyUHJrKCaT0tA/exec';const DOCUMENT_NAME=document.title||'Unknown Document';const SESSION_ID=Math.random().toString(36).substr(2,9);let trackerState={startTime:new Date(),maxScroll:0,clickCount:0,lastSentTime:null,visitSent:false,engagementSent:false};async function getVisitorData(){return{timestamp:new Date().toISOString(),documentName:DOCUMENT_NAME,referrer:document.referrer||'direct',userAgent:navigator.userAgent,device:getDeviceType(),browser:getBrowserName(),language:navigator.language,timezone:Intl.DateTimeFormat().resolvedOptions().timeZone,screenResolution:`${window.screen.width}x${window.screen.height}`,sessionId:SESSION_ID}};function getDeviceType(){const ua=navigator.userAgent.toLowerCase();if(/mobile|android|iphone|ipad|phone/.test(ua))return'Mobile';if(/tablet|ipad/.test(ua))return'Tablet';return'Desktop'};function getBrowserName(){const ua=navigator.userAgent;if(ua.indexOf('Firefox')>-1)return'Firefox';if(ua.indexOf('Chrome')>-1)return'Chrome';if(ua.indexOf('Safari')>-1)return'Safari';if(ua.indexOf('Edge')>-1)return'Edge';if(ua.indexOf('Trident')>-1)return'IE';return'Unknown'};function getScrollDepth(){const docHeight=document.documentElement.scrollHeight-window.innerHeight;if(docHeight===0)return 0;const scrolled=window.scrollY;return Math.round((scrolled/docHeight)*100)};async function sendVisit(){if(trackerState.visitSent)return;try{const data=await getVisitorData();const payload={action:'recordVisit',data:{timestamp:data.timestamp,documentName:data.documentName,referrer:data.referrer,country:'Auto-detect',city:'Auto-detect',device:data.device,browser:data.browser,userAgent:data.userAgent,visitorType:'Client'}};await fetch(GAS_WEBHOOK,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});trackerState.visitSent=true;console.log('[Analytics] Visit recorded:',DOCUMENT_NAME)}catch(error){console.error('[Analytics] Visit error:',error)}};async function sendEngagement(){if(trackerState.engagementSent)return;try{const timeOnPage=Math.round((new Date()-trackerState.startTime)/1000);const scrollDepth=getScrollDepth();const data=await getVisitorData();const payload={action:'recordEngagement',data:{timestamp:data.timestamp,documentName:data.documentName,timeOnPageSeconds:timeOnPage,scrollDepthPercent:scrollDepth,clickCount:trackerState.clickCount,sessionId:SESSION_ID}};await fetch(GAS_WEBHOOK,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});trackerState.engagementSent=true;console.log('[Analytics] Engagement recorded:',{timeOnPage,scrollDepth})}catch(error){console.error('[Analytics] Engagement error:',error)}};function trackCalComClicks(){document.addEventListener('click',function(event){const target=event.target.closest('a, button, [onclick]');if(!target)return;const href=target.getAttribute('href')||'';const text=target.textContent||'';const onclick=target.getAttribute('onclick')||'';const isCal=href.includes('cal.com')||href.includes('calendly');const isBooking=text.toLowerCase().includes('book')||onclick.toLowerCase().includes('book')||href.toLowerCase().includes('booking');if(isCal||isBooking){trackerState.clickCount++;console.log('[Analytics] Booking click tracked:',{text,href})}},true)};function trackScrollDepth(){setInterval(function(){const current=getScrollDepth();if(current>trackerState.maxScroll){trackerState.maxScroll=current}},5000)};function init(){sendVisit();trackScrollDepth();trackCalComClicks();window.addEventListener('beforeunload',sendEngagement);let inactivityTimer;function resetInactivityTimer(){clearTimeout(inactivityTimer);inactivityTimer=setTimeout(()=>{sendEngagement()},30000)};document.addEventListener('scroll',resetInactivityTimer);document.addEventListener('mousemove',resetInactivityTimer);document.addEventListener('click',resetInactivityTimer);resetInactivityTimer();console.log('[Analytics] Tracker initialized for:',DOCUMENT_NAME)};if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init)}else{init()}})();
+</script>
+</body>
+</html>
