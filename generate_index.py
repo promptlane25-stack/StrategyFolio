@@ -16,7 +16,7 @@ SECTIONS = [
     {"icon": "&#127760;", "color": "c-blue",    "title": "Deliverables \u2014 Websites",            "dir": "Deliverables-Websites",            "subsections": False},
     {"icon": "&#128227;", "color": "c-coral",   "title": "Marketing & Outreach",               "dir": "Marketing & Outreach",             "subsections": False},
     {"icon": "&#127919;", "color": "c-teal",    "title": "Prospects & Sales",                  "dir": "Prospects & Sales",                "subsections": False},
-{"icon": "&#128188;", "color": "c-orange", "title": "Projects", "dir": "Projects"},             ]
+{"icon": "&#128188;", "color": "c-orange", "title": "Projects", "dir": "Projects"},, "subsections": False             ]
 
 # ── Icons ─────────────────────────────────────────────────────────────────────
 
