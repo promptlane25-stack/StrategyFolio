@@ -162,7 +162,7 @@ var selfFP=loadFP(LS_SELF),clientFP=loadFP(LS_CLIENT);
 HARDCODED_SELF_FP.forEach(function(fp){selfFP.add(fp);});
 HARDCODED_CLIENT_FP.forEach(function(fp){clientFP.add(fp);});
 function getFingerprint(r){return[r[4]||'',r[5]||'',r[6]||'',r[7]||''].join('|');}
-function resolveType(r){var fp=getFingerprint(r);if(clientFP.has(fp))return'Client';if(selfFP.has(fp))return'Self';return r[12]||'Client';}
+function resolveType(r){var fp=getFingerprint(r);if(clientFP.has(fp))return'Client';if(selfFP.has(fp))return'Self';return (r[12]==='Self')?'Self':'Client';}
 function applyOverrides(){vRows.slice(1).forEach(function(r){r[12]=resolveType(r);});}
 function buildReturnMap(){var m={};vRows.slice(1).forEach(function(r){if(r[12]!=='Client')return;var fp=getFingerprint(r);m[fp]=(m[fp]||0)+1;});return m;}
 var toastTimer;
