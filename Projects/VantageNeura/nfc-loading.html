@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VantageNeura — Connecting</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0e15 0%, #151b2b 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+            min-height: 100vh;
+            padding: 0;
+            perspective: 1200px;
+        }
+
+        /* ---------- Top section ---------- */
+        .top-section {
+            flex: 1;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 30px;
+        }
+
+        .top-text {
+            font-size: 28px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            text-align: center;
+            max-width: 85%;
+            line-height: 1.3;
+        }
+
+        /* The gradient-clipped sentence — applied to a span, NOT the parent,
+           so that the trailing dots can opt out of the text-fill-transparent
+           inheritance that was making them invisible in v3.                   */
+        .top-text .sentence {
+            background: linear-gradient(135deg, #e8eef5 0%, #80fefe 50%, #e8eef5 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+        }
+
+        /* The dot wrapper sits OUTSIDE the gradient span, so the dots paint
+           with a normal solid color and the opacity animation actually shows. */
+        .top-text .dots {
+            color: #80fefe;          /* brand cyan, so they read as on-brand */
+            margin-left: 1px;        /* tighten against "platform"           */
+        }
+        .top-text .dots span {
+            display: inline-block;   /* needed so each dot can animate on its own timeline */
+            opacity: 0.25;
+            animation: dotFade 1.4s ease-in-out infinite;
+        }
+        .top-text .dots span:nth-child(1) { animation-delay: 0s;   }
+        .top-text .dots span:nth-child(2) { animation-delay: 0.2s; }
+        .top-text .dots span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes dotFade {
+            0%, 80%, 100% { opacity: 0.25; }
+            40%           { opacity: 1; }
+        }
+
+        /* ---------- Middle — rotating V + stable dot ---------- */
+        .middle-section {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Container at 70% of v2 — same as v3 */
+        .logo-container {
+            width: 28vw;
+            max-width: 224px;
+            aspect-ratio: 140 / 160;
+            perspective: 1000px;
+            position: relative;
+        }
+
+        .rotating-layer {
+            position: absolute;
+            inset: 0;
+            transform-style: preserve-3d;
+            animation: spinY 3s linear infinite;
+            will-change: transform;
+        }
+
+        @keyframes spinY {
+            from { transform: rotateY(0deg); }
+            to   { transform: rotateY(360deg); }
+        }
+
+        .v-svg,
+        .dot-svg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .v-svg {
+            filter: drop-shadow(0 0 30px rgba(128, 254, 254, 0.35));
+        }
+
+        .dot-svg {
+            animation: dotPulse 1.4s ease-in-out infinite;
+        }
+
+        @keyframes dotPulse {
+            0%, 100% { opacity: 1;    transform: scale(1); }
+            50%      { opacity: 0.78; transform: scale(1.08); }
+        }
+
+        /* ---------- Bottom — Powered by VantageNeura ---------- */
+        .bottom-section {
+            flex: 1;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 30px;
+        }
+
+        .bottom-text {
+            color: #8b92a9;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            text-align: center;
+            line-height: 1.8;
+        }
+
+        .brand-name {
+            color: #80fefe;
+            font-weight: 600;
+            font-size: 14px;
+            display: block;
+        }
+
+        /* ---------- Responsive ---------- */
+        @media (max-width: 600px) {
+            .top-text    { font-size: 24px; }
+            .bottom-text { font-size: 12px; }
+            .logo-container { max-width: 196px; }
+        }
+
+        @media (max-width: 400px) {
+            .top-text    { font-size: 20px; }
+            .bottom-text { font-size: 11px; }
+            .logo-container { max-width: 154px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- TOP — gradient sentence + visible animated ellipsis -->
+    <div class="top-section">
+        <div class="top-text"><span class="sentence">Connecting you to our review platform</span><span class="dots"><span>.</span><span>.</span><span>.</span></span></div>
+    </div>
+
+    <!-- MIDDLE: rotating V with stable, pulsing dot -->
+    <div class="middle-section">
+        <div class="logo-container">
+
+            <div class="rotating-layer">
+                <svg class="v-svg" viewBox="0 0 140 160" xmlns="http://www.w3.org/2000/svg" aria-label="VantageNeura V">
+                    <defs>
+                        <linearGradient id="leftStrokeV4" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%"   stop-color="#80fefe"/>
+                            <stop offset="50%"  stop-color="#09a2d4"/>
+                            <stop offset="100%" stop-color="#0484a1"/>
+                        </linearGradient>
+                        <linearGradient id="rightStrokeV4" x1="100%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%"   stop-color="#80fefe"/>
+                            <stop offset="50%"  stop-color="#09a2d4"/>
+                            <stop offset="100%" stop-color="#0484a1"/>
+                        </linearGradient>
+                    </defs>
+
+                    <!-- LEFT STROKE — same v3 geometry (gap halved) -->
+                    <polygon points="38,10 52,10 77,91 70,113.5" fill="url(#leftStrokeV4)"/>
+
+                    <!-- RIGHT STROKE — same v3 geometry -->
+                    <polygon points="102,10 88,10 73,57 80,80" fill="url(#rightStrokeV4)"/>
+                </svg>
+            </div>
+
+            <!-- Static glowing dot below the V tip -->
+            <svg class="dot-svg" viewBox="0 0 140 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <circle cx="70" cy="138" r="15" fill="#80fefe" opacity="0.20"/>
+                <circle cx="70" cy="138" r="11" fill="#80fefe" opacity="0.50"/>
+                <circle cx="70" cy="138" r="7"  fill="#80fefe" opacity="0.90"/>
+            </svg>
+
+        </div>
+    </div>
+
+    <!-- BOTTOM -->
+    <div class="bottom-section">
+        <div class="bottom-text">
+            Powered by
+            <span class="brand-name">VantageNeura</span>
+        </div>
+    </div>
+
+    <script>
+        // Optional auto-redirect — replace URL when ready.
+        // setTimeout(() => { window.location.href = 'https://YOUR_REVIEW_URL'; }, 3000);
+    </script>
+</body>
+</html>
