@@ -219,40 +219,45 @@
     </div>
 
     <script>
-        // Optional auto-redirect — replace URL when ready.
-        // setTimeout(() => { window.location.href = 'https://YOUR_REVIEW_URL'; }, 1500);
+    // 1. Parse out parameters from the address link
+    const urlParams = new URLSearchParams(window.location.search);
+    const customerId = urlParams.get('id');
 
-        
-        // 1. Get the customer ID from the browser link (e.g., ?id=pizza-shop)
-        const urlParams = new URLSearchParams(window.location.search);
-        const customerId = urlParams.get('id');
+    // 2. Your Google Apps Script Web App Endpoint
+    const databaseWebAppUrl = "https://script.google.com/macros/s/AKfycbwUH7hzJjd6nZadwoX67iFK3K6wdLkYdCF4s6FyeEThfVCRe8SgDQl5JfhucnFti_MX/exec";
 
-        // 2. Set up your Google Apps Script Web App URL here
-        const databaseWebAppUrl = "https://script.google.com/macros/s/AKfycbwUH7hzJjd6nZadwoX67iFK3K6wdLkYdCF4s6FyeEThfVCRe8SgDQl5JfhucnFti_MX/exec";
+    // 3. Keep visual engagement high (Minimum 1.5 seconds logo spin)
+    const delayTime = 1500;
+    let finalDestination = "https://google.com"; // System fallback URL
 
-        // 3. Set the delay timer (1500 milliseconds = 1.5 seconds)
-        const delayTime = 1500;
+    // Create a visual display timer promise
+    const timerPromise = new Promise(resolve => setTimeout(resolve, delayTime));
 
-        // Default fallback link if a barcode is scanned without an ID or something breaks
-        let finalDestination = "https://google.com"; 
+    // 4. Connect to database with active safety catch redirects
+    let fetchPromise = Promise.resolve();
 
-        // 4. Fetch the correct destination link from your Google Sheet brain instantly
-        if (customerId) {
-            fetch(`${databaseWebAppUrl}?id=${customerId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data && data.reviewUrl) {
-                        finalDestination = data.reviewUrl;
-                    }
-                })
-                .catch(error => console.error("Error routing customer:", error));
-        }
+    if (customerId) {
+        fetchPromise = fetch(`${databaseWebAppUrl}?id=${encodeURIComponent(customerId)}`)
+            .then(response => {
+                if (!response.ok) throw new Error('Network failure.');
+                return response.json();
+            })
+            .then(data => {
+                if (data && data.reviewUrl) {
+                    finalDestination = data.reviewUrl; // Snag row link successfully!
+                } else if (data && data.error) {
+                    console.warn("Database lookup warning:", data.error);
+                }
+            })
+            .catch(error => {
+                console.error("Routing error caught safely:", error);
+            });
+    }
 
-        // 5. The 1.5-second clock ticks down while the logo spins, then triggers the doorway!
-        setTimeout(() => {
-            window.location.href = finalDestination;
-        }, delayTime);
-    
-    </script>
+    // 5. Fire redirection once BOTH the database returns and the 1.5s visual time expires
+    Promise.all([fetchPromise, timerPromise]).then(() => {
+        window.location.href = finalDestination;
+    });
+</script>
 </body>
 </html>
