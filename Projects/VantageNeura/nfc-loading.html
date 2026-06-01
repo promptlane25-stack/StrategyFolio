@@ -253,7 +253,8 @@
 
         // 4. Wait for both to complete before routing
         Promise.all([fetchPromise, timerPromise]).then(() => {
-            window.location.href = finalDestination;
+            // Comment this line out so the page stops redirecting to google.com!
+           // window.location.href = finalDestination;
         });
     </script>
 </body>
