@@ -217,7 +217,9 @@
             <span class="brand-name">VantageNeura</span>
         </div>
     </div>
-<script>
+
+
+    <script>
         // 1. Get the customer ID from the browser link
         const urlParams = new URLSearchParams(window.location.search);
         const customerId = urlParams.get('id');
@@ -225,37 +227,51 @@
         // 2. Set up your Google Apps Script Web App URL
         const databaseWebAppUrl = "https://script.google.com/macros/s/AKfycbwUH7hzJjd6nZadwoX67iFK3K6wdLkYdCF4s6FyeEThfVCRe8SgDQl5JfhucnFti_MX/exec";
 
-        // 3. Set the minimum delay timer (1.5 seconds)
-        const delayTime = 1500;
-
-        // Default fallback link
+        // Default fallback link if something goes wrong
         let finalDestination = "https://google.com"; 
+        
+        // Trackers to know when it is safe to redirect
+        let backendIsDone = false;
+        let timerIsDone = false;
 
-        // Create promises for the sync lookups
-        const timerPromise = new Promise(resolve => setTimeout(resolve, delayTime));
-        let fetchPromise = Promise.resolve(); 
+        // 3. Set the visual delay timer (1.5 seconds)
+        setTimeout(() => {
+            timerIsDone = true;
+            attemptRedirect();
+        }, 1500);
 
+        // 4. THIS IS THE RECOVERY CALLBACK FUNCTION
+        // This is triggered automatically when Google Sheets responds!
+        window.handleGoogleSheetResponse = function(data) {
+            if (data && data.reviewUrl) {
+                finalDestination = data.reviewUrl;
+            }
+            backendIsDone = true;
+            attemptRedirect();
+        };
+
+        // 5. Build and execute a CORS-immune Script Tag Injection
         if (customerId) {
-            fetchPromise = fetch(`${databaseWebAppUrl}?id=${encodeURIComponent(customerId)}`)
-                .then(response => {
-                    if (!response.ok) throw new Error('Network response was not ok');
-                    return response.json();
-                })
-                .then(data => {
-                    if (data && data.reviewUrl) {
-                        finalDestination = data.reviewUrl;
-                    }
-                })
-                .catch(error => {
-                    console.error("Error routing customer:", error);
-                });
+            const scriptTag = document.createElement("script");
+            // We tell Google to execute 'handleGoogleSheetResponse' when it finishes
+            scriptTag.src = `${databaseWebAppUrl}?id=${encodeURIComponent(customerId)}&callback=handleGoogleSheetResponse`;
+            scriptTag.onerror = function() {
+                console.error("Script injection failed.");
+                backendIsDone = true;
+                attemptRedirect();
+            };
+            document.head.appendChild(scriptTag);
+        } else {
+            backendIsDone = true; // No ID passed, step right through
         }
 
-        // 4. Wait for both to complete before routing
-        Promise.all([fetchPromise, timerPromise]).then(() => {
-            // Comment this line out so the page stops redirecting to google.com!
-           // window.location.href = finalDestination;
-        });
+        // 6. Redirect manager — triggers only when BOTH conditions are met
+        function attemptRedirect() {
+            if (backendIsDone && timerIsDone) {
+                window.location.href = finalDestination;
+            }
+        }
     </script>
+    
 </body>
 </html>
