@@ -312,30 +312,39 @@
         const urlParams = new URLSearchParams(window.location.search);
         const customerId = urlParams.get('id');
         
-        // Your Google Apps Script Web App URL for background analytics tracking
+        // Your Google Apps Script Web App URL
         const databaseWebAppUrl = "https://script.google.com/macros/s/YOUR_DEPLOYED_SCRIPT_ID/exec";
 
-        // 3. Look up the destination link instantly from routes.js
-        // If the ID isn't found or is missing, it safely falls back to standard Google
-        const finalDestination = (customerId && clientRoutes[customerId]) ? clientRoutes[customerId] : "https://google.com";
+        // 3. Look up destination instantly. Fallback to Google if missing or not found.
+        let finalDestination = "https://google.com";
+        try {
+            if (customerId && typeof clientRoutes !== 'undefined' && clientRoutes[customerId]) {
+                finalDestination = clientRoutes[customerId];
+            }
+        } catch (e) {
+            console.error("Error reading routes.js:", e);
+        }
 
         console.log("Routing ID:", customerId);
         console.log("Destination URL Locked In:", finalDestination);
 
-        // 4. SILENT TRACKING: Ping your Google Sheet in the background
-        // 'keepalive: true' allows the request to finish even after the page redirects
+        // 4. FIRE-AND-FORGET BACKGROUND TRACKING
+        // We completely remove .then() to stop the browser from waiting or freezing up.
         if (customerId && databaseWebAppUrl && databaseWebAppUrl.indexOf("YOUR_DEPLOYED_SCRIPT_ID") === -1) {
-            fetch(`${databaseWebAppUrl}?id=${encodeURIComponent(customerId)}`, { 
-                method: 'GET', 
-                mode: 'no-cors',
-                keepalive: true 
-            })
-            .then(() => console.log("Analytics ping sent successfully."))
-            .catch(err => console.error("Analytics background logging failed:", err));
+            try {
+                fetch(`${databaseWebAppUrl}?id=${encodeURIComponent(customerId)}`, { 
+                    method: 'GET', 
+                    mode: 'no-cors',
+                    keepalive: true 
+                });
+                console.log("Analytics ping fired in background.");
+            } catch (err) {
+                console.error("Failed to fire background fetch:", err);
+            }
         }
 
-        // 5. STRICT 1.2-SECOND VISUAL TIMER
-        // The logo spins for exactly 1.2 seconds, then doors open seamlessly!
+        // 5. BULLETPROOF 1.2-SECOND VISUAL TIMER
+        // This is completely isolated now. It will execute no matter what happens above.
         setTimeout(() => {
             window.location.href = finalDestination;
         }, 1200);
