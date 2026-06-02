@@ -30,7 +30,7 @@
         }
 
         /* ---------- Top section ---------- */
-        .top-section {
+       /* .top-section {
             flex: 1;
             display: flex;
             align-items: flex-end;
@@ -45,6 +45,24 @@
             text-align: center;
             max-width: 85%;
             line-height: 1.3;
+        }*/
+
+        .top-section {
+            flex: 1;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 40px; /* More breathing room above the logo */
+        }
+
+        .top-text {
+            color: #e8eef5;
+            font-size: 42px; /* <--- CRANKED UP FOR LAPTOPS (Was 28px) */
+            font-weight: 600; /* Slightly bolder for higher premium impact */
+            letter-spacing: 0.5px;
+            text-align: center;
+            max-width: 90%; /* Widened so the long sentence fits beautifully on laptops */
+            line-height: 1.35;
         }
 
         /* The gradient-clipped sentence — applied to a span, NOT the parent,
@@ -154,7 +172,7 @@
         }
 
         /* ---------- Responsive ---------- */
-        @media (max-width: 600px) {
+        /* @media (max-width: 600px) {
             .top-text    { font-size: 24px; }
             .bottom-text { font-size: 12px; }
             .logo-container { max-width: 196px; }
@@ -163,6 +181,18 @@
         @media (max-width: 400px) {
             .top-text    { font-size: 20px; }
             .bottom-text { font-size: 11px; }
+            .logo-container { max-width: 154px; }
+        }*/
+
+        @media (max-width: 600px) {
+            .top-text    { font-size: 36px; } /* <--- LARGE & BOLD FOR STANDARD PHONES */
+            .bottom-text { font-size: 13px; }
+            .logo-container { max-width: 196px; }
+        }
+
+        @media (max-width: 400px) {
+            .top-text    { font-size: 30px; } /* <--- OPTIMIZED FOR SMALLER PHONES */
+            .bottom-text { font-size: 12px; }
             .logo-container { max-width: 154px; }
         }
     </style>
