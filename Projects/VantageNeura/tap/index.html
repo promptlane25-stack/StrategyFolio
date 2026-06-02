@@ -304,49 +304,26 @@
         }
    </script > -->
 
+    <!-- Include your route registry file -->
+    <script src="routes.js"></script>
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const customerId = urlParams.get('id');
         const databaseWebAppUrl = "https://script.google.com/macros/s/YOUR_DEPLOYED_SCRIPT_ID/exec";
 
-        let finalDestination = ""; 
-        let timerIsDone = false;
+        // Pull the destination link instantly from the local code file
+        const finalDestination = clientRoutes[customerId] || "https://google.com";
 
-        // 1. Start the visual timer (1.2 seconds)
+        // 1. Send the tracking data to your Google Sheet quietly in the background
+        if (customerId && databaseWebAppUrl) {
+            fetch(`${databaseWebAppUrl}?id=${customerId}`, { method: 'GET', mode: 'no-cors' })
+                .catch(err => console.log("Background tracking logged."));
+        }
+
+        // 2. Strict 1.2-Second Timer - Fires instantly because it already knows the URL!
         setTimeout(() => {
-            timerIsDone = true;
-            attemptRedirect();
+            window.location.href = finalDestination;
         }, 1200);
-
-        // 2. Fetch the review URL from your Google Sheet immediately
-        if (customerId) {
-            fetch(`${databaseWebAppUrl}?id=${customerId}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data && data.reviewUrl) {
-                        finalDestination = data.reviewUrl; // Save the real client review link
-                        attemptRedirect(); // Try to redirect immediately if the timer finished
-                    } else {
-                        finalDestination = "https://google.com"; // Fallback if ID is wrong
-                        attemptRedirect();
-                    }
-                })
-                .catch(error => {
-                    console.error("Database error:", error);
-                    finalDestination = "https://google.com"; // Fallback if system fails
-                    attemptRedirect();
-                });
-        } else {
-            finalDestination = "https://google.com";
-            attemptRedirect();
-        }
-
-        // 3. The Gatekeeper: Only redirects once BOTH the timer is done AND we have the link
-        function attemptRedirect() {
-            if (timerIsDone && finalDestination !== "") {
-                window.location.href = finalDestination;
-            }
-        }
     </script>
     
 </body>
