@@ -306,21 +306,36 @@
 
     <!-- Include your route registry file -->
     <script src="routes.js"></script>
+    
     <script>
+        // 2. Parse the client ID from the URL (?id=NorthgateKarateClub)
         const urlParams = new URLSearchParams(window.location.search);
         const customerId = urlParams.get('id');
+        
+        // Your Google Apps Script Web App URL for background analytics tracking
         const databaseWebAppUrl = "https://script.google.com/macros/s/YOUR_DEPLOYED_SCRIPT_ID/exec";
 
-        // Pull the destination link instantly from the local code file
-        const finalDestination = clientRoutes[customerId] || "https://google.com";
+        // 3. Look up the destination link instantly from routes.js
+        // If the ID isn't found or is missing, it safely falls back to standard Google
+        const finalDestination = (customerId && clientRoutes[customerId]) ? clientRoutes[customerId] : "https://google.com";
 
-        // 1. Send the tracking data to your Google Sheet quietly in the background
-        if (customerId && databaseWebAppUrl) {
-            fetch(`${databaseWebAppUrl}?id=${customerId}`, { method: 'GET', mode: 'no-cors' })
-                .catch(err => console.log("Background tracking logged."));
+        console.log("Routing ID:", customerId);
+        console.log("Destination URL Locked In:", finalDestination);
+
+        // 4. SILENT TRACKING: Ping your Google Sheet in the background
+        // 'keepalive: true' allows the request to finish even after the page redirects
+        if (customerId && databaseWebAppUrl && databaseWebAppUrl.indexOf("YOUR_DEPLOYED_SCRIPT_ID") === -1) {
+            fetch(`${databaseWebAppUrl}?id=${encodeURIComponent(customerId)}`, { 
+                method: 'GET', 
+                mode: 'no-cors',
+                keepalive: true 
+            })
+            .then(() => console.log("Analytics ping sent successfully."))
+            .catch(err => console.error("Analytics background logging failed:", err));
         }
 
-        // 2. Strict 1.2-Second Timer - Fires instantly because it already knows the URL!
+        // 5. STRICT 1.2-SECOND VISUAL TIMER
+        // The logo spins for exactly 1.2 seconds, then doors open seamlessly!
         setTimeout(() => {
             window.location.href = finalDestination;
         }, 1200);
