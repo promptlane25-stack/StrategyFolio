@@ -557,8 +557,8 @@
 
             if (diff === 0) {
                 window.location.href = p.custom
-                    ? 'form-teal.html?problem=other'
-                    : 'form-teal.html?problem=' + encodeURIComponent(p.text);
+                    ? 'form.html?problem=other'
+                    : 'form.html?problem=' + encodeURIComponent(p.text);
             } else {
                 advance(diff > 0 ? 1 : -1);
             }
