@@ -1,0 +1,2228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Truscott Electrical - Suffolk's Trusted Independent Electrician | Ipswich</title>
+  <meta name="description" content="Truscott Electrical - 20+ years experience. Domestic, commercial, EV chargers, EICR. Serving Ipswich, Hadleigh &amp; Woodbridge. 5.0 star rated, 41 reviews. Call 07584 578501.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+  <style>
+    /* ====================================================
+       RESET & TOKENS
+    ==================================================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --color-primary:         #1E293B;
+      --color-bg:              #F8FAFC;
+      --color-accent:          #0D9488;
+      --color-accent-hover:    #0F766E;
+      --color-text:            #1E293B;
+      --color-text-muted:      #64748B;
+      --color-surface:         #FFFFFF;
+      --color-border:          #E2E8F0;
+      --color-emergency:       #DC2626;
+      --color-emergency-hover: #B91C1C;
+      --color-star:            #F59E0B;
+
+      --font-heading: 'Syne', sans-serif;
+      --font-body:    'DM Sans', sans-serif;
+
+      --radius-btn:  8px;
+      --radius-card: 12px;
+      --radius-pill: 100px;
+
+      --shadow-card:     0 1px 3px rgba(0,0,0,0.06);
+      --shadow-elevated: 0 8px 24px rgba(0,0,0,0.10);
+
+      --max-w: 1200px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    :focus-visible {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* ====================================================
+       UTILITIES
+    ==================================================== */
+    .container {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .sr-only {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+
+    .skip-link {
+      position: absolute;
+      top: -100%; left: 16px;
+      background: var(--color-accent);
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: var(--radius-btn);
+      font-weight: 600;
+      z-index: 9999;
+      transition: top 0.2s;
+    }
+    .skip-link:focus { top: 16px; }
+
+    /* ====================================================
+       BUTTONS
+    ==================================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: var(--radius-btn);
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: background 0.2s, transform 0.1s;
+      white-space: nowrap;
+      text-decoration: none;
+      line-height: 1;
+    }
+    .btn:active { transform: translateY(1px) scale(0.98); }
+
+    .btn-accent { background: var(--color-accent); color: #fff; }
+    .btn-accent:hover { background: var(--color-accent-hover); }
+
+    .btn-emergency { background: var(--color-emergency); color: #fff; }
+    .btn-emergency:hover { background: var(--color-emergency-hover); }
+
+    .btn-ghost-white {
+      background: transparent;
+      color: #fff;
+      border: 2px solid rgba(255,255,255,0.55);
+    }
+    .btn-ghost-white:hover { border-color: #fff; background: rgba(255,255,255,0.07); }
+
+    .pulse-dot {
+      display: inline-block;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.9);
+      animation: pulse 1.5s ease-in-out infinite;
+      flex-shrink: 0;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50%       { transform: scale(1.4); opacity: 0.7; }
+    }
+
+    /* ====================================================
+       HEADER
+    ==================================================== */
+    #site-header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: box-shadow 0.3s, border-color 0.3s;
+    }
+    #site-header.scrolled {
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+      border-color: var(--color-border);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 24px;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      transition: padding 0.3s;
+    }
+    #site-header.scrolled .header-inner { padding: 10px 24px; }
+
+    .header-nav {
+      display: none;
+      gap: 28px;
+      list-style: none;
+    }
+    @media (min-width: 1024px) { .header-nav { display: flex; } }
+
+    .header-nav a {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--color-text);
+      transition: color 0.2s;
+    }
+    .header-nav a:hover { color: var(--color-accent); }
+
+    .header-ctas {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hdr-quote-btn { display: none; }
+    @media (min-width: 1024px) { .hdr-quote-btn { display: inline-flex; } }
+
+    .btn-phone-text { display: none; }
+    @media (min-width: 480px) { .btn-phone-text { display: inline; } }
+
+    .hamburger {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: var(--radius-btn);
+    }
+    @media (min-width: 1024px) { .hamburger { display: none; } }
+
+    .hamburger span {
+      display: block; width: 22px; height: 2px;
+      background: var(--color-primary); border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .hamburger[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+    .hamburger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Drawer */
+    .nav-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 199;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .nav-overlay.open { opacity: 1; pointer-events: all; }
+
+    .nav-drawer {
+      position: fixed; top: 0; right: -100%;
+      width: min(320px, 85vw); height: 100vh;
+      background: var(--color-surface);
+      box-shadow: -4px 0 24px rgba(0,0,0,0.12);
+      z-index: 200;
+      transition: right 0.3s ease;
+      display: flex; flex-direction: column;
+      padding: 24px; gap: 16px;
+    }
+    .nav-drawer.open { right: 0; }
+
+    .drawer-close {
+      align-self: flex-end;
+      background: none; border: none;
+      cursor: pointer; padding: 8px;
+      font-size: 26px; color: var(--color-text-muted);
+      line-height: 1;
+    }
+
+    .drawer-links {
+      list-style: none;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .drawer-links a {
+      display: block;
+      padding: 14px 8px;
+      font-size: 18px; font-weight: 700;
+      font-family: var(--font-heading);
+      color: var(--color-text);
+      border-bottom: 1px solid var(--color-border);
+      transition: color 0.2s;
+    }
+    .drawer-links a:hover { color: var(--color-accent); }
+
+    .drawer-ctas {
+      display: flex; flex-direction: column; gap: 8px;
+      margin-top: auto;
+    }
+
+    /* ====================================================
+       HERO
+    ==================================================== */
+    #hero {
+      background: var(--color-primary);
+      min-height: 90vh;
+      display: flex; align-items: center;
+      position: relative; overflow: hidden;
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 48px;
+      align-items: center;
+      padding: 72px 24px 64px;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      width: 100%;
+    }
+    @media (min-width: 1024px) {
+      .hero-inner {
+        grid-template-columns: 60fr 40fr;
+        padding: 80px 24px;
+      }
+    }
+
+    .hero-eyebrow {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-accent);
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .hero-h1 {
+      font-family: var(--font-heading);
+      font-size: clamp(2rem, 4.5vw, 3.25rem);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 1.8vw, 1.1rem);
+      color: rgba(255,255,255,0.68);
+      max-width: 52ch;
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+
+    .hero-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 32px;
+    }
+
+    .hero-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.14);
+      color: rgba(255,255,255,0.82);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: var(--radius-pill);
+      white-space: nowrap;
+    }
+    .chip-star { color: var(--color-star); }
+
+    .hero-ctas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .hero-visual {
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    @media (min-width: 1024px) { .hero-visual { display: flex; } }
+
+    /* ====================================================
+       TRUST BAR
+    ==================================================== */
+    #trust-bar {
+      background: var(--color-surface);
+      border-top: 1px solid var(--color-border);
+      border-bottom: 1px solid var(--color-border);
+      padding: 40px 24px;
+    }
+
+    .trust-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px 16px;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      text-align: center;
+    }
+    @media (min-width: 640px) { .trust-grid { grid-template-columns: repeat(4, 1fr); } }
+
+    .trust-num {
+      font-family: var(--font-heading);
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--color-accent);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .trust-label {
+      font-size: 13px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--color-text-muted);
+    }
+
+    /* ====================================================
+       SERVICES
+    ==================================================== */
+    #services {
+      padding: 80px 0;
+      background: var(--color-bg);
+    }
+
+    .section-hd {
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto 48px;
+    }
+    .section-title {
+      font-family: var(--font-heading);
+      font-size: clamp(1.75rem, 3vw, 2.4rem);
+      font-weight: 800;
+      color: var(--color-text);
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+    .section-sub {
+      color: var(--color-text-muted);
+      font-size: 1.05rem;
+      line-height: 1.6;
+    }
+
+    .tab-list {
+      display: flex;
+      border-bottom: 2px solid var(--color-border);
+      margin-bottom: 36px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .tab-list::-webkit-scrollbar { display: none; }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      padding: 12px 20px;
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: color 0.2s, border-color 0.2s;
+      flex-shrink: 0;
+    }
+    .tab-btn[aria-selected="true"] {
+      color: var(--color-accent);
+      font-weight: 700;
+      border-bottom-color: var(--color-accent);
+    }
+    .tab-btn:hover { color: var(--color-accent); }
+
+    .tab-panel { display: none; opacity: 0; transition: opacity 0.2s; }
+    .tab-panel.active { display: block; }
+
+    .svc-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    @media (min-width: 640px) { .svc-grid { grid-template-columns: 1fr 1fr; } }
+
+    .svc-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-card);
+      padding: 24px;
+      box-shadow: var(--shadow-card);
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .svc-card:hover {
+      box-shadow: var(--shadow-elevated);
+      transform: translateY(-2px);
+    }
+    .svc-icon { font-size: 24px; margin-bottom: 12px; display: block; }
+    .svc-name {
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: 8px;
+    }
+    .svc-desc {
+      font-size: 14px;
+      color: var(--color-text-muted);
+      line-height: 1.6;
+    }
+
+    /* ====================================================
+       ABOUT
+    ==================================================== */
+    #about {
+      padding: 80px 24px;
+      background: var(--color-surface);
+    }
+
+    .about-inner {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 48px;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      align-items: start;
+    }
+    @media (min-width: 1024px) {
+      .about-inner { grid-template-columns: 1fr 1fr; }
+    }
+
+    .about-quote-wrap {
+      position: relative;
+      padding-left: 28px;
+      border-left: 4px solid var(--color-accent);
+    }
+    .about-tagline {
+      display: inline-block;
+      margin-top: 24px;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--color-accent);
+      padding: 6px 0;
+      border-top: 1px solid rgba(13,148,136,0.25);
+    }
+    .about-quote-mark {
+      position: absolute;
+      top: -24px; left: 16px;
+      font-family: var(--font-heading);
+      font-size: 5rem;
+      color: var(--color-accent);
+      opacity: 0.2;
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+    .about-quote {
+      font-family: var(--font-heading);
+      font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+      font-weight: 700;
+      color: var(--color-primary);
+      line-height: 1.45;
+      font-style: normal;
+      position: relative;
+      z-index: 1;
+    }
+
+    .about-text p {
+      color: var(--color-text-muted);
+      line-height: 1.75;
+      margin-bottom: 20px;
+    }
+    .about-text p strong { color: var(--color-text); font-weight: 600; }
+
+    .cert-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .cert-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(13,148,136,0.07);
+      border: 1px solid rgba(13,148,136,0.22);
+      color: var(--color-accent);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 7px 14px;
+      border-radius: var(--radius-pill);
+    }
+
+    /* ====================================================
+       REVIEWS
+    ==================================================== */
+    #reviews {
+      padding: 80px 24px;
+      background: var(--color-bg);
+    }
+
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      max-width: var(--max-w);
+      margin: 0 auto 32px;
+    }
+
+    @media (max-width: 767px) {
+      .reviews-grid {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 16px;
+        padding-bottom: 8px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .reviews-grid::-webkit-scrollbar { display: none; }
+    }
+
+    .review-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-card);
+      padding: 24px;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    @media (max-width: 767px) {
+      .review-card {
+        min-width: min(300px, 78vw);
+        flex-shrink: 0;
+        scroll-snap-align: start;
+      }
+    }
+
+    .review-stars {
+      color: var(--color-star);
+      font-size: 15px;
+      letter-spacing: 2px;
+    }
+    .review-text {
+      font-size: 14px;
+      font-style: italic;
+      color: var(--color-text);
+      line-height: 1.7;
+      flex: 1;
+      white-space: pre-line;
+    }
+    .review-footer {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: auto;
+    }
+    .review-author {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--color-text);
+    }
+    .review-date {
+      font-size: 12px;
+      color: var(--color-text-muted);
+      margin-top: 2px;
+    }
+    .google-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      padding: 4px 9px;
+      border-radius: var(--radius-pill);
+      white-space: nowrap;
+    }
+
+    /* 5th review - desktop spans 2 cols but stays normal */
+    .review-card-wide {
+      grid-column: 1 / -1;
+      max-width: 600px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    @media (max-width: 767px) {
+      .review-card-wide {
+        min-width: min(300px, 78vw);
+        max-width: none;
+        margin: 0;
+      }
+    }
+
+    .reviews-cta {
+      text-align: center;
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+    .reviews-cta a {
+      color: var(--color-accent);
+      font-weight: 600;
+      font-size: 15px;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .reviews-cta a:hover { border-color: var(--color-accent); }
+
+    /* ====================================================
+       QUOTE FORM
+    ==================================================== */
+    #quote {
+      padding: 80px 24px;
+      background: var(--color-bg);
+    }
+
+    .quote-card {
+      max-width: 680px;
+      margin: 0 auto;
+      background: var(--color-surface);
+      border-radius: var(--radius-card);
+      box-shadow: var(--shadow-elevated);
+      border: 1px solid var(--color-border);
+      overflow: hidden;
+    }
+    .quote-card-inner { padding: 48px; }
+    @media (max-width: 640px) { .quote-card-inner { padding: 24px 20px; } }
+
+    /* Progress */
+    .progress-wrap {
+      display: flex;
+      align-items: center;
+      margin-bottom: 36px;
+    }
+    .prog-step {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      white-space: nowrap;
+    }
+    .prog-step.active { color: var(--color-accent); }
+    .prog-step.done { color: var(--color-accent); opacity: 0.6; }
+
+    .prog-circle {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      border: 2px solid var(--color-border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700;
+      flex-shrink: 0;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+    .prog-step.active .prog-circle {
+      background: var(--color-accent);
+      border-color: var(--color-accent);
+      color: #fff;
+    }
+    .prog-step.done .prog-circle {
+      background: rgba(13,148,136,0.12);
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+    }
+
+    .prog-line {
+      flex: 1;
+      height: 2px;
+      background: var(--color-border);
+      margin: 0 8px;
+      position: relative;
+      overflow: hidden;
+    }
+    .prog-line::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--color-accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s;
+    }
+    .prog-line.done::after { transform: scaleX(1); }
+
+    /* Form steps */
+    .form-step { display: none; }
+    .form-step.active { display: block; }
+
+    .step-title {
+      font-family: var(--font-heading);
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: 6px;
+    }
+    .step-desc {
+      font-size: 14px;
+      color: var(--color-text-muted);
+      margin-bottom: 24px;
+    }
+
+    /* Radio cards */
+    .radio-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    @media (max-width: 400px) { .radio-cards { grid-template-columns: 1fr; } }
+
+    .rc { position: relative; }
+    .rc input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+    .rc label {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-height: 80px;
+      padding: 14px 16px;
+      border: 2px solid var(--color-border);
+      border-radius: var(--radius-card);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .rc label .rc-icon { font-size: 22px; }
+    .rc input:checked + label {
+      border-color: var(--color-accent);
+      background: rgba(13,148,136,0.06);
+    }
+    .rc:focus-within label {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 2px;
+    }
+
+    /* Emergency alert */
+    .emrg-alert {
+      background: rgba(220,38,38,0.05);
+      border: 2px solid var(--color-emergency);
+      border-radius: var(--radius-card);
+      padding: 28px 24px;
+      text-align: center;
+    }
+    .emrg-alert h3 {
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--color-emergency);
+      margin-bottom: 16px;
+    }
+    .emrg-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--color-emergency);
+      color: #fff;
+      font-size: 1.05rem;
+      font-weight: 700;
+      padding: 16px 24px;
+      border-radius: var(--radius-btn);
+      width: 100%;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .emrg-cta:hover { background: var(--color-emergency-hover); }
+    .emrg-cta:active { transform: scale(0.98); }
+    .emrg-note {
+      font-size: 13px;
+      color: var(--color-text-muted);
+      margin-top: 12px;
+    }
+
+    /* Conditional step 2 blocks */
+    .s2-block { display: none; }
+
+    /* Radio inline group */
+    .radio-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .ri { position: relative; }
+    .ri input { position: absolute; opacity: 0; width: 0; height: 0; }
+    .ri label {
+      display: inline-block;
+      padding: 8px 16px;
+      border: 2px solid var(--color-border);
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: border-color 0.2s, background 0.2s, color 0.2s;
+    }
+    .ri input:checked + label {
+      border-color: var(--color-accent);
+      background: rgba(13,148,136,0.07);
+      color: var(--color-accent);
+    }
+    .ri:focus-within label {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 2px;
+    }
+
+    .rg-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: 8px;
+    }
+
+    /* Checkboxes */
+    .chk-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .chk-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .chk-item input[type="checkbox"] {
+      width: 18px; height: 18px;
+      accent-color: var(--color-accent);
+      flex-shrink: 0;
+    }
+
+    /* Form fields */
+    .field { margin-bottom: 20px; }
+    .field label {
+      display: block;
+      font-size: 14px; font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: 6px;
+    }
+    .field input, .field textarea {
+      width: 100%;
+      padding: 11px 14px;
+      border: 2px solid var(--color-border);
+      border-radius: var(--radius-btn);
+      font-family: var(--font-body);
+      font-size: 15px;
+      color: var(--color-text);
+      background: var(--color-bg);
+      transition: border-color 0.2s;
+    }
+    .field input::placeholder, .field textarea::placeholder { color: var(--color-text-muted); }
+    .field input:focus, .field textarea:focus {
+      border-color: var(--color-accent);
+      outline: none;
+    }
+    .field input.error, .field textarea.error { border-color: var(--color-emergency); }
+    .field textarea { resize: vertical; min-height: 96px; }
+
+    .field-err {
+      font-size: 13px;
+      color: var(--color-emergency);
+      margin-top: 4px;
+      display: none;
+    }
+    .field-err.show { display: block; }
+
+    .req-star { color: var(--color-emergency); }
+
+    /* Step nav */
+    .step-nav {
+      display: flex;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .btn-next, .btn-back {
+      padding: 12px 24px;
+      border-radius: var(--radius-btn);
+      font-family: var(--font-body);
+      font-size: 15px; font-weight: 600;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: background 0.2s, border-color 0.2s, opacity 0.2s, transform 0.1s;
+    }
+    .btn-next:active, .btn-back:active { transform: scale(0.98); }
+
+    .btn-next {
+      background: var(--color-accent);
+      color: #fff;
+      flex: 1;
+      border-color: var(--color-accent);
+    }
+    .btn-next:hover:not(:disabled) { background: var(--color-accent-hover); }
+    .btn-next:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .btn-back {
+      background: transparent;
+      color: var(--color-text-muted);
+      border-color: var(--color-border);
+    }
+    .btn-back:hover { border-color: var(--color-text); color: var(--color-text); }
+
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      background: var(--color-accent);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-btn);
+      font-family: var(--font-body);
+      font-size: 16px; font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s, opacity 0.2s, transform 0.1s;
+    }
+    .btn-submit:hover { background: var(--color-accent-hover); }
+    .btn-submit:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-submit:active { transform: scale(0.99); }
+
+    /* Success screen */
+    .success-screen { text-align: center; padding: 16px 0; }
+
+    .tick-svg {
+      width: 72px; height: 72px;
+      margin: 0 auto 24px;
+    }
+    .tick-circle {
+      stroke: var(--color-accent);
+      stroke-width: 3;
+      fill: none;
+      stroke-dasharray: 213;
+      stroke-dashoffset: 213;
+      animation: draw-circle 0.5s ease-out forwards;
+      transform-origin: center;
+      transform: rotate(-90deg);
+    }
+    .tick-check {
+      stroke: var(--color-accent);
+      stroke-width: 3;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 48;
+      stroke-dashoffset: 48;
+      animation: draw-check 0.35s ease-out forwards 0.5s;
+    }
+
+    @keyframes draw-circle { to { stroke-dashoffset: 0; } }
+    @keyframes draw-check  { to { stroke-dashoffset: 0; } }
+
+    .success-screen h3 {
+      font-family: var(--font-heading);
+      font-size: 1.4rem; font-weight: 700;
+      color: var(--color-text);
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+    .success-screen p { color: var(--color-text-muted); font-size: 15px; }
+    .success-screen a { color: var(--color-accent); font-weight: 600; }
+
+    /* ====================================================
+       FOOTER
+    ==================================================== */
+    #site-footer {
+      background: var(--color-primary);
+      padding: 64px 24px 0;
+    }
+
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+    @media (min-width: 768px) {
+      .footer-inner { grid-template-columns: 1.6fr 1fr 1fr; }
+    }
+
+    .footer-col-label {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.38);
+      margin-bottom: 16px;
+    }
+    .footer-tagline {
+      font-size: 14px;
+      color: rgba(255,255,255,0.5);
+      margin-top: 16px;
+      line-height: 1.65;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .footer-links a {
+      font-size: 14px;
+      color: rgba(255,255,255,0.62);
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: #fff; }
+
+    .footer-contact { display: flex; flex-direction: column; gap: 10px; }
+    .fc-item {
+      font-size: 14px;
+      color: rgba(255,255,255,0.62);
+      line-height: 1.55;
+    }
+    .fc-item a {
+      color: rgba(255,255,255,0.78);
+      transition: color 0.2s;
+    }
+    .fc-item a:hover { color: #fff; }
+
+    .footer-social {
+      display: flex;
+      gap: 8px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.6);
+      text-decoration: none;
+      padding: 7px 14px 7px 10px;
+      border-radius: 100px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+    .social-link:hover {
+      border-color: var(--color-accent);
+      color: #fff;
+      background: rgba(13,148,136,0.12);
+    }
+    .social-link svg { flex-shrink: 0; }
+
+    .footer-bottom {
+      max-width: var(--max-w);
+      margin: 48px auto 0;
+      padding: 20px 0;
+      border-top: 1px solid rgba(255,255,255,0.09);
+      font-size: 12px;
+      color: rgba(255,255,255,0.38);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* ── Powered by VantageNeura badge ── */
+    .vn-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+      color: rgba(255,255,255,0.45);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.2px;
+      padding: 5px 10px 5px 7px;
+      border-radius: 100px;
+      border: 1px solid rgba(13,148,136,0.2);
+      background: rgba(13,148,136,0.06);
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+      white-space: nowrap;
+    }
+    .vn-badge:hover {
+      border-color: rgba(13,148,136,0.5);
+      color: rgba(255,255,255,0.8);
+      background: rgba(13,148,136,0.12);
+    }
+
+    .vn-logo-wrap {
+      display: inline-block;
+      perspective: 120px;
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .vn-logo-spin {
+      width: 18px;
+      height: 18px;
+      display: block;
+      animation: vnSpin 3s linear infinite;
+    }
+
+    @keyframes vnSpin {
+      from { transform: rotateY(0deg); }
+      to   { transform: rotateY(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <!-- Drawer overlay -->
+  <div class="nav-overlay" id="navOverlay" aria-hidden="true"></div>
+
+  <!-- Mobile drawer -->
+  <nav class="nav-drawer" id="navDrawer" aria-label="Mobile navigation">
+    <button class="drawer-close" id="drawerClose" aria-label="Close menu">&#215;</button>
+    <ul class="drawer-links">
+      <li><a href="#services" class="dl">Services</a></li>
+      <li><a href="#about" class="dl">About</a></li>
+      <li><a href="#reviews" class="dl">Reviews</a></li>
+      <li><a href="#quote" class="dl">Get a Quote</a></li>
+    </ul>
+    <div class="drawer-ctas">
+      <a href="tel:07584578501" class="btn btn-emergency" style="justify-content:center">
+        <span class="pulse-dot" aria-hidden="true"></span>
+        Call 07584 578501
+      </a>
+      <a href="#quote" class="btn btn-accent dl" style="justify-content:center">
+        Free Quote
+      </a>
+    </div>
+  </nav>
+
+  <!-- ========================
+       HEADER
+  ========================= -->
+  <header id="site-header" role="banner">
+    <div class="header-inner">
+
+      <a href="#" class="site-logo" aria-label="Truscott Electrical - home" style="flex-shrink:0;">
+        <svg width="178" height="42" viewBox="0 0 178 42" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img">
+          <!-- Lightning bolt mark -->
+          <polygon points="19,3 11,22 17.5,22 14,38 27.5,17 21,17 25.5,3" fill="#0D9488"/>
+          <!-- Wordmark text -->
+          <text x="34" y="27" font-family="Syne, Georgia, serif" font-weight="800" font-size="19" fill="#1E293B" letter-spacing="-0.3">Truscott</text>
+          <text x="34" y="39" font-family="Syne, Georgia, serif" font-weight="600" font-size="11.5" fill="#0D9488" letter-spacing="1">Electrical</text>
+        </svg>
+      </a>
+
+      <ul class="header-nav" role="list" aria-label="Main navigation">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="#quote">Get a Quote</a></li>
+      </ul>
+
+      <div class="header-ctas">
+        <a href="tel:07584578501" class="btn btn-emergency" style="font-size:14px; padding:10px 16px;" aria-label="Call Leigh on 07584 578501">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          <span aria-hidden="true">&#9742;</span>
+          <span class="btn-phone-text">07584 578501</span>
+        </a>
+        <a href="#quote" class="btn btn-accent hdr-quote-btn" style="font-size:14px; padding:10px 20px;">
+          Free Quote
+        </a>
+        <button class="hamburger" id="hamburgerBtn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="navDrawer">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ========================
+       MAIN
+  ========================= -->
+  <main id="main">
+
+    <!-- HERO -->
+    <section id="hero" aria-labelledby="hero-h1">
+      <div class="hero-inner">
+
+        <!-- Left column -->
+        <div>
+          <p class="hero-eyebrow">Serving Ipswich &middot; Hadleigh &middot; Woodbridge</p>
+          <h1 class="hero-h1" id="hero-h1">Suffolk's Trusted<br>Independent Electrician</h1>
+          <p class="hero-sub">20+ years of hands-on electrical expertise. Fixed upfront estimates. Immaculate finish. No surprises - ever.</p>
+
+          <div class="hero-chips" role="list" aria-label="Trust signals">
+            <span class="hero-chip" role="listitem">
+              <span class="chip-star" aria-hidden="true">&#9733;</span>
+              5.0 &middot; 41 Google Reviews
+            </span>
+            <span class="hero-chip" role="listitem">&#10003; Part P Compliant</span>
+            <span class="hero-chip" role="listitem">&#9889; 18th Edition Certified</span>
+          </div>
+
+          <div class="hero-ctas">
+            <a href="#quote" class="btn btn-accent" style="font-size:16px; padding:14px 28px;">
+              Get Your Free Quote
+            </a>
+            <a href="tel:07584578501" class="btn btn-ghost-white" style="font-size:16px; padding:14px 28px;" aria-label="Call Leigh now on 07584 578501">
+              Call Now: 07584 578501
+            </a>
+          </div>
+        </div>
+
+        <!-- Right column: circuit SVG -->
+        <div class="hero-visual" aria-hidden="true">
+          <svg width="370" height="370" viewBox="0 0 370 370" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="dotgrid" width="20" height="20" patternUnits="userSpaceOnUse">
+                <circle cx="10" cy="10" r="0.8" fill="rgba(255,255,255,0.06)"/>
+              </pattern>
+            </defs>
+            <!-- Dot grid background -->
+            <rect width="370" height="370" fill="url(#dotgrid)"/>
+
+            <!-- Outer dashed ring -->
+            <circle cx="185" cy="185" r="155" stroke="rgba(13,148,136,0.1)" stroke-width="1" stroke-dasharray="6 8"/>
+            <!-- Mid ring -->
+            <circle cx="185" cy="185" r="110" stroke="rgba(13,148,136,0.14)" stroke-width="1" stroke-dasharray="3 5"/>
+
+            <!-- Main axis traces -->
+            <line x1="30"  y1="185" x2="340" y2="185" stroke="rgba(13,148,136,0.22)" stroke-width="1.5"/>
+            <line x1="185" y1="30"  x2="185" y2="340" stroke="rgba(13,148,136,0.22)" stroke-width="1.5"/>
+
+            <!-- Diagonal brace traces -->
+            <line x1="75"  y1="75"  x2="295" y2="295" stroke="rgba(13,148,136,0.09)" stroke-width="1"/>
+            <line x1="295" y1="75"  x2="75"  y2="295" stroke="rgba(13,148,136,0.09)" stroke-width="1"/>
+
+            <!-- L-traces: top-left quadrant -->
+            <polyline points="30,185 30,100 100,100 100,30" stroke="rgba(13,148,136,0.35)" stroke-width="1.5" fill="none"/>
+            <polyline points="30,185 30,270 100,270 100,340" stroke="rgba(13,148,136,0.35)" stroke-width="1.5" fill="none"/>
+            <polyline points="340,185 340,100 270,100 270,30" stroke="rgba(13,148,136,0.35)" stroke-width="1.5" fill="none"/>
+            <polyline points="340,185 340,270 270,270 270,340" stroke="rgba(13,148,136,0.35)" stroke-width="1.5" fill="none"/>
+
+            <!-- Inner branch traces -->
+            <polyline points="120,185 120,130 155,130" stroke="rgba(13,148,136,0.2)" stroke-width="1" fill="none"/>
+            <polyline points="120,185 120,240 155,240" stroke="rgba(13,148,136,0.2)" stroke-width="1" fill="none"/>
+            <polyline points="250,185 250,130 215,130" stroke="rgba(13,148,136,0.2)" stroke-width="1" fill="none"/>
+            <polyline points="250,185 250,240 215,240" stroke="rgba(13,148,136,0.2)" stroke-width="1" fill="none"/>
+
+            <!-- Junction nodes - primary axis -->
+            <circle cx="30"  cy="185" r="4"   fill="#0D9488" opacity="0.7"/>
+            <circle cx="340" cy="185" r="4"   fill="#0D9488" opacity="0.7"/>
+            <circle cx="185" cy="30"  r="4"   fill="#0D9488" opacity="0.7"/>
+            <circle cx="185" cy="340" r="4"   fill="#0D9488" opacity="0.7"/>
+
+            <!-- Corner L junctions -->
+            <circle cx="100" cy="100" r="4.5" fill="#0D9488" opacity="0.6"/>
+            <circle cx="270" cy="100" r="4.5" fill="#0D9488" opacity="0.6"/>
+            <circle cx="100" cy="270" r="4.5" fill="#0D9488" opacity="0.6"/>
+            <circle cx="270" cy="270" r="4.5" fill="#0D9488" opacity="0.6"/>
+
+            <!-- Corner endpoints -->
+            <circle cx="100" cy="30"  r="3" fill="rgba(255,255,255,0.45)"/>
+            <circle cx="270" cy="30"  r="3" fill="rgba(255,255,255,0.45)"/>
+            <circle cx="100" cy="340" r="3" fill="rgba(255,255,255,0.45)"/>
+            <circle cx="270" cy="340" r="3" fill="rgba(255,255,255,0.45)"/>
+
+            <!-- Inner branch terminals -->
+            <circle cx="155" cy="130" r="2.5" fill="rgba(13,148,136,0.55)"/>
+            <circle cx="215" cy="130" r="2.5" fill="rgba(13,148,136,0.55)"/>
+            <circle cx="155" cy="240" r="2.5" fill="rgba(13,148,136,0.55)"/>
+            <circle cx="215" cy="240" r="2.5" fill="rgba(13,148,136,0.55)"/>
+            <circle cx="120" cy="185" r="3"   fill="rgba(13,148,136,0.5)"/>
+            <circle cx="250" cy="185" r="3"   fill="rgba(13,148,136,0.5)"/>
+            <circle cx="185" cy="120" r="3"   fill="rgba(13,148,136,0.5)"/>
+            <circle cx="185" cy="250" r="3"   fill="rgba(13,148,136,0.5)"/>
+
+            <!-- Central glow -->
+            <circle cx="185" cy="185" r="22"  fill="rgba(13,148,136,0.08)"/>
+            <circle cx="185" cy="185" r="14"  fill="rgba(13,148,136,0.16)"/>
+            <circle cx="185" cy="185" r="8"   fill="#0D9488" opacity="0.95"/>
+
+            <!-- Central lightning bolt -->
+            <path d="M 191 158 L 177 188 L 186 188 L 179 212 L 199 182 L 190 182 Z"
+                  fill="#fff" opacity="0.92"/>
+
+            <!-- Corner data-block accents (like PCB silkscreen) -->
+            <rect x="48"  y="88"  width="14" height="2.5" rx="1.2" fill="rgba(255,255,255,0.18)"/>
+            <rect x="48"  y="93"  width="9"  height="2.5" rx="1.2" fill="rgba(255,255,255,0.1)"/>
+
+            <rect x="308" y="88"  width="14" height="2.5" rx="1.2" fill="rgba(255,255,255,0.18)"/>
+            <rect x="313" y="93"  width="9"  height="2.5" rx="1.2" fill="rgba(255,255,255,0.1)"/>
+
+            <rect x="48"  y="274" width="14" height="2.5" rx="1.2" fill="rgba(255,255,255,0.18)"/>
+            <rect x="48"  y="279" width="9"  height="2.5" rx="1.2" fill="rgba(255,255,255,0.1)"/>
+
+            <rect x="308" y="274" width="14" height="2.5" rx="1.2" fill="rgba(255,255,255,0.18)"/>
+            <rect x="313" y="279" width="9"  height="2.5" rx="1.2" fill="rgba(255,255,255,0.1)"/>
+          </svg>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TRUST BAR -->
+    <section id="trust-bar" aria-label="Key statistics">
+      <div class="trust-grid">
+        <div class="trust-stat">
+          <div class="trust-num">20+</div>
+          <div class="trust-label">Years Experience</div>
+        </div>
+        <div class="trust-stat">
+          <div class="trust-num">41</div>
+          <div class="trust-label">5-Star Reviews</div>
+        </div>
+        <div class="trust-stat">
+          <div class="trust-num">100%</div>
+          <div class="trust-label">Fixed-Price Quotes</div>
+        </div>
+        <div class="trust-stat">
+          <div class="trust-num" style="font-size:2.2rem;">Mon-Sat</div>
+          <div class="trust-label">Same-Week Availability</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services" aria-labelledby="services-title">
+      <div class="container">
+        <div class="section-hd">
+          <h2 class="section-title" id="services-title">What Leigh Covers</h2>
+          <p class="section-sub">Domestic, commercial, green tech, and landlord safety - all at fixed, agreed prices.</p>
+        </div>
+
+        <div class="tab-list" role="tablist" aria-label="Service categories">
+          <button class="tab-btn" role="tab" id="tab-1" aria-selected="true"  aria-controls="panel-1" tabindex="0">Domestic, Commercial &amp; Outbuildings</button>
+          <button class="tab-btn" role="tab" id="tab-2" aria-selected="false" aria-controls="panel-2" tabindex="-1">Green Tech &amp; Renewables</button>
+          <button class="tab-btn" role="tab" id="tab-3" aria-selected="false" aria-controls="panel-3" tabindex="-1">Landlord Safety</button>
+        </div>
+
+        <!-- Panel 1 -->
+        <div class="tab-panel active" id="panel-1" role="tabpanel" aria-labelledby="tab-1" style="opacity:1;">
+          <div class="svc-grid">
+            <div class="svc-card">
+              <span class="svc-icon" aria-hidden="true">&#128268;</span>
+              <h3 class="svc-name">Consumer Unit Upgrades</h3>
+              <p class="svc-desc">Full fuse board replacement with modern RCD/RCBO protection. Priced upfront before work starts, certified on completion.</p>
+            </div>
+            <div class="svc-card">
+              <span class="svc-icon" aria-hidden="true">&#128269;</span>
+              <h3 class="svc-name">Fault Finding &amp; Diagnostics</h3>
+              <p class="svc-desc">Systematic diagnostic approach that traces faults first time. No guesswork, no repeat call-outs.</p>
+            </div>
+            <div class="svc-card">
+              <span class="svc-icon" aria-hidden="true">&#128161;</span>
+              <h3 class="svc-name">Sockets, Lights &amp; Rewires</h3>
+              <p class="svc-desc">From a single extra socket to a full property rewire. Furniture moved carefully, everything tidied before Leigh leaves.</p>
+            </div>
+            <div class="svc-card">
+              <span class="svc-icon" aria-hidden="true">&#127963;</span>
+              <h3 class="svc-name">Garden Rooms &amp; Outbuildings</h3>
+              <p class="svc-desc">Dedicated power supply, outdoor sockets, and waterproof fittings for workshops, home offices, and garages.</p>
+            </div>
+            <div class="svc-card">
+              <span class="svc-icon" aria-hidden="true">&#127970;</span>
+              <h3 class="svc-name">Commercial &amp; Industrial</h3>
+              <p class="svc-desc">Control panels, process lines, and commercial installations across Suffolk.</p>
+            </div>
+            <div class="svc-card">
+              <span class="svc-icon" aria-hidden="true">&#127807;</span>
+              <h3 class="svc-name">Agricultural</h3>
+              <p class="svc-desc">Electrical installations for farm buildings and rural properties across Suffolk.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 2 -->
+        <div class="tab-panel" id="panel-2" role="tabpanel" aria-labelledby="tab-2">
+          <div class="svc-grid">
+            <div class="svc-card">
+              <span class="svc-icon" aria-hidden="true">&#9889;</span>
+              <h3 class="svc-name">EV Charger Installation</h3>
+              <p class="svc-desc">OZEV-compliant home and commercial installs. Experienced with Zappi and Pod Point smart chargers. City &amp; Guilds qualified.</p>
+            </div>
+            <div class="svc-card">
+              <span class="svc-icon" aria-hidden="true">&#9728;&#65039;</span>
+              <h3 class="svc-name">Solar PV</h3>
+              <p class="svc-desc">Grid-tie solar installations for Suffolk homes and businesses.</p>
+            </div>
+            <div class="svc-card">
+              <span class="svc-icon" aria-hidden="true">&#128267;</span>
+              <h3 class="svc-name">Battery Storage (Fox ESS)</h3>
+              <p class="svc-desc">Fox ESS battery systems to maximise solar self-consumption and reduce energy bills.</p>
+            </div>
+            <div class="svc-card">
+              <span class="svc-icon" aria-hidden="true">&#128168;</span>
+              <h3 class="svc-name">PIV Units</h3>
+              <p class="svc-desc">Positive Input Ventilation: the specialist solution for persistent condensation and damp. Discreetly installed.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 3 -->
+        <div class="tab-panel" id="panel-3" role="tabpanel" aria-labelledby="tab-3">
+          <div class="svc-grid">
+            <div class="svc-card">
+              <span class="svc-icon" aria-hidden="true">&#128203;</span>
+              <h3 class="svc-name">EICR Testing</h3>
+              <p class="svc-desc">Electrical Installation Condition Reports (landlord certificates). Legally required every 5 years. Certificate issued same day where possible.</p>
+            </div>
+            <div class="svc-card">
+              <span class="svc-icon" aria-hidden="true">&#127968;</span>
+              <h3 class="svc-name">Pre-Tenancy Inspections</h3>
+              <p class="svc-desc">Full electrical checks before letting your property, ensuring legal compliance.</p>
+            </div>
+            <div class="svc-card">
+              <span class="svc-icon" aria-hidden="true">&#128295;</span>
+              <h3 class="svc-name">Remedial Works</h3>
+              <p class="svc-desc">Follow-up fault rectification after EICR, returning your property to a fully satisfactory condition.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" aria-labelledby="about-title">
+      <div class="about-inner">
+
+        <div class="about-quote-wrap">
+          <span class="about-quote-mark" aria-hidden="true">&#8220;</span>
+          <blockquote class="about-quote">
+            I spent a decade refining my craft at one of Ipswich's most established electrical firms before going independent in 2021. Every job I take on in Suffolk gets the rigour of a seasoned commercial electrician - at the pricing of a sole trader.
+          </blockquote>
+          <span class="about-tagline">The name you can trust</span>
+        </div>
+
+        <div class="about-text">
+          <h2 class="sr-only" id="about-title">About Leigh</h2>
+
+          <p>Leigh brings <strong>20+ years of hands-on experience</strong> to every job across Suffolk. After 10 years refining his skills at a respected local Ipswich electrical company, he launched Truscott Electrical in January 2021. Based in White House, Ipswich (IP1), he works across all of Suffolk.</p>
+
+          <p>The way Leigh works is straightforward: <strong>a fixed price agreed before a single wire is touched</strong>. No surprise invoices on collection day. Furniture is handled with care, dust is cleared, and Leigh won't leave until the site is tidy. Customers consistently note his punctuality - he turns up when he says he will.</p>
+
+          <p>Based in IP1, Leigh covers all of Suffolk with particular focus on <strong>Ipswich, Hadleigh, and Woodbridge</strong> - and takes on rural and agricultural work throughout the county.</p>
+
+          <div class="cert-pills">
+            <span class="cert-pill">&#10003; 18th Edition Wiring Regulations</span>
+            <span class="cert-pill">&#10003; Part P Compliant</span>
+            <span class="cert-pill">&#9889; City &amp; Guilds EV Qualified</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- REVIEWS -->
+    <section id="reviews" aria-labelledby="reviews-title">
+      <div style="max-width:var(--max-w); margin:0 auto;">
+        <div class="section-hd">
+          <h2 class="section-title" id="reviews-title">What Suffolk Customers Say</h2>
+          <p class="section-sub">41 verified five-star Google reviews</p>
+        </div>
+
+        <div class="reviews-grid">
+
+          <article class="review-card" aria-label="Review by Stephen Mayhew">
+            <div class="review-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <p class="review-text">"Hi everyone
+My whole bungalow was rewired. He turned up when he said and nothing was to much trouble . Fitted lights outside and waterproof sockets and fitted separate Power to outbuilding .
+He priced the work before he did the job so now surprises . Thanks for a job well done ."</p>
+            <div class="review-footer">
+              <div>
+                <div class="review-author">Stephen Mayhew</div>
+                <div class="review-date">17th April 2024</div>
+              </div>
+              <span class="google-badge">Google Review &#10003;</span>
+            </div>
+          </article>
+
+          <article class="review-card" aria-label="Review by Donna Macdonald">
+            <div class="review-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <p class="review-text">"I had some electrical work done today (19/04/24) by Leigh and was very impressed with the workmanship.
+I had 2 double sockets installed in my sunroom and a double outdoor socket installed.
+Leigh was very professional, moved furniture and put it back again and cleaned up after work was completed
+Would highly recommend him to anyone."</p>
+            <div class="review-footer">
+              <div>
+                <div class="review-author">Donna Macdonald</div>
+                <div class="review-date">19th April 2024</div>
+              </div>
+              <span class="google-badge">Google Review &#10003;</span>
+            </div>
+          </article>
+
+          <article class="review-card" aria-label="Review by wayne jackson">
+            <div class="review-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <p class="review-text">"Leigh has done 2 jobs for us, the first was to finish another electrician's work, who didnt come back. And the second was to install some mains smoke alarms. Both times we couldn't fault his work and we are happy with the end result.
+Leigh is what you want from a trades person, competitive prices, quality work and turns up when he says he will."</p>
+            <div class="review-footer">
+              <div>
+                <div class="review-author">wayne jackson</div>
+                <div class="review-date">22nd April 2024</div>
+              </div>
+              <span class="google-badge">Google Review &#10003;</span>
+            </div>
+          </article>
+
+          <article class="review-card" aria-label="Review by Kylie Rolfe">
+            <div class="review-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <p class="review-text">"I've used Leigh at two different properties now and he has always completed the work to a great standard and in a timely manner. He is professional and friendly and always explains what he is doing. Would definitely recommend."</p>
+            <div class="review-footer">
+              <div>
+                <div class="review-author">Kylie Rolfe</div>
+                <div class="review-date">25th January 2024</div>
+              </div>
+              <span class="google-badge">Google Review &#10003;</span>
+            </div>
+          </article>
+
+          <article class="review-card review-card-wide" aria-label="Review by Mark Sheppard">
+            <div class="review-stars" aria-label="5 out of 5 stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <p class="review-text">"Leigh has done several jobs for us over the last two years.
+We have always found him to be polite, helpful and good at his job.
+No hesitation in recommending Truscott Electrical."</p>
+            <div class="review-footer">
+              <div>
+                <div class="review-author">Mark Sheppard</div>
+                <div class="review-date">9th July 2023</div>
+              </div>
+              <span class="google-badge">Google Review &#10003;</span>
+            </div>
+          </article>
+
+        </div>
+
+        <div class="reviews-cta">
+          <a href="https://share.google/ggAOsvpPobFN0nfk8" target="_blank" rel="noopener noreferrer">
+            See all 41 reviews on Google &rarr;
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUOTE FORM -->
+    <section id="quote" aria-labelledby="quote-title">
+      <div class="section-hd">
+        <h2 class="section-title" id="quote-title">Get Your Free Quote</h2>
+        <p class="section-sub">Tell Leigh what you need - he'll get back to you within 2 hours during business hours.</p>
+      </div>
+
+      <div class="quote-card" role="region" aria-label="Quote request form">
+        <div class="quote-card-inner">
+
+          <!-- Progress indicator -->
+          <div class="progress-wrap" id="progressWrap" aria-hidden="true">
+            <div class="prog-step active" id="ps1">
+              <div class="prog-circle">1</div>
+              <span>What you need</span>
+            </div>
+            <div class="prog-line" id="pl1"></div>
+            <div class="prog-step" id="ps2">
+              <div class="prog-circle">2</div>
+              <span>Details</span>
+            </div>
+            <div class="prog-line" id="pl2"></div>
+            <div class="prog-step" id="ps3">
+              <div class="prog-circle">3</div>
+              <span>Contact</span>
+            </div>
+          </div>
+
+          <div aria-live="polite" aria-atomic="true" class="sr-only" id="liveRegion"></div>
+
+          <!-- ---- STEP 1 ---- -->
+          <div class="form-step active" id="step1" role="group" aria-labelledby="s1title">
+            <h3 class="step-title" id="s1title">What do you need?</h3>
+            <p class="step-desc">Select the service that best matches your job.</p>
+
+            <div class="radio-cards">
+              <div class="rc">
+                <input type="radio" name="svc" id="svc-emrg"     value="emergency">
+                <label for="svc-emrg"><span class="rc-icon" aria-hidden="true">&#128680;</span>Emergency Fault</label>
+              </div>
+              <div class="rc">
+                <input type="radio" name="svc" id="svc-cu"       value="consumer">
+                <label for="svc-cu"><span class="rc-icon" aria-hidden="true">&#128268;</span>Consumer Unit / Fuse Board</label>
+              </div>
+              <div class="rc">
+                <input type="radio" name="svc" id="svc-ev"       value="ev">
+                <label for="svc-ev"><span class="rc-icon" aria-hidden="true">&#9889;</span>EV Charger Install</label>
+              </div>
+              <div class="rc">
+                <input type="radio" name="svc" id="svc-eicr"     value="eicr">
+                <label for="svc-eicr"><span class="rc-icon" aria-hidden="true">&#128203;</span>EICR / Landlord Certificate</label>
+              </div>
+              <div class="rc">
+                <input type="radio" name="svc" id="svc-general"  value="general">
+                <label for="svc-general"><span class="rc-icon" aria-hidden="true">&#128161;</span>General Electrical Work</label>
+              </div>
+              <div class="rc">
+                <input type="radio" name="svc" id="svc-solar"    value="solar">
+                <label for="svc-solar"><span class="rc-icon" aria-hidden="true">&#9728;&#65039;</span>Solar / Battery / Green Tech</label>
+              </div>
+            </div>
+
+            <div class="step-nav">
+              <button class="btn-next" id="s1Next" disabled>Next: Add Details &rarr;</button>
+            </div>
+          </div>
+
+          <!-- ---- STEP 2 ---- -->
+          <div class="form-step" id="step2" role="group" aria-labelledby="s2title">
+            <h3 class="step-title" id="s2title">A few quick details</h3>
+            <p class="step-desc">This helps Leigh prepare an accurate quote.</p>
+
+            <!-- Emergency bypass -->
+            <div class="s2-block emrg-alert" id="b-emergency" role="alert">
+              <h3>&#9888;&#65039; For electrical emergencies, call Leigh directly:</h3>
+              <a href="tel:07584578501" class="emrg-cta">
+                &#128222; Call 07584 578501 Now
+              </a>
+              <p class="emrg-note">Leigh covers Ipswich, Hadleigh &amp; Woodbridge &middot; Mon-Sat 8am-6pm</p>
+            </div>
+
+            <!-- EV fields -->
+            <div class="s2-block" id="b-ev">
+              <p class="rg-label">Property type</p>
+              <div class="radio-group" role="group" aria-label="Property type for EV charger">
+                <div class="ri"><input type="radio" name="ev-prop" id="ev-house"    value="House"><label for="ev-house">House</label></div>
+                <div class="ri"><input type="radio" name="ev-prop" id="ev-flat"     value="Flat"><label for="ev-flat">Flat</label></div>
+                <div class="ri"><input type="radio" name="ev-prop" id="ev-comm"     value="Commercial"><label for="ev-comm">Commercial</label></div>
+              </div>
+              <p class="rg-label">Driveway access to consumer unit?</p>
+              <div class="radio-group" role="group" aria-label="Driveway access">
+                <div class="ri"><input type="radio" name="ev-access" id="ev-acc-y"  value="Yes"><label for="ev-acc-y">Yes</label></div>
+                <div class="ri"><input type="radio" name="ev-access" id="ev-acc-n"  value="No"><label for="ev-acc-n">No</label></div>
+                <div class="ri"><input type="radio" name="ev-access" id="ev-acc-u"  value="Not sure"><label for="ev-acc-u">Not sure</label></div>
+              </div>
+              <p class="rg-label">Preferred charger brand?</p>
+              <div class="radio-group" role="group" aria-label="Charger brand preference">
+                <div class="ri"><input type="radio" name="ev-brand" id="ev-zappi"   value="Zappi"><label for="ev-zappi">Zappi</label></div>
+                <div class="ri"><input type="radio" name="ev-brand" id="ev-pod"     value="Pod Point"><label for="ev-pod">Pod Point</label></div>
+                <div class="ri"><input type="radio" name="ev-brand" id="ev-bnd-u"   value="Not sure"><label for="ev-bnd-u">Not sure</label></div>
+              </div>
+            </div>
+
+            <!-- EICR fields -->
+            <div class="s2-block" id="b-eicr">
+              <p class="rg-label">Property type</p>
+              <div class="radio-group" role="group" aria-label="Property type for EICR">
+                <div class="ri"><input type="radio" name="ei-prop" id="ei-house"    value="House"><label for="ei-house">House</label></div>
+                <div class="ri"><input type="radio" name="ei-prop" id="ei-flat"     value="Flat"><label for="ei-flat">Flat</label></div>
+                <div class="ri"><input type="radio" name="ei-prop" id="ei-hmo"      value="HMO"><label for="ei-hmo">HMO</label></div>
+                <div class="ri"><input type="radio" name="ei-prop" id="ei-comm"     value="Commercial"><label for="ei-comm">Commercial</label></div>
+              </div>
+              <p class="rg-label">Number of bedrooms</p>
+              <div class="radio-group" role="group" aria-label="Number of bedrooms">
+                <div class="ri"><input type="radio" name="ei-beds" id="ei-b1" value="1"><label for="ei-b1">1</label></div>
+                <div class="ri"><input type="radio" name="ei-beds" id="ei-b2" value="2"><label for="ei-b2">2</label></div>
+                <div class="ri"><input type="radio" name="ei-beds" id="ei-b3" value="3"><label for="ei-b3">3</label></div>
+                <div class="ri"><input type="radio" name="ei-beds" id="ei-b4" value="4"><label for="ei-b4">4</label></div>
+                <div class="ri"><input type="radio" name="ei-beds" id="ei-b5" value="4+"><label for="ei-b5">4+</label></div>
+              </div>
+              <p class="rg-label">Currently tenanted?</p>
+              <div class="radio-group" role="group" aria-label="Tenancy status">
+                <div class="ri"><input type="radio" name="ei-ten" id="ei-ten-y" value="Yes"><label for="ei-ten-y">Yes</label></div>
+                <div class="ri"><input type="radio" name="ei-ten" id="ei-ten-n" value="No"><label for="ei-ten-n">No</label></div>
+              </div>
+            </div>
+
+            <!-- Consumer unit fields -->
+            <div class="s2-block" id="b-consumer">
+              <p class="rg-label">Existing board type</p>
+              <div class="radio-group" role="group" aria-label="Board type">
+                <div class="ri"><input type="radio" name="cu-type" id="cu-old"  value="Old rewireable fuses"><label for="cu-old">Old rewireable fuses</label></div>
+                <div class="ri"><input type="radio" name="cu-type" id="cu-mcb"  value="MCB board"><label for="cu-mcb">MCB board</label></div>
+                <div class="ri"><input type="radio" name="cu-type" id="cu-u"    value="Not sure"><label for="cu-u">Not sure</label></div>
+              </div>
+              <p class="rg-label">Any known faults or tripping?</p>
+              <div class="radio-group" role="group" aria-label="Known faults">
+                <div class="ri"><input type="radio" name="cu-flt" id="cu-flt-y" value="Yes"><label for="cu-flt-y">Yes</label></div>
+                <div class="ri"><input type="radio" name="cu-flt" id="cu-flt-n" value="No"><label for="cu-flt-n">No</label></div>
+              </div>
+            </div>
+
+            <!-- General work field -->
+            <div class="s2-block" id="b-general">
+              <div class="field">
+                <label for="gen-desc">Briefly describe the work needed <span class="req-star" aria-hidden="true">*</span></label>
+                <textarea id="gen-desc" name="gen-desc" placeholder="e.g. I need 3 new sockets in my kitchen and an outdoor socket for the patio..." required></textarea>
+                <div class="field-err" id="gen-desc-err" role="alert">Please describe the work needed.</div>
+              </div>
+            </div>
+
+            <!-- Solar / green tech -->
+            <div class="s2-block" id="b-solar">
+              <p class="rg-label">What are you interested in? (select all that apply)</p>
+              <div class="chk-group" role="group" aria-label="Green tech interests">
+                <label class="chk-item"><input type="checkbox" name="sol-int" value="Solar PV"> Solar PV</label>
+                <label class="chk-item"><input type="checkbox" name="sol-int" value="Fox ESS Battery Storage"> Fox ESS Battery Storage</label>
+                <label class="chk-item"><input type="checkbox" name="sol-int" value="EV Charger"> EV Charger</label>
+                <label class="chk-item"><input type="checkbox" name="sol-int" value="Not sure yet"> Not sure yet</label>
+              </div>
+            </div>
+
+            <div class="step-nav">
+              <button class="btn-back" id="s2Back">&#8592; Back</button>
+              <button class="btn-next" id="s2Next" style="display:none;">Next: Contact Details &rarr;</button>
+            </div>
+          </div>
+
+          <!-- ---- STEP 3 ---- -->
+          <div class="form-step" id="step3" role="group" aria-labelledby="s3title">
+            <h3 class="step-title" id="s3title">Your contact details</h3>
+            <p class="step-desc">Leigh will get back to you within 2 hours during business hours.</p>
+
+            <div class="field">
+              <label for="c-name">First name <span class="req-star" aria-hidden="true">*</span></label>
+              <input type="text" id="c-name" name="c-name" placeholder="Your first name" required autocomplete="given-name">
+              <div class="field-err" id="c-name-err" role="alert">Please enter your name.</div>
+            </div>
+
+            <div class="field">
+              <label for="c-phone">Phone number <span class="req-star" aria-hidden="true">*</span></label>
+              <input type="tel" id="c-phone" name="c-phone" placeholder="07700 000000" required autocomplete="tel">
+              <div class="field-err" id="c-phone-err" role="alert">Please enter your phone number.</div>
+            </div>
+
+            <div class="field">
+              <label for="c-loc">Town or postcode <span class="req-star" aria-hidden="true">*</span></label>
+              <input type="text" id="c-loc" name="c-loc" placeholder="e.g. Ipswich or IP4 2AB" required>
+              <div class="field-err" id="c-loc-err" role="alert">Please enter your town or postcode.</div>
+            </div>
+
+            <div class="field">
+              <p class="rg-label">Preferred contact method <span class="req-star" aria-hidden="true">*</span></p>
+              <div class="radio-group" role="group" aria-label="Preferred contact method" id="cm-group">
+                <div class="ri"><input type="radio" name="c-method" id="cm-call"  value="Call"><label for="cm-call">Call</label></div>
+                <div class="ri"><input type="radio" name="c-method" id="cm-text"  value="Text"><label for="cm-text">Text</label></div>
+                <div class="ri"><input type="radio" name="c-method" id="cm-email" value="Email"><label for="cm-email">Email</label></div>
+              </div>
+              <div class="field-err" id="cm-err" role="alert">Please select a contact method.</div>
+            </div>
+
+            <div class="field">
+              <label for="c-msg">Anything else? (optional)</label>
+              <textarea id="c-msg" name="c-msg" placeholder="Any extra details or preferred days/times..."></textarea>
+            </div>
+
+            <div class="step-nav" style="flex-direction:column; gap:8px;">
+              <button class="btn-submit" id="submitBtn">Send My Request to Leigh &rarr;</button>
+              <button class="btn-back" id="s3Back" style="align-self:flex-start;">&#8592; Back</button>
+            </div>
+          </div>
+
+          <!-- ---- STEP 4 SUCCESS ---- -->
+          <div class="form-step" id="step4" aria-label="Request submitted successfully">
+            <div class="success-screen">
+              <svg class="tick-svg" viewBox="0 0 72 72" xmlns="http://www.w3.org/2000/svg" aria-label="Request sent successfully" role="img">
+                <circle class="tick-circle" cx="36" cy="36" r="34"/>
+                <path class="tick-check" d="M 20 36 L 30 46 L 52 26"/>
+              </svg>
+              <h3 id="successMsg">Thanks! Leigh will be in touch within 2 hours during business hours.</h3>
+              <p>Or call directly: <a href="tel:07584578501">07584 578501</a></p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================
+       FOOTER
+  ========================= -->
+  <footer id="site-footer" aria-label="Site footer">
+    <div class="footer-inner">
+
+      <div>
+        <a href="#" aria-label="Truscott Electrical - back to top">
+          <svg width="160" height="40" viewBox="0 0 178 42" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <polygon points="19,3 11,22 17.5,22 14,38 27.5,17 21,17 25.5,3" fill="#0D9488"/>
+            <text x="34" y="27" font-family="Syne, Georgia, serif" font-weight="800" font-size="19" fill="white" letter-spacing="-0.3">Truscott</text>
+            <text x="34" y="39" font-family="Syne, Georgia, serif" font-weight="600" font-size="11.5" fill="#0D9488" letter-spacing="1">Electrical</text>
+          </svg>
+        </a>
+        <p class="footer-tagline">The name you can trust - Suffolk's independent electrician since 2021.</p>
+        <div class="footer-social">
+          <a href="https://www.facebook.com/p/Truscott-Electrical-100064143666207/" target="_blank" rel="noopener noreferrer" aria-label="Truscott Electrical on Facebook" class="social-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#1877F2" aria-hidden="true">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+            </svg>
+            Facebook
+          </a>
+          <a href="https://share.google/ggAOsvpPobFN0nfk8" target="_blank" rel="noopener noreferrer" aria-label="Truscott Electrical Google Reviews" class="social-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none">
+              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+            </svg>
+            Google Reviews
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <p class="footer-col-label">Quick Links</p>
+        <ul class="footer-links">
+          <li><a href="#services">Services</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+          <li><a href="#quote">Get a Quote</a></li>
+          <li><a href="#services" id="footerEICR">EICR</a></li>
+          <li><a href="#services" id="footerEV">EV Chargers</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="footer-col-label">Contact</p>
+        <div class="footer-contact">
+          <p class="fc-item">Diamond Close, White House<br>Ipswich, IP1 5HN, Suffolk</p>
+          <p class="fc-item">&#9742; <a href="tel:07584578501">07584 578501</a></p>
+          <p class="fc-item">&#9993; <a href="mailto:leigh@truscottelectrical.com">leigh@truscottelectrical.com</a></p>
+          <p class="fc-item">Mon-Sat 8am-6pm &middot; Sunday closed</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2025 Truscott Electrical. All rights reserved. &nbsp;&nbsp; Part P Compliant &middot; 18th Edition &middot; City &amp; Guilds EV Qualified</p>
+      <a href="https://vantageneura.com" target="_blank" rel="noopener noreferrer" class="vn-badge" aria-label="Powered by VantageNeura">
+        <span class="vn-logo-wrap" aria-hidden="true">
+          <svg class="vn-logo-spin" viewBox="0 0 140 160" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="vnL" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%"   stop-color="#2DD4BF"/>
+                <stop offset="50%"  stop-color="#0F766E"/>
+                <stop offset="100%" stop-color="#0D5950"/>
+              </linearGradient>
+              <linearGradient id="vnR" x1="100%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%"   stop-color="#2DD4BF"/>
+                <stop offset="50%"  stop-color="#0F766E"/>
+                <stop offset="100%" stop-color="#0D5950"/>
+              </linearGradient>
+            </defs>
+            <polygon points="38,10 52,10 77,91 70,113.5" fill="url(#vnL)"/>
+            <polygon points="102,10 88,10 73,57 80,80"   fill="url(#vnR)"/>
+            <circle cx="70" cy="138" r="7" fill="#2DD4BF" opacity="0.9"/>
+          </svg>
+        </span>
+        Powered by VantageNeura
+      </a>
+    </div>
+  </footer>
+
+  <script>
+  (function() {
+    'use strict';
+
+    /* ---- STICKY HEADER ---- */
+    var header = document.getElementById('site-header');
+    window.addEventListener('scroll', function() {
+      header.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    /* ---- SMOOTH SCROLL ---- */
+    document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+      a.addEventListener('click', function(e) {
+        var id = a.getAttribute('href');
+        if (id.length < 2) return;
+        var el = document.querySelector(id);
+        if (el) { e.preventDefault(); el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      });
+    });
+
+    /* ---- MOBILE DRAWER ---- */
+    var ham    = document.getElementById('hamburgerBtn');
+    var drawer = document.getElementById('navDrawer');
+    var overlay= document.getElementById('navOverlay');
+    var dClose = document.getElementById('drawerClose');
+
+    function openNav() {
+      drawer.classList.add('open');
+      overlay.classList.add('open');
+      overlay.setAttribute('aria-hidden', 'false');
+      ham.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+      dClose.focus();
+    }
+    function closeNav() {
+      drawer.classList.remove('open');
+      overlay.classList.remove('open');
+      overlay.setAttribute('aria-hidden', 'true');
+      ham.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+      ham.focus();
+    }
+
+    ham.addEventListener('click', openNav);
+    dClose.addEventListener('click', closeNav);
+    overlay.addEventListener('click', closeNav);
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && drawer.classList.contains('open')) closeNav();
+    });
+    document.querySelectorAll('.dl').forEach(function(l) {
+      l.addEventListener('click', closeNav);
+    });
+
+    /* ---- SERVICE TABS ---- */
+    var tabs   = Array.from(document.querySelectorAll('[role="tab"]'));
+    var panels = Array.from(document.querySelectorAll('[role="tabpanel"]'));
+
+    function activateTab(tab) {
+      tabs.forEach(function(t) {
+        t.setAttribute('aria-selected', 'false');
+        t.setAttribute('tabindex', '-1');
+      });
+      panels.forEach(function(p) {
+        p.classList.remove('active');
+        p.style.opacity = '0';
+      });
+      tab.setAttribute('aria-selected', 'true');
+      tab.setAttribute('tabindex', '0');
+      var panel = document.getElementById(tab.getAttribute('aria-controls'));
+      panel.classList.add('active');
+      requestAnimationFrame(function() { panel.style.opacity = '1'; });
+    }
+
+    tabs.forEach(function(tab, i) {
+      tab.addEventListener('click', function() { activateTab(tab); });
+      tab.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowRight') {
+          e.preventDefault();
+          var next = tabs[(i + 1) % tabs.length];
+          activateTab(next); next.focus();
+        } else if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          var prev = tabs[(i - 1 + tabs.length) % tabs.length];
+          activateTab(prev); prev.focus();
+        }
+      });
+    });
+
+    /* Footer EICR/EV shortcuts */
+    document.getElementById('footerEICR').addEventListener('click', function() {
+      activateTab(document.getElementById('tab-3'));
+    });
+    document.getElementById('footerEV').addEventListener('click', function() {
+      activateTab(document.getElementById('tab-2'));
+    });
+
+    /* ---- MULTI-STEP FORM ---- */
+    var selectedSvc = '';
+
+    var s1 = document.getElementById('step1');
+    var s2 = document.getElementById('step2');
+    var s3 = document.getElementById('step3');
+    var s4 = document.getElementById('step4');
+
+    var s1Next = document.getElementById('s1Next');
+    var s2Back = document.getElementById('s2Back');
+    var s2Next = document.getElementById('s2Next');
+    var s3Back = document.getElementById('s3Back');
+    var submit = document.getElementById('submitBtn');
+    var live   = document.getElementById('liveRegion');
+    var progWrap = document.getElementById('progressWrap');
+
+    /* Step 1: enable next on radio change */
+    document.querySelectorAll('input[name="svc"]').forEach(function(r) {
+      r.addEventListener('change', function() {
+        selectedSvc = r.value;
+        s1Next.disabled = false;
+        live.textContent = r.parentElement.querySelector('label').textContent.trim() + ' selected';
+      });
+    });
+
+    function showStep(n) {
+      [s1, s2, s3, s4].forEach(function(el) { el.classList.remove('active'); });
+      document.getElementById('step' + n).classList.add('active');
+      updateProgress(n);
+      live.textContent = n < 4 ? ('Step ' + n + ' of 3') : 'Request sent';
+    }
+
+    function updateProgress(n) {
+      var pSteps = ['ps1','ps2','ps3'].map(function(id) { return document.getElementById(id); });
+      var pLines = ['pl1','pl2'].map(function(id) { return document.getElementById(id); });
+      pSteps.forEach(function(s, i) {
+        s.classList.remove('active','done');
+        if (i + 1 < n) s.classList.add('done');
+        else if (i + 1 === n) s.classList.add('active');
+      });
+      pLines.forEach(function(l, i) {
+        l.classList.toggle('done', i + 1 < n);
+      });
+    }
+
+    var s2Blocks = {
+      emergency: 'b-emergency',
+      ev:        'b-ev',
+      eicr:      'b-eicr',
+      consumer:  'b-consumer',
+      general:   'b-general',
+      solar:     'b-solar'
+    };
+
+    function prepareStep2(svc) {
+      Object.values(s2Blocks).forEach(function(id) {
+        document.getElementById(id).style.display = 'none';
+      });
+      if (s2Blocks[svc]) document.getElementById(s2Blocks[svc]).style.display = 'block';
+
+      if (svc === 'emergency') {
+        s2Next.style.display = 'none';
+      } else {
+        s2Next.style.display = 'block';
+      }
+    }
+
+    s1Next.addEventListener('click', function() {
+      if (!selectedSvc) return;
+      prepareStep2(selectedSvc);
+      showStep(2);
+    });
+
+    s2Back.addEventListener('click', function() { showStep(1); });
+
+    s2Next.addEventListener('click', function() {
+      if (selectedSvc === 'general') {
+        var gd = document.getElementById('gen-desc');
+        var ge = document.getElementById('gen-desc-err');
+        if (!gd.value.trim()) {
+          gd.classList.add('error'); ge.classList.add('show'); gd.focus(); return;
+        }
+        gd.classList.remove('error'); ge.classList.remove('show');
+      }
+      showStep(3);
+    });
+
+    s3Back.addEventListener('click', function() { showStep(2); });
+
+    /* Field validation helpers */
+    function validate(input, errEl, msg) {
+      var ok = input.value.trim().length > 0;
+      input.classList.toggle('error', !ok);
+      errEl.classList.toggle('show', !ok);
+      if (!ok) errEl.textContent = msg;
+      return ok;
+    }
+
+    var fName  = document.getElementById('c-name');
+    var fPhone = document.getElementById('c-phone');
+    var fLoc   = document.getElementById('c-loc');
+
+    fName.addEventListener('blur',  function() { validate(fName,  document.getElementById('c-name-err'),  'Please enter your name.'); });
+    fPhone.addEventListener('blur', function() { validate(fPhone, document.getElementById('c-phone-err'), 'Please enter your phone number.'); });
+    fLoc.addEventListener('blur',   function() { validate(fLoc,   document.getElementById('c-loc-err'),   'Please enter your town or postcode.'); });
+
+    submit.addEventListener('click', function() {
+      var ok = true;
+      if (!validate(fName,  document.getElementById('c-name-err'),  'Please enter your name.'))          ok = false;
+      if (!validate(fPhone, document.getElementById('c-phone-err'), 'Please enter your phone number.'))  ok = false;
+      if (!validate(fLoc,   document.getElementById('c-loc-err'),   'Please enter your town or postcode.')) ok = false;
+
+      var method = document.querySelector('input[name="c-method"]:checked');
+      var cmErr  = document.getElementById('cm-err');
+      if (!method) {
+        cmErr.classList.add('show');
+        cmErr.textContent = 'Please select a contact method.';
+        ok = false;
+      } else {
+        cmErr.classList.remove('show');
+      }
+
+      if (!ok) return;
+
+      /* Build mailto */
+      var name   = fName.value.trim();
+      var phone  = fPhone.value.trim();
+      var loc    = fLoc.value.trim();
+      var meth   = method.value;
+      var msg    = document.getElementById('c-msg').value.trim();
+
+      var svcLabel = {
+        emergency: 'Emergency Fault',
+        consumer:  'Consumer Unit / Fuse Board',
+        ev:        'EV Charger Install',
+        eicr:      'EICR / Landlord Certificate',
+        general:   'General Electrical Work',
+        solar:     'Solar / Battery / Green Tech'
+      }[selectedSvc] || selectedSvc;
+
+      var details = ['Service: ' + svcLabel];
+
+      if (selectedSvc === 'ev') {
+        var ep = document.querySelector('input[name="ev-prop"]:checked');
+        var ea = document.querySelector('input[name="ev-access"]:checked');
+        var eb = document.querySelector('input[name="ev-brand"]:checked');
+        if (ep) details.push('Property type: ' + ep.value);
+        if (ea) details.push('Driveway access: ' + ea.value);
+        if (eb) details.push('Charger brand: ' + eb.value);
+      } else if (selectedSvc === 'eicr') {
+        var eip = document.querySelector('input[name="ei-prop"]:checked');
+        var eib = document.querySelector('input[name="ei-beds"]:checked');
+        var eit = document.querySelector('input[name="ei-ten"]:checked');
+        if (eip) details.push('Property: ' + eip.value);
+        if (eib) details.push('Bedrooms: ' + eib.value);
+        if (eit) details.push('Tenanted: ' + eit.value);
+      } else if (selectedSvc === 'consumer') {
+        var ct = document.querySelector('input[name="cu-type"]:checked');
+        var cf = document.querySelector('input[name="cu-flt"]:checked');
+        if (ct) details.push('Board type: ' + ct.value);
+        if (cf) details.push('Known faults: ' + cf.value);
+      } else if (selectedSvc === 'general') {
+        details.push('Description: ' + document.getElementById('gen-desc').value.trim());
+      } else if (selectedSvc === 'solar') {
+        var ints = Array.from(document.querySelectorAll('input[name="sol-int"]:checked')).map(function(c) { return c.value; });
+        if (ints.length) details.push('Interests: ' + ints.join(', '));
+      }
+
+      var body = [
+        'Name: '              + name,
+        'Phone: '             + phone,
+        'Location: '          + loc,
+        'Preferred contact: ' + meth,
+        '',
+        details.join('\n'),
+        msg ? ('\nAdditional notes: ' + msg) : ''
+      ].join('\n');
+
+      var mailto = 'mailto:leigh@truscottelectrical.com'
+        + '?subject=' + encodeURIComponent('Website Quote Request - ' + name)
+        + '&body='    + encodeURIComponent(body);
+
+      window.location.href = mailto;
+
+      document.getElementById('successMsg').textContent =
+        'Thanks ' + name + '! Leigh will be in touch within 2 hours during business hours.';
+      progWrap.style.display = 'none';
+      showStep(4);
+    });
+
+  })();
+  </script>
+
+</body>
+</html>
