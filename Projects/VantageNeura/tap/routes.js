@@ -4,6 +4,6 @@ const clientRoutes = {
  
         // AA Motor Medic Tracking Keys
     "AAMotorMedicReviewNFC": "https://g.page/r/CRs8KFzbGS7BEBM/review?utm_source=nfcCard&utm_medium=automation",
-    "AAMotorMedicSMSReview": "https://g.page/r/CRs8KFzbGS7BEBM/review?utm_source=sms&utm_medium=automation",
+    "AAMotorMedicReviewSMS": "https://g.page/r/CRs8KFzbGS7BEBM/review?utm_source=sms&utm_medium=automation",
     "AAMotorMedicReviewEmail": "https://g.page/r/CRs8KFzbGS7BEBM/review?utm_source=email&utm_medium=automation"
 };
