@@ -1,6 +1,6 @@
 const clientRoutes = {
     "pizza-shop": "https://search.google.com/local/writereview?placeid=YOUR_PIZZA_ID",
-    "NorthgateKarateClub": "https://g.page/r/CfOneybtkNP1EBM/review"
+    "NorthgateKarateClub": "https://g.page/r/CfOneybtkNP1EBM/review",
  
         // AA Motor Medic Tracking Keys
     "AAMotorMedicReviewNFC": "https://g.page/r/CRs8KFzbGS7BEBM/review?utm_source=nfcCard&utm_medium=automation",
